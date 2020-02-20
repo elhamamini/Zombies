@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
 
-const appReduer = combineReducers({});
+const appReducer = combineReducers({});
 
-export default appReduer;
+export default appReducer;
