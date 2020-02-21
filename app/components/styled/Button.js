@@ -18,4 +18,8 @@ export default styled.button`
     &:focus {
         outline: none;
     }
+    &:disabled {
+        background-color: lightgray;
+        color: gray;
+    }
 `;

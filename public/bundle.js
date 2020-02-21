@@ -108,6 +108,12 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var _thunks = __webpack_require__(/*! ../redux/authentication/thunks */ "./app/redux/authentication/thunks.js");
+
+var _actions = __webpack_require__(/*! ../redux/authentication/actions */ "./app/redux/authentication/actions.js");
+
 var _Font = __webpack_require__(/*! ./styled/Font */ "./app/components/styled/Font.js");
 
 var _Div = __webpack_require__(/*! ./styled/Div */ "./app/components/styled/Div.js");
@@ -119,6 +125,8 @@ var _Input = __webpack_require__(/*! ./styled/Input */ "./app/components/styled/
 var _Button = __webpack_require__(/*! ./styled/Button */ "./app/components/styled/Button.js");
 
 var _Button2 = _interopRequireDefault(_Button);
+
+var _styledComponents = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -139,8 +147,12 @@ var Login = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this));
 
     _this.handleOnClick = function (e) {
+      var _this$state = _this.state,
+          email = _this$state.email,
+          password = _this$state.password;
+
       e.preventDefault();
-      //TODO: LOGIN USER/DISPATCH TO REDUX STORE
+      _this.props.login({ email: email, password: password });
     };
 
     _this.handleOnChange = function (_ref) {
@@ -158,17 +170,24 @@ var Login = function (_Component) {
       //TODO: Validate on submit for values not in our database NOT onchange
 
       switch (name) {
-        case "username":
+        case "email":
+          var regex = /\S+@\S+\.\S+/;
           if (!value) {
             _this.setState({
               errors: _extends({}, errors, {
-                usernameError: "Username cannot be blank"
+                emailError: "Email cannot be blank"
+              })
+            });
+          } else if (!regex.test(value)) {
+            _this.setState({
+              errors: _extends({}, errors, {
+                emailError: "Email invalid"
               })
             });
           } else {
             _this.setState({
               errors: _extends({}, errors, {
-                usernameError: ""
+                emailError: ""
               })
             });
           }
@@ -193,10 +212,10 @@ var Login = function (_Component) {
     };
 
     _this.state = {
-      username: "",
+      email: "",
       password: "",
       errors: {
-        usernameError: "",
+        emailError: "",
         passwordError: ""
       }
     };
@@ -204,13 +223,22 @@ var Login = function (_Component) {
   }
 
   _createClass(Login, [{
-    key: "render",
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      var isLoggedIn = this.props.authentication.isLoggedIn;
+      //for now i just send it to the home page after login
+
+      if (isLoggedIn) this.props.history.push('/');
+    }
+  }, {
+    key: 'render',
     value: function render() {
       var _state = this.state,
-          username = _state.username,
+          email = _state.email,
           password = _state.password,
+          errors = _state.errors,
           _state$errors = _state.errors,
-          usernameError = _state$errors.usernameError,
+          emailError = _state$errors.emailError,
           passwordError = _state$errors.passwordError;
 
       return _react2.default.createElement(
@@ -219,7 +247,7 @@ var Login = function (_Component) {
         _react2.default.createElement(
           _Font.Header,
           null,
-          "Sign in with Social Media"
+          'Sign in with Social Media'
         ),
         _react2.default.createElement(
           _Form.FormRow,
@@ -227,44 +255,44 @@ var Login = function (_Component) {
           _react2.default.createElement(
             _Button2.default,
             { secondary: true, onClick: this.handleOnClick },
-            "Continue with Github"
+            'Continue with Github'
           ),
           _react2.default.createElement(
             _Button2.default,
             { secondary: true, onClick: this.handleOnClick },
-            "Continue with Google"
+            'Continue with Google'
           )
         ),
         _react2.default.createElement(_Div.Hr, null),
         _react2.default.createElement(
           _Font.Header,
           null,
-          "Or sign in with your username and password"
+          'Or sign in with your email and password'
         ),
         _react2.default.createElement(
           _Form.FormColumn,
           null,
           _react2.default.createElement(_Input.Input, {
-            type: "text",
-            placeholder: "username",
+            type: 'text',
+            placeholder: 'email',
             onChange: this.handleOnChange,
-            name: "username",
-            value: username
+            name: 'email',
+            value: email
           }),
           _react2.default.createElement(
             _Input.InputFeedback,
             null,
-            usernameError
+            emailError
           )
         ),
         _react2.default.createElement(
           _Form.FormColumn,
           null,
           _react2.default.createElement(_Input.Input, {
-            type: "password",
-            placeholder: "password",
+            type: 'password',
+            placeholder: 'password',
             onChange: this.handleOnChange,
-            name: "password",
+            name: 'password',
             value: password
           }),
           _react2.default.createElement(
@@ -275,13 +303,15 @@ var Login = function (_Component) {
         ),
         _react2.default.createElement(
           _Button2.default,
-          { onClick: this.handleOnClick },
-          "Login"
+          { disabled: !email || !password || Object.values(errors).some(function (val) {
+              return !!val;
+            }) ? true : false, onClick: this.handleOnClick },
+          'Login'
         ),
         _react2.default.createElement(
           _Font.Anchor,
-          { href: "#" },
-          "Forgot Password?"
+          { href: '#' },
+          'Forgot Password?'
         )
       );
     }
@@ -290,7 +320,23 @@ var Login = function (_Component) {
   return Login;
 }(_react.Component);
 
-exports.default = Login;
+var mapStateToProps = function mapStateToProps(_ref2) {
+  var authentication = _ref2.authentication;
+  return { authentication: authentication };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    login: function login(info) {
+      return dispatch((0, _thunks.login)(info));
+    },
+    removeLogInError: function removeLogInError() {
+      return dispatch((0, _actions.removeLogInError)());
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Login);
 
 /***/ }),
 
@@ -374,9 +420,9 @@ exports.default = function () {
 
 /***/ }),
 
-/***/ "./app/components/root.js":
+/***/ "./app/components/Root.js":
 /*!********************************!*\
-  !*** ./app/components/root.js ***!
+  !*** ./app/components/Root.js ***!
   \********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -395,10 +441,6 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
-
-var _test = __webpack_require__(/*! ./test */ "./app/components/test.js");
-
-var _test2 = _interopRequireDefault(_test);
 
 var _Login = __webpack_require__(/*! ./Login */ "./app/components/Login.js");
 
@@ -461,7 +503,6 @@ var Root = function (_Component) {
           _react2.default.createElement(
             _reactRouterDom.Switch,
             null,
-            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _test2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/login', component: _Login2.default })
           )
         )
@@ -490,7 +531,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _templateObject = _taggedTemplateLiteral(['\n    display: block;\n    width: 95%;\n    border: ', ';\n    border-radius: 3px;\n    color: ', ';\n    background-color: ', ';\n    font-size: 1rem;\n    font-weight: bold;\n    padding: 0.5rem 1rem;\n    margin: 0.5rem;\n    cursor: pointer;\n    &:hover {\n        background-color: ', '\n    }\n    &:focus {\n        outline: none;\n    }\n'], ['\n    display: block;\n    width: 95%;\n    border: ', ';\n    border-radius: 3px;\n    color: ', ';\n    background-color: ', ';\n    font-size: 1rem;\n    font-weight: bold;\n    padding: 0.5rem 1rem;\n    margin: 0.5rem;\n    cursor: pointer;\n    &:hover {\n        background-color: ', '\n    }\n    &:focus {\n        outline: none;\n    }\n']);
+var _templateObject = _taggedTemplateLiteral(['\n    display: block;\n    width: 95%;\n    border: ', ';\n    border-radius: 3px;\n    color: ', ';\n    background-color: ', ';\n    font-size: 1rem;\n    font-weight: bold;\n    padding: 0.5rem 1rem;\n    margin: 0.5rem;\n    cursor: pointer;\n    &:hover {\n        background-color: ', '\n    }\n    &:focus {\n        outline: none;\n    }\n    &:disabled {\n        background-color: lightgray;\n        color: gray;\n    }\n'], ['\n    display: block;\n    width: 95%;\n    border: ', ';\n    border-radius: 3px;\n    color: ', ';\n    background-color: ', ';\n    font-size: 1rem;\n    font-weight: bold;\n    padding: 0.5rem 1rem;\n    margin: 0.5rem;\n    cursor: pointer;\n    &:hover {\n        background-color: ', '\n    }\n    &:focus {\n        outline: none;\n    }\n    &:disabled {\n        background-color: lightgray;\n        color: gray;\n    }\n']);
 
 var _styledComponents = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 
@@ -699,61 +740,6 @@ var NavButton = exports.NavButton = (0, _styledComponents2.default)(_Font.Anchor
 
 /***/ }),
 
-/***/ "./app/components/test.js":
-/*!********************************!*\
-  !*** ./app/components/test.js ***!
-  \********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Test = function (_Component) {
-  _inherits(Test, _Component);
-
-  function Test() {
-    _classCallCheck(this, Test);
-
-    return _possibleConstructorReturn(this, (Test.__proto__ || Object.getPrototypeOf(Test)).apply(this, arguments));
-  }
-
-  _createClass(Test, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        null,
-        'Hiiiii'
-      );
-    }
-  }]);
-
-  return Test;
-}(_react.Component);
-
-exports.default = Test;
-
-/***/ }),
-
 /***/ "./app/main.js":
 /*!*********************!*\
   !*** ./app/main.js ***!
@@ -776,17 +762,292 @@ var _store = __webpack_require__(/*! ./store */ "./app/store.js");
 
 var _store2 = _interopRequireDefault(_store);
 
-var _root = __webpack_require__(/*! ./components/root */ "./app/components/root.js");
+var _Root = __webpack_require__(/*! ./components/Root */ "./app/components/Root.js");
 
-var _root2 = _interopRequireDefault(_root);
+var _Root2 = _interopRequireDefault(_Root);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 (0, _reactDom.render)(_react2.default.createElement(
   _reactRedux.Provider,
   { store: _store2.default },
-  _react2.default.createElement(_root2.default, null)
+  _react2.default.createElement(_Root2.default, null)
 ), document.getElementById('main'));
+
+/***/ }),
+
+/***/ "./app/redux/authentication/actions.js":
+/*!*********************************************!*\
+  !*** ./app/redux/authentication/actions.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.removeLogInError = exports.setLogInError = exports.signOut = exports.signUp = exports.signIn = undefined;
+
+var _constants = __webpack_require__(/*! ./constants */ "./app/redux/authentication/constants.js");
+
+var signIn = exports.signIn = function signIn(data) {
+  return {
+    type: _constants.SIGN_IN,
+    isLoggedIn: true,
+    activeUser: data
+  };
+};
+
+var signUp = exports.signUp = function signUp(data) {
+  return {
+    type: _constants.SIGN_UP,
+    isLoggedIn: true,
+    activeUser: data
+  };
+};
+
+var signOut = exports.signOut = function signOut() {
+  return {
+    type: _constants.SIGN_OUT,
+    isLoggedIn: false
+  };
+};
+
+var setLogInError = exports.setLogInError = function setLogInError() {
+  return {
+    type: _constants.LOG_IN_ERROR,
+    logInError: true
+  };
+};
+
+var removeLogInError = exports.removeLogInError = function removeLogInError() {
+  return {
+    type: _constants.LOG_IN_ERROR,
+    logInError: false
+  };
+};
+
+/***/ }),
+
+/***/ "./app/redux/authentication/constants.js":
+/*!***********************************************!*\
+  !*** ./app/redux/authentication/constants.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var SIGN_IN = exports.SIGN_IN = Symbol('SIGN_IN');
+
+var SIGN_OUT = exports.SIGN_OUT = Symbol('SIGN_OUT');
+
+var SIGN_UP = exports.SIGN_UP = Symbol('SIGN_UP');
+
+var LOG_IN_ERROR = exports.LOG_IN_ERROR = Symbol('LOG_IN_ERROR');
+
+/***/ }),
+
+/***/ "./app/redux/authentication/reducers.js":
+/*!**********************************************!*\
+  !*** ./app/redux/authentication/reducers.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _constants = __webpack_require__(/*! ./constants */ "./app/redux/authentication/constants.js");
+
+var initialState = {
+  isLoggedIn: false,
+  logInError: false
+};
+
+var authenticationReducer = function authenticationReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  var action = arguments[1];
+
+  var isLoggedIn = action.isLoggedIn;
+  var logInError = action.logInError;
+
+  switch (action.type) {
+    case _constants.SIGN_IN:
+      {
+        return _extends({}, state, {
+          isLoggedIn: isLoggedIn
+        });
+      }
+
+    case _constants.SIGN_UP:
+      {
+        return _extends({}, state, {
+          isLoggedIn: isLoggedIn
+        });
+      }
+
+    case _constants.SIGN_OUT:
+      {
+        return _extends({}, state, {
+          isLoggedIn: isLoggedIn
+        });
+      }
+
+    case _constants.LOG_IN_ERROR:
+      {
+        return _extends({}, state, {
+          logInError: logInError
+        });
+      }
+
+    default:
+      return state;
+  }
+};
+
+exports.default = authenticationReducer;
+
+/***/ }),
+
+/***/ "./app/redux/authentication/thunks.js":
+/*!********************************************!*\
+  !*** ./app/redux/authentication/thunks.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.initialLogInAttempt = exports.logOutAttempt = exports.SignUpAttempt = exports.login = undefined;
+
+var _axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _actions = __webpack_require__(/*! ./actions */ "./app/redux/authentication/actions.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+var login = exports.login = function login(logInInfo) {
+  return function () {
+    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(dispatch) {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return _axios2.default.post('/auth/login', logInInfo).then(function (res) {
+                return dispatch((0, _actions.signIn)(res.data));
+              }).catch(function (e) {
+                console.error(e);
+                dispatch((0, _actions.setLogInError)());
+                return dispatch((0, _actions.signOut)());
+              });
+
+            case 2:
+            case 'end':
+              return _context.stop();
+          }
+        }
+      }, _callee, undefined);
+    }));
+
+    return function (_x) {
+      return _ref.apply(this, arguments);
+    };
+  }();
+};
+
+var SignUpAttempt = exports.SignUpAttempt = function SignUpAttempt(signUpInfo) {
+  return function () {
+    var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(dispatch) {
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return _axios2.default.post('/auth/signup', signUpInfo).then(function (res) {
+                return dispatch((0, _actions.signUp)(res.data));
+              }).catch(function (e) {
+                console.error(e);
+                dispatch((0, _actions.setLogInError)());
+                return dispatch((0, _actions.signOut)());
+              });
+
+            case 2:
+            case 'end':
+              return _context2.stop();
+          }
+        }
+      }, _callee2, undefined);
+    }));
+
+    return function (_x2) {
+      return _ref2.apply(this, arguments);
+    };
+  }();
+};
+
+var logOutAttempt = exports.logOutAttempt = function logOutAttempt() {
+  return function (dispatch) {
+    _axios2.default.get('/auth/signout').then(function () {
+      dispatch((0, _actions.signOut)());
+    }).catch(function (e) {
+      console.error(e);
+      return dispatch((0, _actions.signOut)());
+    });
+  };
+};
+
+var initialLogInAttempt = exports.initialLogInAttempt = function initialLogInAttempt() {
+  return function (dispatch) {
+    _axios2.default.get('/auth/me').then(function () {
+      var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(res) {
+        var user;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                user = res.data;
+
+                dispatch((0, _actions.signIn)(user));
+
+              case 2:
+              case 'end':
+                return _context3.stop();
+            }
+          }
+        }, _callee3, undefined);
+      }));
+
+      return function (_x3) {
+        return _ref3.apply(this, arguments);
+      };
+    }()).catch(function (e) {
+      console.error(e);
+    });
+  };
+};
 
 /***/ }),
 
@@ -806,9 +1067,79 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 
-var appReducer = (0, _redux.combineReducers)({});
+var _reducers = __webpack_require__(/*! ./authentication/reducers */ "./app/redux/authentication/reducers.js");
+
+var _reducers2 = _interopRequireDefault(_reducers);
+
+var _reducers3 = __webpack_require__(/*! ./users/reducers */ "./app/redux/users/reducers.js");
+
+var _reducers4 = _interopRequireDefault(_reducers3);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var appReducer = (0, _redux.combineReducers)({
+  users: _reducers4.default,
+  authentication: _reducers2.default
+});
 
 exports.default = appReducer;
+
+/***/ }),
+
+/***/ "./app/redux/users/constants.js":
+/*!**************************************!*\
+  !*** ./app/redux/users/constants.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var SET_ALLUSERS = exports.SET_ALLUSERS = Symbol('SET_ALL_USERS');
+
+var ADD_USER = exports.ADD_USER = Symbol('ADD_USER');
+
+/***/ }),
+
+/***/ "./app/redux/users/reducers.js":
+/*!*************************************!*\
+  !*** ./app/redux/users/reducers.js ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _constants = __webpack_require__(/*! ./constants */ "./app/redux/users/constants.js");
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var usersReducer = function usersReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments[1];
+
+  switch (action.type) {
+    case _constants.SET_ALL_USERS:
+      return action.users;
+
+    case _constants.ADD_USER:
+      return [].concat(_toConsumableArray(state), [action.user]);
+
+    default:
+      return state;
+  }
+};
+
+exports.default = usersReducer;
 
 /***/ }),
 
