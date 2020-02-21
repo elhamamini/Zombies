@@ -633,7 +633,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.Label = exports.InputFeedback = exports.Input = undefined;
 
 var _templateObject = _taggedTemplateLiteral(["\n  display: block;\n  width: 95%;\n  border: 1px solid lightgray;\n  border-radius: 3px;\n  font-size: 1rem;\n  padding: 0.5rem;\n  margin: 0.5rem;\n  &:focus {\n      border: 1px solid #007bff;\n      outline: none;\n  }\n"], ["\n  display: block;\n  width: 95%;\n  border: 1px solid lightgray;\n  border-radius: 3px;\n  font-size: 1rem;\n  padding: 0.5rem;\n  margin: 0.5rem;\n  &:focus {\n      border: 1px solid #007bff;\n      outline: none;\n  }\n"]),
-    _templateObject2 = _taggedTemplateLiteral(["\n  display: block;\n  width: 95%;\n  color: #a64452;\n  padding: 0.5rem;\n  font-size: 0.75rem;\n"], ["\n  display: block;\n  width: 95%;\n  color: #a64452;\n  padding: 0.5rem;\n  font-size: 0.75rem;\n"]),
+    _templateObject2 = _taggedTemplateLiteral(["\n  display: block;\n  width: 95%;\n  color: #f43b43;\n  padding: 0.5rem;\n  font-size: 0.75rem;\n"], ["\n  display: block;\n  width: 95%;\n  color: #f43b43;\n  padding: 0.5rem;\n  font-size: 0.75rem;\n"]),
     _templateObject3 = _taggedTemplateLiteral(["\n    display: block;\n    width: 95%;\n    font-size: 1rem;\n    padding: 0 0.5rem;\n"], ["\n    display: block;\n    width: 95%;\n    font-size: 1rem;\n    padding: 0 0.5rem;\n"]);
 
 var _styledComponents = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
@@ -667,7 +667,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.NavButton = exports.NavLink = exports.Nav = undefined;
 
-var _templateObject = _taggedTemplateLiteral(["\n  width: 95%;\n  padding: 0.5rem;\n  border-bottom: 3px solid lightgrey;\n"], ["\n  width: 95%;\n  padding: 0.5rem;\n  border-bottom: 3px solid lightgrey;\n"]),
+var _templateObject = _taggedTemplateLiteral(["\n  width: 100%;\n  padding: 0.5rem;\n  border-bottom: 3px solid lightgrey;\n"], ["\n  width: 100%;\n  padding: 0.5rem;\n  border-bottom: 3px solid lightgrey;\n"]),
     _templateObject2 = _taggedTemplateLiteral(["\n  margin: 0;\n  padding: 0 1rem;\n  color: black;\n  text-decoration: none;\n  &:hover {\n    color: #505050;\n  }\n"], ["\n  margin: 0;\n  padding: 0 1rem;\n  color: black;\n  text-decoration: none;\n  &:hover {\n    color: #505050;\n  }\n"]),
     _templateObject3 = _taggedTemplateLiteral(["\n  display: block;\n  border: ", ";\n  border-radius: 3px;\n  color: ", ";\n  background-color: ", ";\n  font-size: 1rem;\n  font-weight: bold;\n  text-decoration: none;\n  padding: 0.5rem 1rem;\n  margin: 0.5rem;\n  cursor: pointer;\n  &:hover {\n    background-color: ", ";\n  }\n  &:focus {\n    outline: none;\n  }\n"], ["\n  display: block;\n  border: ", ";\n  border-radius: 3px;\n  color: ", ";\n  background-color: ", ";\n  font-size: 1rem;\n  font-weight: bold;\n  text-decoration: none;\n  padding: 0.5rem 1rem;\n  margin: 0.5rem;\n  cursor: pointer;\n  &:hover {\n    background-color: ", ";\n  }\n  &:focus {\n    outline: none;\n  }\n"]);
 

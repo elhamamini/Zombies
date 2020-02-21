@@ -17,7 +17,7 @@ export const Input = styled.input`
 export const InputFeedback = styled.div`
   display: block;
   width: 95%;
-  color: #a64452;
+  color: #f43b43;
   padding: 0.5rem;
   font-size: 0.75rem;
 `

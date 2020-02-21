@@ -3,7 +3,7 @@ import { Row } from "./Div";
 import { Anchor } from "./Font";
 
 export const Nav = styled(Row)`
-  width: 95%;
+  width: 100%;
   padding: 0.5rem;
   border-bottom: 3px solid lightgrey;
 `;
