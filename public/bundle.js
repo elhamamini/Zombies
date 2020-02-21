@@ -1065,16 +1065,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-var appReducer = (0, _redux.combineReducers)({});
-
-exports.default = appReducer;
-=======
-var _authentication = __webpack_require__(/*! ./authentication */ "./app/redux/authentication.js");
-=======
 var _reducers = __webpack_require__(/*! ./authentication/reducers */ "./app/redux/authentication/reducers.js");
->>>>>>> dc1fa651883dd5947e77eb1833f081c9be14c6a8
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -1147,7 +1138,6 @@ var usersReducer = function usersReducer() {
 };
 
 exports.default = usersReducer;
->>>>>>> dfd4df899f4b151538df5af9e3087bb7d5b41a60
 
 /***/ }),
 
