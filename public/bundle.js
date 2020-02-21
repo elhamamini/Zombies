@@ -654,12 +654,13 @@ var _users2 = _interopRequireDefault(_users);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var appReduer = (0, _redux.combineReducers)({
-  authentication: _authentication2.default,
-  users: _users2.default
+var appReducer = (0, _redux.combineReducers)({
+  users: _users2.default,
+
+  authentication: _authentication2.default
 });
 
-exports.default = appReduer;
+exports.default = appReducer;
 
 /***/ }),
 
