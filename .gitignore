@@ -1,5 +1,5 @@
 node_modules
 .vscode
 .npmrc
-bundle/*.js
-bundle/*.map
+public/bundle.js
+public/bundle.js.map
