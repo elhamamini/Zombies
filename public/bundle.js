@@ -168,40 +168,40 @@ var Login = function (_Component) {
       //TODO: Validate on submit for values not in our database NOT onchange
 
       switch (name) {
-        case "email":
+        case 'email':
           var regex = /\S+@\S+\.\S+/;
           if (!value) {
             _this.setState({
               errors: _extends({}, errors, {
-                emailError: "Email cannot be blank"
+                emailError: 'Email cannot be blank'
               })
             });
           } else if (!regex.test(value)) {
             _this.setState({
               errors: _extends({}, errors, {
-                emailError: "Email invalid"
+                emailError: 'Email invalid'
               })
             });
           } else {
             _this.setState({
               errors: _extends({}, errors, {
-                emailError: ""
+                emailError: ''
               })
             });
           }
           break;
 
-        case "password":
+        case 'password':
           if (!value) {
             _this.setState({
               errors: _extends({}, errors, {
-                passwordError: "Password cannot be blank"
+                passwordError: 'Password cannot be blank'
               })
             });
           } else {
             _this.setState({
               errors: _extends({}, errors, {
-                passwordError: ""
+                passwordError: ''
               })
             });
           }
@@ -210,11 +210,11 @@ var Login = function (_Component) {
     };
 
     _this.state = {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
       errors: {
-        emailError: "",
-        passwordError: ""
+        emailError: '',
+        passwordError: ''
       }
     };
     return _this;
@@ -252,8 +252,12 @@ var Login = function (_Component) {
           null,
           _react2.default.createElement(
             _Button2.default,
-            { secondary: true, onClick: this.handleOnClick },
-            'Continue with Github'
+            null,
+            _react2.default.createElement(
+              'a',
+              { href: '/api/github/login' },
+              'Continue with Github '
+            )
           ),
           _react2.default.createElement(
             _Button2.default,
@@ -301,9 +305,12 @@ var Login = function (_Component) {
         ),
         _react2.default.createElement(
           _Button2.default,
-          { disabled: !email || !password || Object.values(errors).some(function (val) {
+          {
+            disabled: !email || !password || Object.values(errors).some(function (val) {
               return !!val;
-            }) ? true : false, onClick: this.handleOnClick },
+            }) ? true : false,
+            onClick: this.handleOnClick
+          },
           'Login'
         ),
         _react2.default.createElement(
