@@ -1,5 +1,10 @@
 import { combineReducers } from 'redux';
+import authenticationReducer from './authentication';
+import usersReducer from './users';
+const appReducer = combineReducers({
+  users: usersReducer,
 
-const appReducer = combineReducers({});
+  authentication: authenticationReducer,
+});
 
 export default appReducer;
