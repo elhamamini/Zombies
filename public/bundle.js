@@ -283,9 +283,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 
-var appReduer = (0, _redux.combineReducers)({});
+var appReducer = (0, _redux.combineReducers)({});
 
-exports.default = appReduer;
+exports.default = appReducer;
 
 /***/ }),
 
