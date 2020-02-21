@@ -83,6 +83,7 @@ class Login extends Component {
     return (
       <div
         style={{
+          width: '100%',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -96,7 +97,7 @@ class Login extends Component {
             display: 'flex',
             flexDirection: 'column',
             border: 'solid 1px black',
-            padding: '3rem',
+            // padding: '3rem',
           }}
         >
           <input

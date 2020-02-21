@@ -222,6 +222,7 @@ var Login = function (_Component) {
         'div',
         {
           style: {
+            width: '100%',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -231,13 +232,14 @@ var Login = function (_Component) {
         _react2.default.createElement(
           'form',
           {
-            style: _defineProperty({
+            style: {
               width: '35%',
               padding: '1rem',
               display: 'flex',
               flexDirection: 'column',
               border: 'solid 1px black'
-            }, 'padding', '3rem')
+              // padding: '3rem',
+            }
           },
           _react2.default.createElement('input', {
             type: 'text',
@@ -273,8 +275,8 @@ var Login = function (_Component) {
   return Login;
 }(_react.Component);
 
-var mapStateToProps = function mapStateToProps(_ref3) {
-  var authentication = _ref3.authentication;
+var mapStateToProps = function mapStateToProps(_ref2) {
+  var authentication = _ref2.authentication;
   return { authentication: authentication };
 };
 
