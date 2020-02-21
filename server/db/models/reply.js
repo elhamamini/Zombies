@@ -13,6 +13,9 @@ const Reply = db.define('reply', {
     likes: {
         type: Sequelize.ARRAY(Sequelize.STRING),
     },
+    title: {
+        type: Sequelize.STRING,
+    },
     body: {
         type: Sequelize.TEXT,
     },
@@ -22,18 +25,26 @@ const Reply = db.define('reply', {
     codeSnippet: {
         type: Sequelize.TEXT,
     },
-    posted: {
-        type: Sequelize.DATE,                
-      get() {
+    postNumber: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
+    },
+    isFlagged: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+    },
+    timeSincePosted: {
+        type: Sequelize.VIRTUAL,                
+        get() {
             // TODO: HAVE THIS RETURN AS A TIME SINCE  NOW()
-            return moment(this.getDataValue('posted')).format('h:mm');
+            return moment(this.getDataValue('createdAt')).format('h:mm');
         }
     },
-    updatedAt: {
-        type: Sequelize.DATE,
+    timeSinceUpdated: {
+        type: Sequelize.VIRTUAL,
         get() {
             //TODO: HAVE THIS RETURN AS A TIME SINCE NOW()
-            return moment(this.getDataValue('updatedAt')).format('DD/MM/YYYY h:mm:ss');
+            return moment(this.getDataValue('updatedAt')).format('h:mm:ss');
         }
     }
 });

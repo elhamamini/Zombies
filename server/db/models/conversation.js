@@ -8,6 +8,17 @@ const Conversation = db.define('conversation', {
         defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
     },
+    author: {
+        type: Sequelize.STRING,
+    },
+    views: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
+    },
+    replies: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
+    },
     topic: {
         type: STRING,
     },
