@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import { Test } from './test';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
+import Test from './test';
+import Login from './Login';
+import Nav from './Nav';
 
 export default class Root extends Component {
   async componentDidMount() {}
@@ -8,8 +11,10 @@ export default class Root extends Component {
     return (
       <Router>
         <main>
+          <Nav />
           <Switch>
-            <Route path="/" component={Test} />
+            <Route exact path="/" component={Test} />
+            <Route path='/login' component={Login} />
           </Switch>
         </main>
       </Router>
