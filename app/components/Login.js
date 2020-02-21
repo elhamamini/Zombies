@@ -9,7 +9,6 @@ import { Hr } from "./styled/Div";
 import { Form, FormRow, FormColumn } from "./styled/Form";
 import { Input, InputFeedback } from "./styled/Input";
 import Button from "./styled/Button";
-import { createGlobalStyle } from "styled-components";
 
 class Login extends Component {
   constructor() {
