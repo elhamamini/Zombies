@@ -1,25 +1,25 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { login } from '../redux/authentication/thunks';
 import { removeLogInError } from '../redux/authentication/actions';
 
 import { Header, Anchor } from './styled/Font';
-import { Hr } from "./styled/Div";
-import { Form, FormRow, FormColumn } from "./styled/Form";
-import { Input, InputFeedback } from "./styled/Input";
-import Button from "./styled/Button";
+import { Hr } from './styled/Div';
+import { Form, FormRow, FormColumn } from './styled/Form';
+import { Input, InputFeedback } from './styled/Input';
+import Button from './styled/Button';
 
 class Login extends Component {
   constructor() {
     super();
     this.state = {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
       errors: {
-        emailError: "",
-        passwordError: ""
-      }
+        emailError: '',
+        passwordError: '',
+      },
     };
   }
 
@@ -32,7 +32,7 @@ class Login extends Component {
   }
 
   handleOnClick = e => {
-    const { email, password } = this.state
+    const { email, password } = this.state;
     e.preventDefault();
     this.props.login({ email, password });
   };
@@ -45,46 +45,46 @@ class Login extends Component {
     const { errors } = this.state;
     //TODO: Validate on submit for values not in our database NOT onchange
     switch (name) {
-      case "email":
-        const regex = /\S+@\S+\.\S+/
+      case 'email':
+        const regex = /\S+@\S+\.\S+/;
         if (!value) {
           this.setState({
             errors: {
               ...errors,
-              emailError: "Email cannot be blank"
-            }
+              emailError: 'Email cannot be blank',
+            },
           });
-        } else if(!regex.test(value)) {
+        } else if (!regex.test(value)) {
           this.setState({
             errors: {
               ...errors,
-              emailError: "Email invalid"
-            }
-          })
+              emailError: 'Email invalid',
+            },
+          });
         } else {
           this.setState({
             errors: {
               ...errors,
-              emailError: ""
-            }
+              emailError: '',
+            },
           });
         }
         break;
 
-      case "password":
+      case 'password':
         if (!value) {
           this.setState({
             errors: {
               ...errors,
-              passwordError: "Password cannot be blank"
-            }
+              passwordError: 'Password cannot be blank',
+            },
           });
         } else {
           this.setState({
             errors: {
               ...errors,
-              passwordError: ""
-            }
+              passwordError: '',
+            },
           });
         }
         break;
@@ -96,18 +96,16 @@ class Login extends Component {
       email,
       password,
       errors,
-      errors: {
-        emailError,
-        passwordError
-      }
+      errors: { emailError, passwordError },
     } = this.state;
     return (
       <Form>
         <Header>Sign in with Social Media</Header>
         <FormRow>
-          <Button secondary onClick={this.handleOnClick}>
-            Continue with Github
+          <Button>
+            <a href={'/api/github/login'}>Continue with Github </a>
           </Button>
+
           <Button secondary onClick={this.handleOnClick}>
             Continue with Google
           </Button>
@@ -136,12 +134,17 @@ class Login extends Component {
           <InputFeedback>{passwordError}</InputFeedback>
         </FormColumn>
 
-        <Button disabled={
-          !email || !password || Object.values(errors).some(val => !!val)
-            ? true
-            : false
-          } onClick={this.handleOnClick}>Login</Button>
-        <Anchor href='#'>Forgot Password?</Anchor>
+        <Button
+          disabled={
+            !email || !password || Object.values(errors).some(val => !!val)
+              ? true
+              : false
+          }
+          onClick={this.handleOnClick}
+        >
+          Login
+        </Button>
+        <Anchor href="#">Forgot Password?</Anchor>
       </Form>
     );
   }
