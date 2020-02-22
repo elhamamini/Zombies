@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Input = styled.input`
   display: block;
@@ -22,9 +22,26 @@ export const InputFeedback = styled.div`
   font-size: 0.75rem;
 `
 
+export const TextField = styled.textarea`
+  display: block;
+  width: 95%;
+  border: 1px solid lightgray;
+  border-radius: 3px;
+  font-size: 1rem;
+  padding: 0.5rem;
+  margin: 0.5rem;
+  overflow: scroll;
+  resize: none;
+  &:focus {
+    border: 1px solid #007bff;
+    outline: none;
+  }
+`
+
 export const Label = styled.label`
     display: block;
     width: 95%;
     font-size: 1rem;
     padding: 0 0.5rem;
+    margin-top: 1rem;
 `
