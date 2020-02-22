@@ -15,7 +15,7 @@ const Conversation = db.define('conversation', {
         type: Sequelize.INTEGER,
         defaultValue: 0,
     },
-    replies: {
+    replyCount: {
         type: Sequelize.INTEGER,
         defaultValue: 0,
     },

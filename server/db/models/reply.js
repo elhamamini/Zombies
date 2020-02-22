@@ -10,8 +10,20 @@ const Reply = db.define('reply', {
         defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
     },
-    likes: {
+    username: {
+        type: Sequelize.STRING,
+    },
+    likedBy: {
         type: Sequelize.ARRAY(Sequelize.STRING),
+    },
+    likesCount: {
+        type: Sequelize.VIRTUAL,
+        get() {
+            return (this.likes.length);
+        },
+        set(value) {
+            throw new Error('cannot set virtual field likesCount');
+        }
     },
     title: {
         type: Sequelize.STRING,
@@ -37,14 +49,14 @@ const Reply = db.define('reply', {
         type: Sequelize.VIRTUAL,                
         get() {
             // TODO: HAVE THIS RETURN AS A TIME SINCE  NOW()
-            return moment(this.getDataValue('createdAt')).format('h:mm');
+            return moment(this.createdAt).fromNow();
         }
     },
     timeSinceUpdated: {
         type: Sequelize.VIRTUAL,
         get() {
             //TODO: HAVE THIS RETURN AS A TIME SINCE NOW()
-            return moment(this.getDataValue('updatedAt')).format('h:mm:ss');
+            return moment(this.updatedAt).fromNow();
         }
     }
 });
