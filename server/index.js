@@ -20,8 +20,8 @@ if (process.env.NODE_ENV === 'production') {
       process.exit(1);
     });
 } else {
-  db.sync({ force: true })
-    .then(seed)
+  db.sync()
+    //.then(seed)
     .then(startServer)
     .then(() => {
       console.log(
