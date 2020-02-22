@@ -102,9 +102,10 @@ class Login extends Component {
       <Form>
         <Header>Sign in with Social Media</Header>
         <FormRow>
-          <Button secondary onClick={this.handleOnClick}>
-            Continue with Github
+          <Button>
+            <a href={'/api/github/login'}>Continue with Github </a>
           </Button>
+
           <Button secondary onClick={this.handleOnClick}>
             Continue with Google
           </Button>

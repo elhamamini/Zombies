@@ -86,6 +86,72 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./app/components/Home.js":
+/*!********************************!*\
+  !*** ./app/components/Home.js ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Div = __webpack_require__(/*! ./styled/Div */ "./app/components/styled/Div.js");
+
+var _Menu = __webpack_require__(/*! ./Menu */ "./app/components/Menu.js");
+
+var _Menu2 = _interopRequireDefault(_Menu);
+
+var _NewConversation = __webpack_require__(/*! ./NewConversation */ "./app/components/NewConversation.js");
+
+var _NewConversation2 = _interopRequireDefault(_NewConversation);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Home = function (_Component) {
+  _inherits(Home, _Component);
+
+  function Home() {
+    _classCallCheck(this, Home);
+
+    return _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this));
+  }
+
+  _createClass(Home, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        _Div.MainContainer,
+        null,
+        _react2.default.createElement(_Menu2.default, null),
+        _react2.default.createElement(_NewConversation2.default, null)
+      );
+    }
+  }]);
+
+  return Home;
+}(_react.Component);
+
+exports.default = Home;
+
+/***/ }),
+
 /***/ "./app/components/Login.js":
 /*!*********************************!*\
   !*** ./app/components/Login.js ***!
@@ -252,12 +318,8 @@ var Login = function (_Component) {
           null,
           _react2.default.createElement(
             _Button2.default,
-            null,
-            _react2.default.createElement(
-              'a',
-              { href: '/api/github/login' },
-              'Continue with Github '
-            )
+            { secondary: true, onClick: this.handleOnClick },
+            'Continue with Github'
           ),
           _react2.default.createElement(
             _Button2.default,
@@ -345,6 +407,108 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 
 /***/ }),
 
+/***/ "./app/components/Menu.js":
+/*!********************************!*\
+  !*** ./app/components/Menu.js ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Button = __webpack_require__(/*! ./styled/Button */ "./app/components/styled/Button.js");
+
+var _Button2 = _interopRequireDefault(_Button);
+
+var _Menu = __webpack_require__(/*! ./styled/Menu */ "./app/components/styled/Menu.js");
+
+var _Div = __webpack_require__(/*! ./styled/Div */ "./app/components/styled/Div.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _class = function (_Component) {
+  _inherits(_class, _Component);
+
+  function _class() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, _class);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = _class.__proto__ || Object.getPrototypeOf(_class)).call.apply(_ref, [this].concat(args))), _this), _this.handleOnClick = function (e) {
+      e.preventDefault();
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  _createClass(_class, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        _Menu.MenuContainer,
+        null,
+        _react2.default.createElement(
+          _Menu.Menu,
+          null,
+          _react2.default.createElement(
+            _Button2.default,
+            { onClick: this.handleOnClick },
+            'Start a Conversation'
+          ),
+          _react2.default.createElement(
+            _Menu.MenuItem,
+            null,
+            'Latest Conversations'
+          ),
+          _react2.default.createElement(
+            _Menu.MenuItem,
+            null,
+            'Bookmarked'
+          ),
+          _react2.default.createElement(
+            _Menu.MenuItem,
+            null,
+            'Conversations for you'
+          ),
+          _react2.default.createElement(_Div.Hr, null),
+          _react2.default.createElement(
+            _Menu.MenuItem,
+            null,
+            'Content buckets'
+          )
+        )
+      );
+    }
+  }]);
+
+  return _class;
+}(_react.Component);
+
+exports.default = _class;
+
+/***/ }),
+
 /***/ "./app/components/Nav.js":
 /*!*******************************!*\
   !*** ./app/components/Nav.js ***!
@@ -381,9 +545,9 @@ exports.default = function () {
         _Div.Row,
         null,
         _react2.default.createElement(
-          "div",
+          'div',
           null,
-          "LOGO"
+          'LOGO'
         )
       ),
       _react2.default.createElement(
@@ -391,18 +555,18 @@ exports.default = function () {
         { flexEnd: true },
         _react2.default.createElement(
           _Nav.NavLink,
-          { href: "/" },
-          "Link"
+          { href: '/' },
+          'Home'
         ),
         _react2.default.createElement(
           _Nav.NavLink,
-          { href: "/" },
-          "Link"
+          { href: '/' },
+          'Link'
         ),
         _react2.default.createElement(
           _Nav.NavLink,
-          { href: "/" },
-          "Link"
+          { href: '/' },
+          'Link'
         )
       )
     ),
@@ -411,17 +575,235 @@ exports.default = function () {
       { flexEnd: true },
       _react2.default.createElement(
         _Nav.NavButton,
-        { href: "/login" },
-        "Login"
+        { href: '/login' },
+        'Login'
       ),
       _react2.default.createElement(
         _Nav.NavButton,
-        { href: "/" },
-        "Signup"
+        { href: '/' },
+        'Signup'
       )
     )
   );
 };
+
+/***/ }),
+
+/***/ "./app/components/NewConversation.js":
+/*!*******************************************!*\
+  !*** ./app/components/NewConversation.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var _Div = __webpack_require__(/*! ./styled/Div */ "./app/components/styled/Div.js");
+
+var _Font = __webpack_require__(/*! ./styled/Font */ "./app/components/styled/Font.js");
+
+var _Form = __webpack_require__(/*! ./styled/Form */ "./app/components/styled/Form.js");
+
+var _Input = __webpack_require__(/*! ./styled/Input */ "./app/components/styled/Input.js");
+
+var _Button = __webpack_require__(/*! ./styled/Button */ "./app/components/styled/Button.js");
+
+var _Button2 = _interopRequireDefault(_Button);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+//TODO: Handle Successful Post by Redirecting to the Post
+var NewConversation = function (_Component) {
+  _inherits(NewConversation, _Component);
+
+  function NewConversation() {
+    _classCallCheck(this, NewConversation);
+
+    var _this = _possibleConstructorReturn(this, (NewConversation.__proto__ || Object.getPrototypeOf(NewConversation)).call(this));
+
+    _this.handleOnChange = function (_ref) {
+      var _ref$target = _ref.target,
+          name = _ref$target.name,
+          value = _ref$target.value;
+
+      _this.setState(_defineProperty({}, name, value), function () {
+        return _this.validate(name, value);
+      });
+    };
+
+    _this.handleOnClick = function (e) {
+      e.preventDefault();
+      _this.props.postConversation(_this.props.authentication.activeUser);
+    };
+
+    _this.validate = function (name, value) {
+      var errors = _this.state.errors;
+
+      switch (name) {
+        case 'topic':
+          if (!value) {
+            _this.setState({
+              errors: _extends({}, errors, {
+                topicError: 'Required field'
+              })
+            });
+          } else {
+            _this.setState({
+              errors: _extends({}, errors, {
+                topicError: ''
+              })
+            });
+          }
+          break;
+
+        case 'body':
+          if (!value) {
+            _this.setState({
+              errors: _extends({}, errors, {
+                bodyError: 'Required field'
+              })
+            });
+          } else {
+            _this.setState({
+              errors: _extends({}, errors, {
+                bodyError: ''
+              })
+            });
+          }
+          break;
+      }
+    };
+
+    _this.state = {
+      topic: '',
+      body: '',
+      errors: {
+        topicError: '',
+        bodyError: ''
+      }
+    };
+    return _this;
+  }
+
+  _createClass(NewConversation, [{
+    key: 'render',
+    value: function render() {
+      var _state = this.state,
+          topic = _state.topic,
+          body = _state.body,
+          errors = _state.errors,
+          _state$errors = _state.errors,
+          topicError = _state$errors.topicError,
+          bodyError = _state$errors.bodyError;
+
+
+      return _react2.default.createElement(
+        _Div.MainContainer,
+        null,
+        _react2.default.createElement(
+          _Form.Form,
+          null,
+          _react2.default.createElement(
+            _Font.Header,
+            null,
+            'Create a New Conversation'
+          ),
+          _react2.default.createElement(
+            _Input.Label,
+            null,
+            'Topic'
+          ),
+          _react2.default.createElement(_Input.Input, {
+            type: 'text',
+            name: 'topic',
+            placeholder: 'Help running NPM Testem',
+            value: topic,
+            onChange: this.handleOnChange
+          }),
+          _react2.default.createElement(
+            _Input.InputFeedback,
+            null,
+            topicError
+          ),
+          _react2.default.createElement(
+            _Input.Label,
+            null,
+            'Body'
+          ),
+          _react2.default.createElement(_Input.TextField, {
+            rows: '12',
+            type: 'text',
+            name: 'body',
+            value: body,
+            onChange: this.handleOnChange
+          }),
+          _react2.default.createElement(
+            _Input.InputFeedback,
+            null,
+            bodyError
+          ),
+          _react2.default.createElement(
+            _Button2.default,
+            {
+              disabled: !topic || !body || Object.values(errors).some(function (val) {
+                return !!val;
+              }) ? true : false,
+              onClick: this.handleOnClick },
+            'Post New Conversation'
+          )
+        )
+      );
+    }
+  }]);
+
+  return NewConversation;
+}(_react.Component);
+
+var mapState = function mapState(_ref2) {
+  var authentication = _ref2.authentication;
+  return { authentication: authentication };
+};
+
+var mapDispatch = function mapDispatch(dispatch) {
+  return { postConversation: function (_postConversation) {
+      function postConversation(_x) {
+        return _postConversation.apply(this, arguments);
+      }
+
+      postConversation.toString = function () {
+        return _postConversation.toString();
+      };
+
+      return postConversation;
+    }(function (userId) {
+      return dispatch(postConversation());
+    }) };
+};
+
+exports.default = (0, _reactRedux.connect)(mapState, mapDispatch)(NewConversation);
 
 /***/ }),
 
@@ -447,6 +829,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 
+var _Home = __webpack_require__(/*! ./Home */ "./app/components/Home.js");
+
+var _Home2 = _interopRequireDefault(_Home);
+
 var _Login = __webpack_require__(/*! ./Login */ "./app/components/Login.js");
 
 var _Login2 = _interopRequireDefault(_Login);
@@ -454,6 +840,10 @@ var _Login2 = _interopRequireDefault(_Login);
 var _Nav = __webpack_require__(/*! ./Nav */ "./app/components/Nav.js");
 
 var _Nav2 = _interopRequireDefault(_Nav);
+
+var _NewConversation = __webpack_require__(/*! ./NewConversation */ "./app/components/NewConversation.js");
+
+var _NewConversation2 = _interopRequireDefault(_NewConversation);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -508,7 +898,8 @@ var Root = function (_Component) {
           _react2.default.createElement(
             _reactRouterDom.Switch,
             null,
-            _react2.default.createElement(_reactRouterDom.Route, { path: '/login', component: _Login2.default })
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/login', component: _Login2.default }),
+            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Home2.default })
           )
         )
       );
@@ -569,12 +960,13 @@ exports.default = _styledComponents2.default.button(_templateObject, function (p
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
-exports.Row = exports.Hr = undefined;
+exports.Row = exports.Hr = exports.MainContainer = undefined;
 
-var _templateObject = _taggedTemplateLiteral(['\n    display: block;\n    width: 100%;\n    margin: 1rem;\n'], ['\n    display: block;\n    width: 100%;\n    margin: 1rem;\n']),
-    _templateObject2 = _taggedTemplateLiteral(['\n    display: block;\n    width: 100%;\n    display: flex;\n    flex-direction: row;\n    justify-content: ', ';\n    align-items: center;\n    margin: 0.5rem;\n'], ['\n    display: block;\n    width: 100%;\n    display: flex;\n    flex-direction: row;\n    justify-content: ', ';\n    align-items: center;\n    margin: 0.5rem;\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  flex: 1 1 auto;\n  width: 100%;\n'], ['\n  display: flex;\n  flex: 1 1 auto;\n  width: 100%;\n']),
+    _templateObject2 = _taggedTemplateLiteral(['\n  display: block;\n  width: 95%;\n  margin: 1rem;\n'], ['\n  display: block;\n  width: 95%;\n  margin: 1rem;\n']),
+    _templateObject3 = _taggedTemplateLiteral(['\n  display: block;\n  width: 100%;\n  display: flex;\n  flex-direction: row;\n  justify-content: ', ';\n  align-items: center;\n  margin: 0.5rem;\n'], ['\n  display: block;\n  width: 100%;\n  display: flex;\n  flex-direction: row;\n  justify-content: ', ';\n  align-items: center;\n  margin: 0.5rem;\n']);
 
 var _styledComponents = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 
@@ -584,10 +976,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var Hr = exports.Hr = _styledComponents2.default.hr(_templateObject);
+var MainContainer = exports.MainContainer = _styledComponents2.default.div(_templateObject);
 
-var Row = exports.Row = _styledComponents2.default.div(_templateObject2, function (props) {
-    return props.flexStart ? 'flex-start' : props.flexEnd ? 'flex-end' : 'space-between';
+var Hr = exports.Hr = _styledComponents2.default.hr(_templateObject2);
+
+var Row = exports.Row = _styledComponents2.default.div(_templateObject3, function (props) {
+  return props.flexStart ? 'flex-start' : props.flexEnd ? 'flex-end' : 'space-between';
 });
 
 /***/ }),
@@ -643,9 +1037,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.FormColumn = exports.FormRow = exports.Form = undefined;
 
-var _templateObject = _taggedTemplateLiteral(["\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  width: 50%;\n  border: 1px solid lightgrey;\n  border-radius: 3px;\n  background-color: white;\n  padding: 2rem;\n  margin: 3rem;\n"], ["\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  width: 50%;\n  border: 1px solid lightgrey;\n  border-radius: 3px;\n  background-color: white;\n  padding: 2rem;\n  margin: 3rem;\n"]),
-    _templateObject2 = _taggedTemplateLiteral(["\n  display: block;\n  width: 100%;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n\n"], ["\n  display: block;\n  width: 100%;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n\n"]),
-    _templateObject3 = _taggedTemplateLiteral(["\n  display: block;\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-start;\n  align-items: flex-start;\n"], ["\n  display: block;\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-start;\n  align-items: flex-start;\n"]);
+var _templateObject = _taggedTemplateLiteral(['\n  flex: 1 1 auto;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  width: 50%;\n  border: 1px solid lightgrey;\n  border-radius: 3px;\n  background-color: white;\n  padding: 2rem;\n  margin: 3rem;\n'], ['\n  flex: 1 1 auto;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  width: 50%;\n  border: 1px solid lightgrey;\n  border-radius: 3px;\n  background-color: white;\n  padding: 2rem;\n  margin: 3rem;\n']),
+    _templateObject2 = _taggedTemplateLiteral(['\n  display: block;\n  width: 100%;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n\n'], ['\n  display: block;\n  width: 100%;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n\n']),
+    _templateObject3 = _taggedTemplateLiteral(['\n  display: block;\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-start;\n  align-items: flex-start;\n'], ['\n  display: block;\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-start;\n  align-items: flex-start;\n']);
 
 var _styledComponents = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 
@@ -676,11 +1070,12 @@ var FormColumn = exports.FormColumn = _styledComponents2.default.div(_templateOb
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Label = exports.InputFeedback = exports.Input = undefined;
+exports.Label = exports.TextField = exports.InputFeedback = exports.Input = undefined;
 
-var _templateObject = _taggedTemplateLiteral(["\n  display: block;\n  width: 95%;\n  border: 1px solid lightgray;\n  border-radius: 3px;\n  font-size: 1rem;\n  padding: 0.5rem;\n  margin: 0.5rem;\n  &:focus {\n      border: 1px solid #007bff;\n      outline: none;\n  }\n"], ["\n  display: block;\n  width: 95%;\n  border: 1px solid lightgray;\n  border-radius: 3px;\n  font-size: 1rem;\n  padding: 0.5rem;\n  margin: 0.5rem;\n  &:focus {\n      border: 1px solid #007bff;\n      outline: none;\n  }\n"]),
-    _templateObject2 = _taggedTemplateLiteral(["\n  display: block;\n  width: 95%;\n  color: #f43b43;\n  padding: 0.5rem;\n  font-size: 0.75rem;\n"], ["\n  display: block;\n  width: 95%;\n  color: #f43b43;\n  padding: 0.5rem;\n  font-size: 0.75rem;\n"]),
-    _templateObject3 = _taggedTemplateLiteral(["\n    display: block;\n    width: 95%;\n    font-size: 1rem;\n    padding: 0 0.5rem;\n"], ["\n    display: block;\n    width: 95%;\n    font-size: 1rem;\n    padding: 0 0.5rem;\n"]);
+var _templateObject = _taggedTemplateLiteral(['\n  display: block;\n  width: 95%;\n  border: 1px solid lightgray;\n  border-radius: 3px;\n  font-size: 1rem;\n  padding: 0.5rem;\n  margin: 0.5rem;\n  &:focus {\n      border: 1px solid #007bff;\n      outline: none;\n  }\n'], ['\n  display: block;\n  width: 95%;\n  border: 1px solid lightgray;\n  border-radius: 3px;\n  font-size: 1rem;\n  padding: 0.5rem;\n  margin: 0.5rem;\n  &:focus {\n      border: 1px solid #007bff;\n      outline: none;\n  }\n']),
+    _templateObject2 = _taggedTemplateLiteral(['\n  display: block;\n  width: 95%;\n  color: #f43b43;\n  padding: 0.5rem;\n  font-size: 0.75rem;\n'], ['\n  display: block;\n  width: 95%;\n  color: #f43b43;\n  padding: 0.5rem;\n  font-size: 0.75rem;\n']),
+    _templateObject3 = _taggedTemplateLiteral(['\n  display: block;\n  width: 95%;\n  border: 1px solid lightgray;\n  border-radius: 3px;\n  font-size: 1rem;\n  padding: 0.5rem;\n  margin: 0.5rem;\n  overflow: scroll;\n  resize: none;\n  &:focus {\n    border: 1px solid #007bff;\n    outline: none;\n  }\n'], ['\n  display: block;\n  width: 95%;\n  border: 1px solid lightgray;\n  border-radius: 3px;\n  font-size: 1rem;\n  padding: 0.5rem;\n  margin: 0.5rem;\n  overflow: scroll;\n  resize: none;\n  &:focus {\n    border: 1px solid #007bff;\n    outline: none;\n  }\n']),
+    _templateObject4 = _taggedTemplateLiteral(['\n    display: block;\n    width: 95%;\n    font-size: 1rem;\n    padding: 0 0.5rem;\n    margin-top: 1rem;\n'], ['\n    display: block;\n    width: 95%;\n    font-size: 1rem;\n    padding: 0 0.5rem;\n    margin-top: 1rem;\n']);
 
 var _styledComponents = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 
@@ -694,7 +1089,46 @@ var Input = exports.Input = _styledComponents2.default.input(_templateObject);
 
 var InputFeedback = exports.InputFeedback = _styledComponents2.default.div(_templateObject2);
 
-var Label = exports.Label = _styledComponents2.default.label(_templateObject3);
+var TextField = exports.TextField = _styledComponents2.default.textarea(_templateObject3);
+
+var Label = exports.Label = _styledComponents2.default.label(_templateObject4);
+
+/***/ }),
+
+/***/ "./app/components/styled/Menu.js":
+/*!***************************************!*\
+  !*** ./app/components/styled/Menu.js ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.MenuItem = exports.Menu = exports.MenuContainer = undefined;
+
+var _templateObject = _taggedTemplateLiteral(['\n  width: 33%;\n  max-width: 300px;\n  background-color: white;\n  height: 100vh;\n  margin-top: 3rem;\n  overflow: auto;\n  order: -1;\n'], ['\n  width: 33%;\n  max-width: 300px;\n  background-color: white;\n  height: 100vh;\n  margin-top: 3rem;\n  overflow: auto;\n  order: -1;\n']),
+    _templateObject2 = _taggedTemplateLiteral(['\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  align-items: flex-start;\n  padding: 1rem;\n'], ['\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  align-items: flex-start;\n  padding: 1rem;\n']),
+    _templateObject3 = _taggedTemplateLiteral(['\n  margin: 1rem;\n  cursor: pointer;\n'], ['\n  margin: 1rem;\n  cursor: pointer;\n']);
+
+var _styledComponents = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
+
+var _Nav = __webpack_require__(/*! ./Nav */ "./app/components/styled/Nav.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var MenuContainer = exports.MenuContainer = _styledComponents2.default.div(_templateObject);
+
+var Menu = exports.Menu = _styledComponents2.default.menu(_templateObject2);
+
+var MenuItem = exports.MenuItem = (0, _styledComponents2.default)(_Nav.NavLink)(_templateObject3);
 
 /***/ }),
 
@@ -713,9 +1147,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.NavButton = exports.NavLink = exports.Nav = undefined;
 
-var _templateObject = _taggedTemplateLiteral(["\n  width: 100%;\n  padding: 0.5rem;\n  border-bottom: 3px solid lightgrey;\n"], ["\n  width: 100%;\n  padding: 0.5rem;\n  border-bottom: 3px solid lightgrey;\n"]),
-    _templateObject2 = _taggedTemplateLiteral(["\n  margin: 0;\n  padding: 0 1rem;\n  color: black;\n  text-decoration: none;\n  &:hover {\n    color: #505050;\n  }\n"], ["\n  margin: 0;\n  padding: 0 1rem;\n  color: black;\n  text-decoration: none;\n  &:hover {\n    color: #505050;\n  }\n"]),
-    _templateObject3 = _taggedTemplateLiteral(["\n  display: block;\n  border: ", ";\n  border-radius: 3px;\n  color: ", ";\n  background-color: ", ";\n  font-size: 1rem;\n  font-weight: bold;\n  text-decoration: none;\n  padding: 0.5rem 1rem;\n  margin: 0.5rem;\n  cursor: pointer;\n  &:hover {\n    background-color: ", ";\n  }\n  &:focus {\n    outline: none;\n  }\n"], ["\n  display: block;\n  border: ", ";\n  border-radius: 3px;\n  color: ", ";\n  background-color: ", ";\n  font-size: 1rem;\n  font-weight: bold;\n  text-decoration: none;\n  padding: 0.5rem 1rem;\n  margin: 0.5rem;\n  cursor: pointer;\n  &:hover {\n    background-color: ", ";\n  }\n  &:focus {\n    outline: none;\n  }\n"]);
+var _templateObject = _taggedTemplateLiteral(['\n  width: 100%;\n  padding: 0.5rem 0;\n  border-bottom: 1px solid lightgrey;\n'], ['\n  width: 100%;\n  padding: 0.5rem 0;\n  border-bottom: 1px solid lightgrey;\n']),
+    _templateObject2 = _taggedTemplateLiteral(['\n  margin: 0;\n  padding: 0 1rem;\n  color: black;\n  text-decoration: none;\n  &:hover {\n    color: #505050;\n  }\n'], ['\n  margin: 0;\n  padding: 0 1rem;\n  color: black;\n  text-decoration: none;\n  &:hover {\n    color: #505050;\n  }\n']),
+    _templateObject3 = _taggedTemplateLiteral(['\n  display: block;\n  border: ', ';\n  border-radius: 3px;\n  color: ', ';\n  background-color: ', ';\n  font-size: 1rem;\n  font-weight: bold;\n  text-decoration: none;\n  padding: 0.5rem 1rem;\n  margin: 0.5rem;\n  cursor: pointer;\n  &:hover {\n    background-color: ', ';\n  }\n  &:focus {\n    outline: none;\n  }\n'], ['\n  display: block;\n  border: ', ';\n  border-radius: 3px;\n  color: ', ';\n  background-color: ', ';\n  font-size: 1rem;\n  font-weight: bold;\n  text-decoration: none;\n  padding: 0.5rem 1rem;\n  margin: 0.5rem;\n  cursor: pointer;\n  &:hover {\n    background-color: ', ';\n  }\n  &:focus {\n    outline: none;\n  }\n']);
 
 var _styledComponents = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 
@@ -734,13 +1168,13 @@ var Nav = exports.Nav = (0, _styledComponents2.default)(_Div.Row)(_templateObjec
 var NavLink = exports.NavLink = (0, _styledComponents2.default)(_Font.Anchor)(_templateObject2);
 
 var NavButton = exports.NavButton = (0, _styledComponents2.default)(_Font.Anchor)(_templateObject3, function (props) {
-  return props.secondary ? "1px solid #007bff" : "0";
+  return props.secondary ? '1px solid #007bff' : '0';
 }, function (props) {
-  return props.secondary ? "#007bff" : "white";
+  return props.secondary ? '#007bff' : 'white';
 }, function (props) {
-  return props.secondary ? "white" : "#007bff";
+  return props.secondary ? 'white' : '#007bff';
 }, function (props) {
-  return props.secondary ? "#ededed" : "#006bf1";
+  return props.secondary ? '#ededed' : '#006bf1';
 });
 
 /***/ }),
@@ -1056,6 +1490,79 @@ var initialLogInAttempt = exports.initialLogInAttempt = function initialLogInAtt
 
 /***/ }),
 
+/***/ "./app/redux/conversations/constants.js":
+/*!**********************************************!*\
+  !*** ./app/redux/conversations/constants.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var EDIT_CONVERSATION = exports.EDIT_CONVERSATION = Symbol('EDIT_CONVERSATION');
+
+var GET_CONVERSATION = exports.GET_CONVERSATION = Symbol('GET_CONVERSATION');
+
+var GET_ALL_CONVERSATIONS = exports.GET_ALL_CONVERSATIONS = Symbol('GET_ALL_CONVERSATIONS');
+
+var REMOVE_CONVERSATION = exports.REMOVE_CONVERSATION = Symbol('REMOVE_CONVERSATION');
+
+/***/ }),
+
+/***/ "./app/redux/conversations/reducers.js":
+/*!*********************************************!*\
+  !*** ./app/redux/conversations/reducers.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.allConversations = exports.conversation = undefined;
+
+var _constants = __webpack_require__(/*! ./constants */ "./app/redux/conversations/constants.js");
+
+//TODO: Finish reducer with Delete Case
+
+var conversation = exports.conversation = function conversation() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _constants.EDIT_CONVERSATION:
+            return action.conversation;
+
+        case _constants.GET_CONVERSATION:
+            return action.conversation;
+
+        default:
+            return state;
+    };
+};
+
+var allConversations = exports.allConversations = function allConversations() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _constants.GET_ALL_CONVERSATIONS:
+            return action.allConversations;
+
+        default:
+            return state;
+    };
+};
+
+/***/ }),
+
 /***/ "./app/redux/index.js":
 /*!****************************!*\
   !*** ./app/redux/index.js ***!
@@ -1080,11 +1587,14 @@ var _reducers3 = __webpack_require__(/*! ./users/reducers */ "./app/redux/users/
 
 var _reducers4 = _interopRequireDefault(_reducers3);
 
+var _reducers5 = __webpack_require__(/*! ./conversations/reducers */ "./app/redux/conversations/reducers.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var appReducer = (0, _redux.combineReducers)({
   users: _reducers4.default,
-  authentication: _reducers2.default
+  authentication: _reducers2.default,
+  conversation: _reducers5.conversation
 });
 
 exports.default = appReducer;
@@ -1104,7 +1614,7 @@ exports.default = appReducer;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var SET_ALLUSERS = exports.SET_ALLUSERS = Symbol('SET_ALL_USERS');
+var SET_ALL_USERS = exports.SET_ALL_USERS = Symbol('SET_ALL_USERS');
 
 var ADD_USER = exports.ADD_USER = Symbol('ADD_USER');
 
