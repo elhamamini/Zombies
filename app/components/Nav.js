@@ -1,6 +1,6 @@
-import React from "react";
-import { Row } from "./styled/Div";
-import { Nav, NavLink, NavButton } from "./styled/Nav";
+import React from 'react';
+import { Row } from './styled/Div';
+import { Nav, NavLink, NavButton } from './styled/Nav';
 
 //TODO: Remove NavLinks On SignUp and Login
 export default () => {
@@ -11,9 +11,9 @@ export default () => {
           <div>LOGO</div>
         </Row>
         <Row flexEnd>
-          <NavLink href="/">Link</NavLink>
-          <NavLink href="/">Link</NavLink>
-          <NavLink href="/">Link</NavLink>
+          <NavLink href='/'>Home</NavLink>
+          <NavLink href='/'>Link</NavLink>
+          <NavLink href='/'>Link</NavLink>
         </Row>
       </Row>
 
