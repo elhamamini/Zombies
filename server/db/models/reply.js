@@ -5,16 +5,13 @@ const moment = require('moment');
 const { UUID, UUIDV4 } = Sequelize;
 
 const Reply = db.define('reply', {
-    id: {
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
-        primaryKey: true,
-    },
-    likes: {
-        type: Sequelize.ARRAY(Sequelize.STRING),
+    title: {
+        type: Sequelize.STRING,
+        allowNull: false,
     },
     body: {
         type: Sequelize.TEXT,
+        allowNull: false,
     },
     repo: {
         type: Sequelize.TEXT,
@@ -22,18 +19,26 @@ const Reply = db.define('reply', {
     codeSnippet: {
         type: Sequelize.TEXT,
     },
-    posted: {
-        type: Sequelize.DATE,                
-      get() {
+    postNumber: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
+    },
+    isFlagged: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+    },
+    timeSincePosted: {
+        type: Sequelize.VIRTUAL,                
+        get() {
             // TODO: HAVE THIS RETURN AS A TIME SINCE  NOW()
-            return moment(this.getDataValue('posted')).format('h:mm');
+            return moment(this.createdAt).fromNow();
         }
     },
-    updatedAt: {
-        type: Sequelize.DATE,
+    timeSinceUpdated: {
+        type: Sequelize.VIRTUAL,
         get() {
             //TODO: HAVE THIS RETURN AS A TIME SINCE NOW()
-            return moment(this.getDataValue('updatedAt')).format('DD/MM/YYYY h:mm:ss');
+            return moment(this.updatedAt).fromNow();
         }
     }
 });
