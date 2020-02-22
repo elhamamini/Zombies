@@ -1,4 +1,4 @@
-import { SIGN_IN, SIGN_OUT, SIGN_UP, LOG_IN_ERROR } from "./constants";
+import { SIGN_IN, SIGN_OUT, SIGN_UP, LOG_IN_ERROR } from './constants';
 
 export const signIn = data => {
   return {
