@@ -10,10 +10,9 @@ Conversation.hasMany(Reply);
 
 User.hasMany(Reply);
 
+Activity.belongsTo(Reply);
 Activity.belongsTo(User);
 User.hasMany(Activity);
-
-Activity.belongsTo(Reply);
 
 module.exports = {
   db,

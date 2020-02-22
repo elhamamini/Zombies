@@ -3,13 +3,9 @@ const db = require('../database');
 const { STRING, UUID, UUIDV4 } = Sequelize;
 
 const Conversation = db.define('conversation', {
-    id: {
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
-        primaryKey: true,
-    },
     author: {
         type: Sequelize.STRING,
+        allowNull: false,
     },
     views: {
         type: Sequelize.INTEGER,
@@ -21,6 +17,7 @@ const Conversation = db.define('conversation', {
     },
     topic: {
         type: STRING,
+        defaultValue: ''
     },
 });
 
