@@ -3,7 +3,7 @@ const db = require('../database');
 
 const Activity = db.define('activity', {
     category: {
-        type: Sequelize.ENUM('like', 'reply'),
+        type: Sequelize.ENUM('like', 'reply', 'post'),
     },
 });
 

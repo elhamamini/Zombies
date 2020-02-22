@@ -5,26 +5,13 @@ const moment = require('moment');
 const { UUID, UUIDV4 } = Sequelize;
 
 const Reply = db.define('reply', {
-    username: {
-        type: Sequelize.STRING,
-    },
-    likedBy: {
-        type: Sequelize.ARRAY(Sequelize.STRING),
-    },
-    likesCount: {
-        type: Sequelize.VIRTUAL,
-        get() {
-            return (this.likes.length);
-        },
-        set(value) {
-            throw new Error('cannot set virtual field likesCount');
-        }
-    },
     title: {
         type: Sequelize.STRING,
+        allowNull: false,
     },
     body: {
         type: Sequelize.TEXT,
+        allowNull: false,
     },
     repo: {
         type: Sequelize.TEXT,
