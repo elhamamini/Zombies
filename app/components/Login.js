@@ -9,6 +9,7 @@ import { Hr } from './styled/Div';
 import { Form, FormRow, FormColumn } from './styled/Form';
 import { Input, InputFeedback } from './styled/Input';
 import Button from './styled/Button';
+import { getActiveUser } from '../redux/activeUser/thunks';
 
 class Login extends Component {
   constructor() {
@@ -98,6 +99,7 @@ class Login extends Component {
       errors,
       errors: { emailError, passwordError },
     } = this.state;
+
     return (
       <Form>
         <Header>Sign in with Social Media</Header>
@@ -150,12 +152,16 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = ({ authentication }) => ({ authentication });
+const mapStateToProps = ({ authentication, activeUser }) => ({
+  authentication,
+  activeUser,
+});
 
 const mapDispatchToProps = dispatch => {
   return {
     login: info => dispatch(login(info)),
     removeLogInError: () => dispatch(removeLogInError()),
+    getActiveUser: () => dispatch(getActiveUser()),
   };
 };
 

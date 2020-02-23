@@ -192,8 +192,6 @@ var _Button = __webpack_require__(/*! ./styled/Button */ "./app/components/style
 
 var _Button2 = _interopRequireDefault(_Button);
 
-var _thunks2 = __webpack_require__(/*! ../redux/activeUser/thunks */ "./app/redux/activeUser/thunks.js");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -307,7 +305,6 @@ var Login = function (_Component) {
           emailError = _state$errors.emailError,
           passwordError = _state$errors.passwordError;
 
-
       return _react2.default.createElement(
         _Form.Form,
         null,
@@ -321,12 +318,8 @@ var Login = function (_Component) {
           null,
           _react2.default.createElement(
             _Button2.default,
-            null,
-            _react2.default.createElement(
-              'a',
-              { href: '/api/github/login' },
-              'Continue with Github '
-            )
+            { secondary: true, onClick: this.handleOnClick },
+            'Continue with Github'
           ),
           _react2.default.createElement(
             _Button2.default,
@@ -395,12 +388,8 @@ var Login = function (_Component) {
 }(_react.Component);
 
 var mapStateToProps = function mapStateToProps(_ref2) {
-  var authentication = _ref2.authentication,
-      activeUser = _ref2.activeUser;
-  return {
-    authentication: authentication,
-    activeUser: activeUser
-  };
+  var authentication = _ref2.authentication;
+  return { authentication: authentication };
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
@@ -410,9 +399,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     removeLogInError: function removeLogInError() {
       return dispatch((0, _actions.removeLogInError)());
-    },
-    getActiveUser: function getActiveUser() {
-      return dispatch((0, _thunks2.getActiveUser)());
     }
   };
 };
@@ -627,8 +613,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 
-var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
-
 var _Div = __webpack_require__(/*! ./styled/Div */ "./app/components/styled/Div.js");
 
 var _Font = __webpack_require__(/*! ./styled/Font */ "./app/components/styled/Font.js");
@@ -640,12 +624,6 @@ var _Input = __webpack_require__(/*! ./styled/Input */ "./app/components/styled/
 var _Button = __webpack_require__(/*! ./styled/Button */ "./app/components/styled/Button.js");
 
 var _Button2 = _interopRequireDefault(_Button);
-
-var _Select = __webpack_require__(/*! ./styled/Select */ "./app/components/styled/Select.js");
-
-var _thunks = __webpack_require__(/*! ../redux/activeUser/thunks */ "./app/redux/activeUser/thunks.js");
-
-var _thunks2 = __webpack_require__(/*! ../redux/repository/thunks */ "./app/redux/repository/thunks.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -731,16 +709,6 @@ var NewConversation = function (_Component) {
   }
 
   _createClass(NewConversation, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.props.getActiveUser();
-    }
-  }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      this.props.getRepos();
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _state = this.state,
@@ -751,17 +719,10 @@ var NewConversation = function (_Component) {
           topicError = _state$errors.topicError,
           bodyError = _state$errors.bodyError;
 
-      if (this.props.activeUser) {
-        console.log('activeUser', this.props.activeUser);
-      }
+
       return _react2.default.createElement(
         _Div.MainContainer,
         null,
-        _react2.default.createElement(
-          _reactRouterDom.Link,
-          { to: '/test' },
-          'test'
-        ),
         _react2.default.createElement(
           _Form.Form,
           null,
@@ -787,26 +748,6 @@ var NewConversation = function (_Component) {
             null,
             topicError
           ),
-          this.props.activeUser.githubUserName ? _react2.default.createElement(
-            'div',
-            null,
-            _react2.default.createElement(
-              'label',
-              { 'for': 'repository' },
-              'Choose a repository:'
-            ),
-            _react2.default.createElement(
-              _Select.Select,
-              { id: 'repository' },
-              this.props.repository.map(function (repo) {
-                return _react2.default.createElement(
-                  _Select.Option,
-                  null,
-                  repo.name
-                );
-              })
-            )
-          ) : null,
           _react2.default.createElement(
             _Input.Label,
             null,
@@ -830,8 +771,7 @@ var NewConversation = function (_Component) {
               disabled: !topic || !body || Object.values(errors).some(function (val) {
                 return !!val;
               }) ? true : false,
-              onClick: this.handleOnClick
-            },
+              onClick: this.handleOnClick },
             'Post New Conversation'
           )
         )
@@ -843,19 +783,12 @@ var NewConversation = function (_Component) {
 }(_react.Component);
 
 var mapState = function mapState(_ref2) {
-  var authentication = _ref2.authentication,
-      activeUser = _ref2.activeUser,
-      repository = _ref2.repository;
-  return {
-    authentication: authentication,
-    activeUser: activeUser,
-    repository: repository
-  };
+  var authentication = _ref2.authentication;
+  return { authentication: authentication };
 };
 
 var mapDispatch = function mapDispatch(dispatch) {
-  return {
-    postConversation: function (_postConversation) {
+  return { postConversation: function (_postConversation) {
       function postConversation(_x) {
         return _postConversation.apply(this, arguments);
       }
@@ -867,14 +800,7 @@ var mapDispatch = function mapDispatch(dispatch) {
       return postConversation;
     }(function (userId) {
       return dispatch(postConversation());
-    }),
-    getActiveUser: function getActiveUser() {
-      return dispatch((0, _thunks.getActiveUser)());
-    },
-    getRepos: function getRepos() {
-      return dispatch((0, _thunks2.getRepos)());
-    }
-  };
+    }) };
 };
 
 exports.default = (0, _reactRedux.connect)(mapState, mapDispatch)(NewConversation);
@@ -918,10 +844,6 @@ var _Nav2 = _interopRequireDefault(_Nav);
 var _NewConversation = __webpack_require__(/*! ./NewConversation */ "./app/components/NewConversation.js");
 
 var _NewConversation2 = _interopRequireDefault(_NewConversation);
-
-var _test = __webpack_require__(/*! ./test */ "./app/components/test.js");
-
-var _test2 = _interopRequireDefault(_test);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -977,8 +899,7 @@ var Root = function (_Component) {
             _reactRouterDom.Switch,
             null,
             _react2.default.createElement(_reactRouterDom.Route, { path: '/login', component: _Login2.default }),
-            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Home2.default }),
-            _react2.default.createElement(_reactRouterDom.Route, { path: '/test', component: _test2.default, exact: true })
+            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Home2.default })
           )
         )
       );
@@ -1258,123 +1179,6 @@ var NavButton = exports.NavButton = (0, _styledComponents2.default)(_Font.Anchor
 
 /***/ }),
 
-/***/ "./app/components/styled/Select.js":
-/*!*****************************************!*\
-  !*** ./app/components/styled/Select.js ***!
-  \*****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Option = exports.Select = undefined;
-
-var _templateObject = _taggedTemplateLiteral(['\n  display: block;\n  width: 50%;\n  border: 1px solid lightgray;\n  border-radius: 3px;\n  font-size: 1rem;\n  padding: 0.5rem;\n  margin: 0.5rem;\n  &:focus {\n    border: 1px solid #007bff;\n    outline: none;\n  }\n'], ['\n  display: block;\n  width: 50%;\n  border: 1px solid lightgray;\n  border-radius: 3px;\n  font-size: 1rem;\n  padding: 0.5rem;\n  margin: 0.5rem;\n  &:focus {\n    border: 1px solid #007bff;\n    outline: none;\n  }\n']);
-
-var _styledComponents = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
-
-var _styledComponents2 = _interopRequireDefault(_styledComponents);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
-var Select = exports.Select = _styledComponents2.default.select(_templateObject);
-var Option = exports.Option = _styledComponents2.default.option(_templateObject);
-
-/***/ }),
-
-/***/ "./app/components/test.js":
-/*!********************************!*\
-  !*** ./app/components/test.js ***!
-  \********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-
-var _thunks = __webpack_require__(/*! ../redux/repository/thunks */ "./app/redux/repository/thunks.js");
-
-var _thunks2 = __webpack_require__(/*! ../redux/activeUser/thunks */ "./app/redux/activeUser/thunks.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Test = function (_Component) {
-  _inherits(Test, _Component);
-
-  function Test() {
-    _classCallCheck(this, Test);
-
-    return _possibleConstructorReturn(this, (Test.__proto__ || Object.getPrototypeOf(Test)).apply(this, arguments));
-  }
-
-  _createClass(Test, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.props.getRepos();
-      // this.props.getActiveUser();
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      console.log('activeUser', this.props.activeUser);
-      console.log('reposssss', this.props.reposetories);
-      return _react2.default.createElement(
-        'div',
-        null,
-        'hiiiii'
-      );
-    }
-  }]);
-
-  return Test;
-}(_react.Component);
-
-var mapStateToProps = function mapStateToProps(_ref) {
-  var reposetories = _ref.reposetories,
-      activeUser = _ref.activeUser;
-  return {
-    reposetories: reposetories,
-    activeUser: activeUser
-  };
-};
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {
-    getRepos: function getRepos() {
-      return dispatch((0, _thunks.getRepos)());
-    },
-    getActiveUser: function getActiveUser() {
-      return dispatch((0, _thunks2.getActiveUser)());
-    }
-  };
-};
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Test);
-
-/***/ }),
-
 /***/ "./app/main.js":
 /*!*********************!*\
   !*** ./app/main.js ***!
@@ -1408,127 +1212,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
   { store: _store2.default },
   _react2.default.createElement(_Root2.default, null)
 ), document.getElementById('main'));
-
-/***/ }),
-
-/***/ "./app/redux/activeUser/action.js":
-/*!****************************************!*\
-  !*** ./app/redux/activeUser/action.js ***!
-  \****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.setActiveUser = undefined;
-
-var _constants = __webpack_require__(/*! ./constants */ "./app/redux/activeUser/constants.js");
-
-var setActiveUser = exports.setActiveUser = function setActiveUser(user) {
-  return {
-    type: _constants.SET_ACTIVE_USER,
-    user: user
-  };
-};
-
-/***/ }),
-
-/***/ "./app/redux/activeUser/constants.js":
-/*!*******************************************!*\
-  !*** ./app/redux/activeUser/constants.js ***!
-  \*******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var SET_ACTIVE_USER = exports.SET_ACTIVE_USER = 'SET_ACTIVE_USER';
-
-/***/ }),
-
-/***/ "./app/redux/activeUser/reducers.js":
-/*!******************************************!*\
-  !*** ./app/redux/activeUser/reducers.js ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.activeUserReducer = undefined;
-
-var _axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-
-var _axios2 = _interopRequireDefault(_axios);
-
-var _constants = __webpack_require__(/*! ../authentication/constants */ "./app/redux/authentication/constants.js");
-
-var _constants2 = __webpack_require__(/*! ./constants */ "./app/redux/activeUser/constants.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var activeUserReducer = exports.activeUserReducer = function activeUserReducer() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var action = arguments[1];
-
-  switch (action.type) {
-    case _constants2.SET_ACTIVE_USER:
-      return action.user;
-    case _constants.SIGN_IN:
-      return action.activeUser;
-
-    default:
-      return state;
-  }
-};
-
-/***/ }),
-
-/***/ "./app/redux/activeUser/thunks.js":
-/*!****************************************!*\
-  !*** ./app/redux/activeUser/thunks.js ***!
-  \****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getActiveUser = undefined;
-
-var _action = __webpack_require__(/*! ./action */ "./app/redux/activeUser/action.js");
-
-var _axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-
-var _axios2 = _interopRequireDefault(_axios);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var getActiveUser = exports.getActiveUser = function getActiveUser() {
-  return function (dispatch) {
-    return _axios2.default.get('/api/github/user').then(function (user) {
-      console.log('user redux', user.data);
-      dispatch((0, _action.setActiveUser)(user.data));
-    }).catch(function (e) {
-      return console.error(e);
-    });
-  };
-};
 
 /***/ }),
 
@@ -1906,133 +1589,15 @@ var _reducers4 = _interopRequireDefault(_reducers3);
 
 var _reducers5 = __webpack_require__(/*! ./conversations/reducers */ "./app/redux/conversations/reducers.js");
 
-var _reducers6 = __webpack_require__(/*! ./repository/reducers */ "./app/redux/repository/reducers.js");
-
-var _reducers7 = __webpack_require__(/*! ./activeUser/reducers */ "./app/redux/activeUser/reducers.js");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var appReducer = (0, _redux.combineReducers)({
   users: _reducers4.default,
   authentication: _reducers2.default,
-  conversation: _reducers5.conversation,
-  reposetories: _reducers6.reposetoriesReducer,
-  activeUser: _reducers7.activeUserReducer
+  conversation: _reducers5.conversation
 });
 
 exports.default = appReducer;
-
-/***/ }),
-
-/***/ "./app/redux/repository/actions.js":
-/*!*****************************************!*\
-  !*** ./app/redux/repository/actions.js ***!
-  \*****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.setAllrepos = undefined;
-
-var _constants = __webpack_require__(/*! ./constants */ "./app/redux/repository/constants.js");
-
-var setAllrepos = exports.setAllrepos = function setAllrepos(repos) {
-  return {
-    type: _constants.SET_ALLREPOS,
-    repos: repos
-  };
-};
-
-/***/ }),
-
-/***/ "./app/redux/repository/constants.js":
-/*!*******************************************!*\
-  !*** ./app/redux/repository/constants.js ***!
-  \*******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var SET_ALLREPOS = exports.SET_ALLREPOS = 'SET_ALLREPOS';
-
-/***/ }),
-
-/***/ "./app/redux/repository/reducers.js":
-/*!******************************************!*\
-  !*** ./app/redux/repository/reducers.js ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.reposetoriesReducer = undefined;
-
-var _constants = __webpack_require__(/*! ./constants */ "./app/redux/repository/constants.js");
-
-var reposetoriesReducer = exports.reposetoriesReducer = function reposetoriesReducer() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  var action = arguments[1];
-
-  switch (action.type) {
-    case _constants.SET_ALLREPOS:
-      return action.repos;
-
-    default:
-      return state;
-  }
-};
-
-/***/ }),
-
-/***/ "./app/redux/repository/thunks.js":
-/*!****************************************!*\
-  !*** ./app/redux/repository/thunks.js ***!
-  \****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getRepos = undefined;
-
-var _actions = __webpack_require__(/*! ./actions */ "./app/redux/repository/actions.js");
-
-var _axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-
-var _axios2 = _interopRequireDefault(_axios);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var getRepos = exports.getRepos = function getRepos() {
-  return function (dispatch, getState) {
-    return _axios2.default.post('/api/github/user/repos', {
-      githubUsername: getState().activeUser.githubUsername
-    }).then(function (repos) {
-      return dispatch((0, _actions.setAllrepos)(repos.data));
-    }).catch(function (e) {
-      return console.error(e);
-    });
-  };
-};
 
 /***/ }),
 

@@ -7,7 +7,7 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 const app = express();
-
+const users = {};
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use((req, res, next) => {
@@ -28,32 +28,58 @@ app.use(
 app.use((req, res, next) => {
   next();
 });
-
 app.use((req, res, next) => {
-  User.findByPk(req.session.userId)
+  // find if user exists based on session id
+  User.findOne({ where: { sessionId: req.session.id } })
     .then(userOrNull => {
-      if (!userOrNull) req.loggedIn = false;
-      else {
-        req.loggedIn = true;
-        req.user = userOrNull;
+      req.user = {};
+      if (!userOrNull) {
+        req.user.loggedIn = false;
+      } else {
+        req.user.loggedIn = true;
+        if (userOrNull.github_access_token) {
+          req.user.github_access_token = userOrNull.github_access_token;
 
-        if (userOrNull.userType === 'admin') {
-          req.session.admin = true;
-        } else {
-          req.session.admin = false;
-        }
-        if (user.github_access_token) {
-          req.github_access_token = user.github_access_token;
         }
       }
-      next();
     })
-    .catch(e => {
-      console.log('error searching for a user by session.userId');
-      console.error(e);
-      next();
-    });
+    .then(next)
+    .catch(next);
 });
+
+// app.use((req, res, next) => {
+
+//   if (!users[req.session.userId]) {
+//     User.findByPk(req.session.userId)
+//       .then(userOrNull => {
+//         if (!userOrNull) req.loggedIn = false;
+//         else {
+//           req.loggedIn = true;
+//           req.user = userOrNull;
+
+//           req.github_access_token = userOrNull.github_access_token;
+//           users[req.session.userId] = userOrNull.github_access_token;
+
+//           if (userOrNull.userType === 'admin') {
+//             req.session.admin = true;
+//           } else {
+//             req.session.admin = false;
+//           }
+
+//         }
+//         next();
+//       })
+//       .catch(e => {
+//         console.log('error searching for a user by session.userId');
+//         console.error(e);
+
+//       });
+//   } else {
+//     req.github_access_token = users[req.session.userId];
+//     next();
+//   }
+// });
+
 app.use('/auth', require('./auth'));
 app.use(express.static(path.join(__dirname, '../public')));
 app.use('/api', require('./api'));
