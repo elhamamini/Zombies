@@ -15,6 +15,7 @@ class NewConversation extends Component {
   constructor() {
     super();
     this.state = {
+      repoUrl: '',
       topic: '',
       body: '',
       errors: {
@@ -25,10 +26,13 @@ class NewConversation extends Component {
   }
   componentDidMount() {
     this.props.getActiveUser();
+    setTimeout(() => {
+      this.props.getRepos();
+    }, 500);
   }
-  componentDidUpdate() {
-    this.props.getRepos();
-  }
+  // componentWillUpdate() {
+  //   this.props.getRepos();
+  // }
   handleOnChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value }, () => this.validate(name, value));
   };
@@ -86,8 +90,8 @@ class NewConversation extends Component {
       errors,
       errors: { topicError, bodyError },
     } = this.state;
-    if (this.props.activeUser) {
-      console.log('activeUser', this.props.activeUser);
+    if (this.props.reposetories) {
+      console.log('repo', this.props.reposetories);
     }
     return (
       <MainContainer>
@@ -103,12 +107,22 @@ class NewConversation extends Component {
             onChange={this.handleOnChange}
           />
           <InputFeedback>{topicError}</InputFeedback>
-          {this.props.activeUser.githubUserName ? (
+          {this.props.reposetories ? (
             <div>
-              <label for="repository">Choose a repository:</label>
-              <Select id="repository">
-                {this.props.repository.map(repo => (
-                  <Option>{repo.name}</Option>
+              <label for="repository">
+                Add repository link to your Conversation:
+              </label>
+              <Select
+                id="repository"
+                onChange={ev => {
+                  this.setState({ repoUrl: ev.target.value });
+                  console.log('url', this.state.repoUrl);
+                }}
+              >
+                {this.props.reposetories.map(repo => (
+                  <Option key={repo.id} value={repo.html_url}>
+                    {repo.name}
+                  </Option>
                 ))}
               </Select>
             </div>
@@ -138,10 +152,10 @@ class NewConversation extends Component {
   }
 }
 
-const mapState = ({ authentication, activeUser, repository }) => ({
+const mapState = ({ authentication, activeUser, reposetories }) => ({
   authentication,
   activeUser,
-  repository,
+  reposetories,
 });
 
 const mapDispatch = dispatch => ({

@@ -720,6 +720,7 @@ var NewConversation = function (_Component) {
     };
 
     _this.state = {
+      repoUrl: '',
       topic: '',
       body: '',
       errors: {
@@ -733,16 +734,22 @@ var NewConversation = function (_Component) {
   _createClass(NewConversation, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
+      var _this2 = this;
+
       this.props.getActiveUser();
+      setTimeout(function () {
+        _this2.props.getRepos();
+      }, 500);
     }
-  }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      this.props.getRepos();
-    }
+    // componentWillUpdate() {
+    //   this.props.getRepos();
+    // }
+
   }, {
     key: 'render',
     value: function render() {
+      var _this3 = this;
+
       var _state = this.state,
           topic = _state.topic,
           body = _state.body,
@@ -751,8 +758,8 @@ var NewConversation = function (_Component) {
           topicError = _state$errors.topicError,
           bodyError = _state$errors.bodyError;
 
-      if (this.props.activeUser) {
-        console.log('activeUser', this.props.activeUser);
+      if (this.props.reposetories) {
+        console.log('repo', this.props.reposetories);
       }
       return _react2.default.createElement(
         _Div.MainContainer,
@@ -787,21 +794,27 @@ var NewConversation = function (_Component) {
             null,
             topicError
           ),
-          this.props.activeUser.githubUserName ? _react2.default.createElement(
+          this.props.reposetories ? _react2.default.createElement(
             'div',
             null,
             _react2.default.createElement(
               'label',
               { 'for': 'repository' },
-              'Choose a repository:'
+              'Add repository link to your Conversation:'
             ),
             _react2.default.createElement(
               _Select.Select,
-              { id: 'repository' },
-              this.props.repository.map(function (repo) {
+              {
+                id: 'repository',
+                onChange: function onChange(ev) {
+                  _this3.setState({ repoUrl: ev.target.value });
+                  console.log('url', _this3.state.repoUrl);
+                }
+              },
+              this.props.reposetories.map(function (repo) {
                 return _react2.default.createElement(
                   _Select.Option,
-                  null,
+                  { key: repo.id, value: repo.html_url },
                   repo.name
                 );
               })
@@ -845,11 +858,11 @@ var NewConversation = function (_Component) {
 var mapState = function mapState(_ref2) {
   var authentication = _ref2.authentication,
       activeUser = _ref2.activeUser,
-      repository = _ref2.repository;
+      reposetories = _ref2.reposetories;
   return {
     authentication: authentication,
     activeUser: activeUser,
-    repository: repository
+    reposetories: reposetories
   };
 };
 
