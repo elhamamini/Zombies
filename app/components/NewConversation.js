@@ -15,7 +15,6 @@ class NewConversation extends Component {
   constructor() {
     super();
     this.state = {
-      repoUrl: '',
       topic: '',
       body: '',
       errors: {
@@ -28,11 +27,9 @@ class NewConversation extends Component {
     this.props.getActiveUser();
     setTimeout(() => {
       this.props.getRepos();
-    }, 500);
+    }, 100);
   }
-  // componentWillUpdate() {
-  //   this.props.getRepos();
-  // }
+
   handleOnChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value }, () => this.validate(name, value));
   };
@@ -90,12 +87,9 @@ class NewConversation extends Component {
       errors,
       errors: { topicError, bodyError },
     } = this.state;
-    if (this.props.reposetories) {
-      console.log('repo', this.props.reposetories);
-    }
+    console.log('active', this.props.activeUser);
     return (
       <MainContainer>
-        <Link to="/test">test</Link>
         <Form>
           <Header>Create a New Conversation</Header>
           <Label>Topic</Label>
@@ -107,16 +101,16 @@ class NewConversation extends Component {
             onChange={this.handleOnChange}
           />
           <InputFeedback>{topicError}</InputFeedback>
-          {this.props.reposetories ? (
+          {this.props.reposetories.length &&
+          this.props.activeUser.githubUsername ? (
             <div>
-              <label for="repository">
-                Add repository link to your Conversation:
-              </label>
+              <label>Add repository link to your Conversation:</label>
               <Select
                 id="repository"
                 onChange={ev => {
-                  this.setState({ repoUrl: ev.target.value });
-                  console.log('url', this.state.repoUrl);
+                  this.setState({
+                    body: ev.target.value,
+                  });
                 }}
               >
                 {this.props.reposetories.map(repo => (

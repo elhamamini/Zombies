@@ -720,7 +720,6 @@ var NewConversation = function (_Component) {
     };
 
     _this.state = {
-      repoUrl: '',
       topic: '',
       body: '',
       errors: {
@@ -739,12 +738,8 @@ var NewConversation = function (_Component) {
       this.props.getActiveUser();
       setTimeout(function () {
         _this2.props.getRepos();
-      }, 500);
+      }, 100);
     }
-    // componentWillUpdate() {
-    //   this.props.getRepos();
-    // }
-
   }, {
     key: 'render',
     value: function render() {
@@ -758,17 +753,10 @@ var NewConversation = function (_Component) {
           topicError = _state$errors.topicError,
           bodyError = _state$errors.bodyError;
 
-      if (this.props.reposetories) {
-        console.log('repo', this.props.reposetories);
-      }
+      console.log('active', this.props.activeUser);
       return _react2.default.createElement(
         _Div.MainContainer,
         null,
-        _react2.default.createElement(
-          _reactRouterDom.Link,
-          { to: '/test' },
-          'test'
-        ),
         _react2.default.createElement(
           _Form.Form,
           null,
@@ -794,12 +782,12 @@ var NewConversation = function (_Component) {
             null,
             topicError
           ),
-          this.props.reposetories ? _react2.default.createElement(
+          this.props.reposetories.length && this.props.activeUser.githubUsername ? _react2.default.createElement(
             'div',
             null,
             _react2.default.createElement(
               'label',
-              { 'for': 'repository' },
+              null,
               'Add repository link to your Conversation:'
             ),
             _react2.default.createElement(
@@ -807,8 +795,9 @@ var NewConversation = function (_Component) {
               {
                 id: 'repository',
                 onChange: function onChange(ev) {
-                  _this3.setState({ repoUrl: ev.target.value });
-                  console.log('url', _this3.state.repoUrl);
+                  _this3.setState({
+                    body: ev.target.value
+                  });
                 }
               },
               this.props.reposetories.map(function (repo) {
@@ -916,6 +905,12 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 
+var _thunks = __webpack_require__(/*! ../redux/authentication/thunks */ "./app/redux/authentication/thunks.js");
+
+var _store = __webpack_require__(/*! ../store */ "./app/store.js");
+
+var _store2 = _interopRequireDefault(_store);
+
 var _Home = __webpack_require__(/*! ./Home */ "./app/components/Home.js");
 
 var _Home2 = _interopRequireDefault(_Home);
@@ -938,8 +933,6 @@ var _test2 = _interopRequireDefault(_test);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -956,27 +949,6 @@ var Root = function (_Component) {
   }
 
   _createClass(Root, [{
-    key: 'componentDidMount',
-    value: function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function componentDidMount() {
-        return _ref.apply(this, arguments);
-      }
-
-      return componentDidMount;
-    }()
-  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -990,8 +962,7 @@ var Root = function (_Component) {
             _reactRouterDom.Switch,
             null,
             _react2.default.createElement(_reactRouterDom.Route, { path: '/login', component: _Login2.default }),
-            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Home2.default }),
-            _react2.default.createElement(_reactRouterDom.Route, { path: '/test', component: _test2.default, exact: true })
+            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Home2.default })
           )
         )
       );
@@ -1501,6 +1472,10 @@ var activeUserReducer = exports.activeUserReducer = function activeUserReducer()
       return action.user;
     case _constants.SIGN_IN:
       return action.activeUser;
+    case _constants.SIGN_UP:
+      return action.activeUser;
+    case _constants.SIGN_OUT:
+      return {};
 
     default:
       return state;
@@ -1799,9 +1774,10 @@ var initialLogInAttempt = exports.initialLogInAttempt = function initialLogInAtt
               case 0:
                 user = res.data;
 
+                console.log('user', user);
                 dispatch((0, _actions.signIn)(user));
 
-              case 2:
+              case 3:
               case 'end':
                 return _context3.stop();
             }
