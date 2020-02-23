@@ -26,9 +26,9 @@ class NewConversation extends Component {
   componentDidMount() {
     this.props.getActiveUser();
   }
-  componentDidUpdate() {
-    this.props.getRepos();
-  }
+  // componentDidUpdate() {
+  //   this.props.getRepos();
+  // }
   handleOnChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value }, () => this.validate(name, value));
   };
