@@ -9,19 +9,10 @@ const User = db.define('users', {
   },
   name: {
     type: STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-    },
   },
   email: {
     type: STRING,
-    allowNull: false,
     defaultValue: 'guestEmail@gmail.com',
-    validate: {
-      notEmpty: true,
-      isEmail: true,
-    },
   },
   password: {
     type: STRING,

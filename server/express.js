@@ -2,8 +2,11 @@ const express = require('express');
 const path = require('path');
 const chalk = require('chalk');
 const session = require('express-session');
-const app = express();
 const { User } = require('./db/index');
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -33,10 +36,14 @@ app.use((req, res, next) => {
       else {
         req.loggedIn = true;
         req.user = userOrNull;
+
         if (userOrNull.userType === 'admin') {
           req.session.admin = true;
         } else {
           req.session.admin = false;
+        }
+        if (user.github_access_token) {
+          req.github_access_token = user.github_access_token;
         }
       }
       next();
