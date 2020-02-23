@@ -27,7 +27,7 @@ const pruneHTML = (str) => {
       }
     }
 
-    const returnedStr = trimmed.split(`\n`).join(' ').split('  ').join('').trim();
+    const returnedStr = trimmed.split(`\n`).join(' ').trim();
     return returnedStr;
 };
 
@@ -45,25 +45,35 @@ Object.keys(rawResults).forEach(key => {
     cleanedResults[cleanedSubject] = trimmedVals;
 });
 
+const data = JSON.stringify(cleanedResults);
+
+fs.writeFileSync('cleaned.json', data, (e) => {
+  if (e) console.log(e)
+  console.log('write success')
+});
+
 ////---using compromise
-// Object.keys(cleanedResults).forEach(topic => {
+// Object.values(cleanedResults).forEach(msg => {
+//   const msgTopics = nlp(msg).nouns().json();
+//   if (msgTopics.length) {
 //     console.log(
-//         nlp(topic).verbs().json()
+//       msgTopics
 //     );
+//   }
 // });
 
-Object.keys(cleanedResults).forEach(topic => {
-    const tokenTopic = tokenizer.tokenize(topic);
-    const sentimentVal = sentiment.getSentiment(tokenTopic);
-    if (sentimentVal === 0) {
-        console.log(topic);
-    }
-    if (sentimentVal > 0) {
-        console.log(chalk.green(topic));
-    }
-    if (sentimentVal < 0) {
-        console.log(chalk.red(topic));
-    }
-});
+// Object.keys(cleanedResults).forEach(topic => {
+//     const tokenTopic = tokenizer.tokenize(topic);
+//     const sentimentVal = sentiment.getSentiment(tokenTopic);
+//     if (sentimentVal === 0) {
+//         console.log(topic);
+//     }
+//     if (sentimentVal > 0) {
+//         console.log(chalk.green(topic));
+//     }
+//     if (sentimentVal < 0) {
+//         console.log(chalk.red(topic));
+//     }
+// });
 
 
