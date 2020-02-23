@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../database');
-const { STRING, UUID, UUIDV4, INTEGER, ENUM } = Sequelize;
+const { STRING, UUID, UUIDV4, INTEGER, ENUM, TEXT } = Sequelize;
 const User = db.define('users', {
   id: {
     type: UUID,
@@ -27,6 +27,11 @@ const User = db.define('users', {
     validate: {
       notEmpty: true,
     },
+  },
+  imageUrl: {
+    type: TEXT,
+    defaultValue:
+      'https://ayc.ddl.mybluehost.me/wp-content/uploads/2018/04/coming-soon.png',
   },
   github_access_token: {
     type: STRING,
