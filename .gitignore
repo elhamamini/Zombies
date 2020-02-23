@@ -3,3 +3,6 @@ node_modules
 .npmrc
 public/bundle.js
 public/bundle.js.map
+
+#Ignoring the web scraping outputs, since they're huge
+postsByTitle.json
