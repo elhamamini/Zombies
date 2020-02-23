@@ -1,0 +1,46 @@
+arrays
+reduce
+collaboration
+groups
+meetups
+error messages
+documentation
+loops
+objects
+map
+times
+functions
+testem
+console
+call stack
+foreach
+test specs
+grades
+checkpoints
+github
+kb
+vs code
+slack
+permissions
+errors
+idea
+workshop
+npm
+testem
+suggestion
+eslint
+curl
+path
+node
+laptop
+sudo
+warning
+strings
+recursion
+stringify
+types
+concat
+arguments
+parameters
+callbacks
+ropedude

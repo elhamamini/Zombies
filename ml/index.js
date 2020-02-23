@@ -31,49 +31,72 @@ const pruneHTML = (str) => {
     return returnedStr;
 };
 
-let rawdata = fs.readFileSync('postsByTitle.json');
-let rawResults = JSON.parse(rawdata);
+const processRaw = () => {
+  let rawdata = fs.readFileSync('postsByTitle.json');
+  let rawResults = JSON.parse(rawdata);
+  
+  let cleanedResults = {};
+  
+  Object.keys(rawResults).forEach(key => {
+      const cleanedSubject = key.split('-').join(' ').trim();
+      let trimmedVals = [];
+      rawResults[key].forEach(str => {
+          trimmedVals.push(pruneHTML(str));
+      })
+      cleanedResults[cleanedSubject] = trimmedVals;
+  });
 
-let cleanedResults = {};
+  const data = JSON.stringify(cleanedResults);
 
-Object.keys(rawResults).forEach(key => {
-    const cleanedSubject = key.split('-').join(' ').trim();
-    let trimmedVals = [];
-    rawResults[key].forEach(str => {
-        trimmedVals.push(pruneHTML(str));
-    })
-    cleanedResults[cleanedSubject] = trimmedVals;
-});
+  fs.writeFileSync('cleaned.json', data, (e) => {
+    if (e) console.log(e)
+    console.log('write success')
+  });
 
-const data = JSON.stringify(cleanedResults);
-
-fs.writeFileSync('cleaned.json', data, (e) => {
-  if (e) console.log(e)
-  console.log('write success')
-});
-
-////---using compromise
-// Object.values(cleanedResults).forEach(msg => {
-//   const msgTopics = nlp(msg).nouns().json();
-//   if (msgTopics.length) {
-//     console.log(
-//       msgTopics
-//     );
-//   }
-// });
-
-// Object.keys(cleanedResults).forEach(topic => {
-//     const tokenTopic = tokenizer.tokenize(topic);
-//     const sentimentVal = sentiment.getSentiment(tokenTopic);
-//     if (sentimentVal === 0) {
-//         console.log(topic);
-//     }
-//     if (sentimentVal > 0) {
-//         console.log(chalk.green(topic));
-//     }
-//     if (sentimentVal < 0) {
-//         console.log(chalk.red(topic));
-//     }
-// });
+  return cleanedResults;
+}
 
 
+const getTags = () => {
+  let rawdata = fs.readFileSync('cleaned.json');
+  let cleanResults = JSON.parse(rawdata);
+
+  let tagsCount = {};
+  let topTags = {};
+  Object.keys(cleanResults).forEach(key => {
+    const firstPost = cleanResults[key][0];
+    if (firstPost.length > 1) {
+      let postTopics = '';
+      try {
+        let postTopics = nlp(firstPost).normalize({
+          plurals:true,
+          parentheses:true,
+          possessives:true,
+          // honorifics:true,
+          //verbs:true
+        }).nouns();
+
+        postTopics.out('freq').forEach(term => {
+          tagsCount[`${term.reduced}`] = tagsCount[`${term.reduced}`] ? tagsCount[`${term.reduced}`] + term.count : term.count;
+        });
+      }
+      catch (e) {
+        console.log('error');
+      }
+    }
+  });
+
+  Object.keys(tagsCount).forEach(key => {
+    if (tagsCount[key] > 2 && String(key).length > 1) {
+      topTags[key] = tagsCount[key];
+    }
+  });
+
+
+  return topTags;
+}
+
+const topTags = getTags();
+Object.keys(topTags).forEach(key => {
+  console.log(key);
+})
