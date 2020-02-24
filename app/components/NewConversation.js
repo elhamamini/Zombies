@@ -25,10 +25,10 @@ class NewConversation extends Component {
   }
   componentDidMount() {
     this.props.getActiveUser();
+    setTimeout(() => {
+      this.props.getRepos();
+    }, 100);
   }
-  // componentDidUpdate() {
-  //   this.props.getRepos();
-  // }
   handleOnChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value }, () => this.validate(name, value));
   };
@@ -86,12 +86,9 @@ class NewConversation extends Component {
       errors,
       errors: { topicError, bodyError },
     } = this.state;
-    if (this.props.activeUser) {
-      console.log('activeUser', this.props.activeUser);
-    }
+    console.log('active', this.props.activeUser);
     return (
       <MainContainer>
-        <Link to="/test">test</Link>
         <Form>
           <Header>Create a New Conversation</Header>
           <Label>Topic</Label>
@@ -103,12 +100,22 @@ class NewConversation extends Component {
             onChange={this.handleOnChange}
           />
           <InputFeedback>{topicError}</InputFeedback>
-          {this.props.activeUser.githubUserName ? (
+          {this.props.reposetories.length &&
+          this.props.activeUser.githubUsername ? (
             <div>
-              <label for="repository">Choose a repository:</label>
-              <Select id="repository">
-                {this.props.repository.map(repo => (
-                  <Option>{repo.name}</Option>
+              <label>Add repository link to your Conversation:</label>
+              <Select
+                id="repository"
+                onChange={ev => {
+                  this.setState({
+                    body: ev.target.value,
+                  });
+                }}
+              >
+                {this.props.reposetories.map(repo => (
+                  <Option key={repo.id} value={repo.html_url}>
+                    {repo.name}
+                  </Option>
                 ))}
               </Select>
             </div>
@@ -138,10 +145,10 @@ class NewConversation extends Component {
   }
 }
 
-const mapState = ({ authentication, activeUser, repository }) => ({
+const mapState = ({ authentication, activeUser, reposetories }) => ({
   authentication,
   activeUser,
-  repository,
+  reposetories,
 });
 
 const mapDispatch = dispatch => ({
