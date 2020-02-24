@@ -37,7 +37,12 @@ app.use((req, res, next) => {
         req.loggedIn = false;
         req.user1 = userOrNull;
       } else {
+<<<<<<< HEAD
         req.loggedIn = true;
+=======
+        req.user.loggedIn = true;
+        req.user.user = userOrNull;
+>>>>>>> 8b00cb7d3806c7a94823a3d5d09379bc61c9a4c9
         if (userOrNull.github_access_token) {
           req.user.github_access_token = userOrNull.github_access_token;
         }
