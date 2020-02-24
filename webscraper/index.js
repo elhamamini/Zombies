@@ -46,7 +46,8 @@ const scrapePostContent = async () => {
     postContent[response.data.slug] = [];
     const postObj = response.data.post_stream.posts;
     postObj.forEach(post => {
-      postContent[response.data.slug].push(post.cooked);
+      const postString = post.cooked.trim();
+      postContent[response.data.slug].push(postString);
      });
   }
   return postContent;
