@@ -28,14 +28,13 @@ const User = db.define('users', {
       notEmpty: true,
     },
   },
-  imageUrl: {
+  image: {
     type: TEXT,
     defaultValue:
       'https://ayc.ddl.mybluehost.me/wp-content/uploads/2018/04/coming-soon.png',
   },
   github_access_token: {
     type: STRING,
-    allowNull: true,
   },
   githubUsername: {
     type: STRING,

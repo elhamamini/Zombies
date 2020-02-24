@@ -1,26 +1,38 @@
 import React from 'react';
 import { Row } from './styled/Div';
+import { connect } from 'react-redux';
 import { Nav, NavLink, NavButton } from './styled/Nav';
 
 //TODO: Remove NavLinks On SignUp and Login
-export default () => {
-  return (
-    <Nav>
-      <Row>
+class NavBar extends React.Component {
+  render() {
+    return (
+      <Nav>
         <Row>
-          <div>LOGO</div>
+          <Row>
+            <div>LOGO</div>
+          </Row>
+          <Row flexEnd>
+            <NavLink href="/" to="/">
+              Home
+            </NavLink>
+            {this.props.activeUser ? (
+              <NavLink to={'/userprofile'}> Your Profile</NavLink>
+            ) : null}
+            <NavLink href="/" to="/">
+              Link
+            </NavLink>
+          </Row>
         </Row>
-        <Row flexEnd>
-          <NavLink href='/'>Home</NavLink>
-          <NavLink href='/'>Link</NavLink>
-          <NavLink href='/'>Link</NavLink>
-        </Row>
-      </Row>
 
-      <Row flexEnd>
-        <NavButton href="/login">Login</NavButton>
-        <NavButton href="/">Signup</NavButton>
-      </Row>
-    </Nav>
-  );
-};
+        <Row flexEnd>
+          <NavButton to="/login">Login</NavButton>
+          <NavButton to="/">Signup</NavButton>
+        </Row>
+      </Nav>
+    );
+  }
+}
+const mapStateToProps = ({ activeUser }) => ({ activeUser });
+
+export default connect(mapStateToProps)(NavBar);

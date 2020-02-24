@@ -34,12 +34,12 @@ app.use((req, res, next) => {
     .then(userOrNull => {
       req.user = {};
       if (!userOrNull) {
-        req.user.loggedIn = false;
+        req.loggedIn = false;
+        req.user1 = userOrNull;
       } else {
-        req.user.loggedIn = true;
+        req.loggedIn = true;
         if (userOrNull.github_access_token) {
           req.user.github_access_token = userOrNull.github_access_token;
-
         }
       }
     })
