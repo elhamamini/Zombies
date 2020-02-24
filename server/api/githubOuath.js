@@ -21,14 +21,14 @@ router.get('/callback', (req, res) => {
       }
     )
     .then(async res => {
-      console.log('info', res.data);
+      // console.log('info', res.data);
       const response = await axios.get('https://api.github.com/user', {
         headers: {
           Authorization: `token ${res.data.access_token}`,
         },
       });
       const userData = response.data;
-      console.log('userData', userData);
+      console.log('userDataaaaaaa@@@@@@@', userData);
       return User.findOrCreate({
         where: { sessionId: req.session.id },
         defaults: {
@@ -39,6 +39,8 @@ router.get('/callback', (req, res) => {
           reposUrl: userData.repos_url,
           name: userData.name,
           email: userData.email,
+          image: userData.avatar_url,
+          bio: userData.bio,
         },
       }).then(([user, created]) => {
         return [user, created, res];
@@ -91,8 +93,7 @@ router.get('/user', (req, res) => {
     });
 });
 router.post('/user/repos', (req, res, next) => {
-  console.log('req.user', req.user);
-  console.log('req.body', req.body);
+  // console.log('req.body', req.body);
   axios
     .get(`https://api.github.com/users/${req.body.githubUsername}/repos`, {
       //   headers: {
@@ -100,7 +101,6 @@ router.post('/user/repos', (req, res, next) => {
       //   },
     })
     .then(repos => {
-      console.log('reposetories', repos.data);
       res.send(repos.data);
     })
     .catch(e => {
