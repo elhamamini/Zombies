@@ -1,5 +1,11 @@
 const { green, red } = require('chalk');
-const { db, User } = require('./server/db/index');
+const {
+  db,
+  User,
+  Reply,
+  Conversation,
+  Activity,
+} = require('./server/db/index');
 //sorry guys I didnt have your email addresses,feel free to change it
 const usersList = [
   {
@@ -27,10 +33,22 @@ const usersList = [
     userType: 'admin',
   },
 ];
+const conversations = [{ topic: 'mapquest setting up reduce function' }];
 const seed = async () => {
   try {
     await db.sync({ force: true });
-    await User.bulkCreate(usersList);
+    const createdUser = await User.bulkCreate(usersList);
+    const userIds = createdUser.map(user => {
+      return user.id;
+    });
+    const conversationList = [
+      {
+        id: 1,
+        topic: 'mapquest setting up reduce function',
+        userId: Math.random(userIds),
+      },
+    ];
+    const createdConversation = await Conversation.bulkCreate(conversationList);
   } catch (err) {
     console.log(red(err));
   }
