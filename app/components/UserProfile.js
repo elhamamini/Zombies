@@ -6,10 +6,11 @@ import { MainContainer } from './styled/Div';
 import { Image } from './styled/Image';
 class UserProfile extends Component {
   render() {
+    console.log('activeUser', this.props.activeUser);
     return (
       <MainContainer>
         <Form>
-          <Image src={activeUser.image} />
+          <Image src={this.props.activeUser.image} />
         </Form>
       </MainContainer>
     );

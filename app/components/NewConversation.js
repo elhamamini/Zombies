@@ -103,9 +103,9 @@ class NewConversation extends Component {
             onChange={this.handleOnChange}
           />
           <InputFeedback>{topicError}</InputFeedback>
-          {this.props.activeUser.githubUserName ? (
+          {this.props.activeUser ? (
             <div>
-              <label for="repository">Choose a repository:</label>
+              <label>Choose a repository:</label>
               <Select id="repository">
                 {this.props.repository.map(repo => (
                   <Option>{repo.name}</Option>

@@ -2,6 +2,7 @@ import React from 'react';
 import { Row } from './styled/Div';
 import { connect } from 'react-redux';
 import { Nav, NavLink, NavButton } from './styled/Nav';
+import { Link } from 'react-router-dom';
 
 //TODO: Remove NavLinks On SignUp and Login
 class NavBar extends React.Component {
@@ -13,21 +14,20 @@ class NavBar extends React.Component {
             <div>LOGO</div>
           </Row>
           <Row flexEnd>
-            <NavLink href="/" to="/">
-              Home
-            </NavLink>
+            <NavLink to="/">Home</NavLink>
             {this.props.activeUser ? (
               <NavLink to={'/userprofile'}> Your Profile</NavLink>
             ) : null}
-            <NavLink href="/" to="/">
-              Link
-            </NavLink>
+            <NavLink to="/">Link</NavLink>
+            {this.props.activeUser ? (
+              <Link to="/userprofile"> Your Profile</Link>
+            ) : null}
           </Row>
         </Row>
 
         <Row flexEnd>
-          <NavButton to="/login">Login</NavButton>
-          <NavButton to="/">Signup</NavButton>
+          <NavButton href="/login">Login</NavButton>
+          <NavButton href="/">Signup</NavButton>
         </Row>
       </Nav>
     );
