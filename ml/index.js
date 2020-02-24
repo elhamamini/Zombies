@@ -2,6 +2,7 @@ const fs = require('fs');
 const nlp = require('compromise');
 const chalk = require('chalk');
 
+//helper to prune html tags out of text
 const pruneHTML = (str) => {
     let trimmed = '';
     let htmlTag = true;
@@ -21,6 +22,9 @@ const pruneHTML = (str) => {
     return returnedStr;
 };
 
+//takes the raw posts scraped from Learndot Discuss
+//cuts out the html and writes as a json object
+//format is [post title]: [reply, reply, reply...]
 const processRaw = () => {
   let rawdata = fs.readFileSync('postsByTitle.json');
   let rawResults = JSON.parse(rawdata);
@@ -40,13 +44,14 @@ const processRaw = () => {
 
   fs.writeFileSync('cleaned.json', data, (e) => {
     if (e) console.log(e)
-    console.log('write success')
   });
 
   return cleanedResults;
 }
 
-
+//tokenizes and pulls tags out of the cleaned posts
+//returns an object of [tag]: [number of occurrences]
+//only returns tags with multiple occurrences across all posts
 const getTags = () => {
   let rawdata = fs.readFileSync('cleaned.json');
   let cleanResults = JSON.parse(rawdata);
@@ -57,13 +62,12 @@ const getTags = () => {
     const firstPost = cleanResults[key][0];
     if (firstPost.length > 1) {
       let postTopics = '';
+      //compromise is a bit buggy with normalize(), so this is in a try loop
       try {
         let postTopics = nlp(firstPost).normalize({
           plurals:true,
           parentheses:true,
           possessives:true,
-          // honorifics:true,
-          //verbs:true
         }).nouns();
 
         postTopics.out('freq').forEach(term => {
@@ -81,19 +85,22 @@ const getTags = () => {
       topTags[key] = tagsCount[key];
     }
   });
-
   return topTags;
 }
 
-export const generateWhitelist = async() => {
+//generates a whitelisted json object for the frontend from the text file, which is manually curated
+const generateWhitelist = () => {
   const whitelisted = {};
   const data = fs.readFileSync('whitelist.txt', 'UTF-8');
   const lines = data.split(/\r?\n/);
   lines.forEach((line, idx) => {
     whitelisted[line] = idx + 1;
   });
-
+  const whitelistedJSON = JSON.stringify(whitelisted);
+  fs.writeFileSync('whitelist.json', whitelistedJSON, (e) => {
+    if (e) console.log(e)
+  });
   return whitelisted;
 }
 
-export const whitelist = generateWhitelist();
+

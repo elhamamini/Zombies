@@ -7,7 +7,7 @@ import { Input, TextField, InputFeedback, Label } from './styled/Input';
 import Button from './styled/Button';
 import Pill from './styled/Pill';
 import Highlighter from 'react-highlight-words';
-import { whitelist } from '../../ml';
+import whitelist from '../../whitelist';
 
 const MLForm = () => {
     const [input, setInput] = useState('');
@@ -20,13 +20,15 @@ const MLForm = () => {
         }
     }
 
+    //todo: refactor this to be more efficient
     useEffect(() => {
         let streamTopic = [];
         let postTopics = nlp(input).normalize({ plurals:true, parentheses:true, possessives:true }).nouns();
         postTopics.out('freq').forEach(term => {
             if (!tags.includes(term.reduced)) {
-                if (whitelist[term.reduced])
-                streamTopic.push(term.toPlural());
+                if (whitelist[term.reduced]) {
+                    streamTopic.push(term.reduced);
+                }
             }
         })
         setTopics(streamTopic);
