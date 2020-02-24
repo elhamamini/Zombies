@@ -8,9 +8,12 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> 8b00cb7d3806c7a94823a3d5d09379bc61c9a4c9
+=======
+>>>>>>> db7cbd1e277c70335d2f4207662717c1a3174c6b
 const app = express();
 const users = {};
 app.use(express.json());
@@ -39,10 +42,17 @@ app.use((req, res, next) => {
     .then(userOrNull => {
       req.user = {};
       if (!userOrNull) {
+<<<<<<< HEAD
         req.user.loggedIn = false;
       } else {
         req.user.loggedIn = true;
         req.user.user = userOrNull;
+=======
+        req.loggedIn = false;
+        req.user1 = userOrNull;
+      } else {
+        req.loggedIn = true;
+>>>>>>> db7cbd1e277c70335d2f4207662717c1a3174c6b
         if (userOrNull.github_access_token) {
           req.user.github_access_token = userOrNull.github_access_token;
         }
