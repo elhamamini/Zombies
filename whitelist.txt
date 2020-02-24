@@ -1,28 +1,28 @@
-arrays
+array
 reduce
 collaboration
-groups
-meetups
-error messages
+group
+meetup
+error message
 documentation
-loops
-objects
+loop
+object
 map
-times
-functions
+time
+function
 testem
 console
 call stack
 foreach
-test specs
+test spec
 grades
-checkpoints
+checkpoint
 github
 kb
 vs code
 slack
-permissions
-errors
+permission
+error
 idea
 workshop
 npm
@@ -35,12 +35,12 @@ node
 laptop
 sudo
 warning
-strings
+string
 recursion
 stringify
-types
+type
 concat
 arguments
-parameters
+parameter
 callbacks
 ropedude

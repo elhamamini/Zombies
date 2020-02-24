@@ -1,16 +1,6 @@
 const fs = require('fs');
-const BrainJSClassifier = require('natural-brain');
-const classifier = new BrainJSClassifier();
-const natural = require('natural');
 const nlp = require('compromise');
-
-const tokenizer = new natural.WordTokenizer();
-
 const chalk = require('chalk');
-
-const Analyzer = require('natural').SentimentAnalyzer;
-const stemmer = require('natural').PorterStemmer;
-const sentiment = new Analyzer('English', stemmer, 'afinn');
 
 const pruneHTML = (str) => {
     let trimmed = '';
@@ -92,11 +82,18 @@ const getTags = () => {
     }
   });
 
-
   return topTags;
 }
 
-const topTags = getTags();
-Object.keys(topTags).forEach(key => {
-  console.log(key);
-})
+export const generateWhitelist = async() => {
+  const whitelisted = {};
+  const data = fs.readFileSync('whitelist.txt', 'UTF-8');
+  const lines = data.split(/\r?\n/);
+  lines.forEach((line, idx) => {
+    whitelisted[line] = idx + 1;
+  });
+
+  return whitelisted;
+}
+
+export const whitelist = generateWhitelist();
