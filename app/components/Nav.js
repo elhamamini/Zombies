@@ -11,15 +11,15 @@ export default () => {
           <div>LOGO</div>
         </Row>
         <Row flexEnd>
-          <NavLink href='/'>Home</NavLink>
-          <NavLink href='/'>Link</NavLink>
-          <NavLink href='/'>Link</NavLink>
+          <NavLink to='/'>Home</NavLink>
+          <NavLink to='/codeeditor'>CodeEditor</NavLink>
+          <NavLink to='/'>Link</NavLink>
         </Row>
       </Row>
 
       <Row flexEnd>
-        <NavButton href="/login">Login</NavButton>
-        <NavButton href="/">Signup</NavButton>
+        <NavButton to="/login">Login</NavButton>
+        <NavButton to="/">Signup</NavButton>
       </Row>
     </Nav>
   );

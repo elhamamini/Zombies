@@ -3,9 +3,11 @@ const path = require('path');
 const chalk = require('chalk');
 const session = require('express-session');
 const { User } = require('./db/index');
+
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
+
 const app = express();
 
 app.use(express.json());

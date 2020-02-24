@@ -6,6 +6,7 @@ import { Header } from './styled/Font'
 import { Form } from './styled/Form';
 import { Input, TextField, InputFeedback, Label } from './styled/Input';
 import Button from './styled/Button';
+import ConversationFormatting from './ConversationFormatting';
 
 //TODO: Handle Successful Post by Redirecting to the Post
 class NewConversation extends Component {
@@ -90,12 +91,13 @@ class NewConversation extends Component {
       <Input 
         type='text'
         name='topic'
-        placeholder='Help running NPM Testem'
+        placeholder='Help installing Testem'
         value={topic}
         onChange={this.handleOnChange}
       />
       <InputFeedback>{ topicError }</InputFeedback>
       <Label>Body</Label>
+      <ConversationFormatting />
       <TextField 
         rows='12'
         type='text'

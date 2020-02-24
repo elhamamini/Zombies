@@ -9,6 +9,7 @@ import { Hr } from './styled/Div';
 import { Form, FormRow, FormColumn } from './styled/Form';
 import { Input, InputFeedback } from './styled/Input';
 import Button from './styled/Button';
+import { NavButton } from './styled/Nav';
 
 class Login extends Component {
   constructor() {
@@ -102,11 +103,11 @@ class Login extends Component {
       <Form>
         <Header>Sign in with Social Media</Header>
         <FormRow>
-          <Button>
-            <a href={'/api/github/login'}>Continue with Github </a>
+          <Button secondary href='/api/github/login'>
+            Continue with Github
           </Button>
 
-          <Button secondary onClick={this.handleOnClick}>
+          <Button secondary onClick={this.handleOnClick} >
             Continue with Google
           </Button>
         </FormRow>
