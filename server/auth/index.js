@@ -47,11 +47,7 @@ router.get('/signout', (req, res, next) => {
 });
 
 router.get('/me', (req, res, next) => {
-<<<<<<< HEAD
   if (req.loggedIn) return res.send(req.user1);
-=======
-  if (req.user.loggedIn) return res.send(req.user.user);
->>>>>>> 8b00cb7d3806c7a94823a3d5d09379bc61c9a4c9
   res.status(401);
   const err = new Error('Not logged in');
   console.error(err);

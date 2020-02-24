@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 
-export const Image = styled.image`
+export const Image = styled.img`
   display: block;
-  width: 50%;
+  width: 20%;
+  height: '5rem';
   border: 1px solid lightgray;
   border-radius: 3px;
   padding: 0.5rem;

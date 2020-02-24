@@ -44,6 +44,10 @@ const User = db.define('users', {
     type: STRING,
     allowNull: true,
   },
+  bio: {
+    type: STRING,
+    allowNull: true,
+  },
   sessionId: {
     type: STRING,
     allowNull: true,
