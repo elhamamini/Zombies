@@ -9,7 +9,10 @@ import { Hr } from './styled/Div';
 import { Form, FormRow, FormColumn } from './styled/Form';
 import { Input, InputFeedback } from './styled/Input';
 import Button from './styled/Button';
+<<<<<<< HEAD
 import { NavButton } from './styled/Nav';
+=======
+>>>>>>> 8b00cb7d3806c7a94823a3d5d09379bc61c9a4c9
 import { getActiveUser } from '../redux/activeUser/thunks';
 
 class Login extends Component {

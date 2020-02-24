@@ -5,9 +5,8 @@ import store from '../store';
 import Home from './Home';
 import Login from './Login';
 import Nav from './Nav';
-import CodeEditor from './codeEditor/CodeEditor';
-
-console.log(CodeEditor)
+import MLForm from './MLForm';
+import Test from './test';
 
 export default class Root extends Component {
   render() {

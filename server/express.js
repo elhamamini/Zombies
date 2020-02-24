@@ -7,7 +7,10 @@ const { User } = require('./db/index');
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8b00cb7d3806c7a94823a3d5d09379bc61c9a4c9
 const app = express();
 const users = {};
 app.use(express.json());
