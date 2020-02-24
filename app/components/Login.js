@@ -9,6 +9,7 @@ import { Hr } from './styled/Div';
 import { Form, FormRow, FormColumn } from './styled/Form';
 import { Input, InputFeedback } from './styled/Input';
 import Button from './styled/Button';
+import { getActiveUser } from '../redux/activeUser/thunks';
 
 class Login extends Component {
   constructor() {
@@ -18,14 +19,14 @@ class Login extends Component {
       password: '',
       errors: {
         emailError: '',
-        passwordError: ''
-      }
+        passwordError: '',
+      },
     };
   }
 
   componentDidUpdate() {
     const {
-      authentication: { isLoggedIn }
+      authentication: { isLoggedIn },
     } = this.props;
     //for now i just send it to the home page after login
     if (isLoggedIn) this.props.history.push('/');
@@ -51,22 +52,22 @@ class Login extends Component {
           this.setState({
             errors: {
               ...errors,
-              emailError: 'Email cannot be blank'
-            }
+              emailError: 'Email cannot be blank',
+            },
           });
         } else if (!regex.test(value)) {
           this.setState({
             errors: {
               ...errors,
-              emailError: 'Email invalid'
-            }
+              emailError: 'Email invalid',
+            },
           });
         } else {
           this.setState({
             errors: {
               ...errors,
-              emailError: ''
-            }
+              emailError: '',
+            },
           });
         }
         break;
@@ -76,15 +77,15 @@ class Login extends Component {
           this.setState({
             errors: {
               ...errors,
-              passwordError: 'Password cannot be blank'
-            }
+              passwordError: 'Password cannot be blank',
+            },
           });
         } else {
           this.setState({
             errors: {
               ...errors,
-              passwordError: ''
-            }
+              passwordError: '',
+            },
           });
         }
         break;
@@ -96,8 +97,9 @@ class Login extends Component {
       email,
       password,
       errors,
-      errors: { emailError, passwordError }
+      errors: { emailError, passwordError },
     } = this.state;
+
     return (
       <Form>
         <Header>Sign in with Social Media</Header>
@@ -150,12 +152,16 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = ({ authentication }) => ({ authentication });
+const mapStateToProps = ({ authentication, activeUser }) => ({
+  authentication,
+  activeUser,
+});
 
 const mapDispatchToProps = dispatch => {
   return {
     login: info => dispatch(login(info)),
-    removeLogInError: () => dispatch(removeLogInError())
+    removeLogInError: () => dispatch(removeLogInError()),
+    getActiveUser: () => dispatch(getActiveUser()),
   };
 };
 

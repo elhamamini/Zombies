@@ -1,6 +1,26 @@
 import React, { Component } from 'react';
-export default class Test extends Component {
+import { connect } from 'react-redux';
+import { getRepos } from '../redux/repository/thunks';
+import { getActiveUser } from '../redux/activeUser/thunks';
+class Test extends Component {
+  componentDidMount() {
+    this.props.getRepos();
+    // this.props.getActiveUser();
+  }
   render() {
-    return <div>Hiiiii</div>;
+    console.log('activeUser', this.props.activeUser);
+    console.log('reposssss', this.props.reposetories);
+    return <div>hiiiii</div>;
   }
 }
+const mapStateToProps = ({ reposetories, activeUser }) => ({
+  reposetories,
+  activeUser,
+});
+const mapDispatchToProps = dispatch => {
+  return {
+    getRepos: () => dispatch(getRepos()),
+    getActiveUser: () => dispatch(getActiveUser()),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Test);
