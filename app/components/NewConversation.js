@@ -29,7 +29,6 @@ class NewConversation extends Component {
       this.props.getRepos();
     }, 100);
   }
-
   handleOnChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value }, () => this.validate(name, value));
   };

@@ -8,6 +8,7 @@ import Nav from './Nav';
 import MLForm from './MLForm';
 import NewConversation from './NewConversation';
 import Test from './test';
+import UserProfile from './UserProfile';
 
 export default class Root extends Component {
   render() {
@@ -16,14 +17,12 @@ export default class Root extends Component {
         <main>
           <Nav />
           <Switch>
-<<<<<<< HEAD
+            <Route path="/test" component={Test} exact />
+            <Route path="/userprofile" component={UserProfile} exact />
+
             <Route path="/login" component={Login} />
+            <Route path="/ml" component={MLForm} />
             <Route exact path="/" component={Home} />
-=======
-            <Route path='/login' component={Login} />
-            <Route path='/ml' component={MLForm} />
-            <Route exact path='/' component={Home} />
->>>>>>> dev
           </Switch>
         </main>
       </Router>
