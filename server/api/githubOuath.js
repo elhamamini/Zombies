@@ -21,22 +21,14 @@ router.get('/callback', (req, res) => {
       }
     )
     .then(async res => {
-<<<<<<< HEAD
-      console.log('info', res.data);
-=======
       // console.log('info', res.data);
->>>>>>> db7cbd1e277c70335d2f4207662717c1a3174c6b
       const response = await axios.get('https://api.github.com/user', {
         headers: {
           Authorization: `token ${res.data.access_token}`,
         },
       });
       const userData = response.data;
-<<<<<<< HEAD
-      console.log('userData', userData);
-=======
       console.log('userDataaaaaaa@@@@@@@', userData);
->>>>>>> db7cbd1e277c70335d2f4207662717c1a3174c6b
       return User.findOrCreate({
         where: { sessionId: req.session.id },
         defaults: {
@@ -47,11 +39,8 @@ router.get('/callback', (req, res) => {
           reposUrl: userData.repos_url,
           name: userData.name,
           email: userData.email,
-<<<<<<< HEAD
-=======
           image: userData.avatar_url,
           bio: userData.bio,
->>>>>>> db7cbd1e277c70335d2f4207662717c1a3174c6b
         },
       }).then(([user, created]) => {
         return [user, created, res];
@@ -104,12 +93,7 @@ router.get('/user', (req, res) => {
     });
 });
 router.post('/user/repos', (req, res, next) => {
-<<<<<<< HEAD
-  console.log('req.user', req.user);
-  console.log('req.body', req.body);
-=======
   // console.log('req.body', req.body);
->>>>>>> db7cbd1e277c70335d2f4207662717c1a3174c6b
   axios
     .get(`https://api.github.com/users/${req.body.githubUsername}/repos`, {
       //   headers: {
@@ -117,10 +101,6 @@ router.post('/user/repos', (req, res, next) => {
       //   },
     })
     .then(repos => {
-<<<<<<< HEAD
-      console.log('reposetories', repos.data);
-=======
->>>>>>> db7cbd1e277c70335d2f4207662717c1a3174c6b
       res.send(repos.data);
     })
     .catch(e => {

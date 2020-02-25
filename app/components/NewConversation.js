@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+
 import { MainContainer } from './styled/Div';
 import { Header } from './styled/Font';
-import { Form } from './styled/Form';
+import { Form, FormRow } from './styled/Form';
 import { Input, TextField, InputFeedback, Label } from './styled/Input';
 import Button from './styled/Button';
 import { Select, Option } from './styled/Select';
+
 import { getActiveUser } from '../redux/activeUser/thunks';
 import { getRepos } from '../redux/repository/thunks';
+
+import CodeInput from './CodeInput';
 
 //TODO: Handle Successful Post by Redirecting to the Post
 class NewConversation extends Component {
@@ -17,21 +21,21 @@ class NewConversation extends Component {
     this.state = {
       topic: '',
       body: '',
+      codeType: null,
+      codeblocks: [],
       errors: {
         topicError: '',
         bodyError: '',
       },
     };
   }
+
   componentDidMount() {
     this.props.getActiveUser();
     setTimeout(() => {
       this.props.getRepos();
     }, 100);
   }
-  handleOnChange = ({ target: { name, value } }) => {
-    this.setState({ [name]: value }, () => this.validate(name, value));
-  };
 
   handleOnChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value }, () => this.validate(name, value));
@@ -39,8 +43,23 @@ class NewConversation extends Component {
 
   handleOnClick = e => {
     e.preventDefault();
-    this.props.postConversation(this.props.authentication.activeUser);
+    this.props.postConversation(this.props.authentication.activeUser, this.state);
   };
+
+  handleCodeType = (e, codeType) => {
+    e.preventDefault();
+    this.setState({ codeType })
+  }
+
+  getCodeBlock = (codeblock) => {
+    this.setState({ 
+      codeblocks: [
+        ...this.state.codeblocks,
+        { type: this.state.codeType, codeblock }
+      ]
+    });
+    this.setState({ codeType: null })
+  }
 
   validate = (name, value) => {
     const { errors } = this.state;
@@ -84,13 +103,16 @@ class NewConversation extends Component {
   };
 
   render() {
+    console.log(this.state)
     const {
       topic,
       body,
+      codeType,
+      codeblocks,
       errors,
       errors: { topicError, bodyError },
     } = this.state;
-    console.log('active', this.props.activeUser);
+
     return (
       <MainContainer>
         <Form>
@@ -125,6 +147,8 @@ class NewConversation extends Component {
             </div>
           ) : null}
           <Label>Body</Label>
+          <Button onClick={e => this.handleCodeType(e, 'language-markup')}>{'</>'}</Button>
+          <Button onClick={e => this.handleCodeType(e, 'language-js')}>{'{}'}</Button>
           <TextField
             rows="12"
             type="text"
@@ -132,6 +156,25 @@ class NewConversation extends Component {
             value={body}
             onChange={this.handleOnChange}
           />
+          <div>
+            {
+              codeblocks.length
+              ? codeblocks.map((block, idx) => {
+                console.log('iterating')
+                return (
+                  <pre key={idx}>
+                    <code className={block.type}>
+                      {block.codeblock}
+                    </code>
+                  </pre>
+                )
+              })
+              : null
+            }
+          </div>
+          <FormRow>
+            <CodeInput codeType={codeType} addCodeBlock={this.getCodeBlock}/>
+          </FormRow>
           <InputFeedback>{bodyError}</InputFeedback>
           <Button
             disabled={
@@ -156,7 +199,7 @@ const mapState = ({ authentication, activeUser, reposetories }) => ({
 });
 
 const mapDispatch = dispatch => ({
-  postConversation: userId => dispatch(postConversation()),
+  postConversation: (userId, payload) => dispatch(postConversation(userId, payload)),
   getActiveUser: () => dispatch(getActiveUser()),
   getRepos: () => dispatch(getRepos()),
 });

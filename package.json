@@ -32,12 +32,9 @@
     "fs": "0.0.1-security",
     "moment": "^2.24.0",
     "natural": "^0.6.3",
-<<<<<<< HEAD
-    "natural-brain": "^0.3.2",
-=======
->>>>>>> db7cbd1e277c70335d2f4207662717c1a3174c6b
     "node-fetch": "^2.6.0",
     "pg": "^7.4.3",
+    "prismjs": "^1.19.0",
     "react": "^16.3.2",
     "react-codemirror": "^1.0.0",
     "react-codemirror2": "^6.0.0",
@@ -62,6 +59,7 @@
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
     "babel-loader": "^7.1.4",
+    "babel-plugin-prismjs": "^2.0.1",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
