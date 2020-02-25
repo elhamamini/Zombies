@@ -966,9 +966,19 @@ var _Button2 = _interopRequireDefault(_Button);
 
 var _Select = __webpack_require__(/*! ./styled/Select */ "./app/components/styled/Select.js");
 
+var _Pill = __webpack_require__(/*! ./styled/Pill */ "./app/components/styled/Pill.js");
+
 var _thunks = __webpack_require__(/*! ../redux/activeUser/thunks */ "./app/redux/activeUser/thunks.js");
 
 var _thunks2 = __webpack_require__(/*! ../redux/repository/thunks */ "./app/redux/repository/thunks.js");
+
+var _compromise = __webpack_require__(/*! compromise */ "./node_modules/compromise/builds/compromise.mjs");
+
+var _compromise2 = _interopRequireDefault(_compromise);
+
+var _whitelist = __webpack_require__(/*! ../../whitelist */ "./whitelist.js");
+
+var _whitelist2 = _interopRequireDefault(_whitelist);
 
 var _CodeInput = __webpack_require__(/*! ./CodeInput */ "./app/components/CodeInput.js");
 
@@ -1001,7 +1011,9 @@ var NewConversation = function (_Component) {
           value = _ref$target.value;
 
       _this.setState(_defineProperty({}, name, value), function () {
-        return _this.validate(name, value);
+        _this.validate(name, value);
+        //todo: call generateTags from here
+        _this.generateTags(value);
       });
     };
 
@@ -1020,6 +1032,25 @@ var NewConversation = function (_Component) {
         codeblocks: [].concat(_toConsumableArray(_this.state.codeblocks), [{ type: _this.state.codeType, codeblock: codeblock }])
       });
       _this.setState({ codeType: null });
+    };
+
+    _this.generateTags = function (value) {
+      var tags = _this.state.tags;
+
+      var newTags = tags;
+      //run compromise on body content
+      var postTopics = (0, _compromise2.default)(value).normalize({ plurals: true, parentheses: true }).nouns();
+      //loop through returned terms   
+      console.log(postTopics.out('freq'));
+      postTopics.out('freq').forEach(function (term) {
+        //if term is NOT already in the tags list and IS in the whitelist, add it
+        if (!newTags.includes(term.reduced) && _whitelist2.default[term.reduced]) {
+          newTags.push(term.reduced);
+        }
+      });
+      if (newTags.length > tags.length) {
+        _this.setState({ tags: newTags });
+      }
     };
 
     _this.validate = function (name, value) {
@@ -1068,7 +1099,8 @@ var NewConversation = function (_Component) {
       errors: {
         topicError: '',
         bodyError: ''
-      }
+      },
+      tags: []
     };
     return _this;
   }
@@ -1094,6 +1126,7 @@ var NewConversation = function (_Component) {
           body = _state.body,
           codeType = _state.codeType,
           codeblocks = _state.codeblocks,
+          tags = _state.tags,
           errors = _state.errors,
           _state$errors = _state.errors,
           topicError = _state$errors.topicError,
@@ -1206,6 +1239,17 @@ var NewConversation = function (_Component) {
             _Input.InputFeedback,
             null,
             bodyError
+          ),
+          _react2.default.createElement(
+            _Pill.PillContainer,
+            null,
+            tags.length ? tags.map(function (tag) {
+              return _react2.default.createElement(
+                _Pill.Pill,
+                { key: tag },
+                tag
+              );
+            }) : ''
           ),
           _react2.default.createElement(
             _Button2.default,
@@ -1560,12 +1604,13 @@ var Row = exports.Row = _styledComponents2.default.div(_templateObject3, functio
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Anchor = exports.Paragraph = exports.Title = exports.Header = undefined;
+exports.PillLabel = exports.Anchor = exports.Paragraph = exports.Title = exports.Header = undefined;
 
 var _templateObject = _taggedTemplateLiteral(['\n  margin: 1rem;\n  font-size: 1.1rem;\n  font-weight: bold;\n'], ['\n  margin: 1rem;\n  font-size: 1.1rem;\n  font-weight: bold;\n']),
     _templateObject2 = _taggedTemplateLiteral(['\n  margin: 1rem;\n'], ['\n  margin: 1rem;\n']),
     _templateObject3 = _taggedTemplateLiteral(['\n  margin: 1rem;\n  font-size: 1rem;\n'], ['\n  margin: 1rem;\n  font-size: 1rem;\n']),
-    _templateObject4 = _taggedTemplateLiteral(['\n  margin: 1rem;\n  font-size: 1rem;\n  color: #007bff;\n'], ['\n  margin: 1rem;\n  font-size: 1rem;\n  color: #007bff;\n']);
+    _templateObject4 = _taggedTemplateLiteral(['\n  margin: 1rem;\n  font-size: 1rem;\n  color: #007bff;\n'], ['\n  margin: 1rem;\n  font-size: 1rem;\n  color: #007bff;\n']),
+    _templateObject5 = _taggedTemplateLiteral(['\n  font-size: 1rem;\n  margin: 0rem;\n'], ['\n  font-size: 1rem;\n  margin: 0rem;\n']);
 
 var _styledComponents = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 
@@ -1584,6 +1629,8 @@ var Title = exports.Title = _styledComponents2.default.h6(_templateObject2);
 var Paragraph = exports.Paragraph = _styledComponents2.default.p(_templateObject3);
 
 var Anchor = exports.Anchor = _styledComponents2.default.a(_templateObject4);
+
+var PillLabel = exports.PillLabel = _styledComponents2.default.p(_templateObject5);
 
 /***/ }),
 
@@ -1792,8 +1839,10 @@ var NavButton = exports.NavButton = (0, _styledComponents2.default)(_reactRouter
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.Pill = exports.PillContainer = undefined;
 
-var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n  align-items: center;\n  height: 2rem;\n  background-color: ', ';\n  border-radius: 3px;\n  color: ', ';;\n  margin: 0.5rem;\n  padding: 0.25rem 1rem;\n'], ['\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n  align-items: center;\n  height: 2rem;\n  background-color: ', ';\n  border-radius: 3px;\n  color: ', ';;\n  margin: 0.5rem;\n  padding: 0.25rem 1rem;\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  width: 95%;\n  height: auto;\n  flex-flow: row wrap;\n  justify-content: flex-start;\n  align-items: flex-start;\n  align-content: flex-start;\n  padding: 0.5rem;\n  margin: 0rem 0rem;\n'], ['\n  width: 95%;\n  height: auto;\n  flex-flow: row wrap;\n  justify-content: flex-start;\n  align-items: flex-start;\n  align-content: flex-start;\n  padding: 0.5rem;\n  margin: 0rem 0rem;\n']),
+    _templateObject2 = _taggedTemplateLiteral(['\n  display: inline-block;\n  height: 2rem;\n  white-space: nowrap;\n  line-height: 2rem;\n  background-color: ', ';\n  border-radius: 1rem;\n  color: ', ';;\n  margin: 0.25rem 0.25rem;\n  padding: 0 1rem;\n'], ['\n  display: inline-block;\n  height: 2rem;\n  white-space: nowrap;\n  line-height: 2rem;\n  background-color: ', ';\n  border-radius: 1rem;\n  color: ', ';;\n  margin: 0.25rem 0.25rem;\n  padding: 0 1rem;\n']);
 
 var _styledComponents = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 
@@ -1803,7 +1852,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-exports.default = _styledComponents2.default.div(_templateObject, function (props) {
+var PillContainer = exports.PillContainer = _styledComponents2.default.div(_templateObject);
+
+var Pill = exports.Pill = _styledComponents2.default.div(_templateObject2, function (props) {
   return props.secondary ? '#FFFFFF' : '#13C4A3';
 }, function (props) {
   return props.secondary ? '#686868' : '#FFFFFF';
@@ -74265,7 +74316,9 @@ const whitelist = {
     'arguments':43,
     'parameter':44,
     'callbacks':45,
-    'ropedude':46
+    'ropedude':46,
+    'bash':47,
+    'python':48,
 }
 
 module.exports = whitelist;
