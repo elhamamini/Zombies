@@ -42,7 +42,9 @@ const whitelist = {
     'arguments':43,
     'parameter':44,
     'callbacks':45,
-    'ropedude':46
+    'ropedude':46,
+    'bash':47,
+    'python':48,
 }
 
 module.exports = whitelist;
