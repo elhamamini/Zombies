@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Row } from './Div';
-import { Anchor } from './Font';
+import { Link } from 'react-router-dom'
 
 export const Nav = styled(Row)`
   width: 100%;
@@ -8,7 +8,7 @@ export const Nav = styled(Row)`
   border-bottom: 1px solid lightgrey;
 `;
 
-export const NavLink = styled(Anchor)`
+export const NavLink = styled(Link)`
   margin: 0;
   padding: 0 1rem;
   color: black;
@@ -18,7 +18,7 @@ export const NavLink = styled(Anchor)`
   }
 `;
 
-export const NavButton = styled(Anchor)`
+export const NavButton = styled(Link)`
   display: block;
   border: ${props => (props.secondary ? '1px solid #007bff' : '0')};
   border-radius: 3px;
