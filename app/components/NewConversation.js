@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { MainContainer } from './styled/Div';
 import { Header } from './styled/Font';
@@ -13,6 +12,7 @@ import { getActiveUser } from '../redux/activeUser/thunks';
 import { getRepos } from '../redux/repository/thunks';
 
 import CodeInput from './CodeInput';
+import CustomQuill from './Quill';
 
 //TODO: Handle Successful Post by Redirecting to the Post
 class NewConversation extends Component {
@@ -103,7 +103,6 @@ class NewConversation extends Component {
   };
 
   render() {
-    console.log(this.state)
     const {
       topic,
       body,
@@ -149,18 +148,11 @@ class NewConversation extends Component {
           <Label>Body</Label>
           <Button onClick={e => this.handleCodeType(e, 'language-markup')}>{'</>'}</Button>
           <Button onClick={e => this.handleCodeType(e, 'language-js')}>{'{}'}</Button>
-          <TextField
-            rows="12"
-            type="text"
-            name="body"
-            value={body}
-            onChange={this.handleOnChange}
-          />
+          <CustomQuill />
           <div>
             {
               codeblocks.length
               ? codeblocks.map((block, idx) => {
-                console.log('iterating')
                 return (
                   <pre key={idx}>
                     <code className={block.type}>

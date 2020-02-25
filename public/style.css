@@ -18,3 +18,27 @@ main {
   justify-content: center;
   flex-wrap: wrap;
 }
+
+.ql-font-arial {
+  font-family: 'Arial'
+}
+
+.ql-font-comic-sans {
+  font-family: 'Comic Sans MS'
+}
+
+.ql-font-courier-new {
+  font-family: 'Courier New'
+}
+
+.ql-font-georgia {
+  font-family: 'Georgia'
+}
+
+.ql-font-helvetica {
+  font-family: 'Helvetica'
+}
+
+.ql-font-lucida {
+  font-family: 'Lucida Sans Unicode', 'Lucida Grande'
+}

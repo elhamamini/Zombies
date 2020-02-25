@@ -47,7 +47,13 @@ export const Label = styled.label`
 `
 
 export const Dropdown = styled.select`
-  &:focus {
+  border: 1px solid lightgray;
+  height: 1rem;
+  &:hover {
+    border: 1px solid #007bff;
+    outline: none;
+  }
+  &:active {
     border: 1px solid #007bff;
     outline: none;
   }
