@@ -39,9 +39,23 @@ export const TextField = styled.textarea`
 `
 
 export const Label = styled.label`
-    display: block;
-    width: 95%;
-    font-size: 1rem;
-    padding: 0 0.5rem;
-    margin-top: 1rem;
+  display: block;
+  width: 95%;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+  margin-top: 1rem;
+`
+
+export const Dropdown = styled.select`
+  &:focus {
+    border: 1px solid #007bff;
+    outline: none;
+  }
+`
+
+export const Option = styled.option`
+&:focus {
+  border: 1px solid #007bff;
+  outline: none;
+}
 `

@@ -21,3 +21,8 @@ export const Anchor = styled.a`
   font-size: 1rem;
   color: #007bff;
 `;
+
+export const PillLabel = styled.p`
+  font-size: 1rem;
+  margin: 0rem;
+`;

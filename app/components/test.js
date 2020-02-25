@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import { getRepos } from '../redux/repository/thunks';
 import { getActiveUser } from '../redux/activeUser/thunks';
 class Test extends Component {
-  componentDidMount() {}
+  componentDidMount() {
+    this.props.getRepos();
+    // this.props.getActiveUser();
+  }
   render() {
     console.log('activeUser', this.props.activeUser);
     console.log('reposssss', this.props.reposetories);

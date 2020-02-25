@@ -26,8 +26,8 @@ class NavBar extends React.Component {
         </Row>
 
         <Row flexEnd>
-          <NavButton href="/login">Login</NavButton>
-          <NavButton href="/">Signup</NavButton>
+          <NavButton to="/login">Login</NavButton>
+          <NavButton to="/">Signup</NavButton>
         </Row>
       </Nav>
     );

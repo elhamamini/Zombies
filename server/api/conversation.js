@@ -41,6 +41,7 @@ router.get('/:id', (req, res, next) => {
     })
 });
 
+//TODO: Edit Route to handle payload
 router.post('/', (req, res, next) => {
     if (!req.body.author) {
         return res.status(400).send('POST Conversation request missing required field');
