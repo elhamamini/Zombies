@@ -1,6 +1,7 @@
 node_modules
 .vscode
 .npmrc
+.env
 public/bundle.js
 public/bundle.js.map
 

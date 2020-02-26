@@ -225,6 +225,97 @@ exports.default = CodeInput;
 
 /***/ }),
 
+/***/ "./app/components/ConversationsIndex/AllConvos.js":
+/*!********************************************************!*\
+  !*** ./app/components/ConversationsIndex/AllConvos.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var _thunks = __webpack_require__(/*! ../../redux/conversations/thunks */ "./app/redux/conversations/thunks.js");
+
+var _Div = __webpack_require__(/*! ../styled/Div */ "./app/components/styled/Div.js");
+
+var Container = _interopRequireWildcard(_Div);
+
+var _Font = __webpack_require__(/*! ../styled/Font */ "./app/components/styled/Font.js");
+
+var Font = _interopRequireWildcard(_Font);
+
+var _whitelist = __webpack_require__(/*! ../../../whitelist */ "./whitelist.js");
+
+var _whitelist2 = _interopRequireDefault(_whitelist);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function AllConvos(props) {
+  var _useState = (0, _react.useState)(0),
+      _useState2 = _slicedToArray(_useState, 2),
+      page = _useState2[0],
+      setPage = _useState2[1];
+
+  var convosList = (0, _reactRedux.useSelector)(function (state) {
+    return state.allConversations;
+  });
+  var dispatch = (0, _reactRedux.useDispatch)();
+
+  (0, _react.useEffect)(function () {
+    dispatch((0, _thunks.fetchAllConversations)(0));
+  }, []);
+
+  return _react2.default.createElement(
+    Container.Paper,
+    { id: 'conversations-index' },
+    _react2.default.createElement(
+      Font.Header,
+      null,
+      'Learn. Discuss. Get Help.'
+    ),
+    _react2.default.createElement(
+      Font.Paragraph,
+      null,
+      'LearnDot forums are a great way to get help from your peers.'
+    ),
+    _react2.default.createElement(
+      Font.Title,
+      null,
+      'Popular Topics'
+    ),
+    _react2.default.createElement(
+      'ul',
+      null,
+      convosList.length ? convosList.map(function (convo) {
+        return _react2.default.createElement(
+          'li',
+          { key: convo.id },
+          convo.id
+        );
+      }) : ''
+    )
+  );
+}
+
+exports.default = AllConvos;
+
+/***/ }),
+
 /***/ "./app/components/Home.js":
 /*!********************************!*\
   !*** ./app/components/Home.js ***!
@@ -1352,6 +1443,10 @@ var _MLForm = __webpack_require__(/*! ./MLForm */ "./app/components/MLForm.js");
 
 var _MLForm2 = _interopRequireDefault(_MLForm);
 
+var _AllConvos = __webpack_require__(/*! ./ConversationsIndex/AllConvos */ "./app/components/ConversationsIndex/AllConvos.js");
+
+var _AllConvos2 = _interopRequireDefault(_AllConvos);
+
 var _NewConversation = __webpack_require__(/*! ./NewConversation */ "./app/components/NewConversation.js");
 
 var _NewConversation2 = _interopRequireDefault(_NewConversation);
@@ -1394,11 +1489,9 @@ var Root = function (_Component) {
           _react2.default.createElement(
             _reactRouterDom.Switch,
             null,
-            _react2.default.createElement(_reactRouterDom.Route, { path: '/test', component: _test2.default, exact: true }),
-            _react2.default.createElement(_reactRouterDom.Route, { path: '/userprofile', component: _UserProfile2.default, exact: true }),
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/profile', component: _UserProfile2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/login', component: _Login2.default }),
-            _react2.default.createElement(_reactRouterDom.Route, { path: '/ml', component: _MLForm2.default }),
-            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Home2.default })
+            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _AllConvos2.default })
           )
         )
       );
@@ -1514,7 +1607,7 @@ var mapStateToProps = function mapStateToProps(_ref) {
   var activeUser = _ref.activeUser;
   return { activeUser: activeUser };
 };
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(UserProfile);
+exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(UserProfile);
 
 /***/ }),
 
@@ -1567,11 +1660,12 @@ exports.default = _styledComponents2.default.button(_templateObject, function (p
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Row = exports.Hr = exports.MainContainer = undefined;
+exports.Row = exports.Hr = exports.Paper = exports.MainContainer = undefined;
 
 var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  flex: 1 1 auto;\n  width: 100%;\n'], ['\n  display: flex;\n  flex: 1 1 auto;\n  width: 100%;\n']),
-    _templateObject2 = _taggedTemplateLiteral(['\n  display: block;\n  width: 95%;\n  margin: 1rem;\n'], ['\n  display: block;\n  width: 95%;\n  margin: 1rem;\n']),
-    _templateObject3 = _taggedTemplateLiteral(['\n  display: block;\n  width: 100%;\n  display: flex;\n  flex-direction: row;\n  justify-content: ', ';\n  align-items: center;\n  margin: 0.5rem;\n'], ['\n  display: block;\n  width: 100%;\n  display: flex;\n  flex-direction: row;\n  justify-content: ', ';\n  align-items: center;\n  margin: 0.5rem;\n']);
+    _templateObject2 = _taggedTemplateLiteral(['\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-start;\n  align-items: flex-start;\n'], ['\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-start;\n  align-items: flex-start;\n']),
+    _templateObject3 = _taggedTemplateLiteral(['\n  display: block;\n  width: 95%;\n  margin: 1rem;\n'], ['\n  display: block;\n  width: 95%;\n  margin: 1rem;\n']),
+    _templateObject4 = _taggedTemplateLiteral(['\n  display: block;\n  width: 100%;\n  display: flex;\n  flex-direction: row;\n  justify-content: ', ';\n  align-items: center;\n  margin: 0.5rem;\n'], ['\n  display: block;\n  width: 100%;\n  display: flex;\n  flex-direction: row;\n  justify-content: ', ';\n  align-items: center;\n  margin: 0.5rem;\n']);
 
 var _styledComponents = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 
@@ -1583,9 +1677,11 @@ function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defi
 
 var MainContainer = exports.MainContainer = _styledComponents2.default.div(_templateObject);
 
-var Hr = exports.Hr = _styledComponents2.default.hr(_templateObject2);
+var Paper = exports.Paper = _styledComponents2.default.div(_templateObject2);
 
-var Row = exports.Row = _styledComponents2.default.div(_templateObject3, function (props) {
+var Hr = exports.Hr = _styledComponents2.default.hr(_templateObject3);
+
+var Row = exports.Row = _styledComponents2.default.div(_templateObject4, function (props) {
   return props.flexStart ? 'flex-start' : props.flexEnd ? 'flex-end' : 'space-between';
 });
 
@@ -1606,7 +1702,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.PillLabel = exports.Anchor = exports.Paragraph = exports.Title = exports.Header = undefined;
 
-var _templateObject = _taggedTemplateLiteral(['\n  margin: 1rem;\n  font-size: 1.1rem;\n  font-weight: bold;\n'], ['\n  margin: 1rem;\n  font-size: 1.1rem;\n  font-weight: bold;\n']),
+var _templateObject = _taggedTemplateLiteral(['\n  display: block;\n  margin: 1rem;\n  font-size: 1.1rem;\n  font-weight: bold;\n'], ['\n  display: block;\n  margin: 1rem;\n  font-size: 1.1rem;\n  font-weight: bold;\n']),
     _templateObject2 = _taggedTemplateLiteral(['\n  margin: 1rem;\n'], ['\n  margin: 1rem;\n']),
     _templateObject3 = _taggedTemplateLiteral(['\n  margin: 1rem;\n  font-size: 1rem;\n'], ['\n  margin: 1rem;\n  font-size: 1rem;\n']),
     _templateObject4 = _taggedTemplateLiteral(['\n  margin: 1rem;\n  font-size: 1rem;\n  color: #007bff;\n'], ['\n  margin: 1rem;\n  font-size: 1rem;\n  color: #007bff;\n']),
@@ -1803,6 +1899,8 @@ var _styledComponents = __webpack_require__(/*! styled-components */ "./node_mod
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
 var _Div = __webpack_require__(/*! ./Div */ "./app/components/styled/Div.js");
+
+var _Font = __webpack_require__(/*! ./Font */ "./app/components/styled/Font.js");
 
 var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 
@@ -2452,6 +2550,53 @@ var initialLogInAttempt = exports.initialLogInAttempt = function initialLogInAtt
 
 /***/ }),
 
+/***/ "./app/redux/conversations/actions.js":
+/*!********************************************!*\
+  !*** ./app/redux/conversations/actions.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.removeConversation = exports.setAllConversations = exports.setConversation = exports.createConversation = undefined;
+
+var _constants = __webpack_require__(/*! ./constants */ "./app/redux/conversations/constants.js");
+
+var createConversation = exports.createConversation = function createConversation(conversation) {
+    return {
+        type: _constants.EDIT_CONVERSATION,
+        conversation: conversation
+    };
+};
+
+var setConversation = exports.setConversation = function setConversation(conversation) {
+    return {
+        type: _constants.GET_CONVERSATION,
+        conversation: conversation
+    };
+};
+
+var setAllConversations = exports.setAllConversations = function setAllConversations(allConversations) {
+    return {
+        type: _constants.GET_ALL_CONVERSATIONS,
+        allConversations: allConversations
+    };
+};
+
+var removeConversation = exports.removeConversation = function removeConversation() {
+    return {
+        type: _constants.REMOVE_CONVERSATION,
+        conversation: conversation
+    };
+};
+
+/***/ }),
+
 /***/ "./app/redux/conversations/constants.js":
 /*!**********************************************!*\
   !*** ./app/redux/conversations/constants.js ***!
@@ -2501,7 +2646,6 @@ var conversation = exports.conversation = function conversation() {
     switch (action.type) {
         case _constants.EDIT_CONVERSATION:
             return action.conversation;
-
         case _constants.GET_CONVERSATION:
             return action.conversation;
 
@@ -2517,9 +2661,86 @@ var allConversations = exports.allConversations = function allConversations() {
     switch (action.type) {
         case _constants.GET_ALL_CONVERSATIONS:
             return action.allConversations;
-
         default:
             return state;
+    };
+};
+
+/***/ }),
+
+/***/ "./app/redux/conversations/thunks.js":
+/*!*******************************************!*\
+  !*** ./app/redux/conversations/thunks.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.deleteConversation = exports.fetchAllConversations = exports.fetchConversation = exports.updateConversation = exports.postConversation = undefined;
+
+var _axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _actions = __webpack_require__(/*! ./actions */ "./app/redux/conversations/actions.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//TODO: Add better error handling - custom component with user-readable error message
+var postConversation = exports.postConversation = function postConversation(author, payload) {
+    return function () {
+        return _axios2.default.post('/api/conversation', { author: author, payload: payload }).then(function (res) {
+            return dispatch(updateConversation(res.data));
+        }).catch(function (e) {
+            return console.log(e);
+        });
+    };
+};
+
+var updateConversation = exports.updateConversation = function updateConversation(conversationId, conversation) {
+    return function (dispatch) {
+        return _axios2.default.put('/api/conversation/' + conversationId, conversation).then(function (res) {
+            return dispatch((0, _actions.createConversation)(res.data));
+        }).catch(function (e) {
+            return console.error(e);
+        });
+    };
+};
+
+var fetchConversation = exports.fetchConversation = function fetchConversation(conversationId) {
+    return function (dispatch) {
+        return _axios2.default.get('/api/conversation/' + conversationId).then(function (res) {
+            return dispatch((0, _actions.setConversation)(res.data));
+        }).catch(function (e) {
+            return console.error(e);
+        });
+    };
+};
+
+var fetchAllConversations = exports.fetchAllConversations = function fetchAllConversations() {
+    var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+
+    return function (dispatch) {
+        return _axios2.default.get('/api/conversation?page=' + page).then(function (res) {
+            return dispatch((0, _actions.setAllConversations)(res.data));
+        }).catch(function (e) {
+            return console.error(e);
+        });
+    };
+};
+
+var deleteConversation = exports.deleteConversation = function deleteConversation(conversationId) {
+    return function (dispatch) {
+        return _axios2.default.delete('/api/conversation/' + conversationId).then(function () {
+            return dispatch((0, _actions.removeConversation)(conversationId));
+        }).catch(function (e) {
+            return console.error(e);
+        });
     };
 };
 
@@ -2561,6 +2782,7 @@ var appReducer = (0, _redux.combineReducers)({
   users: _reducers4.default,
   authentication: _reducers2.default,
   conversation: _reducers5.conversation,
+  allConversations: _reducers5.allConversations,
   reposetories: _reducers6.reposetoriesReducer,
   activeUser: _reducers7.activeUserReducer
 });

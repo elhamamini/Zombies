@@ -35,10 +35,10 @@ export const fetchConversation = conversationId => {
     };
 };
 
-export const fetchAllConversations = () => {
+export const fetchAllConversations = (page=0) => {
     return dispatch => {
         return axios
-            .get(`/api/conversation`)
+            .get(`/api/conversation?page=${page}`)
             .then(res => dispatch(setAllConversations(res.data)))
             .catch(e => console.error(e));
     };
