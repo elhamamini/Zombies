@@ -21,13 +21,7 @@ export default class Root extends Component {
           <Switch>
             <Route path="/profile" component={UserProfile} />
             <Route path="/login" component={Login} />
-<<<<<<< HEAD
-            <Route path="/ml" component={MLForm} />
-            <Route exact path="/" component={Home} />
-            <Route path="/postpage" component={PostPage} />
-=======
             <Route exact path="/" component={AllConvos} />
->>>>>>> 8880961398aa0e64a642498c6bbb316093699cba
           </Switch>
         </main>
       </Router>
