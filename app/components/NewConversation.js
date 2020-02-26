@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { MainContainer } from './styled/Div';
 import { Header } from './styled/Font';
 import { Form, FormRow } from './styled/Form';
-import { Input, TextField, InputFeedback, Label } from './styled/Input';
+import { Input, InputFeedback, Label } from './styled/Input';
 import Button from './styled/Button';
 import { Select, Option } from './styled/Select';
 
@@ -51,7 +51,7 @@ class NewConversation extends Component {
     this.setState({ codeType })
   }
 
-  getCodeBlock = (codeblock) => {
+  getCodeBlock = codeblock => {
     this.setState({ 
       codeblocks: [
         ...this.state.codeblocks,
@@ -59,6 +59,10 @@ class NewConversation extends Component {
       ]
     });
     this.setState({ codeType: null })
+  }
+
+  getBodyText = text => {
+    this.setState({ body: text })
   }
 
   validate = (name, value) => {
@@ -103,6 +107,7 @@ class NewConversation extends Component {
   };
 
   render() {
+    console.log(this.state.body)
     const {
       topic,
       body,
@@ -148,7 +153,7 @@ class NewConversation extends Component {
           <Label>Body</Label>
           <Button onClick={e => this.handleCodeType(e, 'language-markup')}>{'</>'}</Button>
           <Button onClick={e => this.handleCodeType(e, 'language-js')}>{'{}'}</Button>
-          <CustomQuill />
+          <CustomQuill getBodyText={this.getBodyText}/>
           <div>
             {
               codeblocks.length

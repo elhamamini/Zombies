@@ -42,3 +42,15 @@ main {
 .ql-font-lucida {
   font-family: 'Lucida Sans Unicode', 'Lucida Grande'
 }
+
+.ql-picker.ql-language [data-value='css']::before {
+  content: 'css';
+}
+
+.ql-picker.ql-language [data-value='js']::before {
+  content: 'js';
+}
+
+.ql-picker.ql-language [data-value='html']::before {
+  content: 'html'
+}

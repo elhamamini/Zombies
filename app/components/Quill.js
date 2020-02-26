@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import ReactQuill, { Quill } from 'react-quill';
-import "react-quill/dist/quill.snow.css";
+import { Quill } from 'react-quill';
+import Parchment from 'parchment';
+import 'react-quill/dist/quill.snow.css';
 
 import { FormColumn } from './styled/Form';
+import { FormattableTextArea } from './styled/Input';
 
 import FormatToolbar from './FormatToolbar';
 
@@ -11,7 +13,6 @@ Font.whitelist = [
   'arial',
   'courier-new',
   'comic-sans',
-  'helvetica',
   'georgia',
   'lucida'
 ]
@@ -21,20 +22,44 @@ const Size = Quill.import('formats/size');
 Size.whitelist = [
   'small',
   'medium',
-  'large'
+  'large',
+  'huge'
 ];
 Quill.register(Size, true);
 
-const languages = arg => {
-  console.log(arg);
-}
+const codeStyles = new Parchment.Attributor.Class('languages', 'ql-language', {
+  scope: Parchment.Scope.INLINE,
+  whitelist: ['markup', 'css', 'js']
+});
+Quill.register(codeStyles, true);
+
+class CSS extends Parchment.Inline { }
+  CSS.blotName = 'css';
+  CSS.tagName = 'code';
 
 const modules = {
   toolbar: {
     container: '#toolbar',
     handlers: {
-      languages
+      css: function(value) {
+        console.log('hit')
+        this.quill.format('css', true)
+      }
     }
+    // handlers: {
+    //   language: function(val) {
+    //     const current = this.quill.getSelection().index;
+    //     switch(val) {
+    //       case 'html':
+    //         this.quill.insertText(
+    //           current,
+    //           {
+    //             'color': '#ff0000',
+    //             'backgroundColor': 'gray',
+    //         })
+    //     }
+    //   }
+    // }
   }
 }
 
@@ -46,34 +71,30 @@ const formats = [
   'italic',
   'underline',
   'strike',
-  'blockquote',
-  'list',
-  'bullet',
-  'indent',
-  'link',
-  'image',
   'color',
   'background',
-  'code',
+  'pre',
+  'css',
 ];
 
 class CustomQuill extends Component {
-  constructor() {
-    super();
+  constructor({ getBodyText }) {
+    super({ getBodyText });
     this.state = {
       editor: ''
     }
   }
 
-  handleOnChange = html => {
-    this.setState({ editor: html })
+  handleOnChange = (value) => {
+    this.setState({ editor: value })
+    this.props.getBodyText(this.state.editor)
   }
 
   render() {
     return (
         <FormColumn>
           <FormatToolbar />
-            <ReactQuill
+            <FormattableTextArea
               modules={modules}
               formats={formats}
               onChange={this.handleOnChange}
@@ -83,5 +104,6 @@ class CustomQuill extends Component {
     )
   }
 }
+
 
 export default CustomQuill
