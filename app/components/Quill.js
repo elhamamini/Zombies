@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Quill } from 'react-quill';
-import Parchment from 'parchment';
 import 'react-quill/dist/quill.snow.css';
 
 import { FormColumn } from './styled/Form';
@@ -27,39 +26,16 @@ Size.whitelist = [
 ];
 Quill.register(Size, true);
 
-const codeStyles = new Parchment.Attributor.Class('languages', 'ql-language', {
-  scope: Parchment.Scope.INLINE,
-  whitelist: ['markup', 'css', 'js']
-});
-Quill.register(codeStyles, true);
-
-class CSS extends Parchment.Inline { }
-  CSS.blotName = 'css';
-  CSS.tagName = 'code';
-
 const modules = {
   toolbar: {
     container: '#toolbar',
     handlers: {
-      css: function(value) {
-        console.log('hit')
-        this.quill.format('css', true)
+      css: function() {
+        if(!Object.keys(this.quill.getFormat()).length) {
+          this.quill.clipboard.dangerouslyPasteHTML(this.quill.getSelection().index, `\n<b class='language-css'>HEY</b>\n`)
+        }
       }
     }
-    // handlers: {
-    //   language: function(val) {
-    //     const current = this.quill.getSelection().index;
-    //     switch(val) {
-    //       case 'html':
-    //         this.quill.insertText(
-    //           current,
-    //           {
-    //             'color': '#ff0000',
-    //             'backgroundColor': 'gray',
-    //         })
-    //     }
-    //   }
-    // }
   }
 }
 
@@ -74,7 +50,9 @@ const formats = [
   'color',
   'background',
   'pre',
+  'html',
   'css',
+  'js',
 ];
 
 class CustomQuill extends Component {
@@ -83,6 +61,9 @@ class CustomQuill extends Component {
     this.state = {
       editor: ''
     }
+  }
+
+  componentDidUpdate() {
   }
 
   handleOnChange = (value) => {
@@ -104,6 +85,5 @@ class CustomQuill extends Component {
     )
   }
 }
-
 
 export default CustomQuill

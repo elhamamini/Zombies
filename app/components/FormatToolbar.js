@@ -9,16 +9,15 @@ class FormatToolbar extends Component {
 
   handleOnClick = (e, format) => {
     e.preventDefault();
-    
   }
 
   render() {
     return (
       <FormRow flexStart id="toolbar">
-        <Button className='ql-bold' />
-        <Button className='ql-italic' />
-        <Button className='ql-underline' />
-        <Button className='ql-strike' />
+        <Button onClick={e => this.handleOnClick(e)} className='ql-bold' />
+        <Button onClick={e => this.handleOnClick(e)} className='ql-italic' />
+        <Button onClick={e => this.handleOnClick(e)} className='ql-underline' />
+        <Button onClick={e => this.handleOnClick(e)} className='ql-strike' />
         <Dropdown className="ql-font">
           <Option value="arial" defaultValue>Arial</Option>
           <Option value="comic-sans">Comic Sans</Option>
