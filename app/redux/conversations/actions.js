@@ -1,7 +1,8 @@
 import {
     EDIT_CONVERSATION,
     GET_CONVERSATION,
-    REMOVE_CONVERSATION
+    REMOVE_CONVERSATION,
+    GET_ALL_CONVERSATIONS
 } from './constants';
 
 export const createConversation = conversation => {
@@ -18,10 +19,10 @@ export const setConversation = conversation => {
     };
 };
 
-export const setAllConversations = conversations => {
+export const setAllConversations = allConversations => {
     return {
         type: GET_ALL_CONVERSATIONS,
-        conversations
+        allConversations
     };
 };
 

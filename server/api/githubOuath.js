@@ -9,6 +9,7 @@ router.get('/login', (req, res) => {
 });
 router.get('/callback', (req, res) => {
   const { code } = req.query;
+  console.log('codeeeeeee', code);
 
   axios
     .post(
@@ -21,7 +22,7 @@ router.get('/callback', (req, res) => {
       }
     )
     .then(async res => {
-      // console.log('info', res.data);
+      console.log('info', res.data);
       const response = await axios.get('https://api.github.com/user', {
         headers: {
           Authorization: `token ${res.data.access_token}`,

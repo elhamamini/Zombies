@@ -20,9 +20,9 @@ const Conversation = db.define('conversation', {
     type: Sequelize.INTEGER,
     defaultValue: 0,
   },
-  topic: {
-    type: STRING,
-    defaultValue: '',
+  tags: {
+    type: Sequelize.ARRAY(Sequelize.STRING),
+    defaultValue: ['default'],
   },
 });
 
