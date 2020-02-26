@@ -9,6 +9,7 @@ import MLForm from './MLForm';
 import NewConversation from './NewConversation';
 import Test from './test';
 import UserProfile from './UserProfile';
+import PostPage from './PostPage';
 
 export default class Root extends Component {
   render() {
@@ -23,6 +24,7 @@ export default class Root extends Component {
             <Route path="/login" component={Login} />
             <Route path="/ml" component={MLForm} />
             <Route exact path="/" component={Home} />
+            <Route path="/postpage" component={PostPage} />
           </Switch>
         </main>
       </Router>
