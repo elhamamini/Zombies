@@ -14,11 +14,11 @@ export default class extends Component {
       <MenuContainer>
         <Menu>
           <Button onClick={this.handleOnClick}>Start a Conversation</Button>
-          <MenuItem to="/">Latest Conversations</MenuItem>
-          <MenuItem to="/">Bookmarked</MenuItem>
-          <MenuItem to="/"> Conversations for you</MenuItem>
+          <MenuItem to='/codeeditor'>Latest Conversations</MenuItem>
+          <MenuItem to='/'>Bookmarked</MenuItem>
+          <MenuItem to='/'>Conversations for you</MenuItem>
           <Hr />
-          <MenuItem to="/">Content buckets</MenuItem>
+          <MenuItem to='/'>Content buckets</MenuItem>
         </Menu>
       </MenuContainer>
     );
