@@ -26,13 +26,60 @@ Size.whitelist = [
 ];
 Quill.register(Size, true);
 
+const CodeBlock = Quill.import('blots/inline');
+
+class CSSCodeBlock extends CodeBlock {
+  create() {
+    let node = super.create();
+    return node;
+  }
+}
+
+CSSCodeBlock.blotName = 'code-block';
+CSSCodeBlock.tagName = 'code-block';
+CSSCodeBlock.className = `CSS`;
+
+Quill.register('formats/inline', CSSCodeBlock);
+
+class HTMLCodeBlock extends CodeBlock {
+  create() {
+    let node = super.create();
+    return node;
+  }
+}
+
+HTMLCodeBlock.blotName = 'code-block';
+HTMLCodeBlock.tagName = 'code-block';
+HTMLCodeBlock.className = `HTML`;
+
+Quill.register('formats/inline', HTMLCodeBlock);
+
 const modules = {
   toolbar: {
     container: '#toolbar',
     handlers: {
-      css: function() {
-        if(!Object.keys(this.quill.getFormat()).length) {
-          this.quill.clipboard.dangerouslyPasteHTML(this.quill.getSelection().index, `\n<b class='language-css'>HEY</b>\n`)
+      'codeblock': function() {
+          const current = this.quill.getSelection()
+          if(current) {
+            if(Object.keys(this.quill.getFormat()).length && !this.quill.getFormat()['code-block']) {
+              this.quill.removeFormat(current);
+              if(current.index !== 0) {
+                this.quill.insertText(current, '\n');
+              }
+              this.quill.format('code-block', true);
+              return;
+            } else if(this.quill.getFormat()['code-block']) {
+              if(current.index !== 0) {
+                this.quill.insertText(current, '\n');
+              }
+              this.quill.format('code-block', false);
+              return;
+            } else {
+              if(current.index !== 0) {
+                this.quill.insertText(current, '\n');
+              }
+              this.quill.format('code-block', true);
+            }
         }
       }
     }
@@ -49,21 +96,21 @@ const formats = [
   'strike',
   'color',
   'background',
-  'pre',
-  'html',
-  'css',
-  'js',
+  'clean',
+  'code-block',
 ];
 
 class CustomQuill extends Component {
   constructor({ getBodyText }) {
     super({ getBodyText });
     this.state = {
-      editor: ''
+      editor: '',
+      language: null,
     }
   }
 
-  componentDidUpdate() {
+  getLanguage = language => {
+    this.setState({ language })
   }
 
   handleOnChange = (value) => {
@@ -71,10 +118,13 @@ class CustomQuill extends Component {
     this.props.getBodyText(this.state.editor)
   }
 
+  componentDidUpdate() {
+  }
+
   render() {
     return (
         <FormColumn>
-          <FormatToolbar />
+          <FormatToolbar language={this.state.language} sendLanguage={this.getLanguage}/>
             <FormattableTextArea
               modules={modules}
               formats={formats}

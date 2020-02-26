@@ -6,9 +6,13 @@ import { Option, Dropdown, SmallDropdown } from './styled/Input';
 import Button from './styled/Button';
 
 class FormatToolbar extends Component {
+  constructor({ sendLanguage, language }) {
+    super({ sendLanguage, language });
+  }
 
   handleOnClick = (e, format) => {
     e.preventDefault();
+    this.props.sendLanguage(format);
   }
 
   render() {
@@ -33,9 +37,9 @@ class FormatToolbar extends Component {
         <SmallDropdown className="ql-color" />
         <SmallDropdown className="ql-background" />
         <Button className="ql-clean" />
-        <Button onClick={e => this.handleOnClick(e, 'markup')} className='ql-markup' value='markup'>{'</>'}</Button>
-        <Button onClick={e => this.handleOnClick(e, 'css')} className='ql-css' value='css'>{'CSS'}</Button>
-        <Button onClick={e => this.handleOnClick(e, 'js')} className='ql-js' value='js'>{'{JS}'}</Button>
+        <Button onClick={e => this.handleOnClick(e, 'markup')} className='ql-codeblock' value='markup'>{'</>'}</Button>
+        <Button onClick={e => this.handleOnClick(e, 'css')} className='ql-codeblock' value='css'>{'CSS'}</Button>
+        <Button onClick={e => this.handleOnClick(e, 'js')} className='ql-codeblock' value='js'>{'{JS}'}</Button>
       </FormRow>
     )
   }
