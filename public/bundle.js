@@ -264,7 +264,7 @@ function AllConvos(props) {
         setPage = _useState2[1];
 
     var convosList = (0, _reactRedux.useSelector)(function (state) {
-        return state.conversation;
+        return state.allConversations;
     });
     var dispatch = (0, _reactRedux.useDispatch)();
 
@@ -2553,10 +2553,10 @@ var setConversation = exports.setConversation = function setConversation(convers
     };
 };
 
-var setAllConversations = exports.setAllConversations = function setAllConversations(conversations) {
+var setAllConversations = exports.setAllConversations = function setAllConversations(allConversations) {
     return {
         type: _constants.GET_ALL_CONVERSATIONS,
-        conversations: conversations
+        allConversations: allConversations
     };
 };
 
@@ -2618,7 +2618,6 @@ var conversation = exports.conversation = function conversation() {
     switch (action.type) {
         case _constants.EDIT_CONVERSATION:
             return action.conversation;
-
         case _constants.GET_CONVERSATION:
             return action.conversation;
 
@@ -2634,7 +2633,6 @@ var allConversations = exports.allConversations = function allConversations() {
     switch (action.type) {
         case _constants.GET_ALL_CONVERSATIONS:
             return action.allConversations;
-
         default:
             return state;
     };
@@ -2756,6 +2754,7 @@ var appReducer = (0, _redux.combineReducers)({
   users: _reducers4.default,
   authentication: _reducers2.default,
   conversation: _reducers5.conversation,
+  allConversations: _reducers5.allConversations,
   reposetories: _reducers6.reposetoriesReducer,
   activeUser: _reducers7.activeUserReducer
 });

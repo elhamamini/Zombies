@@ -6,7 +6,7 @@ import whitelist from '../../../whitelist';
 
 function AllConvos(props) {
     const [page, setPage] = useState(0);
-    const convosList = useSelector(state => state.conversation);
+    const convosList = useSelector(state => state.allConversations);
     const dispatch = useDispatch();
 
     useEffect(() => {
