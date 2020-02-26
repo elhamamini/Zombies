@@ -29,4 +29,4 @@ class UserProfile extends Component {
   }
 }
 const mapStateToProps = ({ activeUser }) => ({ activeUser });
-export default connect(mapStateToProps)(UserProfile);
+export default connect(mapStateToProps, null)(UserProfile);
