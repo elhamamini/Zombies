@@ -251,9 +251,17 @@ var _thunks = __webpack_require__(/*! ../../redux/conversations/thunks */ "./app
 
 var _Div = __webpack_require__(/*! ../styled/Div */ "./app/components/styled/Div.js");
 
+var Container = _interopRequireWildcard(_Div);
+
+var _Font = __webpack_require__(/*! ../styled/Font */ "./app/components/styled/Font.js");
+
+var Font = _interopRequireWildcard(_Font);
+
 var _whitelist = __webpack_require__(/*! ../../../whitelist */ "./whitelist.js");
 
 var _whitelist2 = _interopRequireDefault(_whitelist);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -273,8 +281,23 @@ function AllConvos(props) {
     }, []);
 
     return _react2.default.createElement(
-        _Div.MainContainer,
+        Container.Paper,
         { id: 'conversations-index' },
+        _react2.default.createElement(
+            Font.Header,
+            null,
+            'Learn. Discuss. Get Help.'
+        ),
+        _react2.default.createElement(
+            Font.Paragraph,
+            null,
+            'LearnDot forums are a great way to get help from your peers.'
+        ),
+        _react2.default.createElement(
+            Font.Title,
+            null,
+            'Popular Topics'
+        ),
         _react2.default.createElement(
             'ul',
             null,
@@ -1637,11 +1660,12 @@ exports.default = _styledComponents2.default.button(_templateObject, function (p
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Row = exports.Hr = exports.MainContainer = undefined;
+exports.Row = exports.Hr = exports.Paper = exports.MainContainer = undefined;
 
 var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  flex: 1 1 auto;\n  width: 100%;\n'], ['\n  display: flex;\n  flex: 1 1 auto;\n  width: 100%;\n']),
-    _templateObject2 = _taggedTemplateLiteral(['\n  display: block;\n  width: 95%;\n  margin: 1rem;\n'], ['\n  display: block;\n  width: 95%;\n  margin: 1rem;\n']),
-    _templateObject3 = _taggedTemplateLiteral(['\n  display: block;\n  width: 100%;\n  display: flex;\n  flex-direction: row;\n  justify-content: ', ';\n  align-items: center;\n  margin: 0.5rem;\n'], ['\n  display: block;\n  width: 100%;\n  display: flex;\n  flex-direction: row;\n  justify-content: ', ';\n  align-items: center;\n  margin: 0.5rem;\n']);
+    _templateObject2 = _taggedTemplateLiteral(['\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-start;\n  align-items: flex-start;\n'], ['\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-start;\n  align-items: flex-start;\n']),
+    _templateObject3 = _taggedTemplateLiteral(['\n  display: block;\n  width: 95%;\n  margin: 1rem;\n'], ['\n  display: block;\n  width: 95%;\n  margin: 1rem;\n']),
+    _templateObject4 = _taggedTemplateLiteral(['\n  display: block;\n  width: 100%;\n  display: flex;\n  flex-direction: row;\n  justify-content: ', ';\n  align-items: center;\n  margin: 0.5rem;\n'], ['\n  display: block;\n  width: 100%;\n  display: flex;\n  flex-direction: row;\n  justify-content: ', ';\n  align-items: center;\n  margin: 0.5rem;\n']);
 
 var _styledComponents = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 
@@ -1653,9 +1677,11 @@ function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defi
 
 var MainContainer = exports.MainContainer = _styledComponents2.default.div(_templateObject);
 
-var Hr = exports.Hr = _styledComponents2.default.hr(_templateObject2);
+var Paper = exports.Paper = _styledComponents2.default.div(_templateObject2);
 
-var Row = exports.Row = _styledComponents2.default.div(_templateObject3, function (props) {
+var Hr = exports.Hr = _styledComponents2.default.hr(_templateObject3);
+
+var Row = exports.Row = _styledComponents2.default.div(_templateObject4, function (props) {
   return props.flexStart ? 'flex-start' : props.flexEnd ? 'flex-end' : 'space-between';
 });
 
@@ -1676,7 +1702,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.PillLabel = exports.Anchor = exports.Paragraph = exports.Title = exports.Header = undefined;
 
-var _templateObject = _taggedTemplateLiteral(['\n  margin: 1rem;\n  font-size: 1.1rem;\n  font-weight: bold;\n'], ['\n  margin: 1rem;\n  font-size: 1.1rem;\n  font-weight: bold;\n']),
+var _templateObject = _taggedTemplateLiteral(['\n  display: block;\n  margin: 1rem;\n  font-size: 1.1rem;\n  font-weight: bold;\n'], ['\n  display: block;\n  margin: 1rem;\n  font-size: 1.1rem;\n  font-weight: bold;\n']),
     _templateObject2 = _taggedTemplateLiteral(['\n  margin: 1rem;\n'], ['\n  margin: 1rem;\n']),
     _templateObject3 = _taggedTemplateLiteral(['\n  margin: 1rem;\n  font-size: 1rem;\n'], ['\n  margin: 1rem;\n  font-size: 1rem;\n']),
     _templateObject4 = _taggedTemplateLiteral(['\n  margin: 1rem;\n  font-size: 1rem;\n  color: #007bff;\n'], ['\n  margin: 1rem;\n  font-size: 1rem;\n  color: #007bff;\n']),

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchAllConversations } from '../../redux/conversations/thunks';
-import { MainContainer } from '../styled/Div';
+import * as Container from '../styled/Div';
+import * as Font from '../styled/Font';
 import whitelist from '../../../whitelist';
 
 function AllConvos(props) {
@@ -14,7 +15,10 @@ function AllConvos(props) {
     }, []);
 
     return (
-        <MainContainer id="conversations-index">
+        <Container.Paper id="conversations-index">
+            <Font.Header>Learn. Discuss. Get Help.</Font.Header>
+            <Font.Paragraph>LearnDot forums are a great way to get help from your peers.</Font.Paragraph>
+            <Font.Title>Popular Topics</Font.Title>
             <ul>
                 {
                     convosList.length ?
@@ -23,7 +27,7 @@ function AllConvos(props) {
                 }
             </ul>
             
-        </MainContainer>
+        </Container.Paper>
     );
 };
 
