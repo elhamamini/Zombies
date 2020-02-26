@@ -6,6 +6,7 @@ import Home from './Home';
 import Login from './Login';
 import Nav from './Nav';
 import MLForm from './MLForm';
+import AllConvos from './ConversationsIndex/AllConvos';
 import NewConversation from './NewConversation';
 import Test from './test';
 import UserProfile from './UserProfile';
@@ -17,12 +18,9 @@ export default class Root extends Component {
         <main>
           <Nav />
           <Switch>
-            <Route path="/test" component={Test} exact />
-            <Route path="/userprofile" component={UserProfile} exact />
-
+            <Route path="/profile" component={UserProfile} />
             <Route path="/login" component={Login} />
-            <Route path="/ml" component={MLForm} />
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" component={AllConvos} />
           </Switch>
         </main>
       </Router>

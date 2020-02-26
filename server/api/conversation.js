@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { Conversation, Reply } = require('../db');
+const Sequelize = require('sequelize');
 
 const RESULTS_PER_PAGE = 10;
 
@@ -19,6 +20,21 @@ router.get('/', (req, res, next) => {
       next(e);
     });
 });
+
+//?color[]=blue&color[]=black&color[]=red
+//console.dir(req.query.color)
+// => [blue, black, red]
+
+//conversation/filter?tag[]=npm&tag[]=node
+router.get('/filter', (req, res, next) => {
+    Conversation.findAll({
+        where: {
+            tags: {
+                [Sequelize.Op.contains]: [req.query.tag || 'default']
+            }
+        }
+    })
+})
 
 //return conversation by Id, includes replies
 router.get('/:id', (req, res, next) => {
