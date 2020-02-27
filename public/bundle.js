@@ -294,7 +294,13 @@ function AllConvos(props) {
     //todo: make this toggle-able
     //build up a list
     var handleFilter = function handleFilter(tag) {
-        dispatch((0, _thunks.filterConversations)([tag]));
+        if (selectedTag == tag) {
+            setSelected('');
+            dispatch((0, _thunks.fetchAllConversations)(0));
+        } else {
+            setSelected(tag);
+            dispatch((0, _thunks.filterConversations)([tag]));
+        }
     };
 
     (0, _react.useEffect)(function () {
@@ -327,7 +333,7 @@ function AllConvos(props) {
             Object.keys(_whitelist2.default).map(function (key) {
                 return _react2.default.createElement(
                     _Pill.Pill,
-                    { key: key, id: key, onClick: function onClick() {
+                    { key: key, id: key, selected: key === selectedTag, onClick: function onClick() {
                             return handleFilter(key);
                         } },
                     key
@@ -2046,7 +2052,13 @@ function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defi
 var PillContainer = exports.PillContainer = _styledComponents2.default.div(_templateObject);
 
 var Pill = exports.Pill = _styledComponents2.default.div(_templateObject2, function (props) {
-  return props.secondary ? '#FFFFFF' : '#13C4A3';
+  if (props.secondary) {
+    return '#FFFFFF';
+  }
+  if (props.selected) {
+    return '#0C7864';
+  }
+  return '#13C4A3';
 }, function (props) {
   return props.secondary ? '#686868' : '#FFFFFF';
 });

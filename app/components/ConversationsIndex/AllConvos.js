@@ -20,7 +20,13 @@ function AllConvos(props) {
     //todo: make this toggle-able
     //build up a list
     const handleFilter = (tag) => {
-        dispatch(filterConversations([tag]));
+        if (selectedTag == tag) {
+            setSelected('');
+            dispatch(fetchAllConversations(0));
+        } else {
+            setSelected(tag);
+            dispatch(filterConversations([tag]));
+        }
     }
 
     useEffect(() => {
@@ -36,7 +42,11 @@ function AllConvos(props) {
             <Font.Title>Popular Topics</Font.Title>
             <Card.CardContainer>
                 {
-                    Object.keys(whitelist).map(key => <Pill key={key} id={key} onClick={() => handleFilter(key)}>{key}</Pill>)
+                    Object.keys(whitelist).map(key => 
+                    <Pill key={key} id={key} selected={key === selectedTag} onClick={() => handleFilter(key)} >
+                        {key}
+                    </Pill>
+                    )
                 }
             </Card.CardContainer>
             <Card.CardContainer>

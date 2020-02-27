@@ -16,7 +16,15 @@ export const Pill = styled.div`
   height: 2rem;
   white-space: nowrap;
   line-height: 2rem;
-  background-color: ${props => (props.secondary ? '#FFFFFF' : '#13C4A3')};
+  background-color: ${(props) => {
+    if (props.secondary) {
+      return '#FFFFFF';
+    }
+    if (props.selected) {
+      return '#0C7864';
+    }
+    return '#13C4A3';
+  }};
   border-radius: 1rem;
   color: ${props => (props.secondary ? '#686868' : '#FFFFFF')};;
   margin: 0.25rem 0.25rem;
