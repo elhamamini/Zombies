@@ -8,8 +8,7 @@ import { Header, Anchor } from './styled/Font';
 import { Hr } from './styled/Div';
 import { Form, FormRow, FormColumn } from './styled/Form';
 import { Input, InputFeedback } from './styled/Input';
-import Button from './styled/Button';
-import { NavButton } from './styled/Nav';
+import { Button, AnchorButton } from './styled/Button';
 import { getActiveUser } from '../redux/activeUser/thunks';
 
 class Login extends Component {
@@ -105,13 +104,13 @@ class Login extends Component {
       <Form>
         <Header>Sign in with Social Media</Header>
         <FormRow>
-          <Button secondary href='/api/github/login'>
+          <AnchorButton secondary href='/api/github/login'>
             Continue with Github
-          </Button>
+          </AnchorButton>
 
-          <Button secondary onClick={this.handleOnClick} >
+          <AnchorButton secondary onClick={this.handleOnClick} >
             Continue with Google
-          </Button>
+          </AnchorButton>
         </FormRow>
         <Hr />
         <Header>Or sign in with your email and password</Header>

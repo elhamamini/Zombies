@@ -1,14 +1,1 @@
 node_modules
-.vscode
-.npmrc
-.env
-public/bundle.js
-public/bundle.js.map
-
-#Ignoring the web scraping outputs, since they're huge
-postsByTitle.json
-cleaned.json
-whitelist.txt
-
-#Secrets
-.env

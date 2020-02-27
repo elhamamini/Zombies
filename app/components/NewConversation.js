@@ -3,18 +3,19 @@ import { connect } from 'react-redux';
 
 import { MainContainer } from './styled/Div';
 import { Header } from './styled/Font';
-import { Form, FormRow } from './styled/Form';
+import { Form } from './styled/Form';
 import { Input, InputFeedback, Label } from './styled/Input';
-import Button from './styled/Button';
+import { Button } from './styled/Button';
 import { Select, Option } from './styled/Select';
-import { Pill, PillContainer, PillLabel } from './styled/Pill';
+import { Pill, PillContainer } from './styled/Pill';
 
 import { getActiveUser } from '../redux/activeUser/thunks';
 import { getRepos } from '../redux/repository/thunks';
+import { postConversation } from '../redux/conversations/thunks';
+
 import nlp from 'compromise';
 import whitelist from '../../whitelist';
 
-import CodeInput from './CodeInput';
 import CustomQuill from './Quill';
 
 //TODO: Handle Successful Post by Redirecting to the Post
@@ -24,8 +25,6 @@ class NewConversation extends Component {
     this.state = {
       topic: '',
       body: '',
-      codeType: null,
-      codeblocks: [],
       errors: {
         topicError: '',
         bodyError: '',
@@ -51,7 +50,7 @@ class NewConversation extends Component {
 
   handleOnClick = e => {
     e.preventDefault();
-    this.props.postConversation(this.props.authentication.activeUser, this.state);
+    this.props.postConversation(this.props.authentication.activeUser);
   };
 
   handleCodeType = (e, codeType) => {
@@ -137,8 +136,6 @@ class NewConversation extends Component {
     const {
       topic,
       body,
-      codeType,
-      codeblocks,
       tags,
       errors,
       errors: { topicError, bodyError },

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Button from './styled/Button';
+import { Button } from './styled/Button';
 import { MenuContainer, Menu, MenuItem } from './styled/Menu';
 import { Hr } from './styled/Div';
 

@@ -5,8 +5,8 @@ import { Form } from './styled/Form';
 import { MainContainer } from './styled/Div';
 import { Image } from './styled/Image';
 import { Header, Title, Paragraph } from './styled/Font';
-import Button from './styled/Button';
 import SmallButton from './styled/SmallButton';
+
 class UserProfile extends Component {
   render() {
     console.log('activeUser', this.props.activeUser);

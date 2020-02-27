@@ -4,7 +4,7 @@ import { MainContainer } from './styled/Div';
 import { Header } from './styled/Font'
 import { Form } from './styled/Form';
 import { Input, TextField, InputFeedback, Label } from './styled/Input';
-import Button from './styled/Button';
+import { Button } from './styled/Button';
 import Pill from './styled/Pill';
 import Highlighter from 'react-highlight-words';
 import whitelist from '../../whitelist';

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Prism from 'prismjs';
 
 import { TextField } from './styled/Input';
-import Button from './styled/Button';
+import { Button } from './styled/Button';
 
 class CodeInput extends Component {
   constructor({ codeType, addCodeBlock }) {

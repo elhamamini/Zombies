@@ -21,6 +21,7 @@ export default class Root extends Component {
             <Route path="/profile" component={UserProfile} />
             <Route path="/login" component={Login} />
             <Route exact path="/" component={AllConvos} />
+            <Route path='/new' component={NewConversation} />
           </Switch>
         </main>
       </Router>
