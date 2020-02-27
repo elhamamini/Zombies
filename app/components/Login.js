@@ -109,12 +109,6 @@ class Login extends Component {
           <Button secondary href="/api/github/login">
             Continue with Github
           </Button>
-
-<<<<<<< HEAD
-          <a href="/api/github/login">Connect to github</a>
-
-=======
->>>>>>> 2a817b197e40cc7fc528753df824ef33293394d6
           <Button secondary onClick={this.handleOnClick}>
             Continue with Google
           </Button>

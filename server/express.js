@@ -3,13 +3,10 @@ const path = require('path');
 const chalk = require('chalk');
 const session = require('express-session');
 const { User } = require('./db/index');
-const bodyParser = require('body-parser');
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
-const cors = require('cors');
-const Pusher = require('pusher');
 
 const bodyParser = require('body-parser');
 const cors = require('cors');

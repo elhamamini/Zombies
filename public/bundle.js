@@ -321,10 +321,14 @@ function AllConvos(props) {
     props.history.push('/discussion/' + id);
   };
 
-  //todo: make this toggle-able
-  //build up a list
   var handleFilter = function handleFilter(tag) {
-    dispatch((0, _thunks.filterConversations)([tag]));
+    if (selectedTag == tag) {
+      setSelected('');
+      dispatch((0, _thunks.fetchAllConversations)(0));
+    } else {
+      setSelected(tag);
+      dispatch((0, _thunks.filterConversations)([tag]));
+    }
   };
 
   (0, _react.useEffect)(function () {
@@ -836,11 +840,6 @@ var Login = function (_Component) {
             _Button2.default,
             { secondary: true, href: '/api/github/login' },
             'Continue with Github'
-          ),
-          _react2.default.createElement(
-            'a',
-            { href: '/api/github/login' },
-            'Connect to github'
           ),
           _react2.default.createElement(
             _Button2.default,
@@ -2780,7 +2779,13 @@ function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defi
 var PillContainer = exports.PillContainer = _styledComponents2.default.div(_templateObject);
 
 var Pill = exports.Pill = _styledComponents2.default.div(_templateObject2, function (props) {
-  return props.secondary ? '#FFFFFF' : '#13C4A3';
+  if (props.secondary) {
+    return '#FFFFFF';
+  }
+  if (props.selected) {
+    return '#0C7864';
+  }
+  return '#13C4A3';
 }, function (props) {
   return props.secondary ? '#686868' : '#FFFFFF';
 });
@@ -46259,7 +46264,7 @@ module.exports = factory(
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "html {\n  box-sizing: border-box;\n}\n\n*,\n*::before,\n*::after {\n  box-sizing: inherit;\n  margin: 0;\n  padding: 0;\n}\n\n.playground {\n  top: 0;\n  bottom: 0;\n  left: 0;\n  width: 50%;\n  height: 50%;\n  background-color: #1e1e2c;\n}\n\n.code-editor {\n  height: 33.33%;\n  overflow: hidden;\n  position: relative;\n}\n\n.editor-header {\n  height: 30px;\n  content: attr(title);\n  display: flex;\n  align-items: center;\n  padding-left: 20px;\n  font-size: 18px;\n  color: #fafafa;\n}\n\n.react-codemirror2 {\n  max-height: calc(100% - 30px);\n  overflow: auto;\n}\n\n.result {\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 600px;\n  overflow: hidden;\n}\n\n.iframe {\n  width: 50%;\n  height: 90%;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  /* left: 600px;\n  overflow: hidden; */\n}\n", ""]);
+exports.push([module.i, "html {\n  box-sizing: border-box;\n}\n\n*,\n*::before,\n*::after {\n  box-sizing: inherit;\n  margin: 0;\n  padding: 0;\n}\n\n.playground {\n  top: 0;\n  bottom: 0;\n  left: 0;\n  width: 50%;\n  height: 50%;\n  background-color: #1e1e2c;\n}\n\n.code-editor {\n  height: 33.33%;\n  overflow: hidden;\n  position: relative;\n}\n\n.editor-header {\n  height: 30px;\n  content: attr(title);\n  display: flex;\n  align-items: center;\n  padding-left: 20px;\n  font-size: 18px;\n  color: #fafafa;\n}\n\n.react-codemirror2 {\n  max-height: calc(100% - 30px);\n  overflow: auto;\n}\n\n.result {\n  width: 50%;\n  height: 90%;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  /* left: 600px;\n  overflow: hidden; */\n}\n\n.iframe {\n  margin-left: 1rem;\n  width: 100%;\n  height: 100%;\n}\n", ""]);
 // Exports
 module.exports = exports;
 
