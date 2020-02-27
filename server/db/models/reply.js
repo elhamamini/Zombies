@@ -5,19 +5,16 @@ const moment = require('moment');
 const { UUID, UUIDV4 } = Sequelize;
 
 const Reply = db.define('reply', {
-  title: {
-    type: Sequelize.STRING,
-    allowNull: true,
-  },
   body: {
     type: Sequelize.TEXT,
     allowNull: false,
   },
-  repo: {
-    type: Sequelize.TEXT,
-  },
   codeSnippet: {
     type: Sequelize.TEXT,
+  },
+  codeType: {
+    type: Sequelize.TEXT,
+    defaultValue: 'javascript'
   },
   postNumber: {
     type: Sequelize.INTEGER,

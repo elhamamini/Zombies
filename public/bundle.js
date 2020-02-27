@@ -257,6 +257,12 @@ var _Font = __webpack_require__(/*! ../styled/Font */ "./app/components/styled/F
 
 var Font = _interopRequireWildcard(_Font);
 
+var _Card = __webpack_require__(/*! ./Card */ "./app/components/ConversationsIndex/Card.js");
+
+var Card = _interopRequireWildcard(_Card);
+
+var _Pill = __webpack_require__(/*! ../styled/Pill */ "./app/components/styled/Pill.js");
+
 var _whitelist = __webpack_require__(/*! ../../../whitelist */ "./whitelist.js");
 
 var _whitelist2 = _interopRequireDefault(_whitelist);
@@ -271,14 +277,31 @@ function AllConvos(props) {
         page = _useState2[0],
         setPage = _useState2[1];
 
+    var _useState3 = (0, _react.useState)(''),
+        _useState4 = _slicedToArray(_useState3, 2),
+        selectedTag = _useState4[0],
+        setSelected = _useState4[1];
+
     var convosList = (0, _reactRedux.useSelector)(function (state) {
         return state.allConversations;
     });
     var dispatch = (0, _reactRedux.useDispatch)();
 
+    var handleClick = function handleClick(id) {
+        props.history.push('/discussion/' + id);
+    };
+
+    //todo: make this toggle-able
+    //build up a list
+    var handleFilter = function handleFilter(tag) {
+        dispatch((0, _thunks.filterConversations)([tag]));
+    };
+
     (0, _react.useEffect)(function () {
-        dispatch((0, _thunks.fetchAllConversations)(0));
-    }, []);
+        if (!convosList.length) {
+            dispatch((0, _thunks.fetchAllConversations)(0));
+        }
+    });
 
     return _react2.default.createElement(
         Container.Paper,
@@ -299,15 +322,48 @@ function AllConvos(props) {
             'Popular Topics'
         ),
         _react2.default.createElement(
-            'ul',
+            Card.CardContainer,
             null,
-            convosList.length ? convosList.map(function (convo) {
+            Object.keys(_whitelist2.default).map(function (key) {
                 return _react2.default.createElement(
-                    'li',
-                    { key: convo.id },
-                    convo.id
+                    _Pill.Pill,
+                    { key: key, id: key, onClick: function onClick() {
+                            return handleFilter(key);
+                        } },
+                    key
                 );
-            }) : ''
+            })
+        ),
+        _react2.default.createElement(
+            Card.CardContainer,
+            null,
+            convosList.map(function (convo) {
+                return _react2.default.createElement(
+                    Card.Card,
+                    { key: convo.id, onClick: function onClick() {
+                            return handleClick(convo.id);
+                        } },
+                    _react2.default.createElement(
+                        Font.Paragraph,
+                        null,
+                        convo.title
+                    ),
+                    convo.replyCount ? _react2.default.createElement(
+                        Font.Label,
+                        null,
+                        convo.replyCount + ' ' + (convo.replyCount > 1 ? 'replies' : 'reply')
+                    ) : _react2.default.createElement(
+                        Font.Label,
+                        { secondary: true },
+                        'No replies'
+                    ),
+                    convo.hasAnswer && _react2.default.createElement(
+                        Font.Label,
+                        null,
+                        'Answered'
+                    )
+                );
+            })
         )
     );
 };
@@ -316,10 +372,17 @@ exports.default = AllConvos;
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ "./app/components/FormatToolbar.js":
 /*!*****************************************!*\
   !*** ./app/components/FormatToolbar.js ***!
   \*****************************************/
+=======
+/***/ "./app/components/ConversationsIndex/Card.js":
+/*!***************************************************!*\
+  !*** ./app/components/ConversationsIndex/Card.js ***!
+  \***************************************************/
+>>>>>>> f6fb65aca0febfd4d9eef405aec9f96e4676735a
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -327,6 +390,7 @@ exports.default = AllConvos;
 
 
 Object.defineProperty(exports, "__esModule", {
+<<<<<<< HEAD
   value: true
 });
 
@@ -475,6 +539,26 @@ var FormatToolbar = function (_Component) {
 ;
 
 exports.default = FormatToolbar;
+=======
+    value: true
+});
+exports.CardContainer = exports.Card = undefined;
+
+var _templateObject = _taggedTemplateLiteral(['\n    display: inline-block;\n    padding: 1rem;\n    border-radius: 3px;\n    box-shadow: 2px 1px 6px rgba(3, 27, 78, 0.06);\n    &:hover {\n        box-shadow: 0px 12px 15px rgba(3, 27, 78, 0.1);\n    }\n'], ['\n    display: inline-block;\n    padding: 1rem;\n    border-radius: 3px;\n    box-shadow: 2px 1px 6px rgba(3, 27, 78, 0.06);\n    &:hover {\n        box-shadow: 0px 12px 15px rgba(3, 27, 78, 0.1);\n    }\n']),
+    _templateObject2 = _taggedTemplateLiteral(['\n    width: 100%;\n    flex-flow: row wrap;\n    justify-content: flex-start;\n    align-items: stretch;\n    align-content: flex-start;\n    padding: 0.5rem;\n    margin: 0rem 0rem;\n'], ['\n    width: 100%;\n    flex-flow: row wrap;\n    justify-content: flex-start;\n    align-items: stretch;\n    align-content: flex-start;\n    padding: 0.5rem;\n    margin: 0rem 0rem;\n']);
+
+var _styledComponents = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var Card = exports.Card = _styledComponents2.default.div(_templateObject);
+
+var CardContainer = exports.CardContainer = _styledComponents2.default.div(_templateObject2);
+>>>>>>> f6fb65aca0febfd4d9eef405aec9f96e4676735a
 
 /***/ }),
 
@@ -2097,13 +2181,14 @@ var Row = exports.Row = _styledComponents2.default.div(_templateObject4, functio
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.PillLabel = exports.Anchor = exports.Paragraph = exports.Title = exports.Header = undefined;
+exports.PillLabel = exports.Anchor = exports.Paragraph = exports.Label = exports.Title = exports.Header = undefined;
 
 var _templateObject = _taggedTemplateLiteral(['\n  display: block;\n  margin: 1rem;\n  font-size: 1.1rem;\n  font-weight: bold;\n'], ['\n  display: block;\n  margin: 1rem;\n  font-size: 1.1rem;\n  font-weight: bold;\n']),
     _templateObject2 = _taggedTemplateLiteral(['\n  margin: 1rem;\n'], ['\n  margin: 1rem;\n']),
-    _templateObject3 = _taggedTemplateLiteral(['\n  margin: 1rem;\n  font-size: 1rem;\n'], ['\n  margin: 1rem;\n  font-size: 1rem;\n']),
-    _templateObject4 = _taggedTemplateLiteral(['\n  margin: 1rem;\n  font-size: 1rem;\n  color: #007bff;\n'], ['\n  margin: 1rem;\n  font-size: 1rem;\n  color: #007bff;\n']),
-    _templateObject5 = _taggedTemplateLiteral(['\n  font-size: 1rem;\n  margin: 0rem;\n'], ['\n  font-size: 1rem;\n  margin: 0rem;\n']);
+    _templateObject3 = _taggedTemplateLiteral(['\n  margin: 1rem;\n  color: ', ';\n'], ['\n  margin: 1rem;\n  color: ', ';\n']),
+    _templateObject4 = _taggedTemplateLiteral(['\n  margin: 1rem;\n  font-size: 1rem;\n'], ['\n  margin: 1rem;\n  font-size: 1rem;\n']),
+    _templateObject5 = _taggedTemplateLiteral(['\n  margin: 1rem;\n  font-size: 1rem;\n  color: #007bff;\n'], ['\n  margin: 1rem;\n  font-size: 1rem;\n  color: #007bff;\n']),
+    _templateObject6 = _taggedTemplateLiteral(['\n  font-size: 1rem;\n  margin: 0rem;\n'], ['\n  font-size: 1rem;\n  margin: 0rem;\n']);
 
 var _styledComponents = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 
@@ -2119,11 +2204,15 @@ function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defi
 var Header = exports.Header = _styledComponents2.default.h3(_templateObject);
 var Title = exports.Title = _styledComponents2.default.h6(_templateObject2);
 
-var Paragraph = exports.Paragraph = _styledComponents2.default.p(_templateObject3);
+var Label = exports.Label = _styledComponents2.default.h6(_templateObject3, function (props) {
+  return props.secondary ? '#808080' : '#141414';
+});
 
-var Anchor = exports.Anchor = _styledComponents2.default.a(_templateObject4);
+var Paragraph = exports.Paragraph = _styledComponents2.default.p(_templateObject4);
 
-var PillLabel = exports.PillLabel = _styledComponents2.default.p(_templateObject5);
+var Anchor = exports.Anchor = _styledComponents2.default.a(_templateObject5);
+
+var PillLabel = exports.PillLabel = _styledComponents2.default.p(_templateObject6);
 
 /***/ }),
 
@@ -3088,7 +3177,7 @@ var allConversations = exports.allConversations = function allConversations() {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.deleteConversation = exports.fetchAllConversations = exports.fetchConversation = exports.updateConversation = exports.postConversation = undefined;
+exports.deleteConversation = exports.filterConversations = exports.fetchAllConversations = exports.fetchConversation = exports.updateConversation = exports.postConversation = undefined;
 
 var _axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 
@@ -3119,6 +3208,8 @@ var updateConversation = exports.updateConversation = function updateConversatio
     };
 };
 
+//--------
+
 var fetchConversation = exports.fetchConversation = function fetchConversation(conversationId) {
     return function (dispatch) {
         return _axios2.default.get('/api/conversation/' + conversationId).then(function (res) {
@@ -3135,6 +3226,23 @@ var fetchAllConversations = exports.fetchAllConversations = function fetchAllCon
     return function (dispatch) {
         return _axios2.default.get('/api/conversation?page=' + page).then(function (res) {
             return dispatch((0, _actions.setAllConversations)(res.data));
+        }).catch(function (e) {
+            return console.error(e);
+        });
+    };
+};
+
+var filterConversations = exports.filterConversations = function filterConversations() {
+    var tags = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : ['default'];
+
+    var queryStr = '';
+    tags.forEach(function (tag, idx) {
+        return queryStr += 'tag[]=' + tag + '&';
+    });
+    return function (dispatch) {
+        return _axios2.default.get('/api/conversation/filter?' + queryStr).then(function (res) {
+            console.log(res.data);
+            dispatch((0, _actions.setAllConversations)(res.data));
         }).catch(function (e) {
             return console.error(e);
         });
@@ -100037,27 +100145,29 @@ module.exports = function(module) {
 
 const whitelist = {
     'array': 1,
-    'reduce': 2,
-    'collaboration': 3,
-    'group': 4,
-    'meetup': 5,
-    'documentation': 7,
-    'loop': 8,
-    'object': 9,
-    'map':10,
-    'time':11,
-    'function':12,
-    'testem':29,
-    'console':14,
-    'call stack':15,
-    'foreach':16,
-    'test spec':17,
-    'grades':18,
-    'checkpoint':19,
-    'github':20,
-    'kb':21,
-    'vs code':22,
-    'slack':23,
+    'reduce': 1,
+    'collaboration': 1,
+    'group': 1,
+    'meetup': 1,
+    'documentation': 1,
+    'loop': 1,
+    'object': 1,
+    'map':1,
+    'time':1,
+    'function':1,
+    'testem':1,
+    'console':1,
+    'call stack':1,
+    'foreach':1,
+    'test spec':1,
+    'grades':1,
+    'checkpoint':1,
+    'study':1,
+    'github':1,
+    'kb':1,
+    'vs code':1,
+    'hoisting':1,
+    'slack':1,
     'permission':24,
     'error':25,
     'idea':26,
