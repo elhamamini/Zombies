@@ -3,10 +3,14 @@ const User = require('./models/user');
 const Reply = require('./models/reply');
 const Conversation = require('./models/conversation');
 const Activity =  require('./models/activity');
+const Tag = require('./models/tag');
 
 //TODO: associations
 Reply.belongsTo(Conversation);
 Conversation.hasMany(Reply);
+
+Tag.belongsToMany(Conversation, { through: 'convotags' });
+Conversation.belongsToMany(Tag, { through: 'convotags' });
 
 User.hasMany(Reply);
 User.hasMany(Conversation);
@@ -23,5 +27,6 @@ module.exports = {
   User,
   Reply,
   Conversation,
-  Activity
+  Activity,
+  Tag
 };
