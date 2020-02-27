@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getActiveUser } from '../redux/activeUser/thunks';
 import { Form } from './styled/Form';
 import { MainContainer } from './styled/Div';
 import { Image } from './styled/Image';
@@ -9,7 +8,6 @@ import SmallButton from './styled/SmallButton';
 
 class UserProfile extends Component {
   render() {
-    console.log('activeUser', this.props.activeUser);
     const { activeUser } = this.props;
     return (
       <MainContainer>

@@ -10,7 +10,6 @@ import { Button } from './styled/Button';
 import { Select, Option } from './styled/Select';
 import { Pill, PillContainer } from './styled/Pill';
 
-import { getActiveUser } from '../redux/activeUser/thunks';
 import { getRepos } from '../redux/repository/thunks';
 import { postConversation } from '../redux/conversations/thunks';
 

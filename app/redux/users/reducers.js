@@ -1,6 +1,6 @@
-import { SET_ALL_USERS, ADD_USER } from './constants';
+import { SET_ALL_USERS, SET_USER, ADD_USER } from './constants';
 
-const usersReducer = (state = [], action) => {
+export const users = (state = [], action) => {
   switch (action.type) {
     case SET_ALL_USERS:
       return action.users;
@@ -13,4 +13,12 @@ const usersReducer = (state = [], action) => {
   }
 };
 
-export default usersReducer;
+export const user = (state = {}, action) => {
+  switch (action.type) {
+    case SET_USER:
+      return action.user;
+
+    default:
+      return state;
+  }
+};

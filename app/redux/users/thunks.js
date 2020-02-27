@@ -1,15 +1,24 @@
 import axios from 'axios';
 
-import { setUsers, addUser } from './actions';
+import { setUsers, addUser, setUser } from './actions';
 
 export const fetchUsers = () => {
     return dispatch => {
       return axios
         .get('/api/users')
-        .then(responses => dispatch(setUsers(responses.data)))
+        .then(response => dispatch(setUsers(response.data)))
         .catch(e => console.log('Error in thunk:', e));
     };
   };
+
+export const getUserFromGitHub = () => {
+  return dispatch => {
+    return axios
+      .get('/api/github/user')
+      .then(res => dispatch(setUser(res.data)))
+      .catch(e => console.error(e))
+  }
+};
   
   export const createUser = user => {
     return dispatch => {
