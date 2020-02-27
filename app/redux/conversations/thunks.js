@@ -26,6 +26,8 @@ export const updateConversation = (conversationId, conversation) => {
     };
 };
 
+//--------
+
 export const fetchConversation = conversationId => {
     return dispatch => {
         return axios
@@ -43,6 +45,20 @@ export const fetchAllConversations = (page=0) => {
             .catch(e => console.error(e));
     };
 };
+
+export const filterConversations = (tags=['default']) => {
+    let queryStr = '';
+    tags.forEach((tag, idx) => queryStr += `tag[]=${tag}&`)
+    return dispatch => {
+        return axios
+            .get(`/api/conversation/filter?${queryStr}`)
+                .then(res => {
+                    console.log(res.data);
+                    dispatch(setAllConversations(res.data))
+                })
+                .catch(e => console.error(e));
+    }
+}
 
 export const deleteConversation = conversationId => {
     return dispatch => {
