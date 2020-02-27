@@ -12,6 +12,11 @@ export const Title = styled.h6`
   margin: 1rem;
 `;
 
+export const Label = styled.h6`
+  margin: 1rem;
+  color: ${props => (props.secondary ? '#808080' : '#141414')};
+`;
+
 export const Paragraph = styled.p`
   margin: 1rem;
   font-size: 1rem;

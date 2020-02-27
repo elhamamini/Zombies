@@ -11,6 +11,9 @@ router.get('/', (req, res, next) => {
   Conversation.findAll({
     limit: RESULTS_PER_PAGE,
     offset: (req.query.page || 0) * RESULTS_PER_PAGE,
+    order: [
+        ['createdAt', 'DESC']
+    ],
   })
     .then(results => {
       res.status(200).send(results);
@@ -27,13 +30,25 @@ router.get('/', (req, res, next) => {
 
 //conversation/filter?tag[]=npm&tag[]=node
 router.get('/filter', (req, res, next) => {
+  console.log('filter route');
+  console.log(req.query.tag);
     Conversation.findAll({
         where: {
             tags: {
-                [Sequelize.Op.contains]: [req.query.tag || 'default']
+                [Sequelize.Op.contains]: [req.query.tag]
             }
-        }
+        },
+        order: [
+          ['createdAt', 'DESC']
+        ],
     })
+    .then(results => {
+      res.status(200).send(results);
+    })
+    .catch(e => {
+      res.status(500).send();
+      next(e);
+    });
 })
 
 //return conversation by Id, includes replies

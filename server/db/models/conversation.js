@@ -8,7 +8,7 @@ const Conversation = db.define('conversation', {
     type: INTEGER,
     primaryKey: true,
   },
-  body: {
+  title: {
     type: Sequelize.TEXT,
     allowNull: false,
   },
@@ -16,9 +16,22 @@ const Conversation = db.define('conversation', {
     type: Sequelize.STRING,
     allowNull: true,
   },
+  hasAnswer: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+  },
+  repo: {
+    type: Sequelize.TEXT,
+  },
   views: {
     type: Sequelize.INTEGER,
     defaultValue: 0,
+  },
+  replyCount: {
+    type: Sequelize.VIRTUAL,
+    get() {
+      return this.getReplies().length;
+    }
   },
   tags: {
     type: Sequelize.ARRAY(Sequelize.STRING),
