@@ -1,18 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchAllConversations } from '../../redux/conversations/thunks';
+import {
+  fetchAllConversations,
+  filterConversations,
+} from '../../redux/conversations/thunks';
 import * as Container from '../styled/Div';
 import * as Font from '../styled/Font';
+import * as Card from './Card';
+import { Pill } from '../styled/Pill';
 import whitelist from '../../../whitelist';
 
 function AllConvos(props) {
   const [page, setPage] = useState(0);
+  const [selectedTag, setSelected] = useState('');
   const convosList = useSelector(state => state.allConversations);
   const dispatch = useDispatch();
 
+  const handleClick = id => {
+    props.history.push(`/discussion/${id}`);
+  };
+
+  //todo: make this toggle-able
+  //build up a list
+  const handleFilter = tag => {
+    dispatch(filterConversations([tag]));
+  };
+
   useEffect(() => {
-    dispatch(fetchAllConversations(0));
-  }, []);
+    if (!convosList.length) {
+      dispatch(fetchAllConversations(0));
+    }
+  });
 
   return (
     <Container.Paper id="conversations-index">
@@ -21,11 +39,28 @@ function AllConvos(props) {
         LearnDot forums are a great way to get help from your peers.
       </Font.Paragraph>
       <Font.Title>Popular Topics</Font.Title>
-      <ul>
-        {convosList.length
-          ? convosList.map(convo => <li key={convo.id}>{convo.id}</li>)
-          : ''}
-      </ul>
+      <Card.CardContainer>
+        {Object.keys(whitelist).map(key => (
+          <Pill key={key} id={key} onClick={() => handleFilter(key)}>
+            {key}
+          </Pill>
+        ))}
+      </Card.CardContainer>
+      <Card.CardContainer>
+        {convosList.map(convo => (
+          <Card.Card key={convo.id} onClick={() => handleClick(convo.id)}>
+            <Font.Paragraph>{convo.title}</Font.Paragraph>
+            {convo.replyCount ? (
+              <Font.Label>{`${convo.replyCount} ${
+                convo.replyCount > 1 ? 'replies' : 'reply'
+              }`}</Font.Label>
+            ) : (
+              <Font.Label secondary>No replies</Font.Label>
+            )}
+            {convo.hasAnswer && <Font.Label>Answered</Font.Label>}
+          </Card.Card>
+        ))}
+      </Card.CardContainer>
     </Container.Paper>
   );
 }
