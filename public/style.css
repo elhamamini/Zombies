@@ -18,3 +18,48 @@ main {
   justify-content: center;
   flex-wrap: wrap;
 }
+
+.ql-font-arial {
+  font-family: 'Arial'
+}
+
+.ql-font-comic-sans {
+  font-family: 'Comic Sans MS'
+}
+
+.ql-font-courier-new {
+  font-family: 'Courier New'
+}
+
+.ql-font-georgia {
+  font-family: 'Georgia'
+}
+
+.ql-font-helvetica {
+  font-family: 'Helvetica'
+}
+
+.ql-font-lucida {
+  font-family: 'Lucida Sans Unicode', 'Lucida Grande'
+}
+
+.ql-picker.ql-language [data-value='css']::before {
+  content: 'css';
+}
+
+.ql-picker.ql-language [data-value='js']::before {
+  content: 'js';
+}
+
+.ql-picker.ql-language [data-value='html']::before {
+  content: 'html'
+}
+
+.ql-markup,
+.ql-css,
+.ql-jss {
+  background-color: rgb(236, 236, 236);
+  color: #f43b43;
+  font-family: 'Courier New';
+  padding: 0.2rem;
+}
