@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { MainContainer } from './styled/Div';
 import { Header } from './styled/Font';
@@ -15,7 +16,6 @@ import { postConversation } from '../redux/conversations/thunks';
 
 import nlp from 'compromise';
 import whitelist from '../../whitelist';
-import { postConversation } from '../redux/conversations/thunks';
 
 import CustomQuill from './Quill';
 
@@ -35,10 +35,10 @@ class NewConversation extends Component {
   }
 
   componentDidMount() {
-    this.props.getActiveUser();
-    setTimeout(() => {
+    this.props.getActiveUser()
+    .then(() => {
       this.props.getRepos();
-    }, 100);
+    })
   }
 
   handleOnChange = ({ target: { name, value } }) => {
@@ -51,7 +51,7 @@ class NewConversation extends Component {
 
   handleOnClick = e => {
     e.preventDefault();
-    this.props.postConversation(this.props.authentication.activeUser);
+    this.props.postConversation(this.props.activeUser.id);
   };
 
   handleCodeType = (e, codeType) => {
@@ -77,7 +77,6 @@ class NewConversation extends Component {
       .normalize({ plurals: true, parentheses: true })
       .nouns();
     //loop through returned terms
-    console.log(postTopics.out('freq'));
     postTopics.out('freq').forEach(term => {
       //if term is NOT already in the tags list and IS in the whitelist, add it
       if (!newTags.includes(term.reduced) && whitelist[term.reduced]) {
@@ -136,6 +135,7 @@ class NewConversation extends Component {
 
   render() {
     console.log(this.state.body);
+    console.log(this.props)
     const {
       topic,
       body,
@@ -207,8 +207,7 @@ const mapState = ({ authentication, activeUser, reposetories }) => ({
 });
 
 const mapDispatch = dispatch => ({
-  postConversation: (userId, payload) =>
-    dispatch(postConversation(userId, payload)),
+  postConversation: userId => dispatch(postConversation(userId)),
   getActiveUser: () => dispatch(getActiveUser()),
   getRepos: () => dispatch(getRepos()),
 });

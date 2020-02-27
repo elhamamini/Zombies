@@ -72,14 +72,16 @@ router.get('/:id', (req, res, next) => {
 
 //TODO: Edit Route to handle payload
 router.post('/', (req, res, next) => {
-  console.log(req.body);
-  if (!req.body.author) {
+  const { author } = req.body
+  author.toString();
+  console.log(typeof author)
+  if (!author) {
     return res
       .status(400)
       .send('POST Conversation request missing required field');
   }
   Conversation.create({
-    author: req.body.author,
+    author,
   })
     .then(created => {
       res.status(200).send(created);

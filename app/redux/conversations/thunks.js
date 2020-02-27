@@ -9,9 +9,9 @@ import {
 
 //TODO: Add better error handling - custom component with user-readable error message
 export const postConversation = author => {
-    return () => {
+    return dispatch => {
         return axios
-            .post(`/api/conversation`, author)
+            .post(`/api/conversation`, { author })
             .then(res => dispatch(updateConversation(res.data)))
             .catch(e => console.log(e));
     };
