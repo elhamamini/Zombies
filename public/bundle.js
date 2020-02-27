@@ -838,6 +838,11 @@ var Login = function (_Component) {
             'Continue with Github'
           ),
           _react2.default.createElement(
+            'a',
+            { href: '/api/github/login' },
+            'Connect to github'
+          ),
+          _react2.default.createElement(
             _Button2.default,
             { secondary: true, onClick: this.handleOnClick },
             'Continue with Google'
@@ -1680,6 +1685,14 @@ var _axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 
 var _axios2 = _interopRequireDefault(_axios);
 
+var _Div = __webpack_require__(/*! ./styled/Div */ "./app/components/styled/Div.js");
+
+var _Font = __webpack_require__(/*! ./styled/Font */ "./app/components/styled/Font.js");
+
+var _Input = __webpack_require__(/*! ./styled/Input */ "./app/components/styled/Input.js");
+
+var _Form = __webpack_require__(/*! ./styled/Form */ "./app/components/styled/Form.js");
+
 __webpack_require__(/*! ./App.css */ "./app/components/App.css");
 
 __webpack_require__(/*! codemirror/lib/codemirror.css */ "./node_modules/codemirror/lib/codemirror.css");
@@ -1717,7 +1730,7 @@ var App = function (_Component) {
 
       var iframe = _this.refs.iframe;
       var document = iframe.contentDocument;
-      var documentContents = '\n      <!DOCTYPE html>\n      <html lang="en">\n      <head>\n        <meta charset="UTF-8">\n        <meta name="viewport" content="width=device-width, initial-scale=1.0">\n        <meta http-equiv="X-UA-Compatible" content="ie=edge">\n        <title>Document</title>\n        <style>\n          ' + css + '\n        </style>\n      </head>\n      <body>\n        ' + html + '\n\n        <script type="text/javascript">\n          ' + js + '\n        </script>\n      </body>\n      </html>\n    ';
+      var documentContents = '\n      <!DOCTYPE html>\n      <html lang="en">\n      <head>\n        <meta charset="UTF-8">\n        <meta name="viewport" content="width=device-width, initial-scale=1.0">\n        <meta http-equiv="X-UA-Compatible" content="ie=edge">\n        <title>Document</title>\n        <style>\n          ' + css + '\n        </style>\n      </head>\n      <body>\n        ' + (!html ? '<div id="result"></div>' : html) + '\n        <script>\n            function log(str) {\n              console.log(str);\n              const div = document.getElementById(\'result\')\n              div.innerText = str\n            }\n        </script>\n        <script type="text/javascript">\n         ' + js + '\n        </script>\n        ' + (!html ? '</div>' : '') + '\n      </body>\n      </html>\n    ';
 
       document.open();
       document.write(documentContents);
@@ -1726,9 +1739,11 @@ var App = function (_Component) {
 
     _this.state = {
       id: '',
-      html: '<div>hi</div>',
+      html: '',
       css: '',
-      js: "console.log('hiiiii')"
+      js: '',
+      type: '',
+      reply: ''
     };
     return _this;
   }
@@ -1746,10 +1761,22 @@ var App = function (_Component) {
       });
     }
   }, {
+    key: 'onChangeHandler',
+    value: function onChangeHandler(ev) {
+      this.setState({ reply: ev.target.value });
+    }
+  }, {
+    key: 'replyHandler',
+    value: function replyHandler() {
+      //need to set up redux for reply first
+      console.log(this.state.value);
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
 
+      console.log('activeuser', this.props.activeUser);
       var _state = this.state,
           html = _state.html,
           js = _state.js,
@@ -1759,74 +1786,133 @@ var App = function (_Component) {
         theme: 'material',
         lineNumbers: true,
         scrollbarStyle: null,
-        lineWrapping: true
+        lineWrapping: true,
+        useTLS: true
       };
-      var type = 'language-markup';
+      var type = 'language-js';
       return _react2.default.createElement(
         'div',
-        { className: 'App' },
+        {
+          style: {
+            dispaly: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            width: '100%',
+            height: '100%',
+            PDDING: '5rem'
+          }
+        },
         _react2.default.createElement(
-          'section',
-          { className: 'playground' },
-          type === 'language-markup' ? _react2.default.createElement(
-            'div',
-            { className: 'code-editor html-code' },
-            _react2.default.createElement(
-              'div',
-              { className: 'editor-header' },
-              'HTML'
-            ),
-            _react2.default.createElement(_reactCodemirror.Controlled, {
-              value: html,
-              options: _extends({
-                mode: 'htmlmixed'
-              }, codeMirrorOptions),
-              onBeforeChange: function onBeforeChange(editor, data, html) {
-                _this2.setState({ html: html });
-              }
-            })
-          ) : null,
-          _react2.default.createElement(
-            'div',
-            { className: 'code-editor css-code' },
-            _react2.default.createElement(
-              'div',
-              { className: 'editor-header' },
-              'CSS'
-            ),
-            _react2.default.createElement(_reactCodemirror.Controlled, {
-              value: css,
-              options: _extends({
-                mode: 'css'
-              }, codeMirrorOptions),
-              onBeforeChange: function onBeforeChange(editor, data, css) {
-                _this2.setState({ css: css });
-              }
-            })
-          ),
-          type === 'language-js' ? _react2.default.createElement(
-            'div',
-            { className: 'code-editor js-code' },
-            _react2.default.createElement(
-              'div',
-              { className: 'editor-header' },
-              'JavaScript'
-            ),
-            _react2.default.createElement(_reactCodemirror.Controlled, {
-              value: js,
-              options: _extends({
-                mode: 'javascript'
-              }, codeMirrorOptions),
-              onBeforeChange: function onBeforeChange(editor, data, js) {
-                _this2.setState({ js: js });
-              }
-            })
-          ) : null
+          _Font.Topic,
+          null,
+          'topic place holder'
         ),
         _react2.default.createElement(
-          'section',
-          { className: 'result' },
-          _react2.default.createElement('iframe', { title: 'result', className: 'iframe', ref: 'iframe' })
+          'div',
+          {
+            style: {
+              display: 'flex',
+              width: '80%',
+              height: '95%'
+              // paddingLeft: '15rem',
+            }
+          },
+          _react2.default.createElement(
+            'section',
+            { className: 'playground' },
+            type === 'language-markup' ? _react2.default.createElement(
+              'div',
+              { className: 'code-editor html-code' },
+              _react2.default.createElement(
+                'div',
+                { className: 'editor-header' },
+                'HTML'
+              ),
+              _react2.default.createElement(_reactCodemirror.Controlled, {
+                value: html,
+                options: _extends({
+                  mode: 'htmlmixed'
+                }, codeMirrorOptions),
+                onBeforeChange: function onBeforeChange(editor, data, html) {
+                  _this2.setState({ html: html });
+                }
+              })
+            ) : null,
+            _react2.default.createElement(
+              'div',
+              { className: 'code-editor css-code' },
+              _react2.default.createElement(
+                'div',
+                { className: 'editor-header' },
+                'CSS'
+              ),
+              _react2.default.createElement(_reactCodemirror.Controlled, {
+                value: css,
+                options: _extends({
+                  mode: 'css'
+                }, codeMirrorOptions),
+                onBeforeChange: function onBeforeChange(editor, data, css) {
+                  _this2.setState({ css: css });
+                }
+              })
+            ),
+            type === 'language-js' ? _react2.default.createElement(
+              'div',
+              { className: 'code-editor js-code' },
+              _react2.default.createElement(
+                'div',
+                { className: 'editor-header' },
+                'JavaScript'
+              ),
+              _react2.default.createElement(_reactCodemirror.Controlled, {
+                value: js,
+                options: _extends({
+                  mode: 'javascript'
+                }, codeMirrorOptions),
+                onBeforeChange: function onBeforeChange(editor, data, js) {
+                  _this2.setState({ js: js });
+                }
+              })
+            ) : null
+          ),
+          _react2.default.createElement(
+            'section',
+            { className: 'result' },
+            _react2.default.createElement('iframe', { title: 'result', className: 'iframe', ref: 'iframe' })
+          )
+        ),
+        _react2.default.createElement(
+          'button',
+          {
+            onClick: function onClick() {
+              return _this2.runCode();
+            },
+            style: { width: '5rem', height: '2rem' }
+          },
+          'Run Code'
+        ),
+        _react2.default.createElement(
+          'form',
+          {
+            style: {
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center'
+            }
+          },
+          _react2.default.createElement('input', {
+            type: 'text',
+            onChange: this.onChangeHandler,
+            style: { width: '30rem', height: '5rem' }
+          }),
+          _react2.default.createElement(
+            'button',
+            {
+              style: { width: '5rem', height: '2rem' },
+              onClick: this.replyHandler
+            },
+            'Reply'
+          )
         )
       );
     }
@@ -1835,10 +1921,17 @@ var App = function (_Component) {
   return App;
 }(_react.Component);
 
-exports.default = App;
+// export default App;
 
-// const mapStateToProps = ({ conversation }) => ({ conversation });
-// export default connect(mapStateToProps)(PostPage);
+var mapStateToProps = function mapStateToProps(_ref) {
+  var conversation = _ref.conversation,
+      activeUser = _ref.activeUser;
+  return {
+    conversation: conversation,
+    activeUser: activeUser
+  };
+};
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(App);
 
 /***/ }),
 
@@ -2206,7 +2299,7 @@ var Root = function (_Component) {
           _react2.default.createElement(
             _reactRouterDom.Switch,
             null,
-            _react2.default.createElement(_reactRouterDom.Route, { path: '/profile', component: _UserProfile2.default }),
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/userprofile', component: _UserProfile2.default, exact: true }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/login', component: _Login2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _AllConvos2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/postpage', component: _PostPage2.default, exact: true })

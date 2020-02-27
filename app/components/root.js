@@ -19,7 +19,7 @@ export default class Root extends Component {
         <main>
           <Nav />
           <Switch>
-            <Route path="/profile" component={UserProfile} />
+            <Route path="/userprofile" component={UserProfile} exact />
             <Route path="/login" component={Login} />
             <Route exact path="/" component={AllConvos} />
             <Route path="/postpage" component={PostPage} exact />

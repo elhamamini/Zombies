@@ -11,10 +11,6 @@ if (process.env.NODE_ENV !== 'production') {
 const cors = require('cors');
 const Pusher = require('pusher');
 
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const Pusher = require('pusher');
-
 const app = express();
 
 const pusher = new Pusher({
@@ -28,10 +24,6 @@ const pusher = new Pusher({
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-<<<<<<< HEAD
-
-=======
->>>>>>> 5788d3e555e63bdf28e65d2a4b9ef6b85f1059c1
 const users = {};
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

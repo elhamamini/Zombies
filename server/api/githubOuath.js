@@ -3,6 +3,7 @@ const { User } = require('../db/index');
 const chalk = require('chalk');
 const axios = require('axios');
 router.get('/login', (req, res) => {
+  console.log('im here in login');
   res.redirect(
     `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}`
   );
@@ -53,6 +54,7 @@ router.get('/callback', (req, res) => {
       }
     })
     .then(() => {
+      console.log('hiiiii');
       res.redirect('/');
     })
     .catch(e => {
