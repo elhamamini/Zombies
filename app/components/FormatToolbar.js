@@ -3,7 +3,7 @@ import 'react-quill/dist/quill.snow.css';
 
 import { FormRow } from './styled/Form';
 import { Option, Dropdown, SmallDropdown } from './styled/Input';
-import Button from './styled/Button';
+import { Button } from './styled/Button';
 
 class FormatToolbar extends Component {
 

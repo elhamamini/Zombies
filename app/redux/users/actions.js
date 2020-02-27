@@ -1,4 +1,4 @@
-import { SET_ALL_USERS, ADD_USER } from './constants';
+import { SET_ALL_USERS, SET_USER, ADD_USER } from './constants';
 
 export const setUsers = users => {
     return {
@@ -6,6 +6,14 @@ export const setUsers = users => {
       users,
     };
   };
+
+export const setUser = user => {
+  return {
+    type: SET_USER,
+    user,
+  };
+};
+
 
 export const addUser = user => {
   return {

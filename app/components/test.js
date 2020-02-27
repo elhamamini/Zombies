@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getRepos } from '../redux/repository/thunks';
-import { getActiveUser } from '../redux/activeUser/thunks';
+
 class Test extends Component {
   componentDidMount() {
     this.props.getRepos();

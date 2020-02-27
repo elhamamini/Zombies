@@ -55,9 +55,9 @@ main {
   content: 'html'
 }
 
-.ql-markup,
+.ql-html,
 .ql-css,
-.ql-jss {
+.ql-js {
   background-color: rgb(236, 236, 236);
   color: #f43b43;
   font-family: 'Courier New';

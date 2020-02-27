@@ -82,6 +82,7 @@ router.get('/callback', (req, res) => {
 //       res.redirect('/error');
 //     });
 // });
+
 router.get('/user', (req, res) => {
   User.findOne({
     where: {
@@ -93,6 +94,7 @@ router.get('/user', (req, res) => {
       console.error(e);
     });
 });
+
 router.post('/user/repos', (req, res, next) => {
   // console.log('req.body', req.body);
   axios
