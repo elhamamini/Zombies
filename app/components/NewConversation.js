@@ -15,6 +15,7 @@ import { postConversation } from '../redux/conversations/thunks';
 
 import nlp from 'compromise';
 import whitelist from '../../whitelist';
+import { postConversation } from '../redux/conversations/thunks';
 
 import CustomQuill from './Quill';
 
@@ -55,40 +56,42 @@ class NewConversation extends Component {
 
   handleCodeType = (e, codeType) => {
     e.preventDefault();
-    this.setState({ codeType })
-  }
+    this.setState({ codeType });
+  };
 
   getCodeBlock = codeblock => {
-    this.setState({ 
+    this.setState({
       codeblocks: [
         ...this.state.codeblocks,
-        { type: this.state.codeType, codeblock }
-      ]
+        { type: this.state.codeType, codeblock },
+      ],
     });
-    this.setState({ codeType: null })
-  }
-  
-  generateTags = (value) => {
+    this.setState({ codeType: null });
+  };
+
+  generateTags = value => {
     const { tags } = this.state;
     const newTags = tags;
     //run compromise on body content
-    let postTopics = nlp(value).normalize({ plurals:true, parentheses:true }).nouns();
-    //loop through returned terms   
+    let postTopics = nlp(value)
+      .normalize({ plurals: true, parentheses: true })
+      .nouns();
+    //loop through returned terms
     console.log(postTopics.out('freq'));
     postTopics.out('freq').forEach(term => {
       //if term is NOT already in the tags list and IS in the whitelist, add it
       if (!newTags.includes(term.reduced) && whitelist[term.reduced]) {
-          newTags.push(term.reduced);
+        newTags.push(term.reduced);
       }
     });
     if (newTags.length > tags.length) {
-      this.setState({ tags: newTags })
+      this.setState({ tags: newTags });
     }
-  }
+  };
 
   getBodyText = text => {
-    this.setState({ body: text })
-  }
+    this.setState({ body: text });
+  };
 
   validate = (name, value) => {
     const { errors } = this.state;
@@ -132,7 +135,7 @@ class NewConversation extends Component {
   };
 
   render() {
-    console.log(this.state.body)
+    console.log(this.state.body);
     const {
       topic,
       body,
@@ -143,6 +146,7 @@ class NewConversation extends Component {
 
     return (
       <MainContainer>
+        <Link to="postpage">Post Page</Link>
         <Form>
           <Header>Create a New Conversation</Header>
           <Label>Topic</Label>
@@ -175,14 +179,10 @@ class NewConversation extends Component {
             </div>
           ) : null}
           <Label>Body</Label>
-          <CustomQuill getBodyText={this.getBodyText}/>
+          <CustomQuill getBodyText={this.getBodyText} />
           <InputFeedback>{bodyError}</InputFeedback>
           <PillContainer>
-            {
-              tags.length ?
-              tags.map(tag => <Pill key={tag}>{tag}</Pill>)
-              : ''
-            }
+            {tags.length ? tags.map(tag => <Pill key={tag}>{tag}</Pill>) : ''}
           </PillContainer>
           <Button
             disabled={
@@ -207,7 +207,8 @@ const mapState = ({ authentication, activeUser, reposetories }) => ({
 });
 
 const mapDispatch = dispatch => ({
-  postConversation: (userId, payload) => dispatch(postConversation(userId, payload)),
+  postConversation: (userId, payload) =>
+    dispatch(postConversation(userId, payload)),
   getActiveUser: () => dispatch(getActiveUser()),
   getRepos: () => dispatch(getRepos()),
 });

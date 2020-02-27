@@ -36,6 +36,7 @@ class Login extends Component {
     const { email, password } = this.state;
     e.preventDefault();
     this.props.login({ email, password });
+    this.props.history.push('/');
   };
 
   handleOnChange = ({ target: { name, value } }) => {

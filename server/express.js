@@ -8,7 +8,23 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const Pusher = require('pusher');
+
 const app = express();
+
+const pusher = new Pusher({
+  appId: process.env.PUSHER_APP_ID,
+  key: process.env.PUSHER_APP_KEY,
+  secret: process.env.PUSHER_APP_SECRET,
+  cluster: process.env.PUSHER_APP_CLUSTER,
+  useTLS: true,
+});
+
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 const users = {};
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
