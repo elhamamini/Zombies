@@ -8,23 +8,24 @@ import SmallButton from './styled/SmallButton';
 
 class UserProfile extends Component {
   render() {
-    const { activeUser } = this.props;
+    const { user } = this.props;
     return (
       <MainContainer>
         <Form>
-          {activeUser.image ? (
-            <Image src={activeUser.image} />
-          ) : (
-            <Image src="https://cdn3.iconfinder.com/data/icons/iconset-1-1/24/icon_set_outlinder-05-512.png" />
-          )}
-          <Header>{activeUser.name}</Header>
-          <Title>{activeUser.email}</Title>
+          {
+            user.image
+            ? <Image src={user.image} />
+            : <Image src="https://cdn3.iconfinder.com/data/icons/iconset-1-1/24/icon_set_outlinder-05-512.png" />
+          }
+          <Header>{user.name}</Header>
+          <Title>{user.email}</Title>
           <SmallButton>Edit Profile</SmallButton>
-          {activeUser.bio ? <Paragraph>{activeUser.bio}</Paragraph> : null}
+          {user.bio ? <Paragraph>{user.bio}</Paragraph> : null}
         </Form>
       </MainContainer>
     );
   }
 }
-const mapStateToProps = ({ activeUser }) => ({ activeUser });
+const mapStateToProps = ({ user }) => ({ user });
+
 export default connect(mapStateToProps, null)(UserProfile);

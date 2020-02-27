@@ -24,9 +24,7 @@ class Login extends Component {
   }
 
   componentDidUpdate() {
-    const {
-      authentication: { isLoggedIn },
-    } = this.props;
+    const { authentication: { isLoggedIn } } = this.props;
     //for now i just send it to the home page after login
     if (isLoggedIn) this.props.history.push('/');
   }
@@ -152,16 +150,18 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = ({ authentication, activeUser }) => ({
+const mapStateToProps = ({
   authentication,
-  activeUser,
+  user
+}) => ({
+  authentication,
+  user,
 });
 
 const mapDispatchToProps = dispatch => {
   return {
     login: info => dispatch(login(info)),
     removeLogInError: () => dispatch(removeLogInError()),
-    getActiveUser: () => dispatch(getActiveUser()),
   };
 };
 

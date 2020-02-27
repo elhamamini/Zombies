@@ -29,7 +29,7 @@ class Root extends Component {
             <Route path="/login" component={Login} />
             <Route exact path="/" component={AllConvos} />
             <Route path='/new' component={NewConversation} />
-            <Route path="/postpage" component={PostPage} exact />
+            <Route path="/postpage" component={PostPage} />
           </Switch>
         </main>
       </Router>

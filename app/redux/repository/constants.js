@@ -1,1 +1,1 @@
-export const SET_ALLREPOS = 'SET_ALLREPOS';
+export const SET_ALL_REPOS = 'SET_ALL_REPOS';
