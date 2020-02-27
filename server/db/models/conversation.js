@@ -10,11 +10,11 @@ const Conversation = db.define('conversation', {
   },
   title: {
     type: Sequelize.TEXT,
-    allowNull: false,
+    allowNull: true,
   },
   author: {
     type: Sequelize.STRING,
-    allowNull: true,
+    allowNull: false,
   },
   hasAnswer: {
     type: Sequelize.BOOLEAN,

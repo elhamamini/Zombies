@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { initialLogInAttempt } from '../redux/authentication/thunks';
-import store from '../store';
+
 import Home from './Home';
 import Login from './Login';
-import Nav from './Nav';
+import NavBar from './NavBar';
 import MLForm from './MLForm';
 import AllConvos from './ConversationsIndex/AllConvos';
 import NewConversation from './NewConversation';
@@ -12,20 +12,31 @@ import Test from './test';
 import UserProfile from './UserProfile';
 import PostPage from './PostPage';
 
-export default class Root extends Component {
+import { getUserFromGitHub } from '../redux/users/thunks';
+
+class Root extends Component {
+  componentDidMount() {
+    this.props.getUserFromGitHub();
+  }
+
   render() {
     return (
       <Router>
         <main>
-          <Nav />
+          <NavBar />
           <Switch>
             <Route path="/userprofile" component={UserProfile} exact />
             <Route path="/login" component={Login} />
             <Route exact path="/" component={AllConvos} />
-            <Route path="/postpage" component={PostPage} exact />
+            <Route path='/new' component={NewConversation} />
+            <Route path="/postpage" component={PostPage} />
           </Switch>
         </main>
       </Router>
     );
   }
 }
+
+const mapDispatch = dispatch => ({ getUserFromGitHub: () => dispatch(getUserFromGitHub())})
+
+export default connect(null, mapDispatch)(Root)

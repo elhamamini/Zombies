@@ -6,7 +6,7 @@ import pushid from 'pushid';
 import axios from 'axios';
 import { MainContainer } from './styled/Div';
 import { Topic } from './styled/Font';
-import { TextFieald } from './styled/Input';
+import { TextField } from './styled/Input';
 import { Form, FormRow, FormColumn } from './styled/Form';
 import { InputFeedback } from './styled/Input';
 

@@ -8,9 +8,7 @@ import { Header, Anchor } from './styled/Font';
 import { Hr } from './styled/Div';
 import { Form, FormRow, FormColumn } from './styled/Form';
 import { Input, InputFeedback } from './styled/Input';
-import Button from './styled/Button';
-import { NavButton } from './styled/Nav';
-import { getActiveUser } from '../redux/activeUser/thunks';
+import { Button, AnchorButton } from './styled/Button';
 
 class Login extends Component {
   constructor() {
@@ -106,12 +104,13 @@ class Login extends Component {
       <Form>
         <Header>Sign in with Social Media</Header>
         <FormRow>
-          <Button secondary href="/api/github/login">
+          <AnchorButton secondary href="/api/github/login">
             Continue with Github
-          </Button>
-          <Button secondary onClick={this.handleOnClick}>
+          </AnchorButton>
+
+          <AnchorButton secondary onClick={this.handleOnClick}>
             Continue with Google
-          </Button>
+          </AnchorButton>
         </FormRow>
         <Hr />
         <Header>Or sign in with your email and password</Header>
@@ -153,16 +152,15 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = ({ authentication, activeUser }) => ({
+const mapStateToProps = ({ authentication, user }) => ({
   authentication,
-  activeUser,
+  user,
 });
 
 const mapDispatchToProps = dispatch => {
   return {
     login: info => dispatch(login(info)),
     removeLogInError: () => dispatch(removeLogInError()),
-    getActiveUser: () => dispatch(getActiveUser()),
   };
 };
 
