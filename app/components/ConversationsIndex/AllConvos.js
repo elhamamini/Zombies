@@ -11,26 +11,30 @@ import { Pill } from '../styled/Pill';
 import whitelist from '../../../whitelist';
 
 function AllConvos(props) {
-  const [page, setPage] = useState(0);
-  const [selectedTag, setSelected] = useState('');
-  const convosList = useSelector(state => state.allConversations);
-  const dispatch = useDispatch();
+    const [page, setPage] = useState(0);
+    const [selectedTag, setSelected] = useState('');
+    const convosList = useSelector(state => state.allConversations);
+    const dispatch = useDispatch();
 
-  const handleClick = id => {
-    props.history.push(`/discussion/${id}`);
-  };
+    const handleClick = id => {
+        props.history.push(`/discussion/${id}`);
+    };
 
-  //todo: make this toggle-able
-  //build up a list
-  const handleFilter = tag => {
-    dispatch(filterConversations([tag]));
-  };
-
-  useEffect(() => {
-    if (!convosList.length) {
-      dispatch(fetchAllConversations(0));
+    const handleFilter = (tag) => {
+        if (selectedTag == tag) {
+            setSelected('');
+            dispatch(fetchAllConversations(0));
+        } else {
+            setSelected(tag);
+            dispatch(filterConversations([tag]));
+        }
     }
-  });
+
+    useEffect(() => {
+    if (!convosList.length) {
+        dispatch(fetchAllConversations(0));
+    }
+    });
 
   return (
     <Container.Paper id="conversations-index">
