@@ -26,62 +26,129 @@ Size.whitelist = [
 ];
 Quill.register(Size, true);
 
-const CodeBlock = Quill.import('blots/inline');
-
-class CSSCodeBlock extends CodeBlock {
-  create() {
-    let node = super.create();
-    return node;
-  }
-}
-
-CSSCodeBlock.blotName = 'code-block';
-CSSCodeBlock.tagName = 'code-block';
-CSSCodeBlock.className = `CSS`;
-
-Quill.register('formats/inline', CSSCodeBlock);
+const CodeBlock = Quill.import('blots/block');
 
 class HTMLCodeBlock extends CodeBlock {
-  create() {
+  static create() {
     let node = super.create();
+    node.setAttribute('class', 'ql-html language-markup')
     return node;
   }
 }
 
-HTMLCodeBlock.blotName = 'code-block';
-HTMLCodeBlock.tagName = 'code-block';
-HTMLCodeBlock.className = `HTML`;
+HTMLCodeBlock.blotName = 'markup';
+HTMLCodeBlock.className = 'markup';
+HTMLCodeBlock.tagName = 'pre';
 
-Quill.register('formats/inline', HTMLCodeBlock);
+Quill.register(HTMLCodeBlock);
+
+class CSSCodeBlock extends CodeBlock {
+  static create() {
+    let node = super.create();
+    node.setAttribute('class', 'ql-css language-css')
+    return node;
+  }
+}
+
+CSSCodeBlock.blotName = 'css';
+CSSCodeBlock.className = `css`;
+CSSCodeBlock.tagName = 'pre';
+
+Quill.register(CSSCodeBlock);
+
+class JSCodeBlock extends CodeBlock {
+  static create() {
+    let node = super.create();
+    node.setAttribute('class', 'ql-js language-js')
+    return node;
+  }
+}
+
+JSCodeBlock.blotName = 'js';
+JSCodeBlock.className = 'js';
+JSCodeBlock.tagName = 'pre';
+
+Quill.register(JSCodeBlock);
 
 const modules = {
   toolbar: {
     container: '#toolbar',
     handlers: {
-      'codeblock': function() {
+      'markup': function(val) {
           const current = this.quill.getSelection()
+          console.log('CURRENT', this.quill.getFormat())
           if(current) {
-            if(Object.keys(this.quill.getFormat()).length && !this.quill.getFormat()['code-block']) {
+            if(Object.keys(this.quill.getFormat()).length && !this.quill.getFormat()[`${val}`]) {
               this.quill.removeFormat(current);
               if(current.index !== 0) {
                 this.quill.insertText(current, '\n');
               }
-              this.quill.format('code-block', true);
+              this.quill.format(`${val}`, true);
               return;
-            } else if(this.quill.getFormat()['code-block']) {
+            } else if(this.quill.getFormat()[`${val}`]) {
               if(current.index !== 0) {
                 this.quill.insertText(current, '\n');
               }
-              this.quill.format('code-block', false);
+              this.quill.format(`${val}`, false);
               return;
             } else {
               if(current.index !== 0) {
                 this.quill.insertText(current, '\n');
               }
-              this.quill.format('code-block', true);
+              this.quill.format(`${val}`, true);
             }
         }
+      },
+
+      'css': function(val) {
+        const current = this.quill.getSelection()
+        if(current) {
+          if(Object.keys(this.quill.getFormat()).length && !this.quill.getFormat()[`${val}`]) {
+            this.quill.removeFormat(current);
+            if(current.index !== 0) {
+              this.quill.insertText(current, '\n');
+            }
+            this.quill.format(`${val}`, true);
+            return;
+          } else if(this.quill.getFormat()[`${val}`]) {
+            if(current.index !== 0) {
+              this.quill.insertText(current, '\n');
+            }
+            this.quill.format(`${val}`, false);
+            return;
+          } else {
+            if(current.index !== 0) {
+              this.quill.insertText(current, '\n');
+            }
+            this.quill.format(`${val}`, true);
+          }
       }
+    },
+
+    'js': function(val) {
+      const current = this.quill.getSelection()
+      if(current) {
+        if(Object.keys(this.quill.getFormat()).length && !this.quill.getFormat()[`${val}`]) {
+          this.quill.removeFormat(current);
+          if(current.index !== 0) {
+            this.quill.insertText(current, '\n');
+          }
+          this.quill.format(`${val}`, true);
+          return;
+        } else if(this.quill.getFormat()[`${val}`]) {
+          if(current.index !== 0) {
+            this.quill.insertText(current, '\n');
+          }
+          this.quill.format(`${val}`, false);
+          return;
+        } else {
+          if(current.index !== 0) {
+            this.quill.insertText(current, '\n');
+          }
+          this.quill.format(`${val}`, true);
+        }
+    }
+  }
     }
   }
 }
@@ -97,7 +164,9 @@ const formats = [
   'color',
   'background',
   'clean',
-  'code-block',
+  'markup',
+  'css',
+  'js'
 ];
 
 class CustomQuill extends Component {
