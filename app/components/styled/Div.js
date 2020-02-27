@@ -6,6 +6,14 @@ export const MainContainer = styled.div`
   width: 100%;
 `;
 
+export const Paper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+`;
+
 export const Hr = styled.hr`
   display: block;
   width: 95%;

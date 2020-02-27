@@ -7,9 +7,12 @@ import { Form, FormRow } from './styled/Form';
 import { Input, InputFeedback, Label } from './styled/Input';
 import Button from './styled/Button';
 import { Select, Option } from './styled/Select';
+import { Pill, PillContainer, PillLabel } from './styled/Pill';
 
 import { getActiveUser } from '../redux/activeUser/thunks';
 import { getRepos } from '../redux/repository/thunks';
+import nlp from 'compromise';
+import whitelist from '../../whitelist';
 
 import CodeInput from './CodeInput';
 import CustomQuill from './Quill';
@@ -27,6 +30,7 @@ class NewConversation extends Component {
         topicError: '',
         bodyError: '',
       },
+      tags: [],
     };
   }
 
@@ -38,7 +42,11 @@ class NewConversation extends Component {
   }
 
   handleOnChange = ({ target: { name, value } }) => {
-    this.setState({ [name]: value }, () => this.validate(name, value));
+    this.setState({ [name]: value }, () => {
+      this.validate(name, value);
+      //todo: call generateTags from here
+      this.generateTags(value);
+    });
   };
 
   handleOnClick = e => {
@@ -59,6 +67,24 @@ class NewConversation extends Component {
       ]
     });
     this.setState({ codeType: null })
+  }
+  
+  generateTags = (value) => {
+    const { tags } = this.state;
+    const newTags = tags;
+    //run compromise on body content
+    let postTopics = nlp(value).normalize({ plurals:true, parentheses:true }).nouns();
+    //loop through returned terms   
+    console.log(postTopics.out('freq'));
+    postTopics.out('freq').forEach(term => {
+      //if term is NOT already in the tags list and IS in the whitelist, add it
+      if (!newTags.includes(term.reduced) && whitelist[term.reduced]) {
+          newTags.push(term.reduced);
+      }
+    });
+    if (newTags.length > tags.length) {
+      this.setState({ tags: newTags })
+    }
   }
 
   getBodyText = text => {
@@ -113,6 +139,7 @@ class NewConversation extends Component {
       body,
       codeType,
       codeblocks,
+      tags,
       errors,
       errors: { topicError, bodyError },
     } = this.state;
@@ -153,6 +180,13 @@ class NewConversation extends Component {
           <Label>Body</Label>
           <CustomQuill getBodyText={this.getBodyText}/>
           <InputFeedback>{bodyError}</InputFeedback>
+          <PillContainer>
+            {
+              tags.length ?
+              tags.map(tag => <Pill key={tag}>{tag}</Pill>)
+              : ''
+            }
+          </PillContainer>
           <Button
             disabled={
               !topic || !body || Object.values(errors).some(val => !!val)

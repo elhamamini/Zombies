@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Row } from './Div';
-import { Link } from 'react-router-dom'
+import { Anchor } from './Font';
+import { Link } from 'react-router-dom';
 
 export const Nav = styled(Row)`
   width: 100%;
