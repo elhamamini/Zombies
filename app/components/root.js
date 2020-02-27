@@ -23,6 +23,7 @@ export default class Root extends Component {
             <Route path="/login" component={Login} />
             <Route exact path="/" component={AllConvos} />
             <Route path="/postpage" component={PostPage} exact />
+            <Route path="/newconv" component={NewConversation} />
           </Switch>
         </main>
       </Router>

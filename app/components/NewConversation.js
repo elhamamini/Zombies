@@ -21,6 +21,7 @@ class NewConversation extends Component {
   constructor() {
     super();
     this.state = {
+      repo: '',
       topic: '',
       body: '',
       codeType: null,
@@ -150,7 +151,7 @@ class NewConversation extends Component {
 
     return (
       <MainContainer>
-        <Link to="postpage">Post Page</Link>
+        {/* <Link to="postpage">Post Page</Link> */}
         <Form>
           <Header>Create a New Conversation</Header>
           <Label>Topic</Label>
@@ -170,7 +171,7 @@ class NewConversation extends Component {
                 id="repository"
                 onChange={ev => {
                   this.setState({
-                    body: ev.target.value,
+                    repo: ev.target.value,
                   });
                 }}
               >

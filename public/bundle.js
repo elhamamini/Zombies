@@ -1476,6 +1476,7 @@ var NewConversation = function (_Component) {
     };
 
     _this.state = {
+      repo: '',
       topic: '',
       body: '',
       codeType: null,
@@ -1521,11 +1522,6 @@ var NewConversation = function (_Component) {
         _Div.MainContainer,
         null,
         _react2.default.createElement(
-          Link,
-          { to: 'postpage' },
-          'Post Page'
-        ),
-        _react2.default.createElement(
           _Form.Form,
           null,
           _react2.default.createElement(
@@ -1564,7 +1560,7 @@ var NewConversation = function (_Component) {
                 id: 'repository',
                 onChange: function onChange(ev) {
                   _this3.setState({
-                    body: ev.target.value
+                    repo: ev.target.value
                   });
                 }
               },
@@ -2301,7 +2297,8 @@ var Root = function (_Component) {
             _react2.default.createElement(_reactRouterDom.Route, { path: '/userprofile', component: _UserProfile2.default, exact: true }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/login', component: _Login2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _AllConvos2.default }),
-            _react2.default.createElement(_reactRouterDom.Route, { path: '/postpage', component: _PostPage2.default, exact: true })
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/postpage', component: _PostPage2.default, exact: true }),
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/newconv', component: _NewConversation2.default })
           )
         )
       );
