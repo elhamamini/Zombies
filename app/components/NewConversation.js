@@ -11,6 +11,8 @@ import { getActiveUser } from '../redux/activeUser/thunks';
 import { getRepos } from '../redux/repository/thunks';
 import nlp from 'compromise';
 import whitelist from '../../whitelist';
+import { postConversation } from '../redux/conversations/thunks';
+
 import CodeInput from './CodeInput';
 import CustomQuill from './Quill';
 
