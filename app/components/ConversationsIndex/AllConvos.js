@@ -31,10 +31,8 @@ function AllConvos(props) {
     }
 
     useEffect(() => {
-    if (!convosList.length) {
         dispatch(fetchAllConversations(0));
-    }
-    });
+    }, []);
 
   return (
     <Container.Paper id="conversations-index">
@@ -45,7 +43,7 @@ function AllConvos(props) {
       <Font.Title>Popular Topics</Font.Title>
       <Card.CardContainer>
         {Object.keys(whitelist).map(key => (
-          <Pill key={key} id={key} onClick={() => handleFilter(key)}>
+          <Pill key={key} id={key} selected={key === selectedTag} onClick={() => handleFilter(key)}>
             {key}
           </Pill>
         ))}

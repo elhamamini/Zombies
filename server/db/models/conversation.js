@@ -33,10 +33,6 @@ const Conversation = db.define('conversation', {
       return this.getReplies().length;
     }
   },
-  tags: {
-    type: Sequelize.ARRAY(Sequelize.STRING),
-    defaultValue: ['default'],
-  },
 });
 
 module.exports = Conversation;
