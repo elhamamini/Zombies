@@ -321,25 +321,15 @@ function AllConvos(props) {
     props.history.push('/discussion/' + id);
   };
 
-<<<<<<< HEAD
-    //todo: make this toggle-able
-    //build up a list
-    var handleFilter = function handleFilter(tag) {
-        if (selectedTag == tag) {
-            setSelected('');
-            dispatch((0, _thunks.fetchAllConversations)(0));
-        } else {
-            setSelected(tag);
-            dispatch((0, _thunks.filterConversations)([tag]));
-        }
-    };
-=======
-  //todo: make this toggle-able
-  //build up a list
   var handleFilter = function handleFilter(tag) {
-    dispatch((0, _thunks.filterConversations)([tag]));
+    if (selectedTag == tag) {
+      setSelected('');
+      dispatch((0, _thunks.fetchAllConversations)(0));
+    } else {
+      setSelected(tag);
+      dispatch((0, _thunks.filterConversations)([tag]));
+    }
   };
->>>>>>> dev
 
   (0, _react.useEffect)(function () {
     if (!convosList.length) {
@@ -395,20 +385,6 @@ function AllConvos(props) {
           convo.replyCount ? _react2.default.createElement(
             Font.Label,
             null,
-<<<<<<< HEAD
-            Object.keys(_whitelist2.default).map(function (key) {
-                return _react2.default.createElement(
-                    _Pill.Pill,
-                    { key: key, id: key, selected: key === selectedTag, onClick: function onClick() {
-                            return handleFilter(key);
-                        } },
-                    key
-                );
-            })
-        ),
-        _react2.default.createElement(
-            Card.CardContainer,
-=======
             convo.replyCount + ' ' + (convo.replyCount > 1 ? 'replies' : 'reply')
           ) : _react2.default.createElement(
             Font.Label,
@@ -417,7 +393,6 @@ function AllConvos(props) {
           ),
           convo.hasAnswer && _react2.default.createElement(
             Font.Label,
->>>>>>> dev
             null,
             'Answered'
           )
