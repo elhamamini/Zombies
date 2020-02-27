@@ -11,6 +11,10 @@ if (process.env.NODE_ENV !== 'production') {
 const cors = require('cors');
 const Pusher = require('pusher');
 
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const Pusher = require('pusher');
+
 const app = express();
 
 const pusher = new Pusher({

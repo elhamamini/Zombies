@@ -20,10 +20,14 @@ function AllConvos(props) {
     props.history.push(`/discussion/${id}`);
   };
 
-  //todo: make this toggle-able
-  //build up a list
   const handleFilter = tag => {
-    dispatch(filterConversations([tag]));
+    if (selectedTag == tag) {
+      setSelected('');
+      dispatch(fetchAllConversations(0));
+    } else {
+      setSelected(tag);
+      dispatch(filterConversations([tag]));
+    }
   };
 
   useEffect(() => {
