@@ -26,7 +26,7 @@ Size.whitelist = [
 ];
 Quill.register(Size, true);
 
-const CodeBlock = Quill.import('blots/block');
+const CodeBlock = Quill.import('blots/inline');
 
 class HTMLCodeBlock extends CodeBlock {
   static create() {
@@ -76,7 +76,6 @@ const modules = {
     handlers: {
       'markup': function(val) {
           const current = this.quill.getSelection()
-          console.log('CURRENT', this.quill.getFormat())
           if(current) {
             if(Object.keys(this.quill.getFormat()).length && !this.quill.getFormat()[`${val}`]) {
               this.quill.removeFormat(current);

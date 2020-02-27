@@ -151,27 +151,7 @@ class NewConversation extends Component {
             </div>
           ) : null}
           <Label>Body</Label>
-          <Button onClick={e => this.handleCodeType(e, 'language-markup')}>{'</>'}</Button>
-          <Button onClick={e => this.handleCodeType(e, 'language-js')}>{'{}'}</Button>
           <CustomQuill getBodyText={this.getBodyText}/>
-          <div>
-            {
-              codeblocks.length
-              ? codeblocks.map((block, idx) => {
-                return (
-                  <pre key={idx}>
-                    <code className={block.type}>
-                      {block.codeblock}
-                    </code>
-                  </pre>
-                )
-              })
-              : null
-            }
-          </div>
-          <FormRow>
-            <CodeInput codeType={codeType} addCodeBlock={this.getCodeBlock}/>
-          </FormRow>
           <InputFeedback>{bodyError}</InputFeedback>
           <Button
             disabled={
