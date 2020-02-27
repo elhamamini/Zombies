@@ -37,6 +37,7 @@ class Login extends Component {
     const { email, password } = this.state;
     e.preventDefault();
     this.props.login({ email, password });
+    this.props.history.push('/');
   };
 
   handleOnChange = ({ target: { name, value } }) => {
@@ -105,11 +106,11 @@ class Login extends Component {
       <Form>
         <Header>Sign in with Social Media</Header>
         <FormRow>
-          <Button secondary href='/api/github/login'>
+          <Button secondary href="/api/github/login">
             Continue with Github
           </Button>
 
-          <Button secondary onClick={this.handleOnClick} >
+          <Button secondary onClick={this.handleOnClick}>
             Continue with Google
           </Button>
         </FormRow>
