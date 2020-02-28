@@ -23,6 +23,7 @@ class NewConversation extends Component {
   constructor() {
     super();
     this.state = {
+      repo: '',
       topic: '',
       body: '',
       errors: {
@@ -35,9 +36,7 @@ class NewConversation extends Component {
 
   componentDidMount() {
     //We should probably set these repos when we get the user as well
-    this.props.user.githubUsername
-    ? this.props.getRepos()
-    : null;
+    this.props.user.githubUsername ? this.props.getRepos() : null;
   }
 
   handleOnChange = ({ target: { name, value } }) => {
@@ -134,7 +133,7 @@ class NewConversation extends Component {
 
   render() {
     console.log(this.state.body);
-    console.log(this.props)
+    console.log(this.props);
     const {
       topic,
       body,
@@ -145,7 +144,7 @@ class NewConversation extends Component {
 
     return (
       <MainContainer>
-        <Link to="postpage">Post Page</Link>
+        {/* <Link to="postpage">Post Page</Link> */}
         <Form>
           <Header>Create a New Conversation</Header>
           <Label>Topic</Label>
@@ -157,39 +156,28 @@ class NewConversation extends Component {
             onChange={this.handleOnChange}
           />
           <InputFeedback>{topicError}</InputFeedback>
-          {
-            this.props.repositories.length &&
-            this.props.user.githubUsername
-            ? (
-              <div>
-                <label>Add repository link to your Conversation:</label>
-                <Select
-                  id="repository"
-                  onChange={ev => this.setState({ body: ev.target.value }) }
-                >
-                  {
-                    this.props.repositories.map(repo => {
-                      return (
-                        <Option key={repo.id} value={repo.html_url}>
-                           {repo.name}
-                        </Option>
-                      )
-                    })
-                  }
-                </Select>
-              </div>
-              )
-            : null
-          }
+          {this.props.repositories.length && this.props.user.githubUsername ? (
+            <div>
+              <label>Add repository link to your Conversation:</label>
+              <Select
+                id="repository"
+                onChange={ev => this.setState({ body: ev.target.value })}
+              >
+                {this.props.repositories.map(repo => {
+                  return (
+                    <Option key={repo.id} value={repo.html_url}>
+                      {repo.name}
+                    </Option>
+                  );
+                })}
+              </Select>
+            </div>
+          ) : null}
           <Label>Body</Label>
           <CustomQuill getBodyText={this.getBodyText} />
           <InputFeedback>{bodyError}</InputFeedback>
           <PillContainer>
-            {
-              tags.length
-              ? tags.map(tag => <Pill key={tag}>{tag}</Pill>)
-              : ''
-            }
+            {tags.length ? tags.map(tag => <Pill key={tag}>{tag}</Pill>) : ''}
           </PillContainer>
           <Button
             disabled={
@@ -207,11 +195,7 @@ class NewConversation extends Component {
   }
 }
 
-const mapState = ({
-  authentication,
-  user,
-  repositories
-}) => ({
+const mapState = ({ authentication, user, repositories }) => ({
   authentication,
   user,
   repositories,

@@ -14,9 +14,11 @@ function AllConvos(props) {
     const activeTags = useSelector(state => state.tags);
     const dispatch = useDispatch();
 
-    const handleClick = id => {
-        props.history.push(`/discussion/${id}`);
-    };
+
+  const handleClick = id => {
+    props.history.push(`/discussion/${id}`);
+  };
+
 
     const handleFilter = (tag) => {
         if (selectedTag == tag) {
@@ -27,10 +29,12 @@ function AllConvos(props) {
             dispatch(filterConversations([tag]));
         }
     }
+  };
 
     useEffect(() => {
         dispatch(fetchAllConversations(0));
     }, []);
+
 
   return (
     <Container.Paper id="conversations-index">

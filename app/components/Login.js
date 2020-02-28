@@ -24,7 +24,9 @@ class Login extends Component {
   }
 
   componentDidUpdate() {
-    const { authentication: { isLoggedIn } } = this.props;
+    const {
+      authentication: { isLoggedIn },
+    } = this.props;
     //for now i just send it to the home page after login
     if (isLoggedIn) this.props.history.push('/');
   }
@@ -102,11 +104,11 @@ class Login extends Component {
       <Form>
         <Header>Sign in with Social Media</Header>
         <FormRow>
-          <AnchorButton secondary href='/api/github/login'>
+          <AnchorButton secondary href="/api/github/login">
             Continue with Github
           </AnchorButton>
 
-          <AnchorButton secondary onClick={this.handleOnClick} >
+          <AnchorButton secondary onClick={this.handleOnClick}>
             Continue with Google
           </AnchorButton>
         </FormRow>
@@ -150,10 +152,7 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = ({
-  authentication,
-  user
-}) => ({
+const mapStateToProps = ({ authentication, user }) => ({
   authentication,
   user,
 });

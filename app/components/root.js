@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import Home from './Home';
@@ -27,10 +27,10 @@ class Root extends Component {
         <main>
           <NavBar />
           <Switch>
-            <Route path="/profile" component={UserProfile} />
+            <Route path="/userprofile" component={UserProfile} exact />
             <Route path="/login" component={Login} />
             <Route exact path="/" component={AllConvos} />
-            <Route path='/new' component={NewConversation} />
+            <Route path="/new" component={NewConversation} />
             <Route path="/postpage" component={PostPage} />
           </Switch>
         </main>
@@ -39,6 +39,7 @@ class Root extends Component {
   }
 }
 
+
 const mapDispatch = dispatch => (
   { 
     getUserFromGitHub: () => dispatch(getUserFromGitHub()),
@@ -46,4 +47,4 @@ const mapDispatch = dispatch => (
   }
 )
 
-export default connect(null, mapDispatch)(Root)
+export default connect(null, mapDispatch)(Root);
