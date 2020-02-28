@@ -193,10 +193,8 @@ function AllConvos(props) {
   };
 
   (0, _react.useEffect)(function () {
-    if (!convosList.length) {
-      dispatch((0, _thunks.fetchAllConversations)(0));
-    }
-  });
+    dispatch((0, _thunks.fetchAllConversations)(0));
+  }, []);
 
   return _react2.default.createElement(
     Container.Paper,
@@ -222,9 +220,14 @@ function AllConvos(props) {
       Object.keys(_whitelist2.default).map(function (key) {
         return _react2.default.createElement(
           _Pill.Pill,
-          { key: key, id: key, onClick: function onClick() {
+          {
+            key: key,
+            id: key,
+            selected: key === selectedTag,
+            onClick: function onClick() {
               return handleFilter(key);
-            } },
+            }
+          },
           key
         );
       })
@@ -587,7 +590,7 @@ var Login = function (_Component) {
           password = _this$state.password;
 
       e.preventDefault();
-      _this.props.login({ email: email, password: password });
+      _this.props.attemptLogin({ email: email, password: password });
       _this.props.history.push('/');
     };
 
@@ -771,11 +774,11 @@ var mapStateToProps = function mapStateToProps(_ref2) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    login: function login(info) {
-      return dispatch((0, _thunks.login)(info));
+    attemptLogin: function attemptLogin(info) {
+      return dispatch((0, _thunks.attemptLogin)(info));
     },
-    removeLogInError: function removeLogInError() {
-      return dispatch((0, _actions.removeLogInError)());
+    removeLoginError: function removeLoginError() {
+      return dispatch((0, _actions.removeLoginError)());
     }
   };
 };
@@ -2728,13 +2731,12 @@ var Test = function (_Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.props.getRepos();
-      // this.props.getActiveUser();
     }
   }, {
     key: 'render',
     value: function render() {
-      console.log('activeUser', this.props.activeUser);
-      console.log('reposssss', this.props.reposetories);
+      console.log('activeUser', this.props.user);
+      console.log('reposssss', this.props.repositories);
       return _react2.default.createElement(
         'div',
         null,
@@ -2747,31 +2749,18 @@ var Test = function (_Component) {
 }(_react.Component);
 
 var mapStateToProps = function mapStateToProps(_ref) {
-  var reposetories = _ref.reposetories,
-      activeUser = _ref.activeUser;
+  var repositories = _ref.repositories,
+      user = _ref.user;
   return {
-    reposetories: reposetories,
-    activeUser: activeUser
+    repositories: repositories,
+    user: user
   };
 };
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     getRepos: function getRepos() {
       return dispatch((0, _thunks.getRepos)());
-    },
-    getActiveUser: function (_getActiveUser) {
-      function getActiveUser() {
-        return _getActiveUser.apply(this, arguments);
-      }
-
-      getActiveUser.toString = function () {
-        return _getActiveUser.toString();
-      };
-
-      return getActiveUser;
-    }(function () {
-      return dispatch(getActiveUser());
-    })
+    }
   };
 };
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Test);
@@ -2827,15 +2816,36 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.removeLogInError = exports.setLogInError = exports.signOut = exports.signUp = exports.signIn = undefined;
+exports.signUp = exports.removeLogInError = exports.setLoginError = exports.logout = exports.login = undefined;
 
 var _constants = __webpack_require__(/*! ./constants */ "./app/redux/authentication/constants.js");
 
-var signIn = exports.signIn = function signIn(data) {
+var login = exports.login = function login(data) {
   return {
-    type: _constants.SIGN_IN,
+    type: _constants.LOGIN,
     isLoggedIn: true,
     activeUser: data
+  };
+};
+
+var logout = exports.logout = function logout() {
+  return {
+    type: _constants.LOGOUT,
+    isLoggedIn: false
+  };
+};
+
+var setLoginError = exports.setLoginError = function setLoginError() {
+  return {
+    type: _constants.LOGIN_ERROR,
+    logInError: true
+  };
+};
+
+var removeLogInError = exports.removeLogInError = function removeLogInError() {
+  return {
+    type: _constants.LOGIN_ERROR,
+    logInError: false
   };
 };
 
@@ -2844,27 +2854,6 @@ var signUp = exports.signUp = function signUp(data) {
     type: _constants.SIGN_UP,
     isLoggedIn: true,
     activeUser: data
-  };
-};
-
-var signOut = exports.signOut = function signOut() {
-  return {
-    type: _constants.SIGN_OUT,
-    isLoggedIn: false
-  };
-};
-
-var setLogInError = exports.setLogInError = function setLogInError() {
-  return {
-    type: _constants.LOG_IN_ERROR,
-    logInError: true
-  };
-};
-
-var removeLogInError = exports.removeLogInError = function removeLogInError() {
-  return {
-    type: _constants.LOG_IN_ERROR,
-    logInError: false
   };
 };
 
@@ -2883,13 +2872,13 @@ var removeLogInError = exports.removeLogInError = function removeLogInError() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var SIGN_IN = exports.SIGN_IN = Symbol('SIGN_IN');
+var LOGIN = exports.LOGIN = Symbol('LOGIN');
 
-var SIGN_OUT = exports.SIGN_OUT = Symbol('SIGN_OUT');
+var LOGOUT = exports.LOGOUT = Symbol('LOGOUT');
+
+var LOGIN_ERROR = exports.LOGIN_ERROR = Symbol('LOGIN_ERROR');
 
 var SIGN_UP = exports.SIGN_UP = Symbol('SIGN_UP');
-
-var LOG_IN_ERROR = exports.LOG_IN_ERROR = Symbol('LOG_IN_ERROR');
 
 /***/ }),
 
@@ -2916,7 +2905,7 @@ var initialState = {
   logInError: false
 };
 
-var authenticationReducer = function authenticationReducer() {
+exports.default = function () {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
   var action = arguments[1];
 
@@ -2924,10 +2913,24 @@ var authenticationReducer = function authenticationReducer() {
   var logInError = action.logInError;
 
   switch (action.type) {
-    case _constants.SIGN_IN:
+    case _constants.LOGIN:
       {
         return _extends({}, state, {
           isLoggedIn: isLoggedIn
+        });
+      }
+
+    case _constants.LOGOUT:
+      {
+        return _extends({}, state, {
+          isLoggedIn: isLoggedIn
+        });
+      }
+
+    case _constants.LOGIN_ERROR:
+      {
+        return _extends({}, state, {
+          logInError: logInError
         });
       }
 
@@ -2938,26 +2941,10 @@ var authenticationReducer = function authenticationReducer() {
         });
       }
 
-    case _constants.SIGN_OUT:
-      {
-        return _extends({}, state, {
-          isLoggedIn: isLoggedIn
-        });
-      }
-
-    case _constants.LOG_IN_ERROR:
-      {
-        return _extends({}, state, {
-          logInError: logInError
-        });
-      }
-
     default:
       return state;
   }
 };
-
-exports.default = authenticationReducer;
 
 /***/ }),
 
@@ -2974,7 +2961,7 @@ exports.default = authenticationReducer;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.initialLogInAttempt = exports.logOutAttempt = exports.SignUpAttempt = exports.login = undefined;
+exports.attemptLogout = exports.attemptSignUp = exports.attemptLogin = undefined;
 
 var _axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 
@@ -2982,11 +2969,26 @@ var _axios2 = _interopRequireDefault(_axios);
 
 var _actions = __webpack_require__(/*! ./actions */ "./app/redux/authentication/actions.js");
 
+var _actions2 = __webpack_require__(/*! ../users/actions */ "./app/redux/users/actions.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-var login = exports.login = function login(logInInfo) {
+var attemptLogin = exports.attemptLogin = function attemptLogin(credentials) {
+  return function (dispatch) {
+    _axios2.default.post('/auth/login', credentials).then(function (res) {
+      dispatch((0, _actions.login)(res.data));
+      dispatch((0, _actions2.setUser)(res.data));
+    }).catch(function (e) {
+      console.error(e);
+      dispatch((0, _actions.setLoginError)());
+      dispatch((0, _actions.logout)());
+    });
+  };
+};
+
+var attemptSignUp = exports.attemptSignUp = function attemptSignUp(signUpInfo) {
   return function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(dispatch) {
       return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -2994,12 +2996,12 @@ var login = exports.login = function login(logInInfo) {
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return _axios2.default.post('/auth/login', logInInfo).then(function (res) {
-                return dispatch((0, _actions.signIn)(res.data));
+              return _axios2.default.post('/auth/signup', signUpInfo).then(function (res) {
+                return dispatch((0, _actions.signUp)(res.data));
               }).catch(function (e) {
                 console.error(e);
-                dispatch((0, _actions.setLogInError)());
-                return dispatch((0, _actions.signOut)());
+                dispatch(setLogInError());
+                return dispatch(signOut());
               });
 
             case 2:
@@ -3016,74 +3018,13 @@ var login = exports.login = function login(logInInfo) {
   }();
 };
 
-var SignUpAttempt = exports.SignUpAttempt = function SignUpAttempt(signUpInfo) {
-  return function () {
-    var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(dispatch) {
-      return regeneratorRuntime.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              _context2.next = 2;
-              return _axios2.default.post('/auth/signup', signUpInfo).then(function (res) {
-                return dispatch((0, _actions.signUp)(res.data));
-              }).catch(function (e) {
-                console.error(e);
-                dispatch((0, _actions.setLogInError)());
-                return dispatch((0, _actions.signOut)());
-              });
-
-            case 2:
-            case 'end':
-              return _context2.stop();
-          }
-        }
-      }, _callee2, undefined);
-    }));
-
-    return function (_x2) {
-      return _ref2.apply(this, arguments);
-    };
-  }();
-};
-
-var logOutAttempt = exports.logOutAttempt = function logOutAttempt() {
+var attemptLogout = exports.attemptLogout = function attemptLogout() {
   return function (dispatch) {
     _axios2.default.get('/auth/signout').then(function () {
-      dispatch((0, _actions.signOut)());
+      return dispatch((0, _actions.logout)());
     }).catch(function (e) {
       console.error(e);
-      return dispatch((0, _actions.signOut)());
-    });
-  };
-};
-
-var initialLogInAttempt = exports.initialLogInAttempt = function initialLogInAttempt() {
-  return function (dispatch) {
-    _axios2.default.get('/auth/me').then(function () {
-      var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(res) {
-        var user;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                user = res.data;
-
-                console.log('user', user);
-                dispatch((0, _actions.signIn)(user));
-
-              case 3:
-              case 'end':
-                return _context3.stop();
-            }
-          }
-        }, _callee3, undefined);
-      }));
-
-      return function (_x3) {
-        return _ref3.apply(this, arguments);
-      };
-    }()).catch(function (e) {
-      console.error(e);
+      dispatch(signOut());
     });
   };
 };
@@ -3447,7 +3388,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var getRepos = exports.getRepos = function getRepos() {
   return function (dispatch, getState) {
     return _axios2.default.post('/api/github/user/repos', {
-      githubUsername: getState().activeUser.githubUsername
+      githubUsername: getState().user.githubUsername
     }).then(function (repos) {
       return dispatch((0, _actions.setAllrepos)(repos.data));
     }).catch(function (e) {
