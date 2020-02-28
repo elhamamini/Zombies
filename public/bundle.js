@@ -774,11 +774,19 @@ var mapStateToProps = function mapStateToProps(_ref2) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
+<<<<<<< HEAD
     attemptLogin: function attemptLogin(info) {
       return dispatch((0, _thunks.attemptLogin)(info));
     },
     removeLoginError: function removeLoginError() {
       return dispatch((0, _actions.removeLoginError)());
+=======
+    login: function login(info) {
+      return dispatch((0, _thunks.login)(info));
+    },
+    removeLogInError: function removeLogInError() {
+      return dispatch((0, _actions.removeLogInError)());
+>>>>>>> 4140b692cd8f37fbd795f6ea423b6b67f1ae4e1c
     }
   };
 };
@@ -1302,6 +1310,7 @@ var NewConversation = function (_Component) {
     };
 
     _this.state = {
+      repo: '',
       topic: '',
       body: '',
       errors: {
@@ -1340,11 +1349,14 @@ var NewConversation = function (_Component) {
         _Div.MainContainer,
         null,
         _react2.default.createElement(
+<<<<<<< HEAD
           _reactRouterDom.Link,
           { to: 'postpage' },
           'Post Page'
         ),
         _react2.default.createElement(
+=======
+>>>>>>> 4140b692cd8f37fbd795f6ea423b6b67f1ae4e1c
           _Form.Form,
           null,
           _react2.default.createElement(
@@ -2130,9 +2142,17 @@ var Root = function (_Component) {
 }(_react.Component);
 
 var mapDispatch = function mapDispatch(dispatch) {
+<<<<<<< HEAD
   return { getUserFromGitHub: function getUserFromGitHub() {
       return dispatch((0, _thunks.getUserFromGitHub)());
     } };
+=======
+  return {
+    getUserFromGitHub: function getUserFromGitHub() {
+      return dispatch((0, _thunks.getUserFromGitHub)());
+    }
+  };
+>>>>>>> 4140b692cd8f37fbd795f6ea423b6b67f1ae4e1c
 };
 
 exports.default = (0, _reactRedux.connect)(null, mapDispatch)(Root);
@@ -2760,7 +2780,24 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     getRepos: function getRepos() {
       return dispatch((0, _thunks.getRepos)());
+<<<<<<< HEAD
     }
+=======
+    },
+    getActiveUser: function (_getActiveUser) {
+      function getActiveUser() {
+        return _getActiveUser.apply(this, arguments);
+      }
+
+      getActiveUser.toString = function () {
+        return _getActiveUser.toString();
+      };
+
+      return getActiveUser;
+    }(function () {
+      return dispatch(getActiveUser());
+    })
+>>>>>>> 4140b692cd8f37fbd795f6ea423b6b67f1ae4e1c
   };
 };
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Test);

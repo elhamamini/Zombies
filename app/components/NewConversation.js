@@ -23,6 +23,7 @@ class NewConversation extends Component {
   constructor() {
     super();
     this.state = {
+      repo: '',
       topic: '',
       body: '',
       errors: {
@@ -143,7 +144,7 @@ class NewConversation extends Component {
 
     return (
       <MainContainer>
-        <Link to="postpage">Post Page</Link>
+        {/* <Link to="postpage">Post Page</Link> */}
         <Form>
           <Header>Create a New Conversation</Header>
           <Label>Topic</Label>

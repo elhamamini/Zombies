@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import Home from './Home';
@@ -13,10 +13,12 @@ import UserProfile from './UserProfile';
 import PostPage from './PostPage';
 
 import { getUserFromGitHub } from '../redux/users/thunks';
+import { fetchTags } from '../redux/tags/thunks';
 
 class Root extends Component {
   componentDidMount() {
     this.props.getUserFromGitHub();
+    this.props.fetchTags();
   }
 
   render() {
@@ -28,7 +30,7 @@ class Root extends Component {
             <Route path="/userprofile" component={UserProfile} exact />
             <Route path="/login" component={Login} />
             <Route exact path="/" component={AllConvos} />
-            <Route path='/new' component={NewConversation} />
+            <Route path="/new" component={NewConversation} />
             <Route path="/postpage" component={PostPage} />
           </Switch>
         </main>
@@ -37,6 +39,12 @@ class Root extends Component {
   }
 }
 
-const mapDispatch = dispatch => ({ getUserFromGitHub: () => dispatch(getUserFromGitHub())})
 
-export default connect(null, mapDispatch)(Root)
+const mapDispatch = dispatch => (
+  { 
+    getUserFromGitHub: () => dispatch(getUserFromGitHub()),
+    fetchTags: () => dispatch(fetchTags())
+  }
+)
+
+export default connect(null, mapDispatch)(Root);

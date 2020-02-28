@@ -46,16 +46,11 @@ export const fetchAllConversations = (page=0) => {
     };
 };
 
-export const filterConversations = (tags=['default']) => {
-    let queryStr = '';
-    tags.forEach((tag, idx) => queryStr += `tag[]=${tag}&`)
+export const filterConversations = (tag) => {
     return dispatch => {
         return axios
-            .get(`/api/conversation/filter?${queryStr}`)
-                .then(res => {
-                    console.log(res.data);
-                    dispatch(setAllConversations(res.data))
-                })
+            .get(`/api/tag/${tag}`)
+                .then(res => dispatch(setAllConversations(res.data[0].conversations || [])))
                 .catch(e => console.error(e));
     }
 }
