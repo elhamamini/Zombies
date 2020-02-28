@@ -14,10 +14,12 @@ import PostPage from './PostPage';
 import SignUp from './SignUp';
 
 import { getUserFromGitHub } from '../redux/users/thunks';
+import { fetchTags } from '../redux/tags/thunks';
 
 class Root extends Component {
   componentDidMount() {
     this.props.getUserFromGitHub();
+    this.props.fetchTags();
   }
 
   render() {
@@ -39,8 +41,12 @@ class Root extends Component {
   }
 }
 
-const mapDispatch = dispatch => ({
-  getUserFromGitHub: () => dispatch(getUserFromGitHub()),
-});
+
+const mapDispatch = dispatch => (
+  { 
+    getUserFromGitHub: () => dispatch(getUserFromGitHub()),
+    fetchTags: () => dispatch(fetchTags())
+  }
+)
 
 export default connect(null, mapDispatch)(Root);
