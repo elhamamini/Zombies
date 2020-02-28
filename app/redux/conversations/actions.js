@@ -3,7 +3,7 @@ import {
     SET_ALL_CONVERSATIONS,
 } from './constants';
 
-export const setCurrentConversation = conversation => {
+export const setCurrentConversation = (conversation = null) => {
     return {
         type: SET_CURRENT_CONVERSATION,
         conversation

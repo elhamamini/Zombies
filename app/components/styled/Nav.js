@@ -6,6 +6,7 @@ export const Nav = styled(Row)`
   width: 100%;
   padding: 0.5rem 0;
   border-bottom: 1px solid lightgrey;
+  margin-bottom: 0;
 `;
 
 export const NavLink = styled(Link)`
