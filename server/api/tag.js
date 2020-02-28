@@ -14,7 +14,7 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/:name', (req, res, next) => {
-    Tag.findAll({
+    Tag.findOne({
         where: {
             name: req.params.name
         },
