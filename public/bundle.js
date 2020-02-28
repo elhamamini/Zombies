@@ -266,7 +266,7 @@ function AllConvos(props) {
       })
     )
   );
-}
+};
 
 exports.default = AllConvos;
 
@@ -1120,7 +1120,7 @@ var NavBar = function NavBar(props) {
         ),
         _react2.default.createElement(
           _Nav.NavButton,
-          { to: '/' },
+          { to: '/signup' },
           'Signup'
         )
       )
@@ -1228,7 +1228,10 @@ var NewConversation = function (_Component) {
 
     _this.handleOnClick = function (e) {
       e.preventDefault();
-      _this.props.postConversation(_this.props.user.id);
+      _this.props.createConversation({
+        userId: _this.props.user.id,
+        title: _this.state.topic
+      });
     };
 
     _this.handleCodeType = function (e, codeType) {
@@ -1445,8 +1448,8 @@ var mapState = function mapState(_ref2) {
 
 var mapDispatch = function mapDispatch(dispatch) {
   return {
-    postConversation: function postConversation(userId) {
-      return dispatch((0, _thunks2.postConversation)(userId));
+    createConversation: function createConversation(content) {
+      return dispatch((0, _thunks2.createConversation)(content));
     },
     getRepos: function getRepos() {
       return dispatch((0, _thunks.getRepos)());
@@ -2076,6 +2079,10 @@ var _PostPage = __webpack_require__(/*! ./PostPage */ "./app/components/PostPage
 
 var _PostPage2 = _interopRequireDefault(_PostPage);
 
+var _SignUp = __webpack_require__(/*! ./SignUp */ "./app/components/SignUp.js");
+
+var _SignUp2 = _interopRequireDefault(_SignUp);
+
 var _thunks = __webpack_require__(/*! ../redux/users/thunks */ "./app/redux/users/thunks.js");
 
 var _thunks2 = __webpack_require__(/*! ../redux/tags/thunks */ "./app/redux/tags/thunks.js");
@@ -2120,7 +2127,8 @@ var Root = function (_Component) {
             _react2.default.createElement(_reactRouterDom.Route, { path: '/login', component: _Login2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _AllConvos2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/new', component: _NewConversation2.default }),
-            _react2.default.createElement(_reactRouterDom.Route, { path: '/postpage', component: _PostPage2.default })
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/postpage', component: _PostPage2.default }),
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/signup', component: _SignUp2.default, exact: true })
           )
         )
       );
@@ -2142,6 +2150,283 @@ var mapDispatch = function mapDispatch(dispatch) {
 };
 
 exports.default = (0, _reactRedux.connect)(null, mapDispatch)(Root);
+
+/***/ }),
+
+/***/ "./app/components/SignUp.js":
+/*!**********************************!*\
+  !*** ./app/components/SignUp.js ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var _actions = __webpack_require__(/*! ../redux/authentication/actions */ "./app/redux/authentication/actions.js");
+
+var _thunks = __webpack_require__(/*! ../redux/authentication/thunks */ "./app/redux/authentication/thunks.js");
+
+var _Font = __webpack_require__(/*! ./styled/Font */ "./app/components/styled/Font.js");
+
+var _thunks2 = __webpack_require__(/*! ../redux/users/thunks */ "./app/redux/users/thunks.js");
+
+var _Form = __webpack_require__(/*! ./styled/Form */ "./app/components/styled/Form.js");
+
+var _Input = __webpack_require__(/*! ./styled/Input */ "./app/components/styled/Input.js");
+
+var _Button = __webpack_require__(/*! ./styled/Button */ "./app/components/styled/Button.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SignUP = function (_Component) {
+  _inherits(SignUP, _Component);
+
+  function SignUP() {
+    _classCallCheck(this, SignUP);
+
+    var _this = _possibleConstructorReturn(this, (SignUP.__proto__ || Object.getPrototypeOf(SignUP)).call(this));
+
+    _this.handleOnChange = function (_ref) {
+      var _ref$target = _ref.target,
+          name = _ref$target.name,
+          value = _ref$target.value;
+
+      _this.setState(_defineProperty({}, name, value), function () {
+        return _this.validate(name, value);
+      });
+    };
+
+    _this.handleOnClick = function (e) {
+      var _this$state = _this.state,
+          name = _this$state.name,
+          email = _this$state.email,
+          password = _this$state.password;
+
+      e.preventDefault();
+      _this.props.signUp();
+      _this.props.createUser({ name: name, email: email, password: password, userType: 'user' });
+      // this.props.history.push('/');
+    };
+
+    _this.validate = function (name, value) {
+      var errors = _this.state.errors;
+      //TODO: Validate on submit for values not in our database NOT onchange
+
+      switch (name) {
+        case 'name':
+          if (!value) {
+            _this.setState({
+              errors: _extends({}, errors, {
+                nameError: 'Username cannot be blank'
+              })
+            });
+          } else {
+            _this.setState({
+              errors: _extends({}, errors, {
+                nameError: ''
+              })
+            });
+          }
+          break;
+
+        case 'email':
+          var regex = /\S+@\S+\.\S+/;
+          if (!value) {
+            _this.setState({
+              errors: _extends({}, errors, {
+                emailError: 'Email cannot be blank'
+              })
+            });
+          } else if (!regex.test(value)) {
+            _this.setState({
+              errors: _extends({}, errors, {
+                emailError: 'Email invalid'
+              })
+            });
+          } else {
+            _this.setState({
+              errors: _extends({}, errors, {
+                emailError: ''
+              })
+            });
+          }
+          break;
+
+        case 'password':
+          if (!value) {
+            _this.setState({
+              errors: _extends({}, errors, {
+                passwordError: 'Password cannot be blank'
+              })
+            });
+          } else {
+            _this.setState({
+              errors: _extends({}, errors, {
+                passwordError: ''
+              })
+            });
+          }
+          break;
+      }
+    };
+
+    _this.state = {
+      name: '',
+      email: '',
+      password: '',
+      errors: {
+        nameError: '',
+        emailError: '',
+        passwordError: ''
+      }
+    };
+    return _this;
+  }
+
+  _createClass(SignUP, [{
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      var isLoggedIn = this.props.authentication.isLoggedIn;
+      //for now i just send it to the home page after login
+
+      if (isLoggedIn) this.props.history.push('/');
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _state = this.state,
+          name = _state.name,
+          email = _state.email,
+          password = _state.password,
+          errors = _state.errors,
+          _state$errors = _state.errors,
+          emailError = _state$errors.emailError,
+          passwordError = _state$errors.passwordError,
+          nameError = _state$errors.nameError;
+
+
+      return _react2.default.createElement(
+        _Form.Form,
+        null,
+        _react2.default.createElement(
+          _Font.Header,
+          null,
+          'Join Zombies'
+        ),
+        _react2.default.createElement(
+          _Form.FormColumn,
+          null,
+          _react2.default.createElement(_Input.Input, {
+            type: 'text',
+            placeholder: 'Username',
+            onChange: this.handleOnChange,
+            name: 'name',
+            value: name
+          }),
+          _react2.default.createElement(
+            _Input.InputFeedback,
+            null,
+            nameError
+          )
+        ),
+        _react2.default.createElement(
+          _Form.FormColumn,
+          null,
+          _react2.default.createElement(_Input.Input, {
+            type: 'text',
+            placeholder: 'email',
+            onChange: this.handleOnChange,
+            name: 'email',
+            value: email
+          }),
+          _react2.default.createElement(
+            _Input.InputFeedback,
+            null,
+            emailError
+          )
+        ),
+        _react2.default.createElement(
+          _Form.FormColumn,
+          null,
+          _react2.default.createElement(_Input.Input, {
+            type: 'password',
+            placeholder: 'password',
+            onChange: this.handleOnChange,
+            name: 'password',
+            value: password
+          }),
+          _react2.default.createElement(
+            _Input.InputFeedback,
+            null,
+            passwordError
+          )
+        ),
+        _react2.default.createElement(
+          _Button.Button,
+          {
+            disabled: !name || !email || !password || Object.values(errors).some(function (val) {
+              return !!val;
+            }) ? true : false,
+            onClick: this.handleOnClick
+          },
+          'Signup'
+        ),
+        _react2.default.createElement(
+          _Font.Anchor,
+          { href: '/login' },
+          'Do you have an account? Log in'
+        )
+      );
+    }
+  }]);
+
+  return SignUP;
+}(_react.Component);
+
+var mapStateToProps = function mapStateToProps(_ref2) {
+  var authentication = _ref2.authentication;
+  return {
+    authentication: authentication
+  };
+};
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    removeLoginError: function removeLoginError() {
+      return dispatch((0, _actions.removeLoginError)());
+    },
+    signUp: function signUp() {
+      return dispatch((0, _thunks.attemptSignUp)());
+    },
+    createUser: function createUser(user) {
+      return dispatch((0, _thunks2.createUser)(user));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SignUP);
 
 /***/ }),
 
@@ -2855,11 +3140,11 @@ var removeLogInError = exports.removeLogInError = function removeLogInError() {
   };
 };
 
-var signUp = exports.signUp = function signUp(data) {
+var signUp = exports.signUp = function signUp() {
   return {
     type: _constants.SIGN_UP,
-    isLoggedIn: true,
-    activeUser: data
+    isLoggedIn: true
+    // activeUser: data,
   };
 };
 
@@ -3050,35 +3335,21 @@ var attemptLogout = exports.attemptLogout = function attemptLogout() {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.removeConversation = exports.setAllConversations = exports.setConversation = exports.createConversation = undefined;
+exports.setAllConversations = exports.setCurrentConversation = undefined;
 
 var _constants = __webpack_require__(/*! ./constants */ "./app/redux/conversations/constants.js");
 
-var createConversation = exports.createConversation = function createConversation(conversation) {
+var setCurrentConversation = exports.setCurrentConversation = function setCurrentConversation(conversation) {
     return {
-        type: _constants.EDIT_CONVERSATION,
-        conversation: conversation
-    };
-};
-
-var setConversation = exports.setConversation = function setConversation(conversation) {
-    return {
-        type: _constants.GET_CONVERSATION,
+        type: _constants.SET_CURRENT_CONVERSATION,
         conversation: conversation
     };
 };
 
 var setAllConversations = exports.setAllConversations = function setAllConversations(allConversations) {
     return {
-        type: _constants.GET_ALL_CONVERSATIONS,
+        type: _constants.SET_ALL_CONVERSATIONS,
         allConversations: allConversations
-    };
-};
-
-var removeConversation = exports.removeConversation = function removeConversation() {
-    return {
-        type: _constants.REMOVE_CONVERSATION,
-        conversation: conversation
     };
 };
 
@@ -3097,13 +3368,9 @@ var removeConversation = exports.removeConversation = function removeConversatio
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var EDIT_CONVERSATION = exports.EDIT_CONVERSATION = Symbol('EDIT_CONVERSATION');
+var SET_CURRENT_CONVERSATION = exports.SET_CURRENT_CONVERSATION = Symbol('SET_CURRENT_CONVERSATION');
 
-var GET_CONVERSATION = exports.GET_CONVERSATION = Symbol('GET_CONVERSATION');
-
-var GET_ALL_CONVERSATIONS = exports.GET_ALL_CONVERSATIONS = Symbol('GET_ALL_CONVERSATIONS');
-
-var REMOVE_CONVERSATION = exports.REMOVE_CONVERSATION = Symbol('REMOVE_CONVERSATION');
+var SET_ALL_CONVERSATIONS = exports.SET_ALL_CONVERSATIONS = Symbol('SET_ALL_CONVERSATIONS');
 
 /***/ }),
 
@@ -3131,11 +3398,8 @@ var conversation = exports.conversation = function conversation() {
     var action = arguments[1];
 
     switch (action.type) {
-        case _constants.EDIT_CONVERSATION:
+        case _constants.SET_CURRENT_CONVERSATION:
             return action.conversation;
-        case _constants.GET_CONVERSATION:
-            return action.conversation;
-
         default:
             return state;
     };
@@ -3146,7 +3410,7 @@ var allConversations = exports.allConversations = function allConversations() {
     var action = arguments[1];
 
     switch (action.type) {
-        case _constants.GET_ALL_CONVERSATIONS:
+        case _constants.SET_ALL_CONVERSATIONS:
             return action.allConversations;
         default:
             return state;
@@ -3168,7 +3432,9 @@ var allConversations = exports.allConversations = function allConversations() {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.deleteConversation = exports.filterConversations = exports.fetchAllConversations = exports.fetchConversation = exports.updateConversation = exports.postConversation = undefined;
+exports.filterConversations = exports.fetchAllConversations = exports.deleteConversation = exports.updateConversation = exports.createConversation = exports.fetchCurrentConversation = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 
@@ -3178,40 +3444,60 @@ var _actions = __webpack_require__(/*! ./actions */ "./app/redux/conversations/a
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//TODO: Add better error handling - custom component with user-readable error message
-var postConversation = exports.postConversation = function postConversation(userId) {
+//--------
+//CURRENT VIEW CONVERSATION THUNKS 
+
+//Fetch a single conversation by Id, set it as the current view
+var fetchCurrentConversation = exports.fetchCurrentConversation = function fetchCurrentConversation(conversationId) {
     return function (dispatch) {
-        return _axios2.default.post('/api/conversation', { userId: userId }).then(function (res) {
-            return dispatch(updateConversation(res.data));
+        return _axios2.default.get('/api/conversation/' + conversationId).then(function (res) {
+            return dispatch((0, _actions.setCurrentConversation)(res.data));
+        }).catch(function (e) {
+            return console.error(e);
+        });
+    };
+};
+
+//create a new conversation, and set it as the current view
+var createConversation = exports.createConversation = function createConversation(content) {
+    return function (dispatch) {
+        return _axios2.default.post('/api/conversation', _extends({}, content)).then(function (res) {
+            return dispatch((0, _actions.setCurrentConversation)(res.data));
         }).catch(function (e) {
             return console.log(e);
         });
     };
 };
 
-var updateConversation = exports.updateConversation = function updateConversation(conversationId, conversation) {
-    console.log(conversationId);
+//push updates to a conversation, and update the current view with the results
+var updateConversation = exports.updateConversation = function updateConversation(conversationId, content) {
     return function (dispatch) {
-        return _axios2.default.put('/api/conversation/' + conversationId, { conversation: conversation }).then(function (res) {
-            return dispatch((0, _actions.createConversation)(res.data));
+        return _axios2.default.put('/api/conversation/' + conversationId, { content: content }).then(function (res) {
+            return dispatch((0, _actions.setCurrentConversation)(res.data));
         }).catch(function (e) {
             return console.error(e);
         });
     };
 };
 
-//--------
-
-var fetchConversation = exports.fetchConversation = function fetchConversation(conversationId) {
+//delete a conversation. Sets the current conversation to null(?)
+//also triggers a fetch of All Conversations, to prevent the user from getting to deleted content
+var deleteConversation = exports.deleteConversation = function deleteConversation(conversationId) {
     return function (dispatch) {
-        return _axios2.default.get('/api/conversation/' + conversationId).then(function (res) {
-            return dispatch((0, _actions.setConversation)(res.data));
+        return _axios2.default.delete('/api/conversation/' + conversationId).then(function (res) {
+            return dispatch((0, _actions.setCurrentConversation)(null));
+        }).then(function () {
+            return dispatch(fetchAllConversations());
         }).catch(function (e) {
             return console.error(e);
         });
     };
 };
 
+//-------
+//ALL CONVERSATIONS THUNKS
+
+//sets all the conversations
 var fetchAllConversations = exports.fetchAllConversations = function fetchAllConversations() {
     var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 
@@ -3224,25 +3510,18 @@ var fetchAllConversations = exports.fetchAllConversations = function fetchAllCon
     };
 };
 
+//sets the conversations list to a filtered subset
 var filterConversations = exports.filterConversations = function filterConversations(tag) {
     return function (dispatch) {
         return _axios2.default.get('/api/tag/' + tag).then(function (res) {
-            return dispatch((0, _actions.setAllConversations)(res.data[0].conversations || []));
+            return dispatch((0, _actions.setAllConversations)(res.data.conversations));
         }).catch(function (e) {
             return console.error(e);
         });
     };
 };
 
-var deleteConversation = exports.deleteConversation = function deleteConversation(conversationId) {
-    return function (dispatch) {
-        return _axios2.default.delete('/api/conversation/' + conversationId).then(function () {
-            return dispatch((0, _actions.removeConversation)(conversationId));
-        }).catch(function (e) {
-            return console.error(e);
-        });
-    };
-};
+//-------------
 
 /***/ }),
 
@@ -3613,6 +3892,8 @@ var user = exports.user = function user() {
 
   switch (action.type) {
     case _constants.SET_USER:
+      return action.user;
+    case _constants.ADD_USER:
       return action.user;
 
     default:

@@ -29,11 +29,10 @@ export const removeLogInError = () => {
   };
 };
 
-
-export const signUp = data => {
+export const signUp = () => {
   return {
     type: SIGN_UP,
     isLoggedIn: true,
-    activeUser: data,
+    // activeUser: data,
   };
 };

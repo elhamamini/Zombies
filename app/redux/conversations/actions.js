@@ -1,34 +1,18 @@
 import {
-    EDIT_CONVERSATION,
-    GET_CONVERSATION,
-    REMOVE_CONVERSATION,
-    GET_ALL_CONVERSATIONS
+    SET_CURRENT_CONVERSATION,
+    SET_ALL_CONVERSATIONS,
 } from './constants';
 
-export const createConversation = conversation => {
+export const setCurrentConversation = conversation => {
     return {
-        type: EDIT_CONVERSATION,
-        conversation
-    };
-};
-
-export const setConversation = conversation => {
-    return {
-        type: GET_CONVERSATION,
+        type: SET_CURRENT_CONVERSATION,
         conversation
     };
 };
 
 export const setAllConversations = allConversations => {
     return {
-        type: GET_ALL_CONVERSATIONS,
+        type: SET_ALL_CONVERSATIONS,
         allConversations
-    };
-};
-
-export const removeConversation = () => {
-    return {
-        type: REMOVE_CONVERSATION,
-        conversation
     };
 };

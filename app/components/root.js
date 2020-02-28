@@ -11,6 +11,7 @@ import NewConversation from './NewConversation';
 import Test from './test';
 import UserProfile from './UserProfile';
 import PostPage from './PostPage';
+import SignUp from './SignUp';
 
 import { getUserFromGitHub } from '../redux/users/thunks';
 import { fetchTags } from '../redux/tags/thunks';
@@ -32,6 +33,7 @@ class Root extends Component {
             <Route exact path="/" component={AllConvos} />
             <Route path="/new" component={NewConversation} />
             <Route path="/postpage" component={PostPage} />
+            <Route path="/signup" component={SignUp} exact />
           </Switch>
         </main>
       </Router>

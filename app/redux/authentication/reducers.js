@@ -37,7 +37,7 @@ export default (state = initialState, action) => {
         isLoggedIn,
       };
     }
-    
+
     default:
       return state;
   }
