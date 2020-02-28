@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const { Conversation, Reply } = require('../db');
-const Sequelize = require('sequelize');
 
 const RESULTS_PER_PAGE = 10;
 
@@ -61,18 +60,17 @@ router.get('/:id', (req, res, next) => {
     });
 });
 
-//TODO
 router.post('/', (req, res, next) => {
-  const { author, title, userId } = req.body
-  if (!author || !title || !userId) {
+  console.log(req.body)
+  const { userId, title } = req.body
+  if (!userId || !title ) {
     return res
       .status(400)
-      .send('POST Conversation request missing required field');
+      .send('Missing information');
   }
   Conversation.create({
-    author,
+    userId,
     title,
-    userId
   })
     .then(created => {
       res.status(200).send(created);

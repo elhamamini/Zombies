@@ -49,7 +49,10 @@ class NewConversation extends Component {
 
   handleOnClick = e => {
     e.preventDefault();
-    this.props.postConversation(this.props.user.id);
+    this.props.createConversation({
+      userId: this.props.user.id,
+      title: this.state.topic
+    });
   };
 
   handleCodeType = (e, codeType) => {
@@ -202,7 +205,7 @@ const mapState = ({ authentication, user, repositories }) => ({
 });
 
 const mapDispatch = dispatch => ({
-  postConversation: userId => dispatch(createConversation(userId)),
+  createConversation: content => dispatch(createConversation(content)),
   getRepos: () => dispatch(getRepos()),
 });
 

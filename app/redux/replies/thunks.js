@@ -15,6 +15,7 @@ export const newReply = reply => {
       .catch(e => console.log('error in reply think:', e.message));
   };
 };
+
 export const editReply = (reply, id) => {
   return dispatch => {
     return axios
@@ -23,6 +24,7 @@ export const editReply = (reply, id) => {
       .catch(e => console.log('error in reply thunk:', e.message));
   };
 };
+
 export const getReply = id => {
   return dispatch => {
     return axios
@@ -31,6 +33,7 @@ export const getReply = id => {
       .catch(e => console.log('Error in thunk:', e.message));
   };
 };
+
 export const getAllReplies = () => {
   return dispatch => {
     return axios
@@ -39,11 +42,12 @@ export const getAllReplies = () => {
       .catch(e => console.log('error in thunk:', e.message));
   };
 };
+
 export const deleteReply = id => {
   return dispatch => {
     return axios
       .delete(`/api/reply/${id}`)
-      .then(res => dispatch(removeReply(id)))
+      .then(() => dispatch(removeReply(id)))
       .catch(e => console.log('error in reply :', e.message));
   };
 };
