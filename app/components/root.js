@@ -12,6 +12,7 @@ import Test from './test';
 import UserProfile from './UserProfile';
 import PostPage from './PostPage';
 import SignUp from './SignUp';
+import MessageConsole from './MessageConsole';
 
 import { getUserFromGitHub } from '../redux/users/thunks';
 import { fetchTags } from '../redux/tags/thunks';
@@ -27,6 +28,7 @@ class Root extends Component {
       <Router>
         <main>
           <NavBar />
+          <MessageConsole />
           <Switch>
             <Route path="/userprofile" component={UserProfile} exact />
             <Route path="/login" component={Login} />

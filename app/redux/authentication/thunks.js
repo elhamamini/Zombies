@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-import { login, logout, signUp, setLoginError } from './actions';
+import { login, logout, signUp } from './actions';
 import { setUser } from '../users/actions';
+import { checkError } from '../statusMessage/utils';
 
 export const attemptLogin = credentials => {
   return dispatch => {
@@ -9,27 +10,23 @@ export const attemptLogin = credentials => {
       .post('/auth/login', credentials)
       .then(res => {
         dispatch(login(res.data));
-        dispatch(setUser(res.data))
+        dispatch(setUser(res.data));
       })
       .catch(e => {
-        console.error(e);
-        dispatch(setLoginError());
         dispatch(logout());
-      });
+        checkError(dispatch, e.response.status);
+      })
   };
 };
 
-export const attemptSignUp = signUpInfo => {
-  return async dispatch => {
-    await axios
-      .post('/auth/signup', signUpInfo)
-      .then(res => {
-        return dispatch(signUp(res.data));
-      })
+export const attemptSignUp = credentials => {
+  return dispatch => {
+    axios
+      .post('/auth/signup', credentials)
+      .then(res => dispatch(signUp(res.data)))
       .catch(e => {
-        console.error(e);
-        dispatch(setLogInError());
-        return dispatch(signOut());
+        dispatch(logout());
+        checkError(dispatch, e.response.status);
       });
   };
 };
@@ -37,11 +34,11 @@ export const attemptSignUp = signUpInfo => {
 export const attemptLogout = () => {
   return dispatch => {
     axios
-      .get('/auth/signout')
+      .get('/auth/logout')
       .then(() => dispatch(logout()))
       .catch(e => {
-        console.error(e);
-        dispatch(signOut());
+        dispatch(logout());
+        checkError(dispatch, e.response.status)
       });
   };
 };

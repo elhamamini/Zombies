@@ -39,7 +39,7 @@ router.post('/signup', (req, res, next) => {
     .catch(next);
 });
 
-router.get('/signout', (req, res, next) => {
+router.get('/logout', (req, res, next) => {
   delete req.session.userId;
   delete req.session.admin;
   res.sendStatus(204);
