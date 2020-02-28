@@ -30,8 +30,6 @@ router.get('/', (req, res, next) => {
 
 //conversation/filter?tag[]=npm&tag[]=node
 router.get('/filter', (req, res, next) => {
-  console.log('filter route');
-  console.log(req.query.tag);
     Conversation.findAll({
         where: {
             tags: {
