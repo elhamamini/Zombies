@@ -14,6 +14,7 @@ const AllConvos = props => {
   const [page, setPage] = useState(0);
   const [selectedTag, setSelected] = useState('');
   const convosList = useSelector(state => state.allConversations);
+  const activeTags = useSelector(state => state.tags);
   const dispatch = useDispatch();
 
   const handleClick = id => {
@@ -33,7 +34,6 @@ const AllConvos = props => {
   useEffect(() => {
     dispatch(fetchAllConversations(0));
   }, []);
-
 
   return (
     <Container.Paper id="conversations-index">
