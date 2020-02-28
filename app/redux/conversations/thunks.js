@@ -23,7 +23,7 @@ export const fetchCurrentConversation = conversationId => {
 export const createConversation = content => {
     return dispatch => {
         return axios
-            .post(`/api/conversation`, { content })
+            .post(`/api/conversation`, { ...content })
             .then(res => dispatch(setCurrentConversation(res.data)))
             .catch(e => console.log(e));
     };
@@ -33,7 +33,7 @@ export const createConversation = content => {
 export const updateConversation = (conversationId, content) => {
     return dispatch => {
         return axios
-            .put(`/api/conversation/${conversationId}`, content)
+            .put(`/api/conversation/${conversationId}`, { content })
             .then(res => dispatch(setCurrentConversation(res.data)))
             .catch(e => console.error(e));
     };
