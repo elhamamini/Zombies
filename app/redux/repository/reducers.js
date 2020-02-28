@@ -1,8 +1,8 @@
-import { SET_ALLREPOS } from './constants';
+import { SET_ALL_REPOS } from './constants';
 
-export const reposetoriesReducer = (state = [], action) => {
+export const repositories = (state = [], action) => {
   switch (action.type) {
-    case SET_ALLREPOS:
+    case SET_ALL_REPOS:
       return action.repos;
 
     default:

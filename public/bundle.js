@@ -116,145 +116,6 @@ if(false) {}
 
 /***/ }),
 
-/***/ "./app/components/CodeInput.js":
-/*!*************************************!*\
-  !*** ./app/components/CodeInput.js ***!
-  \*************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _prismCore = __webpack_require__(/*! prismjs/components/prism-core */ "./node_modules/prismjs/components/prism-core.js");
-
-var _prismCore2 = _interopRequireDefault(_prismCore);
-
-__webpack_require__(/*! prismjs/components/prism-clike */ "./node_modules/prismjs/components/prism-clike.js");
-
-__webpack_require__(/*! prismjs/components/prism-markup */ "./node_modules/prismjs/components/prism-markup.js");
-
-__webpack_require__(/*! prismjs/components/prism-javascript */ "./node_modules/prismjs/components/prism-javascript.js");
-
-__webpack_require__(/*! prismjs/components/prism-css */ "./node_modules/prismjs/components/prism-css.js");
-
-__webpack_require__(/*! prismjs/plugins/line-numbers/prism-line-numbers.css */ "./node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css");
-
-__webpack_require__(/*! prismjs/plugins/line-numbers/prism-line-numbers */ "./node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js");
-
-__webpack_require__(/*! prismjs/themes/prism.css */ "./node_modules/prismjs/themes/prism.css");
-
-var _Input = __webpack_require__(/*! ./styled/Input */ "./app/components/styled/Input.js");
-
-var _Button = __webpack_require__(/*! ./styled/Button */ "./app/components/styled/Button.js");
-
-var _Button2 = _interopRequireDefault(_Button);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var CodeInput = function (_Component) {
-  _inherits(CodeInput, _Component);
-
-  function CodeInput(_ref) {
-    var codeType = _ref.codeType,
-        addCodeBlock = _ref.addCodeBlock;
-
-    _classCallCheck(this, CodeInput);
-
-    var _this = _possibleConstructorReturn(this, (CodeInput.__proto__ || Object.getPrototypeOf(CodeInput)).call(this, { codeType: codeType, addCodeBlock: addCodeBlock }));
-
-    _this.handleOnChange = function (_ref2) {
-      var _ref2$target = _ref2.target,
-          name = _ref2$target.name,
-          value = _ref2$target.value;
-
-      _this.setState(_defineProperty({}, name, value));
-    };
-
-    _this.handleOnClick = function (e) {
-      e.preventDefault();
-      _this.props.addCodeBlock(_this.state.code);
-      _this.setState({ code: '' });
-    };
-
-    _this.state = {
-      code: ''
-    };
-    return _this;
-  }
-
-  _createClass(CodeInput, [{
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate(prevProps) {
-      if (prevProps === this.props) {
-        _prismCore2.default.highlightAll();
-      } else {
-        this.setState({ code: '' });
-      }
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        null,
-        this.props.codeType ? _react2.default.createElement(
-          'div',
-          null,
-          _react2.default.createElement(_Input.TextField, {
-            name: 'code',
-            value: this.state.code,
-            onChange: this.handleOnChange
-          }),
-          _react2.default.createElement(
-            'p',
-            null,
-            this.props.codeType === 'language-js' ? 'JS' : this.props.codeType === 'language-markup' ? 'HTML' : null
-          ),
-          _react2.default.createElement(
-            'pre',
-            null,
-            _react2.default.createElement(
-              'code',
-              { className: this.props.codeType },
-              this.state.code
-            )
-          ),
-          _react2.default.createElement(
-            _Button2.default,
-            { onClick: this.handleOnClick },
-            'Add Code Block'
-          )
-        ) : null
-      );
-    }
-  }]);
-
-  return CodeInput;
-}(_react.Component);
-
-exports.default = CodeInput;
-
-/***/ }),
-
 /***/ "./app/components/ConversationsIndex/AllConvos.js":
 /*!********************************************************!*\
   !*** ./app/components/ConversationsIndex/AllConvos.js ***!
@@ -466,8 +327,6 @@ var _Input = __webpack_require__(/*! ./styled/Input */ "./app/components/styled/
 
 var _Button = __webpack_require__(/*! ./styled/Button */ "./app/components/styled/Button.js");
 
-var _Button2 = _interopRequireDefault(_Button);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -503,16 +362,16 @@ var FormatToolbar = function (_Component) {
       return _react2.default.createElement(
         _Form.FormRow,
         { flexStart: true, id: 'toolbar' },
-        _react2.default.createElement(_Button2.default, { onClick: function onClick(e) {
+        _react2.default.createElement(_Button.Button, { onClick: function onClick(e) {
             return _this2.handleOnClick(e);
           }, className: 'ql-bold' }),
-        _react2.default.createElement(_Button2.default, { onClick: function onClick(e) {
+        _react2.default.createElement(_Button.Button, { onClick: function onClick(e) {
             return _this2.handleOnClick(e);
           }, className: 'ql-italic' }),
-        _react2.default.createElement(_Button2.default, { onClick: function onClick(e) {
+        _react2.default.createElement(_Button.Button, { onClick: function onClick(e) {
             return _this2.handleOnClick(e);
           }, className: 'ql-underline' }),
-        _react2.default.createElement(_Button2.default, { onClick: function onClick(e) {
+        _react2.default.createElement(_Button.Button, { onClick: function onClick(e) {
             return _this2.handleOnClick(e);
           }, className: 'ql-strike' }),
         _react2.default.createElement(
@@ -565,23 +424,23 @@ var FormatToolbar = function (_Component) {
         ),
         _react2.default.createElement(_Input.SmallDropdown, { className: 'ql-color' }),
         _react2.default.createElement(_Input.SmallDropdown, { className: 'ql-background' }),
-        _react2.default.createElement(_Button2.default, { className: 'ql-clean' }),
+        _react2.default.createElement(_Button.Button, { className: 'ql-clean' }),
         _react2.default.createElement(
-          _Button2.default,
+          _Button.Button,
           { secondary: true, onClick: function onClick(e) {
               return _this2.handleOnClick(e);
             }, className: 'ql-markup', value: 'markup' },
           '</>'
         ),
         _react2.default.createElement(
-          _Button2.default,
+          _Button.Button,
           { secondary: true, onClick: function onClick(e) {
               return _this2.handleOnClick(e);
             }, className: 'ql-css', value: 'css' },
           'CSS'
         ),
         _react2.default.createElement(
-          _Button2.default,
+          _Button.Button,
           { secondary: true, onClick: function onClick(e) {
               return _this2.handleOnClick(e);
             }, className: 'ql-js', value: 'js' },
@@ -703,12 +562,6 @@ var _Form = __webpack_require__(/*! ./styled/Form */ "./app/components/styled/Fo
 var _Input = __webpack_require__(/*! ./styled/Input */ "./app/components/styled/Input.js");
 
 var _Button = __webpack_require__(/*! ./styled/Button */ "./app/components/styled/Button.js");
-
-var _Button2 = _interopRequireDefault(_Button);
-
-var _Nav = __webpack_require__(/*! ./styled/Nav */ "./app/components/styled/Nav.js");
-
-var _thunks2 = __webpack_require__(/*! ../redux/activeUser/thunks */ "./app/redux/activeUser/thunks.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -837,12 +690,12 @@ var Login = function (_Component) {
           _Form.FormRow,
           null,
           _react2.default.createElement(
-            _Button2.default,
+            _Button.AnchorButton,
             { secondary: true, href: '/api/github/login' },
             'Continue with Github'
           ),
           _react2.default.createElement(
-            _Button2.default,
+            _Button.AnchorButton,
             { secondary: true, onClick: this.handleOnClick },
             'Continue with Google'
           )
@@ -886,7 +739,7 @@ var Login = function (_Component) {
           )
         ),
         _react2.default.createElement(
-          _Button2.default,
+          _Button.Button,
           {
             disabled: !email || !password || Object.values(errors).some(function (val) {
               return !!val;
@@ -909,10 +762,10 @@ var Login = function (_Component) {
 
 var mapStateToProps = function mapStateToProps(_ref2) {
   var authentication = _ref2.authentication,
-      activeUser = _ref2.activeUser;
+      user = _ref2.user;
   return {
     authentication: authentication,
-    activeUser: activeUser
+    user: user
   };
 };
 
@@ -923,9 +776,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     removeLogInError: function removeLogInError() {
       return dispatch((0, _actions.removeLogInError)());
-    },
-    getActiveUser: function getActiveUser() {
-      return dispatch((0, _thunks2.getActiveUser)());
     }
   };
 };
@@ -967,8 +817,6 @@ var _Form = __webpack_require__(/*! ./styled/Form */ "./app/components/styled/Fo
 var _Input = __webpack_require__(/*! ./styled/Input */ "./app/components/styled/Input.js");
 
 var _Button = __webpack_require__(/*! ./styled/Button */ "./app/components/styled/Button.js");
-
-var _Button2 = _interopRequireDefault(_Button);
 
 var _Pill = __webpack_require__(/*! ./styled/Pill */ "./app/components/styled/Pill.js");
 
@@ -1103,8 +951,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _Button = __webpack_require__(/*! ./styled/Button */ "./app/components/styled/Button.js");
 
-var _Button2 = _interopRequireDefault(_Button);
-
 var _Menu = __webpack_require__(/*! ./styled/Menu */ "./app/components/styled/Menu.js");
 
 var _Div = __webpack_require__(/*! ./styled/Div */ "./app/components/styled/Div.js");
@@ -1146,7 +992,7 @@ var _class = function (_Component) {
           _Menu.Menu,
           null,
           _react2.default.createElement(
-            _Button2.default,
+            _Button.Button,
             { onClick: this.handleOnClick },
             'Start a Conversation'
           ),
@@ -1183,10 +1029,10 @@ exports.default = _class;
 
 /***/ }),
 
-/***/ "./app/components/Nav.js":
-/*!*******************************!*\
-  !*** ./app/components/Nav.js ***!
-  \*******************************/
+/***/ "./app/components/NavBar.js":
+/*!**********************************!*\
+  !*** ./app/components/NavBar.js ***!
+  \**********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1197,105 +1043,89 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Div = __webpack_require__(/*! ./styled/Div */ "./app/components/styled/Div.js");
-
 var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var _Div = __webpack_require__(/*! ./styled/Div */ "./app/components/styled/Div.js");
 
 var _Nav = __webpack_require__(/*! ./styled/Nav */ "./app/components/styled/Nav.js");
 
-var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
 //TODO: Remove NavLinks On SignUp and Login
-var NavBar = function (_React$Component) {
-  _inherits(NavBar, _React$Component);
-
-  function NavBar() {
-    _classCallCheck(this, NavBar);
-
-    return _possibleConstructorReturn(this, (NavBar.__proto__ || Object.getPrototypeOf(NavBar)).apply(this, arguments));
-  }
-
-  _createClass(NavBar, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        _Nav.Nav,
+var NavBar = function NavBar(props) {
+  console.log(props);
+  return _react2.default.createElement(
+    _Nav.Nav,
+    null,
+    _react2.default.createElement(
+      _Div.Row,
+      null,
+      _react2.default.createElement(
+        _Div.Row,
         null,
         _react2.default.createElement(
-          _Div.Row,
+          'div',
           null,
-          _react2.default.createElement(
-            _Div.Row,
-            null,
-            _react2.default.createElement(
-              'div',
-              null,
-              'LOGO'
-            )
-          ),
-          _react2.default.createElement(
-            _Div.Row,
-            { flexEnd: true },
-            _react2.default.createElement(
-              _Nav.NavLink,
-              { to: '/' },
-              'Home'
-            ),
-            this.props.activeUser ? _react2.default.createElement(
-              _Nav.NavLink,
-              { to: '/userprofile' },
-              ' Your Profile'
-            ) : null,
-            _react2.default.createElement(
-              _Nav.NavLink,
-              { to: '/' },
-              'Link'
-            ),
-            this.props.activeUser ? _react2.default.createElement(
-              _reactRouterDom.Link,
-              { to: '/userprofile' },
-              ' Your Profile'
-            ) : null
-          )
+          'LOGO'
+        )
+      ),
+      _react2.default.createElement(
+        _Div.Row,
+        { flexEnd: true },
+        _react2.default.createElement(
+          _Nav.NavLink,
+          { to: '/' },
+          'Home'
+        ),
+        props.user.name ? _react2.default.createElement(
+          _Nav.NavLink,
+          { to: '/userprofile' },
+          ' Your Profile'
+        ) : null
+      )
+    ),
+    _react2.default.createElement(
+      _Div.Row,
+      { flexEnd: true },
+      props.user.name ? _react2.default.createElement(
+        _Div.Row,
+        { flexEnd: true },
+        _react2.default.createElement(
+          'p',
+          null,
+          'Hey, ',
+          props.user.name
         ),
         _react2.default.createElement(
-          _Div.Row,
-          { flexEnd: true },
-          _react2.default.createElement(
-            _Nav.NavButton,
-            { to: '/login' },
-            'Login'
-          ),
-          _react2.default.createElement(
-            _Nav.NavButton,
-            { to: '/' },
-            'Signup'
-          )
+          _Nav.NavButton,
+          { to: '/' },
+          'Logout'
         )
-      );
-    }
-  }]);
-
-  return NavBar;
-}(_react2.default.Component);
+      ) : _react2.default.createElement(
+        _Div.Row,
+        { flexEnd: true },
+        _react2.default.createElement(
+          _Nav.NavButton,
+          { to: '/login' },
+          'Login'
+        ),
+        _react2.default.createElement(
+          _Nav.NavButton,
+          { to: '/' },
+          'Signup'
+        )
+      )
+    )
+  );
+};
 
 var mapStateToProps = function mapStateToProps(_ref) {
-  var activeUser = _ref.activeUser;
-  return { activeUser: activeUser };
+  var user = _ref.user;
+  return { user: user };
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(NavBar);
@@ -1326,6 +1156,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 
+var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
 var _Div = __webpack_require__(/*! ./styled/Div */ "./app/components/styled/Div.js");
 
 var _Font = __webpack_require__(/*! ./styled/Font */ "./app/components/styled/Font.js");
@@ -1336,15 +1168,13 @@ var _Input = __webpack_require__(/*! ./styled/Input */ "./app/components/styled/
 
 var _Button = __webpack_require__(/*! ./styled/Button */ "./app/components/styled/Button.js");
 
-var _Button2 = _interopRequireDefault(_Button);
-
 var _Select = __webpack_require__(/*! ./styled/Select */ "./app/components/styled/Select.js");
 
 var _Pill = __webpack_require__(/*! ./styled/Pill */ "./app/components/styled/Pill.js");
 
-var _thunks = __webpack_require__(/*! ../redux/activeUser/thunks */ "./app/redux/activeUser/thunks.js");
+var _thunks = __webpack_require__(/*! ../redux/repository/thunks */ "./app/redux/repository/thunks.js");
 
-var _thunks2 = __webpack_require__(/*! ../redux/repository/thunks */ "./app/redux/repository/thunks.js");
+var _thunks2 = __webpack_require__(/*! ../redux/conversations/thunks */ "./app/redux/conversations/thunks.js");
 
 var _compromise = __webpack_require__(/*! compromise */ "./node_modules/compromise/builds/compromise.mjs");
 
@@ -1353,12 +1183,6 @@ var _compromise2 = _interopRequireDefault(_compromise);
 var _whitelist = __webpack_require__(/*! ../../whitelist */ "./whitelist.js");
 
 var _whitelist2 = _interopRequireDefault(_whitelist);
-
-var _thunks3 = __webpack_require__(/*! ../redux/conversations/thunks */ "./app/redux/conversations/thunks.js");
-
-var _CodeInput = __webpack_require__(/*! ./CodeInput */ "./app/components/CodeInput.js");
-
-var _CodeInput2 = _interopRequireDefault(_CodeInput);
 
 var _Quill = __webpack_require__(/*! ./Quill */ "./app/components/Quill.js");
 
@@ -1399,7 +1223,7 @@ var NewConversation = function (_Component) {
 
     _this.handleOnClick = function (e) {
       e.preventDefault();
-      _this.props.postConversation(_this.props.authentication.activeUser, _this.state);
+      _this.props.postConversation(_this.props.user.id);
     };
 
     _this.handleCodeType = function (e, codeType) {
@@ -1421,7 +1245,6 @@ var NewConversation = function (_Component) {
       //run compromise on body content
       var postTopics = (0, _compromise2.default)(value).normalize({ plurals: true, parentheses: true }).nouns();
       //loop through returned terms
-      console.log(postTopics.out('freq'));
       postTopics.out('freq').forEach(function (term) {
         //if term is NOT already in the tags list and IS in the whitelist, add it
         if (!newTags.includes(term.reduced) && _whitelist2.default[term.reduced]) {
@@ -1479,8 +1302,6 @@ var NewConversation = function (_Component) {
       repo: '',
       topic: '',
       body: '',
-      codeType: null,
-      codeblocks: [],
       errors: {
         topicError: '',
         bodyError: ''
@@ -1493,24 +1314,19 @@ var NewConversation = function (_Component) {
   _createClass(NewConversation, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      var _this2 = this;
-
-      this.props.getActiveUser();
-      setTimeout(function () {
-        _this2.props.getRepos();
-      }, 100);
+      //We should probably set these repos when we get the user as well
+      this.props.user.githubUsername ? this.props.getRepos() : null;
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
       console.log(this.state.body);
+      console.log(this.props);
       var _state = this.state,
           topic = _state.topic,
           body = _state.body,
-          codeType = _state.codeType,
-          codeblocks = _state.codeblocks,
           tags = _state.tags,
           errors = _state.errors,
           _state$errors = _state.errors,
@@ -1546,7 +1362,7 @@ var NewConversation = function (_Component) {
             null,
             topicError
           ),
-          this.props.reposetories.length && this.props.activeUser.githubUsername ? _react2.default.createElement(
+          this.props.repositories.length && this.props.user.githubUsername ? _react2.default.createElement(
             'div',
             null,
             _react2.default.createElement(
@@ -1559,12 +1375,10 @@ var NewConversation = function (_Component) {
               {
                 id: 'repository',
                 onChange: function onChange(ev) {
-                  _this3.setState({
-                    repo: ev.target.value
-                  });
+                  return _this2.setState({ body: ev.target.value });
                 }
               },
-              this.props.reposetories.map(function (repo) {
+              this.props.repositories.map(function (repo) {
                 return _react2.default.createElement(
                   _Select.Option,
                   { key: repo.id, value: repo.html_url },
@@ -1596,7 +1410,7 @@ var NewConversation = function (_Component) {
             }) : ''
           ),
           _react2.default.createElement(
-            _Button2.default,
+            _Button.Button,
             {
               disabled: !topic || !body || Object.values(errors).some(function (val) {
                 return !!val;
@@ -1615,25 +1429,22 @@ var NewConversation = function (_Component) {
 
 var mapState = function mapState(_ref2) {
   var authentication = _ref2.authentication,
-      activeUser = _ref2.activeUser,
-      reposetories = _ref2.reposetories;
+      user = _ref2.user,
+      repositories = _ref2.repositories;
   return {
     authentication: authentication,
-    activeUser: activeUser,
-    reposetories: reposetories
+    user: user,
+    repositories: repositories
   };
 };
 
 var mapDispatch = function mapDispatch(dispatch) {
   return {
-    postConversation: function postConversation(userId, payload) {
-      return dispatch((0, _thunks3.postConversation)(userId, payload));
-    },
-    getActiveUser: function getActiveUser() {
-      return dispatch((0, _thunks.getActiveUser)());
+    postConversation: function postConversation(userId) {
+      return dispatch((0, _thunks2.postConversation)(userId));
     },
     getRepos: function getRepos() {
-      return dispatch((0, _thunks2.getRepos)());
+      return dispatch((0, _thunks.getRepos)());
     }
   };
 };
@@ -2220,13 +2031,9 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
 var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-
-var _thunks = __webpack_require__(/*! ../redux/authentication/thunks */ "./app/redux/authentication/thunks.js");
-
-var _store = __webpack_require__(/*! ../store */ "./app/store.js");
-
-var _store2 = _interopRequireDefault(_store);
 
 var _Home = __webpack_require__(/*! ./Home */ "./app/components/Home.js");
 
@@ -2236,9 +2043,9 @@ var _Login = __webpack_require__(/*! ./Login */ "./app/components/Login.js");
 
 var _Login2 = _interopRequireDefault(_Login);
 
-var _Nav = __webpack_require__(/*! ./Nav */ "./app/components/Nav.js");
+var _NavBar = __webpack_require__(/*! ./NavBar */ "./app/components/NavBar.js");
 
-var _Nav2 = _interopRequireDefault(_Nav);
+var _NavBar2 = _interopRequireDefault(_NavBar);
 
 var _MLForm = __webpack_require__(/*! ./MLForm */ "./app/components/MLForm.js");
 
@@ -2264,6 +2071,8 @@ var _PostPage = __webpack_require__(/*! ./PostPage */ "./app/components/PostPage
 
 var _PostPage2 = _interopRequireDefault(_PostPage);
 
+var _thunks = __webpack_require__(/*! ../redux/users/thunks */ "./app/redux/users/thunks.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2282,6 +2091,11 @@ var Root = function (_Component) {
   }
 
   _createClass(Root, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.props.getUserFromGitHub();
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -2290,15 +2104,15 @@ var Root = function (_Component) {
         _react2.default.createElement(
           'main',
           null,
-          _react2.default.createElement(_Nav2.default, null),
+          _react2.default.createElement(_NavBar2.default, null),
           _react2.default.createElement(
             _reactRouterDom.Switch,
             null,
             _react2.default.createElement(_reactRouterDom.Route, { path: '/userprofile', component: _UserProfile2.default, exact: true }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/login', component: _Login2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _AllConvos2.default }),
-            _react2.default.createElement(_reactRouterDom.Route, { path: '/postpage', component: _PostPage2.default, exact: true }),
-            _react2.default.createElement(_reactRouterDom.Route, { path: '/newconv', component: _NewConversation2.default })
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/new', component: _NewConversation2.default }),
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/postpage', component: _PostPage2.default })
           )
         )
       );
@@ -2308,7 +2122,15 @@ var Root = function (_Component) {
   return Root;
 }(_react.Component);
 
-exports.default = Root;
+var mapDispatch = function mapDispatch(dispatch) {
+  return {
+    getUserFromGitHub: function getUserFromGitHub() {
+      return dispatch((0, _thunks.getUserFromGitHub)());
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(null, mapDispatch)(Root);
 
 /***/ }),
 
@@ -2334,8 +2156,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 
-var _thunks = __webpack_require__(/*! ../redux/activeUser/thunks */ "./app/redux/activeUser/thunks.js");
-
 var _Form = __webpack_require__(/*! ./styled/Form */ "./app/components/styled/Form.js");
 
 var _Div = __webpack_require__(/*! ./styled/Div */ "./app/components/styled/Div.js");
@@ -2343,10 +2163,6 @@ var _Div = __webpack_require__(/*! ./styled/Div */ "./app/components/styled/Div.
 var _Image = __webpack_require__(/*! ./styled/Image */ "./app/components/styled/Image.js");
 
 var _Font = __webpack_require__(/*! ./styled/Font */ "./app/components/styled/Font.js");
-
-var _Button = __webpack_require__(/*! ./styled/Button */ "./app/components/styled/Button.js");
-
-var _Button2 = _interopRequireDefault(_Button);
 
 var _SmallButton = __webpack_require__(/*! ./styled/SmallButton */ "./app/components/styled/SmallButton.js");
 
@@ -2372,8 +2188,7 @@ var UserProfile = function (_Component) {
   _createClass(UserProfile, [{
     key: 'render',
     value: function render() {
-      console.log('activeUser', this.props.activeUser);
-      var activeUser = this.props.activeUser;
+      var user = this.props.user;
 
       return _react2.default.createElement(
         _Div.MainContainer,
@@ -2381,26 +2196,26 @@ var UserProfile = function (_Component) {
         _react2.default.createElement(
           _Form.Form,
           null,
-          activeUser.image ? _react2.default.createElement(_Image.Image, { src: activeUser.image }) : _react2.default.createElement(_Image.Image, { src: 'https://cdn3.iconfinder.com/data/icons/iconset-1-1/24/icon_set_outlinder-05-512.png' }),
+          user.image ? _react2.default.createElement(_Image.Image, { src: user.image }) : _react2.default.createElement(_Image.Image, { src: 'https://cdn3.iconfinder.com/data/icons/iconset-1-1/24/icon_set_outlinder-05-512.png' }),
           _react2.default.createElement(
             _Font.Header,
             null,
-            activeUser.name
+            user.name
           ),
           _react2.default.createElement(
             _Font.Title,
             null,
-            activeUser.email
+            user.email
           ),
           _react2.default.createElement(
             _SmallButton2.default,
             null,
             'Edit Profile'
           ),
-          activeUser.bio ? _react2.default.createElement(
+          user.bio ? _react2.default.createElement(
             _Font.Paragraph,
             null,
-            activeUser.bio
+            user.bio
           ) : null
         )
       );
@@ -2411,9 +2226,10 @@ var UserProfile = function (_Component) {
 }(_react.Component);
 
 var mapStateToProps = function mapStateToProps(_ref) {
-  var activeUser = _ref.activeUser;
-  return { activeUser: activeUser };
+  var user = _ref.user;
+  return { user: user };
 };
+
 exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(UserProfile);
 
 /***/ }),
@@ -2431,18 +2247,32 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(UserProfile);
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.AnchorButton = exports.Button = undefined;
 
-var _templateObject = _taggedTemplateLiteral(['\n    display: block;\n    width: 95%;\n    border: ', ';\n    border-radius: 3px;\n    color: ', ';\n    background-color: ', ';\n    font-size: 1rem;\n    font-weight: bold;\n    padding: 0.5rem 1rem;\n    margin: 0.5rem;\n    cursor: pointer;\n    &:hover {\n        background-color: ', '\n    }\n    &:focus {\n        outline: none;\n    }\n    &:disabled {\n        background-color: lightgray;\n        color: gray;\n    }\n'], ['\n    display: block;\n    width: 95%;\n    border: ', ';\n    border-radius: 3px;\n    color: ', ';\n    background-color: ', ';\n    font-size: 1rem;\n    font-weight: bold;\n    padding: 0.5rem 1rem;\n    margin: 0.5rem;\n    cursor: pointer;\n    &:hover {\n        background-color: ', '\n    }\n    &:focus {\n        outline: none;\n    }\n    &:disabled {\n        background-color: lightgray;\n        color: gray;\n    }\n']);
+var _templateObject = _taggedTemplateLiteral(['\n    display: block;\n    width: 95%;\n    border: ', ';\n    border-radius: 3px;\n    color: ', ';\n    background-color: ', ';\n    font-size: 1rem;\n    font-weight: bold;\n    padding: 0.5rem 1rem;\n    margin: 0.5rem;\n    cursor: pointer;\n    &:hover {\n        background-color: ', '\n    }\n    &:focus {\n        outline: none;\n    }\n    &:disabled {\n        background-color: lightgray;\n        color: gray;\n    }\n'], ['\n    display: block;\n    width: 95%;\n    border: ', ';\n    border-radius: 3px;\n    color: ', ';\n    background-color: ', ';\n    font-size: 1rem;\n    font-weight: bold;\n    padding: 0.5rem 1rem;\n    margin: 0.5rem;\n    cursor: pointer;\n    &:hover {\n        background-color: ', '\n    }\n    &:focus {\n        outline: none;\n    }\n    &:disabled {\n        background-color: lightgray;\n        color: gray;\n    }\n']),
+    _templateObject2 = _taggedTemplateLiteral(['\n    display: block;\n    width: 95%;\n    border: ', ';\n    border-radius: 3px;\n    color: ', ';\n    background-color: ', ';\n    font-size: 1rem;\n    font-weight: bold;\n    text-align:center;\n    text-decoration: none;\n    padding: 0.5rem 1rem;\n    margin: 0.5rem;\n    cursor: pointer;\n    &:hover {\n        background-color: ', '\n    }\n    &:focus {\n        outline: none;\n    }\n    &:disabled {\n        background-color: lightgray;\n        color: gray;\n    }\n'], ['\n    display: block;\n    width: 95%;\n    border: ', ';\n    border-radius: 3px;\n    color: ', ';\n    background-color: ', ';\n    font-size: 1rem;\n    font-weight: bold;\n    text-align:center;\n    text-decoration: none;\n    padding: 0.5rem 1rem;\n    margin: 0.5rem;\n    cursor: pointer;\n    &:hover {\n        background-color: ', '\n    }\n    &:focus {\n        outline: none;\n    }\n    &:disabled {\n        background-color: lightgray;\n        color: gray;\n    }\n']);
 
 var _styledComponents = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
+var _Font = __webpack_require__(/*! ./Font */ "./app/components/styled/Font.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-exports.default = _styledComponents2.default.button(_templateObject, function (props) {
+var Button = exports.Button = _styledComponents2.default.button(_templateObject, function (props) {
+    return props.secondary ? '1px solid #007bff' : '0';
+}, function (props) {
+    return props.secondary ? '#007bff' : 'white';
+}, function (props) {
+    return props.secondary ? 'white' : '#007bff';
+}, function (props) {
+    return props.secondary ? '#ededed' : '#006bf1';
+});
+
+var AnchorButton = exports.AnchorButton = (0, _styledComponents2.default)(_Font.Anchor)(_templateObject2, function (props) {
     return props.secondary ? '1px solid #007bff' : '0';
 }, function (props) {
     return props.secondary ? '#007bff' : 'white';
@@ -2519,8 +2349,6 @@ var _templateObject = _taggedTemplateLiteral(['\n  display: block;\n  margin: 1r
 var _styledComponents = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
-
-var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2723,8 +2551,6 @@ var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
 var _Div = __webpack_require__(/*! ./Div */ "./app/components/styled/Div.js");
 
-var _Font = __webpack_require__(/*! ./Font */ "./app/components/styled/Font.js");
-
 var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -2879,8 +2705,6 @@ var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-r
 
 var _thunks = __webpack_require__(/*! ../redux/repository/thunks */ "./app/redux/repository/thunks.js");
 
-var _thunks2 = __webpack_require__(/*! ../redux/activeUser/thunks */ "./app/redux/activeUser/thunks.js");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2933,9 +2757,19 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     getRepos: function getRepos() {
       return dispatch((0, _thunks.getRepos)());
     },
-    getActiveUser: function getActiveUser() {
-      return dispatch((0, _thunks2.getActiveUser)());
-    }
+    getActiveUser: function (_getActiveUser) {
+      function getActiveUser() {
+        return _getActiveUser.apply(this, arguments);
+      }
+
+      getActiveUser.toString = function () {
+        return _getActiveUser.toString();
+      };
+
+      return getActiveUser;
+    }(function () {
+      return dispatch(getActiveUser());
+    })
   };
 };
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Test);
@@ -2975,131 +2809,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
   { store: _store2.default },
   _react2.default.createElement(_Root2.default, null)
 ), document.getElementById('main'));
-
-/***/ }),
-
-/***/ "./app/redux/activeUser/action.js":
-/*!****************************************!*\
-  !*** ./app/redux/activeUser/action.js ***!
-  \****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.setActiveUser = undefined;
-
-var _constants = __webpack_require__(/*! ./constants */ "./app/redux/activeUser/constants.js");
-
-var setActiveUser = exports.setActiveUser = function setActiveUser(user) {
-  return {
-    type: _constants.SET_ACTIVE_USER,
-    user: user
-  };
-};
-
-/***/ }),
-
-/***/ "./app/redux/activeUser/constants.js":
-/*!*******************************************!*\
-  !*** ./app/redux/activeUser/constants.js ***!
-  \*******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var SET_ACTIVE_USER = exports.SET_ACTIVE_USER = 'SET_ACTIVE_USER';
-
-/***/ }),
-
-/***/ "./app/redux/activeUser/reducers.js":
-/*!******************************************!*\
-  !*** ./app/redux/activeUser/reducers.js ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.activeUserReducer = undefined;
-
-var _axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-
-var _axios2 = _interopRequireDefault(_axios);
-
-var _constants = __webpack_require__(/*! ../authentication/constants */ "./app/redux/authentication/constants.js");
-
-var _constants2 = __webpack_require__(/*! ./constants */ "./app/redux/activeUser/constants.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var activeUserReducer = exports.activeUserReducer = function activeUserReducer() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var action = arguments[1];
-
-  switch (action.type) {
-    case _constants2.SET_ACTIVE_USER:
-      return action.user;
-    case _constants.SIGN_IN:
-      return action.activeUser;
-    case _constants.SIGN_UP:
-      return action.activeUser;
-    case _constants.SIGN_OUT:
-      return {};
-
-    default:
-      return state;
-  }
-};
-
-/***/ }),
-
-/***/ "./app/redux/activeUser/thunks.js":
-/*!****************************************!*\
-  !*** ./app/redux/activeUser/thunks.js ***!
-  \****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getActiveUser = undefined;
-
-var _action = __webpack_require__(/*! ./action */ "./app/redux/activeUser/action.js");
-
-var _axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-
-var _axios2 = _interopRequireDefault(_axios);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var getActiveUser = exports.getActiveUser = function getActiveUser() {
-  return function (dispatch) {
-    return _axios2.default.get('/api/github/user').then(function (user) {
-      console.log('user redux', user.data);
-      dispatch((0, _action.setActiveUser)(user.data));
-    }).catch(function (e) {
-      return console.error(e);
-    });
-  };
-};
 
 /***/ }),
 
@@ -3521,9 +3230,9 @@ var _actions = __webpack_require__(/*! ./actions */ "./app/redux/conversations/a
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //TODO: Add better error handling - custom component with user-readable error message
-var postConversation = exports.postConversation = function postConversation(author, payload) {
-    return function () {
-        return _axios2.default.post('/api/conversation', { author: author, payload: payload }).then(function (res) {
+var postConversation = exports.postConversation = function postConversation(author) {
+    return function (dispatch) {
+        return _axios2.default.post('/api/conversation', { author: author }).then(function (res) {
             return dispatch(updateConversation(res.data));
         }).catch(function (e) {
             return console.log(e);
@@ -3616,23 +3325,19 @@ var _reducers2 = _interopRequireDefault(_reducers);
 
 var _reducers3 = __webpack_require__(/*! ./users/reducers */ "./app/redux/users/reducers.js");
 
-var _reducers4 = _interopRequireDefault(_reducers3);
+var _reducers4 = __webpack_require__(/*! ./conversations/reducers */ "./app/redux/conversations/reducers.js");
 
-var _reducers5 = __webpack_require__(/*! ./conversations/reducers */ "./app/redux/conversations/reducers.js");
-
-var _reducers6 = __webpack_require__(/*! ./repository/reducers */ "./app/redux/repository/reducers.js");
-
-var _reducers7 = __webpack_require__(/*! ./activeUser/reducers */ "./app/redux/activeUser/reducers.js");
+var _reducers5 = __webpack_require__(/*! ./repository/reducers */ "./app/redux/repository/reducers.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var appReducer = (0, _redux.combineReducers)({
-  users: _reducers4.default,
+  users: _reducers3.users,
+  user: _reducers3.user,
   authentication: _reducers2.default,
-  conversation: _reducers5.conversation,
-  allConversations: _reducers5.allConversations,
-  reposetories: _reducers6.reposetoriesReducer,
-  activeUser: _reducers7.activeUserReducer
+  conversation: _reducers4.conversation,
+  allConversations: _reducers4.allConversations,
+  repositories: _reducers5.repositories
 });
 
 exports.default = appReducer;
@@ -3652,13 +3357,13 @@ exports.default = appReducer;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.setAllrepos = undefined;
+exports.setAllRepos = undefined;
 
 var _constants = __webpack_require__(/*! ./constants */ "./app/redux/repository/constants.js");
 
-var setAllrepos = exports.setAllrepos = function setAllrepos(repos) {
+var setAllRepos = exports.setAllRepos = function setAllRepos(repos) {
   return {
-    type: _constants.SET_ALLREPOS,
+    type: _constants.SET_ALL_REPOS,
     repos: repos
   };
 };
@@ -3678,7 +3383,7 @@ var setAllrepos = exports.setAllrepos = function setAllrepos(repos) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var SET_ALLREPOS = exports.SET_ALLREPOS = 'SET_ALLREPOS';
+var SET_ALL_REPOS = exports.SET_ALL_REPOS = 'SET_ALL_REPOS';
 
 /***/ }),
 
@@ -3695,16 +3400,16 @@ var SET_ALLREPOS = exports.SET_ALLREPOS = 'SET_ALLREPOS';
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.reposetoriesReducer = undefined;
+exports.repositories = undefined;
 
 var _constants = __webpack_require__(/*! ./constants */ "./app/redux/repository/constants.js");
 
-var reposetoriesReducer = exports.reposetoriesReducer = function reposetoriesReducer() {
+var repositories = exports.repositories = function repositories() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var action = arguments[1];
 
   switch (action.type) {
-    case _constants.SET_ALLREPOS:
+    case _constants.SET_ALL_REPOS:
       return action.repos;
 
     default:
@@ -3751,6 +3456,46 @@ var getRepos = exports.getRepos = function getRepos() {
 
 /***/ }),
 
+/***/ "./app/redux/users/actions.js":
+/*!************************************!*\
+  !*** ./app/redux/users/actions.js ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.addUser = exports.setUser = exports.setUsers = undefined;
+
+var _constants = __webpack_require__(/*! ./constants */ "./app/redux/users/constants.js");
+
+var setUsers = exports.setUsers = function setUsers(users) {
+  return {
+    type: _constants.SET_ALL_USERS,
+    users: users
+  };
+};
+
+var setUser = exports.setUser = function setUser(user) {
+  return {
+    type: _constants.SET_USER,
+    user: user
+  };
+};
+
+var addUser = exports.addUser = function addUser(user) {
+  return {
+    type: _constants.ADD_USER,
+    user: user
+  };
+};
+
+/***/ }),
+
 /***/ "./app/redux/users/constants.js":
 /*!**************************************!*\
   !*** ./app/redux/users/constants.js ***!
@@ -3765,6 +3510,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var SET_ALL_USERS = exports.SET_ALL_USERS = Symbol('SET_ALL_USERS');
+
+var SET_USER = exports.SET_USER = Symbol('SET_USER');
 
 var ADD_USER = exports.ADD_USER = Symbol('ADD_USER');
 
@@ -3783,12 +3530,13 @@ var ADD_USER = exports.ADD_USER = Symbol('ADD_USER');
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.user = exports.users = undefined;
 
 var _constants = __webpack_require__(/*! ./constants */ "./app/redux/users/constants.js");
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-var usersReducer = function usersReducer() {
+var users = exports.users = function users() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var action = arguments[1];
 
@@ -3804,7 +3552,100 @@ var usersReducer = function usersReducer() {
   }
 };
 
-exports.default = usersReducer;
+var user = exports.user = function user() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments[1];
+
+  switch (action.type) {
+    case _constants.SET_USER:
+      return action.user;
+
+    default:
+      return state;
+  }
+};
+
+/***/ }),
+
+/***/ "./app/redux/users/thunks.js":
+/*!***********************************!*\
+  !*** ./app/redux/users/thunks.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.updateUser = exports.removeUser = exports.createUser = exports.getUserFromGitHub = exports.fetchUsers = undefined;
+
+var _axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _actions = __webpack_require__(/*! ./actions */ "./app/redux/users/actions.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var fetchUsers = exports.fetchUsers = function fetchUsers() {
+  return function (dispatch) {
+    return _axios2.default.get('/api/users').then(function (response) {
+      return dispatch((0, _actions.setUsers)(response.data));
+    }).catch(function (e) {
+      return console.log('Error in thunk:', e);
+    });
+  };
+};
+
+var getUserFromGitHub = exports.getUserFromGitHub = function getUserFromGitHub() {
+  return function (dispatch) {
+    return _axios2.default.get('/api/github/user').then(function (res) {
+      return dispatch((0, _actions.setUser)(res.data));
+    }).catch(function (e) {
+      return console.error(e);
+    });
+  };
+};
+
+var createUser = exports.createUser = function createUser(user) {
+  return function (dispatch) {
+    return _axios2.default.post('/api/users', user).then(function (response) {
+      console.log('create user thunk response data: ', response.data);
+      dispatch((0, _actions.addUser)(response.data));
+    }).catch(function (e) {
+      return console.log('Error in thunk:', e);
+    });
+  };
+};
+
+var removeUser = exports.removeUser = function removeUser(id) {
+  return function (dispatch) {
+    return _axios2.default.delete('/api/users' + id).then(function (response) {
+      console.log(response);
+      return _axios2.default.get('/api/users').then(function (responses) {
+        return dispatch(fetchUsers(responses.data));
+      });
+    }).catch(function (e) {
+      return console.log('Error in thunk:', e.message);
+    });
+  };
+};
+
+var updateUser = exports.updateUser = function updateUser(userId, user) {
+  return function (dispatch) {
+    return _axios2.default.put('/api/users/' + userId, user).then(function (response) {
+      console.log(response);
+      return _axios2.default.get('/api/users/').then(function (response) {
+        return dispatch(fetchUsers(response.data));
+      });
+    }).catch(function (e) {
+      return console.log('Error in thunk:', e.message);
+    });
+  };
+};
 
 /***/ }),
 
@@ -46304,42 +46145,6 @@ module.exports = exports;
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css":
-/*!****************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css ***!
-  \****************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// Imports
-var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
-exports = ___CSS_LOADER_API_IMPORT___(false);
-// Module
-exports.push([module.i, "pre[class*=\"language-\"].line-numbers {\n\tposition: relative;\n\tpadding-left: 3.8em;\n\tcounter-reset: linenumber;\n}\n\npre[class*=\"language-\"].line-numbers > code {\n\tposition: relative;\n\twhite-space: inherit;\n}\n\n.line-numbers .line-numbers-rows {\n\tposition: absolute;\n\tpointer-events: none;\n\ttop: 0;\n\tfont-size: 100%;\n\tleft: -3.8em;\n\twidth: 3em; /* works for line-numbers below 1000 lines */\n\tletter-spacing: -1px;\n\tborder-right: 1px solid #999;\n\n\t-webkit-user-select: none;\n\t-moz-user-select: none;\n\t-ms-user-select: none;\n\tuser-select: none;\n\n}\n\n\t.line-numbers-rows > span {\n\t\tpointer-events: none;\n\t\tdisplay: block;\n\t\tcounter-increment: linenumber;\n\t}\n\n\t\t.line-numbers-rows > span:before {\n\t\t\tcontent: counter(linenumber);\n\t\t\tcolor: #999;\n\t\t\tdisplay: block;\n\t\t\tpadding-right: 0.8em;\n\t\t\ttext-align: right;\n\t\t}\n", ""]);
-// Exports
-module.exports = exports;
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/prismjs/themes/prism.css":
-/*!*************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/prismjs/themes/prism.css ***!
-  \*************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// Imports
-var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
-exports = ___CSS_LOADER_API_IMPORT___(false);
-// Module
-exports.push([module.i, "/**\n * prism.js default theme for JavaScript, CSS and HTML\n * Based on dabblet (http://dabblet.com)\n * @author Lea Verou\n */\n\ncode[class*=\"language-\"],\npre[class*=\"language-\"] {\n\tcolor: black;\n\tbackground: none;\n\ttext-shadow: 0 1px white;\n\tfont-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;\n\tfont-size: 1em;\n\ttext-align: left;\n\twhite-space: pre;\n\tword-spacing: normal;\n\tword-break: normal;\n\tword-wrap: normal;\n\tline-height: 1.5;\n\n\t-moz-tab-size: 4;\n\t-o-tab-size: 4;\n\ttab-size: 4;\n\n\t-webkit-hyphens: none;\n\t-moz-hyphens: none;\n\t-ms-hyphens: none;\n\thyphens: none;\n}\n\npre[class*=\"language-\"]::-moz-selection, pre[class*=\"language-\"] ::-moz-selection,\ncode[class*=\"language-\"]::-moz-selection, code[class*=\"language-\"] ::-moz-selection {\n\ttext-shadow: none;\n\tbackground: #b3d4fc;\n}\n\npre[class*=\"language-\"]::selection, pre[class*=\"language-\"] ::selection,\ncode[class*=\"language-\"]::selection, code[class*=\"language-\"] ::selection {\n\ttext-shadow: none;\n\tbackground: #b3d4fc;\n}\n\n@media print {\n\tcode[class*=\"language-\"],\n\tpre[class*=\"language-\"] {\n\t\ttext-shadow: none;\n\t}\n}\n\n/* Code blocks */\npre[class*=\"language-\"] {\n\tpadding: 1em;\n\tmargin: .5em 0;\n\toverflow: auto;\n}\n\n:not(pre) > code[class*=\"language-\"],\npre[class*=\"language-\"] {\n\tbackground: #f5f2f0;\n}\n\n/* Inline code */\n:not(pre) > code[class*=\"language-\"] {\n\tpadding: .1em;\n\tborder-radius: .3em;\n\twhite-space: normal;\n}\n\n.token.comment,\n.token.prolog,\n.token.doctype,\n.token.cdata {\n\tcolor: slategray;\n}\n\n.token.punctuation {\n\tcolor: #999;\n}\n\n.token.namespace {\n\topacity: .7;\n}\n\n.token.property,\n.token.tag,\n.token.boolean,\n.token.number,\n.token.constant,\n.token.symbol,\n.token.deleted {\n\tcolor: #905;\n}\n\n.token.selector,\n.token.attr-name,\n.token.string,\n.token.char,\n.token.builtin,\n.token.inserted {\n\tcolor: #690;\n}\n\n.token.operator,\n.token.entity,\n.token.url,\n.language-css .token.string,\n.style .token.string {\n\tcolor: #9a6e3a;\n\tbackground: hsla(0, 0%, 100%, .5);\n}\n\n.token.atrule,\n.token.attr-value,\n.token.keyword {\n\tcolor: #07a;\n}\n\n.token.function,\n.token.class-name {\n\tcolor: #DD4A68;\n}\n\n.token.regex,\n.token.important,\n.token.variable {\n\tcolor: #e90;\n}\n\n.token.important,\n.token.bold {\n\tfont-weight: bold;\n}\n.token.italic {\n\tfont-style: italic;\n}\n\n.token.entity {\n\tcursor: help;\n}\n", ""]);
-// Exports
-module.exports = exports;
-
-
-/***/ }),
-
 /***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/react-quill/dist/quill.snow.css":
 /*!********************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/react-quill/dist/quill.snow.css ***!
@@ -53132,1203 +52937,6 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 	return to;
 };
 
-
-/***/ }),
-
-/***/ "./node_modules/prismjs/components/prism-clike.js":
-/*!********************************************************!*\
-  !*** ./node_modules/prismjs/components/prism-clike.js ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-Prism.languages.clike = {
-	'comment': [
-		{
-			pattern: /(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,
-			lookbehind: true
-		},
-		{
-			pattern: /(^|[^\\:])\/\/.*/,
-			lookbehind: true,
-			greedy: true
-		}
-	],
-	'string': {
-		pattern: /(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,
-		greedy: true
-	},
-	'class-name': {
-		pattern: /(\b(?:class|interface|extends|implements|trait|instanceof|new)\s+|\bcatch\s+\()[\w.\\]+/i,
-		lookbehind: true,
-		inside: {
-			'punctuation': /[.\\]/
-		}
-	},
-	'keyword': /\b(?:if|else|while|do|for|return|in|instanceof|function|new|try|throw|catch|finally|null|break|continue)\b/,
-	'boolean': /\b(?:true|false)\b/,
-	'function': /\w+(?=\()/,
-	'number': /\b0x[\da-f]+\b|(?:\b\d+\.?\d*|\B\.\d+)(?:e[+-]?\d+)?/i,
-	'operator': /[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,
-	'punctuation': /[{}[\];(),.:]/
-};
-
-
-/***/ }),
-
-/***/ "./node_modules/prismjs/components/prism-core.js":
-/*!*******************************************************!*\
-  !*** ./node_modules/prismjs/components/prism-core.js ***!
-  \*******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {var _self = (typeof window !== 'undefined')
-	? window   // if in browser
-	: (
-		(typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope)
-		? self // if in worker
-		: {}   // if in node js
-	);
-
-/**
- * Prism: Lightweight, robust, elegant syntax highlighting
- * MIT license http://www.opensource.org/licenses/mit-license.php/
- * @author Lea Verou http://lea.verou.me
- */
-
-var Prism = (function (_self){
-
-// Private helper vars
-var lang = /\blang(?:uage)?-([\w-]+)\b/i;
-var uniqueId = 0;
-
-
-var _ = {
-	manual: _self.Prism && _self.Prism.manual,
-	disableWorkerMessageHandler: _self.Prism && _self.Prism.disableWorkerMessageHandler,
-	util: {
-		encode: function (tokens) {
-			if (tokens instanceof Token) {
-				return new Token(tokens.type, _.util.encode(tokens.content), tokens.alias);
-			} else if (Array.isArray(tokens)) {
-				return tokens.map(_.util.encode);
-			} else {
-				return tokens.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/\u00a0/g, ' ');
-			}
-		},
-
-		type: function (o) {
-			return Object.prototype.toString.call(o).slice(8, -1);
-		},
-
-		objId: function (obj) {
-			if (!obj['__id']) {
-				Object.defineProperty(obj, '__id', { value: ++uniqueId });
-			}
-			return obj['__id'];
-		},
-
-		// Deep clone a language definition (e.g. to extend it)
-		clone: function deepClone(o, visited) {
-			var clone, id, type = _.util.type(o);
-			visited = visited || {};
-
-			switch (type) {
-				case 'Object':
-					id = _.util.objId(o);
-					if (visited[id]) {
-						return visited[id];
-					}
-					clone = {};
-					visited[id] = clone;
-
-					for (var key in o) {
-						if (o.hasOwnProperty(key)) {
-							clone[key] = deepClone(o[key], visited);
-						}
-					}
-
-					return clone;
-
-				case 'Array':
-					id = _.util.objId(o);
-					if (visited[id]) {
-						return visited[id];
-					}
-					clone = [];
-					visited[id] = clone;
-
-					o.forEach(function (v, i) {
-						clone[i] = deepClone(v, visited);
-					});
-
-					return clone;
-
-				default:
-					return o;
-			}
-		},
-
-		/**
-		 * Returns the Prism language of the given element set by a `language-xxxx` or `lang-xxxx` class.
-		 *
-		 * If no language is set for the element or the element is `null` or `undefined`, `none` will be returned.
-		 *
-		 * @param {Element} element
-		 * @returns {string}
-		 */
-		getLanguage: function (element) {
-			while (element && !lang.test(element.className)) {
-				element = element.parentElement;
-			}
-			if (element) {
-				return (element.className.match(lang) || [, 'none'])[1].toLowerCase();
-			}
-			return 'none';
-		},
-
-		/**
-		 * Returns the script element that is currently executing.
-		 *
-		 * This does __not__ work for line script element.
-		 *
-		 * @returns {HTMLScriptElement | null}
-		 */
-		currentScript: function () {
-			if (typeof document === 'undefined') {
-				return null;
-			}
-			if ('currentScript' in document) {
-				return document.currentScript;
-			}
-
-			// IE11 workaround
-			// we'll get the src of the current script by parsing IE11's error stack trace
-			// this will not work for inline scripts
-
-			try {
-				throw new Error();
-			} catch (err) {
-				// Get file src url from stack. Specifically works with the format of stack traces in IE.
-				// A stack will look like this:
-				//
-				// Error
-				//    at _.util.currentScript (http://localhost/components/prism-core.js:119:5)
-				//    at Global code (http://localhost/components/prism-core.js:606:1)
-
-				var src = (/at [^(\r\n]*\((.*):.+:.+\)$/i.exec(err.stack) || [])[1];
-				if (src) {
-					var scripts = document.getElementsByTagName('script');
-					for (var i in scripts) {
-						if (scripts[i].src == src) {
-							return scripts[i];
-						}
-					}
-				}
-				return null;
-			}
-		}
-	},
-
-	languages: {
-		extend: function (id, redef) {
-			var lang = _.util.clone(_.languages[id]);
-
-			for (var key in redef) {
-				lang[key] = redef[key];
-			}
-
-			return lang;
-		},
-
-		/**
-		 * Insert a token before another token in a language literal
-		 * As this needs to recreate the object (we cannot actually insert before keys in object literals),
-		 * we cannot just provide an object, we need an object and a key.
-		 * @param inside The key (or language id) of the parent
-		 * @param before The key to insert before.
-		 * @param insert Object with the key/value pairs to insert
-		 * @param root The object that contains `inside`. If equal to Prism.languages, it can be omitted.
-		 */
-		insertBefore: function (inside, before, insert, root) {
-			root = root || _.languages;
-			var grammar = root[inside];
-			var ret = {};
-
-			for (var token in grammar) {
-				if (grammar.hasOwnProperty(token)) {
-
-					if (token == before) {
-						for (var newToken in insert) {
-							if (insert.hasOwnProperty(newToken)) {
-								ret[newToken] = insert[newToken];
-							}
-						}
-					}
-
-					// Do not insert token which also occur in insert. See #1525
-					if (!insert.hasOwnProperty(token)) {
-						ret[token] = grammar[token];
-					}
-				}
-			}
-
-			var old = root[inside];
-			root[inside] = ret;
-
-			// Update references in other language definitions
-			_.languages.DFS(_.languages, function(key, value) {
-				if (value === old && key != inside) {
-					this[key] = ret;
-				}
-			});
-
-			return ret;
-		},
-
-		// Traverse a language definition with Depth First Search
-		DFS: function DFS(o, callback, type, visited) {
-			visited = visited || {};
-
-			var objId = _.util.objId;
-
-			for (var i in o) {
-				if (o.hasOwnProperty(i)) {
-					callback.call(o, i, o[i], type || i);
-
-					var property = o[i],
-					    propertyType = _.util.type(property);
-
-					if (propertyType === 'Object' && !visited[objId(property)]) {
-						visited[objId(property)] = true;
-						DFS(property, callback, null, visited);
-					}
-					else if (propertyType === 'Array' && !visited[objId(property)]) {
-						visited[objId(property)] = true;
-						DFS(property, callback, i, visited);
-					}
-				}
-			}
-		}
-	},
-	plugins: {},
-
-	highlightAll: function(async, callback) {
-		_.highlightAllUnder(document, async, callback);
-	},
-
-	highlightAllUnder: function(container, async, callback) {
-		var env = {
-			callback: callback,
-			container: container,
-			selector: 'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'
-		};
-
-		_.hooks.run('before-highlightall', env);
-
-		env.elements = Array.prototype.slice.apply(env.container.querySelectorAll(env.selector));
-
-		_.hooks.run('before-all-elements-highlight', env);
-
-		for (var i = 0, element; element = env.elements[i++];) {
-			_.highlightElement(element, async === true, env.callback);
-		}
-	},
-
-	highlightElement: function(element, async, callback) {
-		// Find language
-		var language = _.util.getLanguage(element);
-		var grammar = _.languages[language];
-
-		// Set language on the element, if not present
-		element.className = element.className.replace(lang, '').replace(/\s+/g, ' ') + ' language-' + language;
-
-		// Set language on the parent, for styling
-		var parent = element.parentNode;
-		if (parent && parent.nodeName.toLowerCase() === 'pre') {
-			parent.className = parent.className.replace(lang, '').replace(/\s+/g, ' ') + ' language-' + language;
-		}
-
-		var code = element.textContent;
-
-		var env = {
-			element: element,
-			language: language,
-			grammar: grammar,
-			code: code
-		};
-
-		function insertHighlightedCode(highlightedCode) {
-			env.highlightedCode = highlightedCode;
-
-			_.hooks.run('before-insert', env);
-
-			env.element.innerHTML = env.highlightedCode;
-
-			_.hooks.run('after-highlight', env);
-			_.hooks.run('complete', env);
-			callback && callback.call(env.element);
-		}
-
-		_.hooks.run('before-sanity-check', env);
-
-		if (!env.code) {
-			_.hooks.run('complete', env);
-			callback && callback.call(env.element);
-			return;
-		}
-
-		_.hooks.run('before-highlight', env);
-
-		if (!env.grammar) {
-			insertHighlightedCode(_.util.encode(env.code));
-			return;
-		}
-
-		if (async && _self.Worker) {
-			var worker = new Worker(_.filename);
-
-			worker.onmessage = function(evt) {
-				insertHighlightedCode(evt.data);
-			};
-
-			worker.postMessage(JSON.stringify({
-				language: env.language,
-				code: env.code,
-				immediateClose: true
-			}));
-		}
-		else {
-			insertHighlightedCode(_.highlight(env.code, env.grammar, env.language));
-		}
-	},
-
-	highlight: function (text, grammar, language) {
-		var env = {
-			code: text,
-			grammar: grammar,
-			language: language
-		};
-		_.hooks.run('before-tokenize', env);
-		env.tokens = _.tokenize(env.code, env.grammar);
-		_.hooks.run('after-tokenize', env);
-		return Token.stringify(_.util.encode(env.tokens), env.language);
-	},
-
-	matchGrammar: function (text, strarr, grammar, index, startPos, oneshot, target) {
-		for (var token in grammar) {
-			if (!grammar.hasOwnProperty(token) || !grammar[token]) {
-				continue;
-			}
-
-			var patterns = grammar[token];
-			patterns = Array.isArray(patterns) ? patterns : [patterns];
-
-			for (var j = 0; j < patterns.length; ++j) {
-				if (target && target == token + ',' + j) {
-					return;
-				}
-
-				var pattern = patterns[j],
-					inside = pattern.inside,
-					lookbehind = !!pattern.lookbehind,
-					greedy = !!pattern.greedy,
-					lookbehindLength = 0,
-					alias = pattern.alias;
-
-				if (greedy && !pattern.pattern.global) {
-					// Without the global flag, lastIndex won't work
-					var flags = pattern.pattern.toString().match(/[imsuy]*$/)[0];
-					pattern.pattern = RegExp(pattern.pattern.source, flags + 'g');
-				}
-
-				pattern = pattern.pattern || pattern;
-
-				// Don’t cache length as it changes during the loop
-				for (var i = index, pos = startPos; i < strarr.length; pos += strarr[i].length, ++i) {
-
-					var str = strarr[i];
-
-					if (strarr.length > text.length) {
-						// Something went terribly wrong, ABORT, ABORT!
-						return;
-					}
-
-					if (str instanceof Token) {
-						continue;
-					}
-
-					if (greedy && i != strarr.length - 1) {
-						pattern.lastIndex = pos;
-						var match = pattern.exec(text);
-						if (!match) {
-							break;
-						}
-
-						var from = match.index + (lookbehind && match[1] ? match[1].length : 0),
-						    to = match.index + match[0].length,
-						    k = i,
-						    p = pos;
-
-						for (var len = strarr.length; k < len && (p < to || (!strarr[k].type && !strarr[k - 1].greedy)); ++k) {
-							p += strarr[k].length;
-							// Move the index i to the element in strarr that is closest to from
-							if (from >= p) {
-								++i;
-								pos = p;
-							}
-						}
-
-						// If strarr[i] is a Token, then the match starts inside another Token, which is invalid
-						if (strarr[i] instanceof Token) {
-							continue;
-						}
-
-						// Number of tokens to delete and replace with the new match
-						delNum = k - i;
-						str = text.slice(pos, p);
-						match.index -= pos;
-					} else {
-						pattern.lastIndex = 0;
-
-						var match = pattern.exec(str),
-							delNum = 1;
-					}
-
-					if (!match) {
-						if (oneshot) {
-							break;
-						}
-
-						continue;
-					}
-
-					if(lookbehind) {
-						lookbehindLength = match[1] ? match[1].length : 0;
-					}
-
-					var from = match.index + lookbehindLength,
-					    match = match[0].slice(lookbehindLength),
-					    to = from + match.length,
-					    before = str.slice(0, from),
-					    after = str.slice(to);
-
-					var args = [i, delNum];
-
-					if (before) {
-						++i;
-						pos += before.length;
-						args.push(before);
-					}
-
-					var wrapped = new Token(token, inside? _.tokenize(match, inside) : match, alias, match, greedy);
-
-					args.push(wrapped);
-
-					if (after) {
-						args.push(after);
-					}
-
-					Array.prototype.splice.apply(strarr, args);
-
-					if (delNum != 1)
-						_.matchGrammar(text, strarr, grammar, i, pos, true, token + ',' + j);
-
-					if (oneshot)
-						break;
-				}
-			}
-		}
-	},
-
-	tokenize: function(text, grammar) {
-		var strarr = [text];
-
-		var rest = grammar.rest;
-
-		if (rest) {
-			for (var token in rest) {
-				grammar[token] = rest[token];
-			}
-
-			delete grammar.rest;
-		}
-
-		_.matchGrammar(text, strarr, grammar, 0, 0, false);
-
-		return strarr;
-	},
-
-	hooks: {
-		all: {},
-
-		add: function (name, callback) {
-			var hooks = _.hooks.all;
-
-			hooks[name] = hooks[name] || [];
-
-			hooks[name].push(callback);
-		},
-
-		run: function (name, env) {
-			var callbacks = _.hooks.all[name];
-
-			if (!callbacks || !callbacks.length) {
-				return;
-			}
-
-			for (var i=0, callback; callback = callbacks[i++];) {
-				callback(env);
-			}
-		}
-	},
-
-	Token: Token
-};
-
-_self.Prism = _;
-
-function Token(type, content, alias, matchedStr, greedy) {
-	this.type = type;
-	this.content = content;
-	this.alias = alias;
-	// Copy of the full string this token was created from
-	this.length = (matchedStr || '').length|0;
-	this.greedy = !!greedy;
-}
-
-Token.stringify = function(o, language) {
-	if (typeof o == 'string') {
-		return o;
-	}
-
-	if (Array.isArray(o)) {
-		return o.map(function(element) {
-			return Token.stringify(element, language);
-		}).join('');
-	}
-
-	var env = {
-		type: o.type,
-		content: Token.stringify(o.content, language),
-		tag: 'span',
-		classes: ['token', o.type],
-		attributes: {},
-		language: language
-	};
-
-	if (o.alias) {
-		var aliases = Array.isArray(o.alias) ? o.alias : [o.alias];
-		Array.prototype.push.apply(env.classes, aliases);
-	}
-
-	_.hooks.run('wrap', env);
-
-	var attributes = Object.keys(env.attributes).map(function(name) {
-		return name + '="' + (env.attributes[name] || '').replace(/"/g, '&quot;') + '"';
-	}).join(' ');
-
-	return '<' + env.tag + ' class="' + env.classes.join(' ') + '"' + (attributes ? ' ' + attributes : '') + '>' + env.content + '</' + env.tag + '>';
-};
-
-if (!_self.document) {
-	if (!_self.addEventListener) {
-		// in Node.js
-		return _;
-	}
-
-	if (!_.disableWorkerMessageHandler) {
-		// In worker
-		_self.addEventListener('message', function (evt) {
-			var message = JSON.parse(evt.data),
-				lang = message.language,
-				code = message.code,
-				immediateClose = message.immediateClose;
-
-			_self.postMessage(_.highlight(code, _.languages[lang], lang));
-			if (immediateClose) {
-				_self.close();
-			}
-		}, false);
-	}
-
-	return _;
-}
-
-//Get current script and highlight
-var script = _.util.currentScript();
-
-if (script) {
-	_.filename = script.src;
-
-	if (script.hasAttribute('data-manual')) {
-		_.manual = true;
-	}
-}
-
-if (!_.manual) {
-	function highlightAutomaticallyCallback() {
-		if (!_.manual) {
-			_.highlightAll();
-		}
-	}
-
-	// If the document state is "loading", then we'll use DOMContentLoaded.
-	// If the document state is "interactive" and the prism.js script is deferred, then we'll also use the
-	// DOMContentLoaded event because there might be some plugins or languages which have also been deferred and they
-	// might take longer one animation frame to execute which can create a race condition where only some plugins have
-	// been loaded when Prism.highlightAll() is executed, depending on how fast resources are loaded.
-	// See https://github.com/PrismJS/prism/issues/2102
-	var readyState = document.readyState;
-	if (readyState === 'loading' || readyState === 'interactive' && script && script.defer) {
-		document.addEventListener('DOMContentLoaded', highlightAutomaticallyCallback);
-	} else {
-		if (window.requestAnimationFrame) {
-			window.requestAnimationFrame(highlightAutomaticallyCallback);
-		} else {
-			window.setTimeout(highlightAutomaticallyCallback, 16);
-		}
-	}
-}
-
-return _;
-
-})(_self);
-
-if ( true && module.exports) {
-	module.exports = Prism;
-}
-
-// hack for components to work correctly in node.js
-if (typeof global !== 'undefined') {
-	global.Prism = Prism;
-}
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
-
-/***/ }),
-
-/***/ "./node_modules/prismjs/components/prism-css.js":
-/*!******************************************************!*\
-  !*** ./node_modules/prismjs/components/prism-css.js ***!
-  \******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-(function (Prism) {
-
-	var string = /("|')(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/;
-
-	Prism.languages.css = {
-		'comment': /\/\*[\s\S]*?\*\//,
-		'atrule': {
-			pattern: /@[\w-]+[\s\S]*?(?:;|(?=\s*\{))/,
-			inside: {
-				'rule': /@[\w-]+/
-				// See rest below
-			}
-		},
-		'url': {
-			pattern: RegExp('url\\((?:' + string.source + '|[^\n\r()]*)\\)', 'i'),
-			inside: {
-				'function': /^url/i,
-				'punctuation': /^\(|\)$/
-			}
-		},
-		'selector': RegExp('[^{}\\s](?:[^{};"\']|' + string.source + ')*?(?=\\s*\\{)'),
-		'string': {
-			pattern: string,
-			greedy: true
-		},
-		'property': /[-_a-z\xA0-\uFFFF][-\w\xA0-\uFFFF]*(?=\s*:)/i,
-		'important': /!important\b/i,
-		'function': /[-a-z0-9]+(?=\()/i,
-		'punctuation': /[(){};:,]/
-	};
-
-	Prism.languages.css['atrule'].inside.rest = Prism.languages.css;
-
-	var markup = Prism.languages.markup;
-	if (markup) {
-		markup.tag.addInlined('style', 'css');
-
-		Prism.languages.insertBefore('inside', 'attr-value', {
-			'style-attr': {
-				pattern: /\s*style=("|')(?:\\[\s\S]|(?!\1)[^\\])*\1/i,
-				inside: {
-					'attr-name': {
-						pattern: /^\s*style/i,
-						inside: markup.tag.inside
-					},
-					'punctuation': /^\s*=\s*['"]|['"]\s*$/,
-					'attr-value': {
-						pattern: /.+/i,
-						inside: Prism.languages.css
-					}
-				},
-				alias: 'language-css'
-			}
-		}, markup.tag);
-	}
-
-}(Prism));
-
-
-/***/ }),
-
-/***/ "./node_modules/prismjs/components/prism-javascript.js":
-/*!*************************************************************!*\
-  !*** ./node_modules/prismjs/components/prism-javascript.js ***!
-  \*************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-Prism.languages.javascript = Prism.languages.extend('clike', {
-	'class-name': [
-		Prism.languages.clike['class-name'],
-		{
-			pattern: /(^|[^$\w\xA0-\uFFFF])[_$A-Z\xA0-\uFFFF][$\w\xA0-\uFFFF]*(?=\.(?:prototype|constructor))/,
-			lookbehind: true
-		}
-	],
-	'keyword': [
-		{
-			pattern: /((?:^|})\s*)(?:catch|finally)\b/,
-			lookbehind: true
-		},
-		{
-			pattern: /(^|[^.]|\.\.\.\s*)\b(?:as|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,
-			lookbehind: true
-		},
-	],
-	'number': /\b(?:(?:0[xX](?:[\dA-Fa-f](?:_[\dA-Fa-f])?)+|0[bB](?:[01](?:_[01])?)+|0[oO](?:[0-7](?:_[0-7])?)+)n?|(?:\d(?:_\d)?)+n|NaN|Infinity)\b|(?:\b(?:\d(?:_\d)?)+\.?(?:\d(?:_\d)?)*|\B\.(?:\d(?:_\d)?)+)(?:[Ee][+-]?(?:\d(?:_\d)?)+)?/,
-	// Allow for all non-ASCII characters (See http://stackoverflow.com/a/2008444)
-	'function': /#?[_$a-zA-Z\xA0-\uFFFF][$\w\xA0-\uFFFF]*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,
-	'operator': /--|\+\+|\*\*=?|=>|&&|\|\||[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?[.?]?|[~:]/
-});
-
-Prism.languages.javascript['class-name'][0].pattern = /(\b(?:class|interface|extends|implements|instanceof|new)\s+)[\w.\\]+/;
-
-Prism.languages.insertBefore('javascript', 'keyword', {
-	'regex': {
-		pattern: /((?:^|[^$\w\xA0-\uFFFF."'\])\s])\s*)\/(?:\[(?:[^\]\\\r\n]|\\.)*]|\\.|[^/\\\[\r\n])+\/[gimyus]{0,6}(?=(?:\s|\/\*[\s\S]*?\*\/)*(?:$|[\r\n,.;:})\]]|\/\/))/,
-		lookbehind: true,
-		greedy: true
-	},
-	// This must be declared before keyword because we use "function" inside the look-forward
-	'function-variable': {
-		pattern: /#?[_$a-zA-Z\xA0-\uFFFF][$\w\xA0-\uFFFF]*(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|[_$a-zA-Z\xA0-\uFFFF][$\w\xA0-\uFFFF]*)\s*=>))/,
-		alias: 'function'
-	},
-	'parameter': [
-		{
-			pattern: /(function(?:\s+[_$A-Za-z\xA0-\uFFFF][$\w\xA0-\uFFFF]*)?\s*\(\s*)(?!\s)(?:[^()]|\([^()]*\))+?(?=\s*\))/,
-			lookbehind: true,
-			inside: Prism.languages.javascript
-		},
-		{
-			pattern: /[_$a-z\xA0-\uFFFF][$\w\xA0-\uFFFF]*(?=\s*=>)/i,
-			inside: Prism.languages.javascript
-		},
-		{
-			pattern: /(\(\s*)(?!\s)(?:[^()]|\([^()]*\))+?(?=\s*\)\s*=>)/,
-			lookbehind: true,
-			inside: Prism.languages.javascript
-		},
-		{
-			pattern: /((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xA0-\uFFFF]))(?:[_$A-Za-z\xA0-\uFFFF][$\w\xA0-\uFFFF]*\s*)\(\s*)(?!\s)(?:[^()]|\([^()]*\))+?(?=\s*\)\s*\{)/,
-			lookbehind: true,
-			inside: Prism.languages.javascript
-		}
-	],
-	'constant': /\b[A-Z](?:[A-Z_]|\dx?)*\b/
-});
-
-Prism.languages.insertBefore('javascript', 'string', {
-	'template-string': {
-		pattern: /`(?:\\[\s\S]|\${(?:[^{}]|{(?:[^{}]|{[^}]*})*})+}|(?!\${)[^\\`])*`/,
-		greedy: true,
-		inside: {
-			'template-punctuation': {
-				pattern: /^`|`$/,
-				alias: 'string'
-			},
-			'interpolation': {
-				pattern: /((?:^|[^\\])(?:\\{2})*)\${(?:[^{}]|{(?:[^{}]|{[^}]*})*})+}/,
-				lookbehind: true,
-				inside: {
-					'interpolation-punctuation': {
-						pattern: /^\${|}$/,
-						alias: 'punctuation'
-					},
-					rest: Prism.languages.javascript
-				}
-			},
-			'string': /[\s\S]+/
-		}
-	}
-});
-
-if (Prism.languages.markup) {
-	Prism.languages.markup.tag.addInlined('script', 'javascript');
-}
-
-Prism.languages.js = Prism.languages.javascript;
-
-
-/***/ }),
-
-/***/ "./node_modules/prismjs/components/prism-markup.js":
-/*!*********************************************************!*\
-  !*** ./node_modules/prismjs/components/prism-markup.js ***!
-  \*********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-Prism.languages.markup = {
-	'comment': /<!--[\s\S]*?-->/,
-	'prolog': /<\?[\s\S]+?\?>/,
-	'doctype': {
-		pattern: /<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:(?!<!--)[^"'\]]|"[^"]*"|'[^']*'|<!--[\s\S]*?-->)*\]\s*)?>/i,
-		greedy: true
-	},
-	'cdata': /<!\[CDATA\[[\s\S]*?]]>/i,
-	'tag': {
-		pattern: /<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/i,
-		greedy: true,
-		inside: {
-			'tag': {
-				pattern: /^<\/?[^\s>\/]+/i,
-				inside: {
-					'punctuation': /^<\/?/,
-					'namespace': /^[^\s>\/:]+:/
-				}
-			},
-			'attr-value': {
-				pattern: /=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)/i,
-				inside: {
-					'punctuation': [
-						/^=/,
-						{
-							pattern: /^(\s*)["']|["']$/,
-							lookbehind: true
-						}
-					]
-				}
-			},
-			'punctuation': /\/?>/,
-			'attr-name': {
-				pattern: /[^\s>\/]+/,
-				inside: {
-					'namespace': /^[^\s>\/:]+:/
-				}
-			}
-
-		}
-	},
-	'entity': /&#?[\da-z]{1,8};/i
-};
-
-Prism.languages.markup['tag'].inside['attr-value'].inside['entity'] =
-	Prism.languages.markup['entity'];
-
-// Plugin to make entity title show the real entity, idea by Roman Komarov
-Prism.hooks.add('wrap', function(env) {
-
-	if (env.type === 'entity') {
-		env.attributes['title'] = env.content.replace(/&amp;/, '&');
-	}
-});
-
-Object.defineProperty(Prism.languages.markup.tag, 'addInlined', {
-	/**
-	 * Adds an inlined language to markup.
-	 *
-	 * An example of an inlined language is CSS with `<style>` tags.
-	 *
-	 * @param {string} tagName The name of the tag that contains the inlined language. This name will be treated as
-	 * case insensitive.
-	 * @param {string} lang The language key.
-	 * @example
-	 * addInlined('style', 'css');
-	 */
-	value: function addInlined(tagName, lang) {
-		var includedCdataInside = {};
-		includedCdataInside['language-' + lang] = {
-			pattern: /(^<!\[CDATA\[)[\s\S]+?(?=\]\]>$)/i,
-			lookbehind: true,
-			inside: Prism.languages[lang]
-		};
-		includedCdataInside['cdata'] = /^<!\[CDATA\[|\]\]>$/i;
-
-		var inside = {
-			'included-cdata': {
-				pattern: /<!\[CDATA\[[\s\S]*?\]\]>/i,
-				inside: includedCdataInside
-			}
-		};
-		inside['language-' + lang] = {
-			pattern: /[\s\S]+/,
-			inside: Prism.languages[lang]
-		};
-
-		var def = {};
-		def[tagName] = {
-			pattern: RegExp(/(<__[\s\S]*?>)(?:<!\[CDATA\[[\s\S]*?\]\]>\s*|[\s\S])*?(?=<\/__>)/.source.replace(/__/g, tagName), 'i'),
-			lookbehind: true,
-			greedy: true,
-			inside: inside
-		};
-
-		Prism.languages.insertBefore('markup', 'cdata', def);
-	}
-});
-
-Prism.languages.xml = Prism.languages.extend('markup', {});
-Prism.languages.html = Prism.languages.markup;
-Prism.languages.mathml = Prism.languages.markup;
-Prism.languages.svg = Prism.languages.markup;
-
-
-/***/ }),
-
-/***/ "./node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css":
-/*!**************************************************************************!*\
-  !*** ./node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css ***!
-  \**************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../../css-loader/dist/cjs.js!./prism-line-numbers.css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../../style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
-/***/ "./node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js":
-/*!*************************************************************************!*\
-  !*** ./node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js ***!
-  \*************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-(function () {
-
-	if (typeof self === 'undefined' || !self.Prism || !self.document) {
-		return;
-	}
-
-	/**
-	 * Plugin name which is used as a class name for <pre> which is activating the plugin
-	 * @type {String}
-	 */
-	var PLUGIN_NAME = 'line-numbers';
-
-	/**
-	 * Regular expression used for determining line breaks
-	 * @type {RegExp}
-	 */
-	var NEW_LINE_EXP = /\n(?!$)/g;
-
-	/**
-	 * Resizes line numbers spans according to height of line of code
-	 * @param {Element} element <pre> element
-	 */
-	var _resizeElement = function (element) {
-		var codeStyles = getStyles(element);
-		var whiteSpace = codeStyles['white-space'];
-
-		if (whiteSpace === 'pre-wrap' || whiteSpace === 'pre-line') {
-			var codeElement = element.querySelector('code');
-			var lineNumbersWrapper = element.querySelector('.line-numbers-rows');
-			var lineNumberSizer = element.querySelector('.line-numbers-sizer');
-			var codeLines = codeElement.textContent.split(NEW_LINE_EXP);
-
-			if (!lineNumberSizer) {
-				lineNumberSizer = document.createElement('span');
-				lineNumberSizer.className = 'line-numbers-sizer';
-
-				codeElement.appendChild(lineNumberSizer);
-			}
-
-			lineNumberSizer.style.display = 'block';
-
-			codeLines.forEach(function (line, lineNumber) {
-				lineNumberSizer.textContent = line || '\n';
-				var lineSize = lineNumberSizer.getBoundingClientRect().height;
-				lineNumbersWrapper.children[lineNumber].style.height = lineSize + 'px';
-			});
-
-			lineNumberSizer.textContent = '';
-			lineNumberSizer.style.display = 'none';
-		}
-	};
-
-	/**
-	 * Returns style declarations for the element
-	 * @param {Element} element
-	 */
-	var getStyles = function (element) {
-		if (!element) {
-			return null;
-		}
-
-		return window.getComputedStyle ? getComputedStyle(element) : (element.currentStyle || null);
-	};
-
-	window.addEventListener('resize', function () {
-		Array.prototype.forEach.call(document.querySelectorAll('pre.' + PLUGIN_NAME), _resizeElement);
-	});
-
-	Prism.hooks.add('complete', function (env) {
-		if (!env.code) {
-			return;
-		}
-
-		var code = env.element;
-		var pre = code.parentNode;
-
-		// works only for <code> wrapped inside <pre> (not inline)
-		if (!pre || !/pre/i.test(pre.nodeName)) {
-			return;
-		}
-
-		// Abort if line numbers already exists
-		if (code.querySelector('.line-numbers-rows')) {
-			return;
-		}
-
-		var addLineNumbers = false;
-		var lineNumbersRegex = /(?:^|\s)line-numbers(?:\s|$)/;
-
-		for (var element = code; element; element = element.parentNode) {
-			if (lineNumbersRegex.test(element.className)) {
-				addLineNumbers = true;
-				break;
-			}
-		}
-
-		// only add line numbers if <code> or one of its ancestors has the `line-numbers` class
-		if (!addLineNumbers) {
-			return;
-		}
-
-		// Remove the class 'line-numbers' from the <code>
-		code.className = code.className.replace(lineNumbersRegex, ' ');
-		// Add the class 'line-numbers' to the <pre>
-		if (!lineNumbersRegex.test(pre.className)) {
-			pre.className += ' line-numbers';
-		}
-
-		var match = env.code.match(NEW_LINE_EXP);
-		var linesNum = match ? match.length + 1 : 1;
-		var lineNumbersWrapper;
-
-		var lines = new Array(linesNum + 1).join('<span></span>');
-
-		lineNumbersWrapper = document.createElement('span');
-		lineNumbersWrapper.setAttribute('aria-hidden', 'true');
-		lineNumbersWrapper.className = 'line-numbers-rows';
-		lineNumbersWrapper.innerHTML = lines;
-
-		if (pre.hasAttribute('data-start')) {
-			pre.style.counterReset = 'linenumber ' + (parseInt(pre.getAttribute('data-start'), 10) - 1);
-		}
-
-		env.element.appendChild(lineNumbersWrapper);
-
-		_resizeElement(pre);
-
-		Prism.hooks.run('line-numbers', env);
-	});
-
-	Prism.hooks.add('line-numbers', function (env) {
-		env.plugins = env.plugins || {};
-		env.plugins.lineNumbers = true;
-	});
-
-	/**
-	 * Global exports
-	 */
-	Prism.plugins.lineNumbers = {
-		/**
-		 * Get node for provided line number
-		 * @param {Element} element pre element
-		 * @param {Number} number line number
-		 * @return {Element|undefined}
-		 */
-		getLine: function (element, number) {
-			if (element.tagName !== 'PRE' || !element.classList.contains(PLUGIN_NAME)) {
-				return;
-			}
-
-			var lineNumberRows = element.querySelector('.line-numbers-rows');
-			var lineNumberStart = parseInt(element.getAttribute('data-start'), 10) || 1;
-			var lineNumberEnd = lineNumberStart + (lineNumberRows.children.length - 1);
-
-			if (number < lineNumberStart) {
-				number = lineNumberStart;
-			}
-			if (number > lineNumberEnd) {
-				number = lineNumberEnd;
-			}
-
-			var lineIndex = number - lineNumberStart;
-
-			return lineNumberRows.children[lineIndex];
-		}
-	};
-
-}());
-
-
-/***/ }),
-
-/***/ "./node_modules/prismjs/themes/prism.css":
-/*!***********************************************!*\
-  !*** ./node_modules/prismjs/themes/prism.css ***!
-  \***********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../css-loader/dist/cjs.js!./prism.css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/prismjs/themes/prism.css");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
 
 /***/ }),
 

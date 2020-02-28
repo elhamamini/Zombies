@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 import { MainContainer } from './styled/Div';
 import { Header } from './styled/Font';
-import { Form, FormRow } from './styled/Form';
+import { Form } from './styled/Form';
 import { Input, InputFeedback, Label } from './styled/Input';
-import Button from './styled/Button';
+import { Button } from './styled/Button';
 import { Select, Option } from './styled/Select';
-import { Pill, PillContainer, PillLabel } from './styled/Pill';
-import { getActiveUser } from '../redux/activeUser/thunks';
+import { Pill, PillContainer } from './styled/Pill';
+
 import { getRepos } from '../redux/repository/thunks';
-import nlp from 'compromise';
-import whitelist from '../../whitelist';
 import { postConversation } from '../redux/conversations/thunks';
 
-import CodeInput from './CodeInput';
+import nlp from 'compromise';
+import whitelist from '../../whitelist';
+
 import CustomQuill from './Quill';
 
 //TODO: Handle Successful Post by Redirecting to the Post
@@ -24,8 +26,6 @@ class NewConversation extends Component {
       repo: '',
       topic: '',
       body: '',
-      codeType: null,
-      codeblocks: [],
       errors: {
         topicError: '',
         bodyError: '',
@@ -35,10 +35,8 @@ class NewConversation extends Component {
   }
 
   componentDidMount() {
-    this.props.getActiveUser();
-    setTimeout(() => {
-      this.props.getRepos();
-    }, 100);
+    //We should probably set these repos when we get the user as well
+    this.props.user.githubUsername ? this.props.getRepos() : null;
   }
 
   handleOnChange = ({ target: { name, value } }) => {
@@ -51,10 +49,7 @@ class NewConversation extends Component {
 
   handleOnClick = e => {
     e.preventDefault();
-    this.props.postConversation(
-      this.props.authentication.activeUser,
-      this.state
-    );
+    this.props.postConversation(this.props.user.id);
   };
 
   handleCodeType = (e, codeType) => {
@@ -80,7 +75,6 @@ class NewConversation extends Component {
       .normalize({ plurals: true, parentheses: true })
       .nouns();
     //loop through returned terms
-    console.log(postTopics.out('freq'));
     postTopics.out('freq').forEach(term => {
       //if term is NOT already in the tags list and IS in the whitelist, add it
       if (!newTags.includes(term.reduced) && whitelist[term.reduced]) {
@@ -139,11 +133,10 @@ class NewConversation extends Component {
 
   render() {
     console.log(this.state.body);
+    console.log(this.props);
     const {
       topic,
       body,
-      codeType,
-      codeblocks,
       tags,
       errors,
       errors: { topicError, bodyError },
@@ -163,23 +156,20 @@ class NewConversation extends Component {
             onChange={this.handleOnChange}
           />
           <InputFeedback>{topicError}</InputFeedback>
-          {this.props.reposetories.length &&
-          this.props.activeUser.githubUsername ? (
+          {this.props.repositories.length && this.props.user.githubUsername ? (
             <div>
               <label>Add repository link to your Conversation:</label>
               <Select
                 id="repository"
-                onChange={ev => {
-                  this.setState({
-                    repo: ev.target.value,
-                  });
-                }}
+                onChange={ev => this.setState({ body: ev.target.value })}
               >
-                {this.props.reposetories.map(repo => (
-                  <Option key={repo.id} value={repo.html_url}>
-                    {repo.name}
-                  </Option>
-                ))}
+                {this.props.repositories.map(repo => {
+                  return (
+                    <Option key={repo.id} value={repo.html_url}>
+                      {repo.name}
+                    </Option>
+                  );
+                })}
               </Select>
             </div>
           ) : null}
@@ -205,16 +195,14 @@ class NewConversation extends Component {
   }
 }
 
-const mapState = ({ authentication, activeUser, reposetories }) => ({
+const mapState = ({ authentication, user, repositories }) => ({
   authentication,
-  activeUser,
-  reposetories,
+  user,
+  repositories,
 });
 
 const mapDispatch = dispatch => ({
-  postConversation: (userId, payload) =>
-    dispatch(postConversation(userId, payload)),
-  getActiveUser: () => dispatch(getActiveUser()),
+  postConversation: userId => dispatch(postConversation(userId)),
   getRepos: () => dispatch(getRepos()),
 });
 
