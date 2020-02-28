@@ -68,10 +68,9 @@ router.get('/:id', (req, res, next) => {
     });
 });
 
-//TODO: Edit Route to handle payload
 router.post('/', (req, res, next) => {
   const { author } = req.body
-  author.toString();
+  console.log(req.body)
   console.log(typeof author)
   if (!author) {
     return res

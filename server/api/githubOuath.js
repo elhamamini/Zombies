@@ -2,16 +2,15 @@ const router = require('express').Router();
 const { User } = require('../db/index');
 const chalk = require('chalk');
 const axios = require('axios');
+
 router.get('/login', (req, res) => {
-  console.log('im here in login');
   res.redirect(
     `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}`
   );
 });
+
 router.get('/callback', (req, res) => {
   const { code } = req.query;
-  console.log('codeeeeeee', code);
-
   axios
     .post(
       `https://github.com/login/oauth/access_token?code=${code}&client_id=${process.env.GITHUB_CLIENT_ID}&client_secret=${process.env.GITHUB_CLIENT_SECRET}`,
@@ -63,6 +62,7 @@ router.get('/callback', (req, res) => {
       res.redirect('/error');
     });
 });
+
 // this router is user info if in case we want the name or image ot whatever later in frontend
 // router.get('/user', (req, res) => {
 //   console.log('token', req.user.github_access_token);
