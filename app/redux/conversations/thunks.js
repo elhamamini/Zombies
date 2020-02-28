@@ -5,6 +5,8 @@ import {
     setAllConversations,
 } from './actions';
 
+import { checkError, checkSuccess } from '../statusMessage/utils';
+
 
 //--------
 //CURRENT VIEW CONVERSATION THUNKS 
@@ -15,7 +17,7 @@ export const fetchCurrentConversation = conversationId => {
         return axios
             .get(`/api/conversation/${conversationId}`)
             .then(res => dispatch(setCurrentConversation(res.data)))
-            .catch(e => console.error(e));
+            .catch(e => checkError(dispatch, e.response.status));
     };
 };
 
@@ -23,9 +25,9 @@ export const fetchCurrentConversation = conversationId => {
 export const createConversation = content => {
     return dispatch => {
         return axios
-            .post(`/api/conversation`, { ...content })
+            .post(`/api/conversation`, content )
             .then(res => dispatch(setCurrentConversation(res.data)))
-            .catch(e => console.log(e));
+            .catch(e => checkError(dispatch, e.response.status));
     };
 };
 
@@ -34,8 +36,11 @@ export const updateConversation = (conversationId, content) => {
     return dispatch => {
         return axios
             .put(`/api/conversation/${conversationId}`, { content })
-            .then(res => dispatch(setCurrentConversation(res.data)))
-            .catch(e => console.error(e));
+            .then(res => {
+                dispatch(setCurrentConversation(res.data))
+                checkSuccess(dispatch, res.status)
+            })
+            .catch(e => checkError(dispatch, e.response.status));
     };
 };
 
@@ -45,9 +50,12 @@ export const deleteConversation = conversationId => {
     return dispatch => {
         return axios
             .delete(`/api/conversation/${conversationId}`)
-            .then(res => dispatch(setCurrentConversation(null)))
+            .then(res => {
+                dispatch(setCurrentConversation())
+                checkError(dispatch, res.status)
+            })
             .then(() => dispatch(fetchAllConversations()))
-            .catch(e => console.error(e));
+            .catch(e => checkError(dispatch, e.response.status));
     };
 };
 
@@ -60,7 +68,7 @@ export const fetchAllConversations = (page=0) => {
         return axios
             .get(`/api/conversation?page=${page}`)
             .then(res => dispatch(setAllConversations(res.data)))
-            .catch(e => console.error(e));
+            .catch(e => checkError(dispatch, e.response.status));
     };
 };
 
@@ -70,7 +78,7 @@ export const filterConversations = (tag) => {
         return axios
             .get(`/api/tag/${tag}`)
             .then(res => dispatch(setAllConversations(res.data.conversations)))
-            .catch(e => console.error(e));
+            .catch(e => checkError(dispatch, e.response.status));
     }
 }
 
