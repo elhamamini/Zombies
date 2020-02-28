@@ -176,6 +176,9 @@ function AllConvos(props) {
   var convosList = (0, _reactRedux.useSelector)(function (state) {
     return state.allConversations;
   });
+  var activeTags = (0, _reactRedux.useSelector)(function (state) {
+    return state.tags;
+  });
   var dispatch = (0, _reactRedux.useDispatch)();
 
   var handleClick = function handleClick(id) {
@@ -185,7 +188,7 @@ function AllConvos(props) {
   var handleFilter = function handleFilter(tag) {
     if (selectedTag == tag) {
       setSelected('');
-      dispatch((0, _thunks.fetchAllConversations)(0));
+      dispatch((0, _thunks.fetchAllConversations)());
     } else {
       setSelected(tag);
       dispatch((0, _thunks.filterConversations)([tag]));
@@ -193,10 +196,8 @@ function AllConvos(props) {
   };
 
   (0, _react.useEffect)(function () {
-    if (!convosList.length) {
-      dispatch((0, _thunks.fetchAllConversations)(0));
-    }
-  });
+    dispatch((0, _thunks.fetchAllConversations)(0));
+  }, []);
 
   return _react2.default.createElement(
     Container.Paper,
@@ -219,13 +220,17 @@ function AllConvos(props) {
     _react2.default.createElement(
       Card.CardContainer,
       null,
-      Object.keys(_whitelist2.default).map(function (key) {
+      activeTags.map(function (tag) {
         return _react2.default.createElement(
           _Pill.Pill,
-          { key: key, id: key, onClick: function onClick() {
-              return handleFilter(key);
-            } },
-          key
+          {
+            key: tag.id,
+            selected: tag.name === selectedTag,
+            onClick: function onClick() {
+              return handleFilter(tag.name);
+            }
+          },
+          tag.name
         );
       })
     ),
@@ -261,7 +266,7 @@ function AllConvos(props) {
       })
     )
   );
-}
+};
 
 exports.default = AllConvos;
 
@@ -587,7 +592,7 @@ var Login = function (_Component) {
           password = _this$state.password;
 
       e.preventDefault();
-      _this.props.login({ email: email, password: password });
+      _this.props.attemptLogin({ email: email, password: password });
       _this.props.history.push('/');
     };
 
@@ -771,11 +776,11 @@ var mapStateToProps = function mapStateToProps(_ref2) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    login: function login(info) {
-      return dispatch((0, _thunks.login)(info));
+    attemptLogin: function attemptLogin(info) {
+      return dispatch((0, _thunks.attemptLogin)(info));
     },
-    removeLogInError: function removeLogInError() {
-      return dispatch((0, _actions.removeLogInError)());
+    removeLoginError: function removeLoginError() {
+      return dispatch((0, _actions.removeLoginError)());
     }
   };
 };
@@ -1115,7 +1120,7 @@ var NavBar = function NavBar(props) {
         ),
         _react2.default.createElement(
           _Nav.NavButton,
-          { to: '/' },
+          { to: '/signup' },
           'Signup'
         )
       )
@@ -1441,7 +1446,7 @@ var mapState = function mapState(_ref2) {
 var mapDispatch = function mapDispatch(dispatch) {
   return {
     postConversation: function postConversation(userId) {
-      return dispatch((0, _thunks2.postConversation)(userId));
+      return dispatch((0, _thunks2.createConversation)(userId));
     },
     getRepos: function getRepos() {
       return dispatch((0, _thunks.getRepos)());
@@ -2071,7 +2076,13 @@ var _PostPage = __webpack_require__(/*! ./PostPage */ "./app/components/PostPage
 
 var _PostPage2 = _interopRequireDefault(_PostPage);
 
+var _SignUp = __webpack_require__(/*! ./SignUp */ "./app/components/SignUp.js");
+
+var _SignUp2 = _interopRequireDefault(_SignUp);
+
 var _thunks = __webpack_require__(/*! ../redux/users/thunks */ "./app/redux/users/thunks.js");
+
+var _thunks2 = __webpack_require__(/*! ../redux/tags/thunks */ "./app/redux/tags/thunks.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2094,6 +2105,7 @@ var Root = function (_Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.props.getUserFromGitHub();
+      this.props.fetchTags();
     }
   }, {
     key: 'render',
@@ -2112,7 +2124,8 @@ var Root = function (_Component) {
             _react2.default.createElement(_reactRouterDom.Route, { path: '/login', component: _Login2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _AllConvos2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/new', component: _NewConversation2.default }),
-            _react2.default.createElement(_reactRouterDom.Route, { path: '/postpage', component: _PostPage2.default })
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/postpage', component: _PostPage2.default }),
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/signup', component: _SignUp2.default, exact: true })
           )
         )
       );
@@ -2126,11 +2139,291 @@ var mapDispatch = function mapDispatch(dispatch) {
   return {
     getUserFromGitHub: function getUserFromGitHub() {
       return dispatch((0, _thunks.getUserFromGitHub)());
+    },
+    fetchTags: function fetchTags() {
+      return dispatch((0, _thunks2.fetchTags)());
     }
   };
 };
 
 exports.default = (0, _reactRedux.connect)(null, mapDispatch)(Root);
+
+/***/ }),
+
+/***/ "./app/components/SignUp.js":
+/*!**********************************!*\
+  !*** ./app/components/SignUp.js ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var _actions = __webpack_require__(/*! ../redux/authentication/actions */ "./app/redux/authentication/actions.js");
+
+var _thunks = __webpack_require__(/*! ../redux/authentication/thunks */ "./app/redux/authentication/thunks.js");
+
+var _Font = __webpack_require__(/*! ./styled/Font */ "./app/components/styled/Font.js");
+
+var _thunks2 = __webpack_require__(/*! ../redux/users/thunks */ "./app/redux/users/thunks.js");
+
+var _Form = __webpack_require__(/*! ./styled/Form */ "./app/components/styled/Form.js");
+
+var _Input = __webpack_require__(/*! ./styled/Input */ "./app/components/styled/Input.js");
+
+var _Button = __webpack_require__(/*! ./styled/Button */ "./app/components/styled/Button.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SignUP = function (_Component) {
+  _inherits(SignUP, _Component);
+
+  function SignUP() {
+    _classCallCheck(this, SignUP);
+
+    var _this = _possibleConstructorReturn(this, (SignUP.__proto__ || Object.getPrototypeOf(SignUP)).call(this));
+
+    _this.handleOnChange = function (_ref) {
+      var _ref$target = _ref.target,
+          name = _ref$target.name,
+          value = _ref$target.value;
+
+      _this.setState(_defineProperty({}, name, value), function () {
+        return _this.validate(name, value);
+      });
+    };
+
+    _this.handleOnClick = function (e) {
+      var _this$state = _this.state,
+          name = _this$state.name,
+          email = _this$state.email,
+          password = _this$state.password;
+
+      e.preventDefault();
+      _this.props.signUp();
+      _this.props.createUser({ name: name, email: email, password: password, userType: 'user' });
+      // this.props.history.push('/');
+    };
+
+    _this.validate = function (name, value) {
+      var errors = _this.state.errors;
+      //TODO: Validate on submit for values not in our database NOT onchange
+
+      switch (name) {
+        case 'name':
+          if (!value) {
+            _this.setState({
+              errors: _extends({}, errors, {
+                nameError: 'Username cannot be blank'
+              })
+            });
+          } else {
+            _this.setState({
+              errors: _extends({}, errors, {
+                nameError: ''
+              })
+            });
+          }
+          break;
+
+        case 'email':
+          var regex = /\S+@\S+\.\S+/;
+          if (!value) {
+            _this.setState({
+              errors: _extends({}, errors, {
+                emailError: 'Email cannot be blank'
+              })
+            });
+          } else if (!regex.test(value)) {
+            _this.setState({
+              errors: _extends({}, errors, {
+                emailError: 'Email invalid'
+              })
+            });
+          } else {
+            _this.setState({
+              errors: _extends({}, errors, {
+                emailError: ''
+              })
+            });
+          }
+          break;
+
+        case 'password':
+          if (!value) {
+            _this.setState({
+              errors: _extends({}, errors, {
+                passwordError: 'Password cannot be blank'
+              })
+            });
+          } else {
+            _this.setState({
+              errors: _extends({}, errors, {
+                passwordError: ''
+              })
+            });
+          }
+          break;
+      }
+    };
+
+    _this.state = {
+      name: '',
+      email: '',
+      password: '',
+      errors: {
+        nameError: '',
+        emailError: '',
+        passwordError: ''
+      }
+    };
+    return _this;
+  }
+
+  _createClass(SignUP, [{
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      var isLoggedIn = this.props.authentication.isLoggedIn;
+      //for now i just send it to the home page after login
+
+      if (isLoggedIn) this.props.history.push('/');
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _state = this.state,
+          name = _state.name,
+          email = _state.email,
+          password = _state.password,
+          errors = _state.errors,
+          _state$errors = _state.errors,
+          emailError = _state$errors.emailError,
+          passwordError = _state$errors.passwordError,
+          nameError = _state$errors.nameError;
+
+
+      return _react2.default.createElement(
+        _Form.Form,
+        null,
+        _react2.default.createElement(
+          _Font.Header,
+          null,
+          'Join Zombies'
+        ),
+        _react2.default.createElement(
+          _Form.FormColumn,
+          null,
+          _react2.default.createElement(_Input.Input, {
+            type: 'text',
+            placeholder: 'Username',
+            onChange: this.handleOnChange,
+            name: 'name',
+            value: name
+          }),
+          _react2.default.createElement(
+            _Input.InputFeedback,
+            null,
+            nameError
+          )
+        ),
+        _react2.default.createElement(
+          _Form.FormColumn,
+          null,
+          _react2.default.createElement(_Input.Input, {
+            type: 'text',
+            placeholder: 'email',
+            onChange: this.handleOnChange,
+            name: 'email',
+            value: email
+          }),
+          _react2.default.createElement(
+            _Input.InputFeedback,
+            null,
+            emailError
+          )
+        ),
+        _react2.default.createElement(
+          _Form.FormColumn,
+          null,
+          _react2.default.createElement(_Input.Input, {
+            type: 'password',
+            placeholder: 'password',
+            onChange: this.handleOnChange,
+            name: 'password',
+            value: password
+          }),
+          _react2.default.createElement(
+            _Input.InputFeedback,
+            null,
+            passwordError
+          )
+        ),
+        _react2.default.createElement(
+          _Button.Button,
+          {
+            disabled: !name || !email || !password || Object.values(errors).some(function (val) {
+              return !!val;
+            }) ? true : false,
+            onClick: this.handleOnClick
+          },
+          'Signup'
+        ),
+        _react2.default.createElement(
+          _Font.Anchor,
+          { href: '/login' },
+          'Do you have an account? Log in'
+        )
+      );
+    }
+  }]);
+
+  return SignUP;
+}(_react.Component);
+
+var mapStateToProps = function mapStateToProps(_ref2) {
+  var authentication = _ref2.authentication;
+  return {
+    authentication: authentication
+  };
+};
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    removeLoginError: function removeLoginError() {
+      return dispatch((0, _actions.removeLoginError)());
+    },
+    signUp: function signUp() {
+      return dispatch((0, _thunks.attemptSignUp)());
+    },
+    createUser: function createUser(user) {
+      return dispatch((0, _thunks2.createUser)(user));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SignUP);
 
 /***/ }),
 
@@ -2726,13 +3019,12 @@ var Test = function (_Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.props.getRepos();
-      // this.props.getActiveUser();
     }
   }, {
     key: 'render',
     value: function render() {
-      console.log('activeUser', this.props.activeUser);
-      console.log('reposssss', this.props.reposetories);
+      console.log('activeUser', this.props.user);
+      console.log('reposssss', this.props.repositories);
       return _react2.default.createElement(
         'div',
         null,
@@ -2745,31 +3037,18 @@ var Test = function (_Component) {
 }(_react.Component);
 
 var mapStateToProps = function mapStateToProps(_ref) {
-  var reposetories = _ref.reposetories,
-      activeUser = _ref.activeUser;
+  var repositories = _ref.repositories,
+      user = _ref.user;
   return {
-    reposetories: reposetories,
-    activeUser: activeUser
+    repositories: repositories,
+    user: user
   };
 };
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     getRepos: function getRepos() {
       return dispatch((0, _thunks.getRepos)());
-    },
-    getActiveUser: function (_getActiveUser) {
-      function getActiveUser() {
-        return _getActiveUser.apply(this, arguments);
-      }
-
-      getActiveUser.toString = function () {
-        return _getActiveUser.toString();
-      };
-
-      return getActiveUser;
-    }(function () {
-      return dispatch(getActiveUser());
-    })
+    }
   };
 };
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Test);
@@ -2825,44 +3104,44 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.removeLogInError = exports.setLogInError = exports.signOut = exports.signUp = exports.signIn = undefined;
+exports.signUp = exports.removeLogInError = exports.setLoginError = exports.logout = exports.login = undefined;
 
 var _constants = __webpack_require__(/*! ./constants */ "./app/redux/authentication/constants.js");
 
-var signIn = exports.signIn = function signIn(data) {
+var login = exports.login = function login(data) {
   return {
-    type: _constants.SIGN_IN,
+    type: _constants.LOGIN,
     isLoggedIn: true,
     activeUser: data
   };
 };
 
-var signUp = exports.signUp = function signUp(data) {
+var logout = exports.logout = function logout() {
   return {
-    type: _constants.SIGN_UP,
-    isLoggedIn: true,
-    activeUser: data
-  };
-};
-
-var signOut = exports.signOut = function signOut() {
-  return {
-    type: _constants.SIGN_OUT,
+    type: _constants.LOGOUT,
     isLoggedIn: false
   };
 };
 
-var setLogInError = exports.setLogInError = function setLogInError() {
+var setLoginError = exports.setLoginError = function setLoginError() {
   return {
-    type: _constants.LOG_IN_ERROR,
+    type: _constants.LOGIN_ERROR,
     logInError: true
   };
 };
 
 var removeLogInError = exports.removeLogInError = function removeLogInError() {
   return {
-    type: _constants.LOG_IN_ERROR,
+    type: _constants.LOGIN_ERROR,
     logInError: false
+  };
+};
+
+var signUp = exports.signUp = function signUp() {
+  return {
+    type: _constants.SIGN_UP,
+    isLoggedIn: true
+    // activeUser: data,
   };
 };
 
@@ -2881,13 +3160,13 @@ var removeLogInError = exports.removeLogInError = function removeLogInError() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var SIGN_IN = exports.SIGN_IN = Symbol('SIGN_IN');
+var LOGIN = exports.LOGIN = Symbol('LOGIN');
 
-var SIGN_OUT = exports.SIGN_OUT = Symbol('SIGN_OUT');
+var LOGOUT = exports.LOGOUT = Symbol('LOGOUT');
+
+var LOGIN_ERROR = exports.LOGIN_ERROR = Symbol('LOGIN_ERROR');
 
 var SIGN_UP = exports.SIGN_UP = Symbol('SIGN_UP');
-
-var LOG_IN_ERROR = exports.LOG_IN_ERROR = Symbol('LOG_IN_ERROR');
 
 /***/ }),
 
@@ -2914,7 +3193,7 @@ var initialState = {
   logInError: false
 };
 
-var authenticationReducer = function authenticationReducer() {
+exports.default = function () {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
   var action = arguments[1];
 
@@ -2922,10 +3201,24 @@ var authenticationReducer = function authenticationReducer() {
   var logInError = action.logInError;
 
   switch (action.type) {
-    case _constants.SIGN_IN:
+    case _constants.LOGIN:
       {
         return _extends({}, state, {
           isLoggedIn: isLoggedIn
+        });
+      }
+
+    case _constants.LOGOUT:
+      {
+        return _extends({}, state, {
+          isLoggedIn: isLoggedIn
+        });
+      }
+
+    case _constants.LOGIN_ERROR:
+      {
+        return _extends({}, state, {
+          logInError: logInError
         });
       }
 
@@ -2936,26 +3229,10 @@ var authenticationReducer = function authenticationReducer() {
         });
       }
 
-    case _constants.SIGN_OUT:
-      {
-        return _extends({}, state, {
-          isLoggedIn: isLoggedIn
-        });
-      }
-
-    case _constants.LOG_IN_ERROR:
-      {
-        return _extends({}, state, {
-          logInError: logInError
-        });
-      }
-
     default:
       return state;
   }
 };
-
-exports.default = authenticationReducer;
 
 /***/ }),
 
@@ -2972,7 +3249,7 @@ exports.default = authenticationReducer;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.initialLogInAttempt = exports.logOutAttempt = exports.SignUpAttempt = exports.login = undefined;
+exports.attemptLogout = exports.attemptSignUp = exports.attemptLogin = undefined;
 
 var _axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 
@@ -2980,11 +3257,26 @@ var _axios2 = _interopRequireDefault(_axios);
 
 var _actions = __webpack_require__(/*! ./actions */ "./app/redux/authentication/actions.js");
 
+var _actions2 = __webpack_require__(/*! ../users/actions */ "./app/redux/users/actions.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-var login = exports.login = function login(logInInfo) {
+var attemptLogin = exports.attemptLogin = function attemptLogin(credentials) {
+  return function (dispatch) {
+    _axios2.default.post('/auth/login', credentials).then(function (res) {
+      dispatch((0, _actions.login)(res.data));
+      dispatch((0, _actions2.setUser)(res.data));
+    }).catch(function (e) {
+      console.error(e);
+      dispatch((0, _actions.setLoginError)());
+      dispatch((0, _actions.logout)());
+    });
+  };
+};
+
+var attemptSignUp = exports.attemptSignUp = function attemptSignUp(signUpInfo) {
   return function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(dispatch) {
       return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -2992,12 +3284,12 @@ var login = exports.login = function login(logInInfo) {
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return _axios2.default.post('/auth/login', logInInfo).then(function (res) {
-                return dispatch((0, _actions.signIn)(res.data));
+              return _axios2.default.post('/auth/signup', signUpInfo).then(function (res) {
+                return dispatch((0, _actions.signUp)(res.data));
               }).catch(function (e) {
                 console.error(e);
-                dispatch((0, _actions.setLogInError)());
-                return dispatch((0, _actions.signOut)());
+                dispatch(setLogInError());
+                return dispatch(signOut());
               });
 
             case 2:
@@ -3014,74 +3306,13 @@ var login = exports.login = function login(logInInfo) {
   }();
 };
 
-var SignUpAttempt = exports.SignUpAttempt = function SignUpAttempt(signUpInfo) {
-  return function () {
-    var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(dispatch) {
-      return regeneratorRuntime.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              _context2.next = 2;
-              return _axios2.default.post('/auth/signup', signUpInfo).then(function (res) {
-                return dispatch((0, _actions.signUp)(res.data));
-              }).catch(function (e) {
-                console.error(e);
-                dispatch((0, _actions.setLogInError)());
-                return dispatch((0, _actions.signOut)());
-              });
-
-            case 2:
-            case 'end':
-              return _context2.stop();
-          }
-        }
-      }, _callee2, undefined);
-    }));
-
-    return function (_x2) {
-      return _ref2.apply(this, arguments);
-    };
-  }();
-};
-
-var logOutAttempt = exports.logOutAttempt = function logOutAttempt() {
+var attemptLogout = exports.attemptLogout = function attemptLogout() {
   return function (dispatch) {
     _axios2.default.get('/auth/signout').then(function () {
-      dispatch((0, _actions.signOut)());
+      return dispatch((0, _actions.logout)());
     }).catch(function (e) {
       console.error(e);
-      return dispatch((0, _actions.signOut)());
-    });
-  };
-};
-
-var initialLogInAttempt = exports.initialLogInAttempt = function initialLogInAttempt() {
-  return function (dispatch) {
-    _axios2.default.get('/auth/me').then(function () {
-      var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(res) {
-        var user;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                user = res.data;
-
-                console.log('user', user);
-                dispatch((0, _actions.signIn)(user));
-
-              case 3:
-              case 'end':
-                return _context3.stop();
-            }
-          }
-        }, _callee3, undefined);
-      }));
-
-      return function (_x3) {
-        return _ref3.apply(this, arguments);
-      };
-    }()).catch(function (e) {
-      console.error(e);
+      dispatch(signOut());
     });
   };
 };
@@ -3101,35 +3332,21 @@ var initialLogInAttempt = exports.initialLogInAttempt = function initialLogInAtt
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.removeConversation = exports.setAllConversations = exports.setConversation = exports.createConversation = undefined;
+exports.setAllConversations = exports.setCurrentConversation = undefined;
 
 var _constants = __webpack_require__(/*! ./constants */ "./app/redux/conversations/constants.js");
 
-var createConversation = exports.createConversation = function createConversation(conversation) {
+var setCurrentConversation = exports.setCurrentConversation = function setCurrentConversation(conversation) {
     return {
-        type: _constants.EDIT_CONVERSATION,
-        conversation: conversation
-    };
-};
-
-var setConversation = exports.setConversation = function setConversation(conversation) {
-    return {
-        type: _constants.GET_CONVERSATION,
+        type: _constants.SET_CURRENT_CONVERSATION,
         conversation: conversation
     };
 };
 
 var setAllConversations = exports.setAllConversations = function setAllConversations(allConversations) {
     return {
-        type: _constants.GET_ALL_CONVERSATIONS,
+        type: _constants.SET_ALL_CONVERSATIONS,
         allConversations: allConversations
-    };
-};
-
-var removeConversation = exports.removeConversation = function removeConversation() {
-    return {
-        type: _constants.REMOVE_CONVERSATION,
-        conversation: conversation
     };
 };
 
@@ -3148,13 +3365,9 @@ var removeConversation = exports.removeConversation = function removeConversatio
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var EDIT_CONVERSATION = exports.EDIT_CONVERSATION = Symbol('EDIT_CONVERSATION');
+var SET_CURRENT_CONVERSATION = exports.SET_CURRENT_CONVERSATION = Symbol('SET_CURRENT_CONVERSATION');
 
-var GET_CONVERSATION = exports.GET_CONVERSATION = Symbol('GET_CONVERSATION');
-
-var GET_ALL_CONVERSATIONS = exports.GET_ALL_CONVERSATIONS = Symbol('GET_ALL_CONVERSATIONS');
-
-var REMOVE_CONVERSATION = exports.REMOVE_CONVERSATION = Symbol('REMOVE_CONVERSATION');
+var SET_ALL_CONVERSATIONS = exports.SET_ALL_CONVERSATIONS = Symbol('SET_ALL_CONVERSATIONS');
 
 /***/ }),
 
@@ -3182,11 +3395,8 @@ var conversation = exports.conversation = function conversation() {
     var action = arguments[1];
 
     switch (action.type) {
-        case _constants.EDIT_CONVERSATION:
+        case _constants.SET_CURRENT_CONVERSATION:
             return action.conversation;
-        case _constants.GET_CONVERSATION:
-            return action.conversation;
-
         default:
             return state;
     };
@@ -3197,7 +3407,7 @@ var allConversations = exports.allConversations = function allConversations() {
     var action = arguments[1];
 
     switch (action.type) {
-        case _constants.GET_ALL_CONVERSATIONS:
+        case _constants.SET_ALL_CONVERSATIONS:
             return action.allConversations;
         default:
             return state;
@@ -3219,7 +3429,7 @@ var allConversations = exports.allConversations = function allConversations() {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.deleteConversation = exports.filterConversations = exports.fetchAllConversations = exports.fetchConversation = exports.updateConversation = exports.postConversation = undefined;
+exports.filterConversations = exports.fetchAllConversations = exports.deleteConversation = exports.updateConversation = exports.createConversation = exports.fetchCurrentConversation = undefined;
 
 var _axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 
@@ -3229,39 +3439,60 @@ var _actions = __webpack_require__(/*! ./actions */ "./app/redux/conversations/a
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//TODO: Add better error handling - custom component with user-readable error message
-var postConversation = exports.postConversation = function postConversation(author) {
+//--------
+//CURRENT VIEW CONVERSATION THUNKS 
+
+//Fetch a single conversation by Id, set it as the current view
+var fetchCurrentConversation = exports.fetchCurrentConversation = function fetchCurrentConversation(conversationId) {
     return function (dispatch) {
-        return _axios2.default.post('/api/conversation', { author: author }).then(function (res) {
-            return dispatch(updateConversation(res.data));
+        return _axios2.default.get('/api/conversation/' + conversationId).then(function (res) {
+            return dispatch((0, _actions.setCurrentConversation)(res.data));
+        }).catch(function (e) {
+            return console.error(e);
+        });
+    };
+};
+
+//create a new conversation, and set it as the current view
+var createConversation = exports.createConversation = function createConversation(content) {
+    return function (dispatch) {
+        return _axios2.default.post('/api/conversation', { content: content }).then(function (res) {
+            return dispatch((0, _actions.setCurrentConversation)(res.data));
         }).catch(function (e) {
             return console.log(e);
         });
     };
 };
 
-var updateConversation = exports.updateConversation = function updateConversation(conversationId, conversation) {
+//push updates to a conversation, and update the current view with the results
+var updateConversation = exports.updateConversation = function updateConversation(conversationId, content) {
     return function (dispatch) {
-        return _axios2.default.put('/api/conversation/' + conversationId, conversation).then(function (res) {
-            return dispatch((0, _actions.createConversation)(res.data));
+        return _axios2.default.put('/api/conversation/' + conversationId, content).then(function (res) {
+            return dispatch((0, _actions.setCurrentConversation)(res.data));
         }).catch(function (e) {
             return console.error(e);
         });
     };
 };
 
-//--------
-
-var fetchConversation = exports.fetchConversation = function fetchConversation(conversationId) {
+//delete a conversation. Sets the current conversation to null(?)
+//also triggers a fetch of All Conversations, to prevent the user from getting to deleted content
+var deleteConversation = exports.deleteConversation = function deleteConversation(conversationId) {
     return function (dispatch) {
-        return _axios2.default.get('/api/conversation/' + conversationId).then(function (res) {
-            return dispatch((0, _actions.setConversation)(res.data));
+        return _axios2.default.delete('/api/conversation/' + conversationId).then(function (res) {
+            return dispatch((0, _actions.setCurrentConversation)(null));
+        }).then(function () {
+            return dispatch(fetchAllConversations());
         }).catch(function (e) {
             return console.error(e);
         });
     };
 };
 
+//-------
+//ALL CONVERSATIONS THUNKS
+
+//sets all the conversations
 var fetchAllConversations = exports.fetchAllConversations = function fetchAllConversations() {
     var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 
@@ -3274,32 +3505,18 @@ var fetchAllConversations = exports.fetchAllConversations = function fetchAllCon
     };
 };
 
-var filterConversations = exports.filterConversations = function filterConversations() {
-    var tags = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : ['default'];
-
-    var queryStr = '';
-    tags.forEach(function (tag, idx) {
-        return queryStr += 'tag[]=' + tag + '&';
-    });
+//sets the conversations list to a filtered subset
+var filterConversations = exports.filterConversations = function filterConversations(tag) {
     return function (dispatch) {
-        return _axios2.default.get('/api/conversation/filter?' + queryStr).then(function (res) {
-            console.log(res.data);
-            dispatch((0, _actions.setAllConversations)(res.data));
+        return _axios2.default.get('/api/tag/' + tag).then(function (res) {
+            return dispatch((0, _actions.setAllConversations)(res.data.conversations));
         }).catch(function (e) {
             return console.error(e);
         });
     };
 };
 
-var deleteConversation = exports.deleteConversation = function deleteConversation(conversationId) {
-    return function (dispatch) {
-        return _axios2.default.delete('/api/conversation/' + conversationId).then(function () {
-            return dispatch((0, _actions.removeConversation)(conversationId));
-        }).catch(function (e) {
-            return console.error(e);
-        });
-    };
-};
+//-------------
 
 /***/ }),
 
@@ -3329,6 +3546,8 @@ var _reducers4 = __webpack_require__(/*! ./conversations/reducers */ "./app/redu
 
 var _reducers5 = __webpack_require__(/*! ./repository/reducers */ "./app/redux/repository/reducers.js");
 
+var _reducers6 = __webpack_require__(/*! ./tags/reducers */ "./app/redux/tags/reducers.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var appReducer = (0, _redux.combineReducers)({
@@ -3337,7 +3556,8 @@ var appReducer = (0, _redux.combineReducers)({
   authentication: _reducers2.default,
   conversation: _reducers4.conversation,
   allConversations: _reducers4.allConversations,
-  repositories: _reducers5.repositories
+  repositories: _reducers5.repositories,
+  tags: _reducers6.tags
 });
 
 exports.default = appReducer;
@@ -3445,11 +3665,120 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var getRepos = exports.getRepos = function getRepos() {
   return function (dispatch, getState) {
     return _axios2.default.post('/api/github/user/repos', {
-      githubUsername: getState().activeUser.githubUsername
+      githubUsername: getState().user.githubUsername
     }).then(function (repos) {
       return dispatch((0, _actions.setAllrepos)(repos.data));
     }).catch(function (e) {
       return console.error(e);
+    });
+  };
+};
+
+/***/ }),
+
+/***/ "./app/redux/tags/actions.js":
+/*!***********************************!*\
+  !*** ./app/redux/tags/actions.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.setTags = undefined;
+
+var _constants = __webpack_require__(/*! ./constants */ "./app/redux/tags/constants.js");
+
+var setTags = exports.setTags = function setTags(tags) {
+  return {
+    type: _constants.SET_TAGS,
+    tags: tags
+  };
+};
+
+/***/ }),
+
+/***/ "./app/redux/tags/constants.js":
+/*!*************************************!*\
+  !*** ./app/redux/tags/constants.js ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var SET_TAGS = exports.SET_TAGS = Symbol('SET_TAGS');
+
+/***/ }),
+
+/***/ "./app/redux/tags/reducers.js":
+/*!************************************!*\
+  !*** ./app/redux/tags/reducers.js ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.tags = undefined;
+
+var _constants = __webpack_require__(/*! ./constants */ "./app/redux/tags/constants.js");
+
+var tags = exports.tags = function tags() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments[1];
+
+  switch (action.type) {
+    case _constants.SET_TAGS:
+      return action.tags;
+    default:
+      return state;
+  }
+};
+
+/***/ }),
+
+/***/ "./app/redux/tags/thunks.js":
+/*!**********************************!*\
+  !*** ./app/redux/tags/thunks.js ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.fetchTags = undefined;
+
+var _axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _actions = __webpack_require__(/*! ./actions */ "./app/redux/tags/actions.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var fetchTags = exports.fetchTags = function fetchTags() {
+  return function (dispatch) {
+    return _axios2.default.get('/api/tag').then(function (response) {
+      return dispatch((0, _actions.setTags)(response.data));
+    }).catch(function (e) {
+      return console.log('Error in thunk:', e);
     });
   };
 };
@@ -3558,6 +3887,8 @@ var user = exports.user = function user() {
 
   switch (action.type) {
     case _constants.SET_USER:
+      return action.user;
+    case _constants.ADD_USER:
       return action.user;
 
     default:
