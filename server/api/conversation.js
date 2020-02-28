@@ -6,7 +6,6 @@ const RESULTS_PER_PAGE = 10;
 
 //get to return all posts
 //use query parameter to specify page of results
-//TODO: add query parameter support for topic, etc
 router.get('/', (req, res, next) => {
   Conversation.findAll({
     limit: RESULTS_PER_PAGE,
@@ -24,17 +23,11 @@ router.get('/', (req, res, next) => {
     });
 });
 
-//?color[]=blue&color[]=black&color[]=red
-//console.dir(req.query.color)
-// => [blue, black, red]
-
-//conversation/filter?tag[]=npm&tag[]=node
-router.get('/filter', (req, res, next) => {
+//return all conversations with answer
+router.get('/answered', (req, res, next) => {
     Conversation.findAll({
         where: {
-            tags: {
-                [Sequelize.Op.contains]: [req.query.tag]
-            }
+          hasAnswer: true,
         },
         order: [
           ['createdAt', 'DESC']
@@ -68,18 +61,18 @@ router.get('/:id', (req, res, next) => {
     });
 });
 
-//TODO: Edit Route to handle payload
+//TODO
 router.post('/', (req, res, next) => {
-  const { author } = req.body
-  author.toString();
-  console.log(typeof author)
-  if (!author) {
+  const { author, title, userId } = req.body
+  if (!author || !title || !userId) {
     return res
       .status(400)
       .send('POST Conversation request missing required field');
   }
   Conversation.create({
     author,
+    title,
+    userId
   })
     .then(created => {
       res.status(200).send(created);

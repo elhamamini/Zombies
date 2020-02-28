@@ -34,7 +34,7 @@ class Login extends Component {
   handleOnClick = e => {
     const { email, password } = this.state;
     e.preventDefault();
-    this.props.attemptLogin({ email, password })
+    this.props.attemptLogin({ email, password });
     this.props.history.push('/');
   };
 

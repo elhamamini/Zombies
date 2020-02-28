@@ -28,11 +28,11 @@ function AllConvos(props) {
       setSelected(tag);
       dispatch(filterConversations([tag]));
     }
-  };
 
-  useEffect(() => {
-    dispatch(fetchAllConversations(0));
-  }, []);
+    useEffect(() => {
+        dispatch(fetchAllConversations(0));
+    }, []);
+
 
   return (
     <Container.Paper id="conversations-index">
@@ -42,16 +42,16 @@ function AllConvos(props) {
       </Font.Paragraph>
       <Font.Title>Popular Topics</Font.Title>
       <Card.CardContainer>
-        {Object.keys(whitelist).map(key => (
-          <Pill
-            key={key}
-            id={key}
-            selected={key === selectedTag}
-            onClick={() => handleFilter(key)}
-          >
-            {key}
-          </Pill>
-        ))}
+        {
+            activeTags.map(tag => (
+            <Pill
+                key={tag.id}
+                selected={tag.name === selectedTag}
+                onClick={() => handleFilter(tag.name)}
+            >
+                {tag.name}
+            </Pill>))
+        }
       </Card.CardContainer>
       <Card.CardContainer>
         {convosList.map(convo => (
@@ -70,6 +70,6 @@ function AllConvos(props) {
       </Card.CardContainer>
     </Container.Paper>
   );
-}
+};
 
 export default AllConvos;

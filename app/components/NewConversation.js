@@ -11,7 +11,7 @@ import { Select, Option } from './styled/Select';
 import { Pill, PillContainer } from './styled/Pill';
 
 import { getRepos } from '../redux/repository/thunks';
-import { postConversation } from '../redux/conversations/thunks';
+import { createConversation } from '../redux/conversations/thunks';
 
 import nlp from 'compromise';
 import whitelist from '../../whitelist';
@@ -202,7 +202,7 @@ const mapState = ({ authentication, user, repositories }) => ({
 });
 
 const mapDispatch = dispatch => ({
-  postConversation: userId => dispatch(postConversation(userId)),
+  postConversation: userId => dispatch(createConversation(userId)),
   getRepos: () => dispatch(getRepos()),
 });
 
