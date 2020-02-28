@@ -41,12 +41,9 @@ class Root extends Component {
   }
 }
 
-
-const mapDispatch = dispatch => (
-  { 
-    getUserFromGitHub: () => dispatch(getUserFromGitHub()),
-    fetchTags: () => dispatch(fetchTags())
-  }
-)
+const mapDispatch = dispatch => ({
+  getUserFromGitHub: () => dispatch(getUserFromGitHub()),
+  fetchTags: () => dispatch(fetchTags()),
+});
 
 export default connect(null, mapDispatch)(Root);

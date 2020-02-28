@@ -10,7 +10,7 @@ import * as Card from './Card';
 import { Pill } from '../styled/Pill';
 import whitelist from '../../../whitelist';
 
-function AllConvos(props) {
+ function AllConvos(props) {
   const [page, setPage] = useState(0);
   const [selectedTag, setSelected] = useState('');
   const convosList = useSelector(state => state.allConversations);
