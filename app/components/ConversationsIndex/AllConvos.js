@@ -10,7 +10,7 @@ import * as Card from './Card';
 import { Pill } from '../styled/Pill';
 import whitelist from '../../../whitelist';
 
-const AllConvos=(props) =>{
+const AllConvos = props => {
   const [page, setPage] = useState(0);
   const [selectedTag, setSelected] = useState('');
   const convosList = useSelector(state => state.allConversations);
@@ -28,10 +28,11 @@ const AllConvos=(props) =>{
       setSelected(tag);
       dispatch(filterConversations([tag]));
     }
+  };
 
-    useEffect(() => {
-        dispatch(fetchAllConversations(0));
-    }, []);
+  useEffect(() => {
+    dispatch(fetchAllConversations(0));
+  }, []);
 
 
   return (
@@ -42,16 +43,15 @@ const AllConvos=(props) =>{
       </Font.Paragraph>
       <Font.Title>Popular Topics</Font.Title>
       <Card.CardContainer>
-        {
-            activeTags.map(tag => (
-            <Pill
-                key={tag.id}
-                selected={tag.name === selectedTag}
-                onClick={() => handleFilter(tag.name)}
-            >
-                {tag.name}
-            </Pill>))
-        }
+        {activeTags.map(tag => (
+          <Pill
+            key={tag.id}
+            selected={tag.name === selectedTag}
+            onClick={() => handleFilter(tag.name)}
+          >
+            {tag.name}
+          </Pill>
+        ))}
       </Card.CardContainer>
       <Card.CardContainer>
         {convosList.map(convo => (
@@ -71,6 +71,5 @@ const AllConvos=(props) =>{
     </Container.Paper>
   );
 };
-
 
 export default AllConvos;
