@@ -1,14 +1,14 @@
 import axios from 'axios';
 
-import { setUsers, addUser, setUser } from './actions';
-import { statusMessage } from '../statusMessage/actions';
+import { setUsers, setUser, addUser } from './actions';
+import { checkError, checkSuccess } from '../statusMessage/utils';
 
 export const fetchUsers = () => {
     return dispatch => {
       return axios
         .get('/api/users')
         .then(response => dispatch(setUsers(response.data)))
-        .catch(e => console.log('Error in thunk:', e));
+        .catch(e => checkError(dispatch, e.response.status));
     };
   };
 
@@ -17,9 +17,7 @@ export const getUserFromGitHub = () => {
     return axios
       .get('/api/github/user')
       .then(res => dispatch(setUser(res.data)))
-      .catch(e => {
-        console.error(e)
-      })
+      .catch(e => checkError(dispatch, e.response.status))
   }
 };
   
@@ -27,11 +25,8 @@ export const getUserFromGitHub = () => {
     return dispatch => {
       return axios
         .post('/api/users', user)
-        .then(response => {
-          console.log('create user thunk response data: ', response.data);
-          dispatch(addUser(response.data));
-        })
-        .catch(e => console.log('Error in thunk:', e));
+        .then(res => dispatch(addUser(res.data)))
+        .catch(e => checkError(dispatch, e.response.status));
     };
   };
 
@@ -39,13 +34,11 @@ export const getUserFromGitHub = () => {
     return dispatch => {
       return axios
         .delete(`/api/users${id}`)
-        .then(response => {
-          console.log(response);
-          return axios
-            .get('/api/users')
-            .then(responses => dispatch(fetchUsers(responses.data)));
+        .then(res => {
+          checkSuccess(dispatch, res.status)
+          dispatch(fetchUsers(res.data))
         })
-        .catch(e => console.log('Error in thunk:', e.message));
+        .catch(e => checkError(dispatch, e.response.status));
     };
   };
   
@@ -53,13 +46,11 @@ export const getUserFromGitHub = () => {
     return dispatch => {
       return axios
         .put(`/api/users/${userId}`, user)
-        .then(response => {
-          console.log(response);
-          return axios
-            .get('/api/users/')
-            .then(response => dispatch(fetchUsers(response.data)));
+        .then(res => {
+          checkSuccess(dispatch, res.status)
+          dispatch(fetchUsers(response.data))
         })
-        .catch(e => console.log('Error in thunk:', e.message));
+        .catch(e => checkError(dispatch, e.response.status));
     };
   };
   

@@ -1,19 +1,33 @@
-import { SIGN_IN, SIGN_OUT, SIGN_UP, LOG_IN_ERROR } from './constants';
+import { LOGIN, LOGOUT, SIGN_UP, LOGIN_ERROR } from './constants';
 
 const initialState = {
   isLoggedIn: false,
   logInError: false,
 };
 
-const authenticationReducer = (state = initialState, action) => {
+export default (state = initialState, action) => {
   const isLoggedIn = action.isLoggedIn;
   const logInError = action.logInError;
 
   switch (action.type) {
-    case SIGN_IN: {
+    case LOGIN: {
       return {
         ...state,
         isLoggedIn,
+      };
+    }
+
+    case LOGOUT: {
+      return {
+        ...state,
+        isLoggedIn,
+      };
+    }
+
+    case LOGIN_ERROR: {
+      return {
+        ...state,
+        logInError,
       };
     }
 
@@ -24,23 +38,7 @@ const authenticationReducer = (state = initialState, action) => {
       };
     }
 
-    case SIGN_OUT: {
-      return {
-        ...state,
-        isLoggedIn,
-      };
-    }
-
-    case LOG_IN_ERROR: {
-      return {
-        ...state,
-        logInError,
-      };
-    }
-    
     default:
       return state;
   }
 };
-
-export default authenticationReducer;

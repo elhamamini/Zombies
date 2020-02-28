@@ -1,28 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
-import { attemptLogin } from '../redux/authentication/thunks';
 import { removeLoginError } from '../redux/authentication/actions';
-
+import { attemptSignUp } from '../redux/authentication/thunks';
 import { Header, Anchor } from './styled/Font';
-import { Hr } from './styled/Div';
-import { Form, FormRow, FormColumn } from './styled/Form';
+import { createUser } from '../redux/users/thunks';
+import { Form, FormColumn } from './styled/Form';
 import { Input, InputFeedback } from './styled/Input';
-import { Button, AnchorButton } from './styled/Button';
-
-class Login extends Component {
+import { Button } from './styled/Button';
+class SignUP extends Component {
   constructor() {
     super();
     this.state = {
+      name: '',
       email: '',
       password: '',
       errors: {
+        nameError: '',
         emailError: '',
         passwordError: '',
       },
     };
   }
-
   componentDidUpdate() {
     const {
       authentication: { isLoggedIn },
@@ -30,22 +28,39 @@ class Login extends Component {
     //for now i just send it to the home page after login
     if (isLoggedIn) this.props.history.push('/');
   }
-
-  handleOnClick = e => {
-    const { email, password } = this.state;
-    e.preventDefault();
-    this.props.attemptLogin({ email, password });
-    this.props.history.push('/');
-  };
-
   handleOnChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value }, () => this.validate(name, value));
   };
 
+  handleOnClick = e => {
+    const { name, email, password } = this.state;
+    e.preventDefault();
+    this.props.signUp();
+    this.props.createUser({ name, email, password, userType: 'user' });
+    // this.props.history.push('/');
+  };
   validate = (name, value) => {
     const { errors } = this.state;
     //TODO: Validate on submit for values not in our database NOT onchange
     switch (name) {
+      case 'name':
+        if (!value) {
+          this.setState({
+            errors: {
+              ...errors,
+              nameError: 'Username cannot be blank',
+            },
+          });
+        } else {
+          this.setState({
+            errors: {
+              ...errors,
+              nameError: '',
+            },
+          });
+        }
+        break;
+
       case 'email':
         const regex = /\S+@\S+\.\S+/;
         if (!value) {
@@ -94,26 +109,26 @@ class Login extends Component {
 
   render() {
     const {
+      name,
       email,
       password,
       errors,
-      errors: { emailError, passwordError },
+      errors: { emailError, passwordError, nameError },
     } = this.state;
 
     return (
       <Form>
-        <Header>Sign in with Social Media</Header>
-        <FormRow>
-          <AnchorButton secondary href="/api/github/login">
-            Continue with Github
-          </AnchorButton>
-
-          <AnchorButton secondary onClick={this.handleOnClick}>
-            Continue with Google
-          </AnchorButton>
-        </FormRow>
-        <Hr />
-        <Header>Or sign in with your email and password</Header>
+        <Header>Join Zombies</Header>
+        <FormColumn>
+          <Input
+            type="text"
+            placeholder="Username"
+            onChange={this.handleOnChange}
+            name="name"
+            value={name}
+          />
+          <InputFeedback>{nameError}</InputFeedback>
+        </FormColumn>
         <FormColumn>
           <Input
             type="text"
@@ -138,30 +153,31 @@ class Login extends Component {
 
         <Button
           disabled={
-            !email || !password || Object.values(errors).some(val => !!val)
+            !name ||
+            !email ||
+            !password ||
+            Object.values(errors).some(val => !!val)
               ? true
               : false
           }
           onClick={this.handleOnClick}
         >
-          Login
+          Signup
         </Button>
-        <Anchor href="#">Forgot Password?</Anchor>
+        <Anchor href="/login">Do you have an account? Log in</Anchor>
       </Form>
     );
   }
 }
-
-const mapStateToProps = ({ authentication, user }) => ({
+const mapStateToProps = ({ authentication }) => ({
   authentication,
-  user,
 });
-
 const mapDispatchToProps = dispatch => {
   return {
-    attemptLogin: info => dispatch(attemptLogin(info)),
     removeLoginError: () => dispatch(removeLoginError()),
+    signUp: () => dispatch(attemptSignUp()),
+    createUser: user => dispatch(createUser(user)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUP);

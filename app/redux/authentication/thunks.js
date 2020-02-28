@@ -1,58 +1,44 @@
 import axios from 'axios';
 
-import { signIn, signUp, signOut, setLogInError } from './actions';
+import { login, logout, signUp } from './actions';
+import { setUser } from '../users/actions';
+import { checkError } from '../statusMessage/utils';
 
-export const login = logInInfo => {
-  return async dispatch => {
-    await axios
-      .post('/auth/login', logInInfo)
-      .then(res => {
-        dispatch(signIn(res.data));
-      })
-      .catch(e => {
-        dispatch(signOut());
-        checkError(dispatch, e.response.status);
-      });
-  };
-};
-
-export const SignUpAttempt = signUpInfo => {
-  return async dispatch => {
-    await axios
-      .post('/auth/signup', signUpInfo)
-      .then(res => {
-        dispatch(signUp(res.data));
-      })
-      .catch(e => {
-        dispatch(signOut());
-        checkError(dispatch, e.response.status);
-      });
-  };
-};
-
-export const logOutAttempt = () => {
+export const attemptLogin = credentials => {
   return dispatch => {
     axios
-      .get('/auth/signout')
-      .then(() => dispatch(signOut()))
+      .post('/auth/login', credentials)
+      .then(res => {
+        dispatch(login(res.data));
+        dispatch(setUser(res.data));
+      })
       .catch(e => {
-        dispatch(signOut());
+        dispatch(logout());
+        checkError(dispatch, e.response.status);
+      })
+  };
+};
+
+export const attemptSignUp = credentials => {
+  return dispatch => {
+    axios
+      .post('/auth/signup', credentials)
+      .then(res => dispatch(signUp(res.data)))
+      .catch(e => {
+        dispatch(logout());
+        checkError(dispatch, e.response.status);
+      });
+  };
+};
+
+export const attemptLogout = () => {
+  return dispatch => {
+    axios
+      .get('/auth/logout')
+      .then(() => dispatch(logout()))
+      .catch(e => {
+        dispatch(logout());
         checkError(dispatch, e.response.status)
-      });
-  };
-};
-
-export const initialLogInAttempt = () => {
-  return dispatch => {
-    axios
-      .get('/auth/me')
-      .then(async res => {
-        const user = res.data;
-        console.log('user', user);
-        dispatch(signIn(user));
-      })
-      .catch(e => {
-        console.error(e);
       });
   };
 };

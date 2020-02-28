@@ -2,6 +2,13 @@ import statusMessage from './actions';
 
 export const checkError = (dispatch, e) => {
     switch(e) {
+        case 400:
+            dispatch(statusMessage({
+                status: 'FAIL',
+                message: 'The information you have provided is not valid.'
+            }))
+            break;
+
         case 403:
             dispatch(statusMessage({
                 status: 'FAIL',
@@ -9,12 +16,11 @@ export const checkError = (dispatch, e) => {
             }));
             break;
 
-        case 400:
+        case 404:
             dispatch(statusMessage({
                 status: 'FAIL',
-                message: 'The information you have provided is not valid.'
+                message: '404 - Not Found'
             }))
-            break;
         
         default:
             dispatch(statusMessage({
@@ -27,16 +33,16 @@ export const checkError = (dispatch, e) => {
 
 export const checkSuccess = (dispatch, e) => {
     switch(e) {
-        case 204:
-            dispatch(statusMessage({
-                status: 'SUCCESS',
-                message: 'Successfully deleted!'
-            }))
-
         case 200:
             dispatch(statusMessage({
                 status: 'SUCCESS',
                 message: 'Successfully edited!'
+            }))
+
+        case 204:
+            dispatch(statusMessage({
+                status: 'SUCCESS',
+                message: 'Successfully deleted!'
             }))
 
         default:

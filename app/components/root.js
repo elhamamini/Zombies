@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import Home from './Home';
@@ -11,12 +11,16 @@ import NewConversation from './NewConversation';
 import Test from './test';
 import UserProfile from './UserProfile';
 import PostPage from './PostPage';
+import SignUp from './SignUp';
+import MessageConsole from './MessageConsole';
 
 import { getUserFromGitHub } from '../redux/users/thunks';
+import { fetchTags } from '../redux/tags/thunks';
 
 class Root extends Component {
   componentDidMount() {
     this.props.getUserFromGitHub();
+    this.props.fetchTags();
   }
 
   render() {
@@ -24,12 +28,14 @@ class Root extends Component {
       <Router>
         <main>
           <NavBar />
+          <MessageConsole />
           <Switch>
-            <Route path="/profile" component={UserProfile} />
+            <Route path="/userprofile" component={UserProfile} exact />
             <Route path="/login" component={Login} />
             <Route exact path="/" component={AllConvos} />
-            <Route path='/new' component={NewConversation} />
+            <Route path="/new" component={NewConversation} />
             <Route path="/postpage" component={PostPage} />
+            <Route path="/signup" component={SignUp} exact />
           </Switch>
         </main>
       </Router>
@@ -37,6 +43,12 @@ class Root extends Component {
   }
 }
 
-const mapDispatch = dispatch => ({ getUserFromGitHub: () => dispatch(getUserFromGitHub())})
 
-export default connect(null, mapDispatch)(Root)
+const mapDispatch = dispatch => (
+  { 
+    getUserFromGitHub: () => dispatch(getUserFromGitHub()),
+    fetchTags: () => dispatch(fetchTags())
+  }
+)
+
+export default connect(null, mapDispatch)(Root);

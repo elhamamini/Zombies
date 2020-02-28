@@ -1,38 +1,38 @@
-import { SIGN_IN, SIGN_OUT, SIGN_UP, LOG_IN_ERROR } from './constants';
+import { LOGIN, LOGOUT, SIGN_UP, LOGIN_ERROR } from './constants';
 
-export const signIn = data => {
+export const login = data => {
   return {
-    type: SIGN_IN,
+    type: LOGIN,
     isLoggedIn: true,
     activeUser: data,
   };
 };
 
-export const signUp = data => {
+export const logout = () => {
   return {
-    type: SIGN_UP,
-    isLoggedIn: true,
-    activeUser: data,
-  };
-};
-
-export const signOut = () => {
-  return {
-    type: SIGN_OUT,
+    type: LOGOUT,
     isLoggedIn: false,
   };
 };
 
-export const setLogInError = () => {
+export const setLoginError = () => {
   return {
-    type: LOG_IN_ERROR,
+    type: LOGIN_ERROR,
     logInError: true,
   };
 };
 
 export const removeLogInError = () => {
   return {
-    type: LOG_IN_ERROR,
+    type: LOGIN_ERROR,
     logInError: false,
+  };
+};
+
+export const signUp = () => {
+  return {
+    type: SIGN_UP,
+    isLoggedIn: true,
+    // activeUser: data,
   };
 };
