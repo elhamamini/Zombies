@@ -29,7 +29,6 @@ function AllConvos(props) {
             dispatch(filterConversations([tag]));
         }
     }
-  };
 
     useEffect(() => {
         dispatch(fetchAllConversations(0));
@@ -72,6 +71,6 @@ function AllConvos(props) {
       </Card.CardContainer>
     </Container.Paper>
   );
-}
+};
 
 export default AllConvos;
