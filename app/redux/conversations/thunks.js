@@ -26,7 +26,6 @@ export const createConversation = content => {
     return dispatch => {
         return axios
             .post(`/api/conversation`, content )
-            .then(res => dispatch(setCurrentConversation(res.data)))
             .catch(e => checkError(dispatch, e.response.status));
     };
 };

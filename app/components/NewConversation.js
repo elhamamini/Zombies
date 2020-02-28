@@ -12,6 +12,7 @@ import { Pill, PillContainer } from './styled/Pill';
 
 import { getRepos } from '../redux/repository/thunks';
 import { createConversation } from '../redux/conversations/thunks';
+import { newReply } from '../redux/replies/thunks';
 
 import nlp from 'compromise';
 import whitelist from '../../whitelist';
@@ -52,7 +53,13 @@ class NewConversation extends Component {
     this.props.createConversation({
       userId: this.props.user.id,
       title: this.state.topic
-    });
+    })
+    .then(() => this.props.newReply({
+      conversationId: this.props.conversation.id,
+      body: this.state.body,
+      repo: this.state.repo,
+      tags: this.state.tags
+    }))
   };
 
   handleCodeType = (e, codeType) => {
@@ -198,10 +205,11 @@ class NewConversation extends Component {
   }
 }
 
-const mapState = ({ authentication, user, repositories }) => ({
+const mapState = ({ authentication, user, repositories, conversation }) => ({
   authentication,
   user,
   repositories,
+  conversation
 });
 
 const mapDispatch = dispatch => ({

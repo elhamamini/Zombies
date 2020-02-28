@@ -1,7 +1,7 @@
 import {
   CREATE_REPLY,
   SET_REPLY,
-  SET_ALLREPLIES,
+  SET_ALL_REPLIES,
   EDIT_REPLY,
   REMOVE_REPLY,
 } from './constants';
