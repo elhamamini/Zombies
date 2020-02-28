@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { login } from '../redux/authentication/thunks';
-import { removeLogInError } from '../redux/authentication/actions';
+import { attemptLogin } from '../redux/authentication/thunks';
+import { removeLoginError } from '../redux/authentication/actions';
 
 import { Header, Anchor } from './styled/Font';
 import { Hr } from './styled/Div';
@@ -32,7 +32,7 @@ class Login extends Component {
   handleOnClick = e => {
     const { email, password } = this.state;
     e.preventDefault();
-    this.props.login({ email, password });
+    this.props.attemptLogin({ email, password })
     this.props.history.push('/');
   };
 
@@ -160,8 +160,8 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    login: info => dispatch(login(info)),
-    removeLogInError: () => dispatch(removeLogInError()),
+    attemptLogin: info => dispatch(attemptLogin(info)),
+    removeLoginError: () => dispatch(removeLoginError()),
   };
 };
 

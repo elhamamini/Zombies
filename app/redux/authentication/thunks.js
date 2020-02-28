@@ -1,23 +1,25 @@
 import axios from 'axios';
 
-import { signIn, signUp, signOut, setLogInError } from './actions';
+import { login, logout, signUp, setLoginError } from './actions';
+import { setUser } from '../users/actions';
 
-export const login = logInInfo => {
-  return async dispatch => {
-    await axios
-      .post('/auth/login', logInInfo)
+export const attemptLogin = credentials => {
+  return dispatch => {
+    axios
+      .post('/auth/login', credentials)
       .then(res => {
-        return dispatch(signIn(res.data));
+        dispatch(login(res.data));
+        dispatch(setUser(res.data))
       })
       .catch(e => {
         console.error(e);
-        dispatch(setLogInError());
-        return dispatch(signOut());
+        dispatch(setLoginError());
+        dispatch(logout());
       });
   };
 };
 
-export const SignUpAttempt = signUpInfo => {
+export const attemptSignUp = signUpInfo => {
   return async dispatch => {
     await axios
       .post('/auth/signup', signUpInfo)
@@ -32,31 +34,14 @@ export const SignUpAttempt = signUpInfo => {
   };
 };
 
-export const logOutAttempt = () => {
+export const attemptLogout = () => {
   return dispatch => {
     axios
       .get('/auth/signout')
-      .then(() => {
+      .then(() => dispatch(logout()))
+      .catch(e => {
+        console.error(e);
         dispatch(signOut());
-      })
-      .catch(e => {
-        console.error(e);
-        return dispatch(signOut());
-      });
-  };
-};
-
-export const initialLogInAttempt = () => {
-  return dispatch => {
-    axios
-      .get('/auth/me')
-      .then(async res => {
-        const user = res.data;
-        console.log('user', user);
-        dispatch(signIn(user));
-      })
-      .catch(e => {
-        console.error(e);
       });
   };
 };

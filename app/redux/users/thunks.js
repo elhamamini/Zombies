@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { setUsers, addUser, setUser } from './actions';
+import { setUsers, setUser, addUser } from './actions';
 
 export const fetchUsers = () => {
     return dispatch => {

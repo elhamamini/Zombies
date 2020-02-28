@@ -5,22 +5,20 @@ import { getRepos } from '../redux/repository/thunks';
 class Test extends Component {
   componentDidMount() {
     this.props.getRepos();
-    // this.props.getActiveUser();
   }
   render() {
-    console.log('activeUser', this.props.activeUser);
-    console.log('reposssss', this.props.reposetories);
+    console.log('activeUser', this.props.user);
+    console.log('reposssss', this.props.repositories);
     return <div>hiiiii</div>;
   }
 }
-const mapStateToProps = ({ reposetories, activeUser }) => ({
-  reposetories,
-  activeUser,
+const mapStateToProps = ({ repositories, user }) => ({
+  repositories,
+  user,
 });
 const mapDispatchToProps = dispatch => {
   return {
     getRepos: () => dispatch(getRepos()),
-    getActiveUser: () => dispatch(getActiveUser()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Test);

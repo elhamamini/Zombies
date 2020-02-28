@@ -1,7 +1,7 @@
-export const SIGN_IN = Symbol('SIGN_IN');
+export const LOGIN = Symbol('LOGIN');
 
-export const SIGN_OUT = Symbol('SIGN_OUT');
+export const LOGOUT = Symbol('LOGOUT');
+
+export const LOGIN_ERROR = Symbol('LOGIN_ERROR');
 
 export const SIGN_UP = Symbol('SIGN_UP');
-
-export const LOG_IN_ERROR = Symbol('LOG_IN_ERROR');

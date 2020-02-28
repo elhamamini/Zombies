@@ -14,7 +14,7 @@ const Conversation = db.define('conversation', {
   },
   author: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   hasAnswer: {
     type: Sequelize.BOOLEAN,
