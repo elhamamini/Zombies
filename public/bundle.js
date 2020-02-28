@@ -3179,9 +3179,9 @@ var _actions = __webpack_require__(/*! ./actions */ "./app/redux/conversations/a
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //TODO: Add better error handling - custom component with user-readable error message
-var postConversation = exports.postConversation = function postConversation(author) {
+var postConversation = exports.postConversation = function postConversation(userId) {
     return function (dispatch) {
-        return _axios2.default.post('/api/conversation', { author: author }).then(function (res) {
+        return _axios2.default.post('/api/conversation', { userId: userId }).then(function (res) {
             return dispatch(updateConversation(res.data));
         }).catch(function (e) {
             return console.log(e);
@@ -3190,8 +3190,9 @@ var postConversation = exports.postConversation = function postConversation(auth
 };
 
 var updateConversation = exports.updateConversation = function updateConversation(conversationId, conversation) {
+    console.log(conversationId);
     return function (dispatch) {
-        return _axios2.default.put('/api/conversation/' + conversationId, conversation).then(function (res) {
+        return _axios2.default.put('/api/conversation/' + conversationId, { conversation: conversation }).then(function (res) {
             return dispatch((0, _actions.createConversation)(res.data));
         }).catch(function (e) {
             return console.error(e);

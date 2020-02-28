@@ -1,14 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../database');
-const { UUID, UUIDV4 } = Sequelize;
 
 const Conversation = db.define('conversation', {
-
-  uuid: {
-    type: UUID,
-    defaultValue: UUIDV4,
-    primaryKey: true,
-  },
 
   title: {
     type: Sequelize.TEXT,
@@ -22,6 +15,7 @@ const Conversation = db.define('conversation', {
 
   repo: {
     type: Sequelize.TEXT,
+    allowNull: true,
   },
 
   views: {
@@ -33,7 +27,7 @@ const Conversation = db.define('conversation', {
     type: Sequelize.VIRTUAL,
     get() {
       return this.getReplies().length;
-    }
+    },
   },
 });
 

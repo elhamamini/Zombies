@@ -22,14 +22,12 @@ router.get('/callback', (req, res) => {
       }
     )
     .then(async res => {
-      console.log('info', res.data);
       const response = await axios.get('https://api.github.com/user', {
         headers: {
           Authorization: `token ${res.data.access_token}`,
         },
       });
       const userData = response.data;
-      console.log('userDataaaaaaa@@@@@@@', userData);
       return User.findOrCreate({
         where: { sessionId: req.session.id },
         defaults: {
@@ -53,7 +51,6 @@ router.get('/callback', (req, res) => {
       }
     })
     .then(() => {
-      console.log('hiiiii');
       res.redirect('/');
     })
     .catch(e => {

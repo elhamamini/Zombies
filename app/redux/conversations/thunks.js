@@ -8,19 +8,20 @@ import {
 } from './actions';
 
 //TODO: Add better error handling - custom component with user-readable error message
-export const postConversation = author => {
+export const postConversation = userId => {
     return dispatch => {
         return axios
-            .post(`/api/conversation`, { author })
+            .post(`/api/conversation`, { userId })
             .then(res => dispatch(updateConversation(res.data)))
             .catch(e => console.log(e));
     };
 };
 
 export const updateConversation = (conversationId, conversation) => {
+    console.log(conversationId)
     return dispatch => {
         return axios
-            .put(`/api/conversation/${conversationId}`, conversation)
+            .put(`/api/conversation/${conversationId}`, { conversation })
             .then(res => dispatch(createConversation(res.data)))
             .catch(e => console.error(e));
     };

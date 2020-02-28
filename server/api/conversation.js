@@ -69,16 +69,15 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-  const { author } = req.body
-  console.log(req.body)
-  console.log(typeof author)
-  if (!author) {
-    return res
+  const { userId } = req.body
+  if (!userId) {
+    res
       .status(400)
-      .send('POST Conversation request missing required field');
+      .send('You do not have permission to make this request. Contact administrator.');
   }
+  console.log(userId)
   Conversation.create({
-    author,
+    userId,
   })
     .then(created => {
       res.status(200).send(created);
@@ -90,6 +89,7 @@ router.post('/', (req, res, next) => {
 });
 
 router.put('/:id', (req, res, next) => {
+  console.log(req.body)
   Conversation.update(
     {
       ...req.body,
