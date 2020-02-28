@@ -7,12 +7,11 @@ export const login = logInInfo => {
     await axios
       .post('/auth/login', logInInfo)
       .then(res => {
-        return dispatch(signIn(res.data));
+        dispatch(signIn(res.data));
       })
       .catch(e => {
-        console.error(e);
-        dispatch(setLogInError());
-        return dispatch(signOut());
+        dispatch(signOut());
+        checkError(dispatch, e.response.status);
       });
   };
 };
@@ -22,12 +21,11 @@ export const SignUpAttempt = signUpInfo => {
     await axios
       .post('/auth/signup', signUpInfo)
       .then(res => {
-        return dispatch(signUp(res.data));
+        dispatch(signUp(res.data));
       })
       .catch(e => {
-        console.error(e);
-        dispatch(setLogInError());
-        return dispatch(signOut());
+        dispatch(signOut());
+        checkError(dispatch, e.response.status);
       });
   };
 };
@@ -36,12 +34,10 @@ export const logOutAttempt = () => {
   return dispatch => {
     axios
       .get('/auth/signout')
-      .then(() => {
-        dispatch(signOut());
-      })
+      .then(() => dispatch(signOut()))
       .catch(e => {
-        console.error(e);
-        return dispatch(signOut());
+        dispatch(signOut());
+        checkError(dispatch, e.response.status)
       });
   };
 };

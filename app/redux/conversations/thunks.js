@@ -7,13 +7,15 @@ import {
     removeConversation
 } from './actions';
 
+import { checkError, checkSuccess } from '../statusMessage/utils';
+
 //TODO: Add better error handling - custom component with user-readable error message
 export const postConversation = author => {
     return dispatch => {
         return axios
             .post(`/api/conversation`, { author })
             .then(res => dispatch(updateConversation(res.data)))
-            .catch(e => console.log(e));
+            .catch(e => checkError(dispatch, e.response.status));
     };
 };
 
@@ -21,8 +23,11 @@ export const updateConversation = (conversationId, conversation) => {
     return dispatch => {
         return axios
             .put(`/api/conversation/${conversationId}`, conversation)
-            .then(res => dispatch(createConversation(res.data)))
-            .catch(e => console.error(e));
+            .then(res => {
+                dispatch(createConversation(res.data))
+                checkSuccess(res.status)
+            })
+            .catch(e => checkError(dispatch, e.response.status));
     };
 };
 
@@ -33,7 +38,7 @@ export const fetchConversation = conversationId => {
         return axios
             .get(`/api/conversation/${conversationId}`)
             .then(res => dispatch(setConversation(res.data)))
-            .catch(e => console.error(e));
+            .catch(e => checkError(dispatch, e.response.status));
     };
 };
 
@@ -42,7 +47,7 @@ export const fetchAllConversations = (page=0) => {
         return axios
             .get(`/api/conversation?page=${page}`)
             .then(res => dispatch(setAllConversations(res.data)))
-            .catch(e => console.error(e));
+            .catch(e => checkError(dispatch, e.response.status));
     };
 };
 
@@ -53,10 +58,9 @@ export const filterConversations = (tags=['default']) => {
         return axios
             .get(`/api/conversation/filter?${queryStr}`)
                 .then(res => {
-                    console.log(res.data);
                     dispatch(setAllConversations(res.data))
                 })
-                .catch(e => console.error(e));
+                .catch(e => checkError(dispatch, e.response.status));
     }
 }
 
@@ -64,7 +68,10 @@ export const deleteConversation = conversationId => {
     return dispatch => {
         return axios
             .delete(`/api/conversation/${conversationId}`)
-            .then(() => dispatch(removeConversation(conversationId)))
-            .catch(e => console.error(e));
+            .then(res => {
+                dispatch(removeConversation(conversationId))
+                checkSuccess(res.status)
+            })
+            .catch(e => checkError(dispatch, e.response.status));
     };
 };

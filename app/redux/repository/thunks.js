@@ -1,5 +1,6 @@
-import { setAllrepos } from './actions';
 import axios from 'axios';
+
+import { setAllrepos } from './actions';
 
 export const getRepos = () => {
   return (dispatch, getState) => {

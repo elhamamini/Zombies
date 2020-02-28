@@ -3,6 +3,7 @@ import authenticationReducer from './authentication/reducers';
 import { users, user } from './users/reducers';
 import { conversation, allConversations } from './conversations/reducers';
 import { repositories } from './repository/reducers';
+import statusMessage from './statusMessage/reducers';
 
 const appReducer = combineReducers({
   users,
@@ -10,7 +11,8 @@ const appReducer = combineReducers({
   authentication: authenticationReducer,
   conversation,
   allConversations,
-  repositories
+  repositories,
+  statusMessage,
 });
 
 export default appReducer;

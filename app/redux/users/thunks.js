@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { setUsers, addUser, setUser } from './actions';
+import { statusMessage } from '../statusMessage/actions';
 
 export const fetchUsers = () => {
     return dispatch => {
@@ -16,7 +17,9 @@ export const getUserFromGitHub = () => {
     return axios
       .get('/api/github/user')
       .then(res => dispatch(setUser(res.data)))
-      .catch(e => console.error(e))
+      .catch(e => {
+        console.error(e)
+      })
   }
 };
   
