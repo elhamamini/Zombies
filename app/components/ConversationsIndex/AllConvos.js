@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  fetchAllConversations,
-  filterConversations,
-} from '../../redux/conversations/thunks';
+import { fetchAllConversations, filterConversations } from '../../redux/conversations/thunks';
 import * as Container from '../styled/Div';
 import * as Font from '../styled/Font';
 import * as Card from './Card';
@@ -11,30 +8,33 @@ import { Pill } from '../styled/Pill';
 import whitelist from '../../../whitelist';
 
 function AllConvos(props) {
-  const [page, setPage] = useState(0);
-  const [selectedTag, setSelected] = useState('');
-  const convosList = useSelector(state => state.allConversations);
-  const dispatch = useDispatch();
+    const [page, setPage] = useState(0);
+    const [selectedTag, setSelected] = useState('');
+    const convosList = useSelector(state => state.allConversations);
+    const activeTags = useSelector(state => state.tags);
+    const dispatch = useDispatch();
+
 
   const handleClick = id => {
     props.history.push(`/discussion/${id}`);
   };
 
-  const handleFilter = tag => {
-    if (selectedTag == tag) {
-      setSelected('');
-      dispatch(fetchAllConversations(0));
-    } else {
-      setSelected(tag);
-      dispatch(filterConversations([tag]));
+
+    const handleFilter = (tag) => {
+        if (selectedTag == tag) {
+            setSelected('');
+            dispatch(fetchAllConversations());
+        } else {
+            setSelected(tag);
+            dispatch(filterConversations([tag]));
+        }
     }
   };
 
-  useEffect(() => {
-    if (!convosList.length) {
-      dispatch(fetchAllConversations(0));
-    }
-  });
+    useEffect(() => {
+        dispatch(fetchAllConversations(0));
+    }, []);
+
 
   return (
     <Container.Paper id="conversations-index">
@@ -44,11 +44,16 @@ function AllConvos(props) {
       </Font.Paragraph>
       <Font.Title>Popular Topics</Font.Title>
       <Card.CardContainer>
-        {Object.keys(whitelist).map(key => (
-          <Pill key={key} id={key} onClick={() => handleFilter(key)}>
-            {key}
-          </Pill>
-        ))}
+        {
+            activeTags.map(tag => (
+            <Pill
+                key={tag.id}
+                selected={tag.name === selectedTag}
+                onClick={() => handleFilter(tag.name)}
+            >
+                {tag.name}
+            </Pill>))
+        }
       </Card.CardContainer>
       <Card.CardContainer>
         {convosList.map(convo => (

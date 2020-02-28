@@ -14,7 +14,7 @@ const Conversation = db.define('conversation', {
   },
   author: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   hasAnswer: {
     type: Sequelize.BOOLEAN,
@@ -32,10 +32,6 @@ const Conversation = db.define('conversation', {
     get() {
       return this.getReplies().length;
     }
-  },
-  tags: {
-    type: Sequelize.ARRAY(Sequelize.STRING),
-    defaultValue: ['default'],
   },
 });
 

@@ -1,0 +1,1 @@
+export const SET_TAGS = Symbol('SET_TAGS');
