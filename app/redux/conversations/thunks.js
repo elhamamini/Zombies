@@ -35,7 +35,7 @@ export const createConversation = content => {
 export const updateConversation = (conversationId, content) => {
     return dispatch => {
         return axios
-            .put(`/api/conversation/${conversationId}`, { content })
+            .put(`/api/conversation/${conversationId}`, content)
             .then(res => {
                 dispatch(setCurrentConversation(res.data))
                 checkSuccess(dispatch, res.status)

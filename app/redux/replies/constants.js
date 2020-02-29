@@ -1,4 +1,4 @@
-export const CREATE_REPLY = Symbol('CREATE_REPLY');
+export const ADD_REPLY = Symbol('ADD_REPLY');
 
 export const EDIT_REPLY = Symbol('EDIT_REPLY');
 

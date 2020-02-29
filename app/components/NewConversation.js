@@ -10,8 +10,9 @@ import { Button } from './styled/Button';
 import { Select, Option } from './styled/Select';
 import { Pill, PillContainer } from './styled/Pill';
 
-import { getRepos } from '../redux/repository/thunks';
-import { createConversation } from '../redux/conversations/thunks';
+import { fetchRepos } from '../redux/repository/thunks';
+import { createConversation, fetchCurrentConversation } from '../redux/conversations/thunks';
+import { createReply } from '../redux/replies/thunks';
 
 import nlp from 'compromise';
 import whitelist from '../../whitelist';
@@ -52,7 +53,15 @@ class NewConversation extends Component {
     this.props.createConversation({
       userId: this.props.user.id,
       title: this.state.topic
-    });
+    })
+    .then(() => this.props.createReply({
+      conversationId: this.props.conversation.id,
+      userId: this.props.user.id,
+      body: this.state.body,
+      repo: this.state.repo,
+      tags: this.state.tags
+    }))
+    .then(() => this.props.fetchCurrentConversation(this.props.conversation.id))
   };
 
   handleCodeType = (e, codeType) => {
@@ -135,8 +144,7 @@ class NewConversation extends Component {
   };
 
   render() {
-    console.log(this.state.body);
-    console.log(this.props);
+
     const {
       topic,
       body,
@@ -198,15 +206,18 @@ class NewConversation extends Component {
   }
 }
 
-const mapState = ({ authentication, user, repositories }) => ({
+const mapState = ({ authentication, user, repositories, conversation }) => ({
   authentication,
   user,
   repositories,
+  conversation
 });
 
 const mapDispatch = dispatch => ({
   createConversation: content => dispatch(createConversation(content)),
-  getRepos: () => dispatch(getRepos()),
+  createReply: content => dispatch(createReply(content)),
+  fetchCurrentConversation: conversationId => dispatch(fetchCurrentConversation(conversationId)),
+  fetchRepos: () => dispatch(fetchRepos()),
 });
 
 export default connect(mapState, mapDispatch)(NewConversation);
