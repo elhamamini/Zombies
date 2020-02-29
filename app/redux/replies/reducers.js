@@ -1,7 +1,7 @@
 import {
   CREATE_REPLY,
   SET_REPLY,
-  SET_ALLREPLIES,
+  SET_ALL_REPLIES,
   EDIT_REPLY,
   REMOVE_REPLY,
 } from './constants';
@@ -11,7 +11,7 @@ export const replies = (state = [], action) => {
     case SET_ALL_REPLIES:
       return action.replies;
 
-    case CREATE_REPLY:
+    case ADD_REPLY:
       return [...state, action.reply];
 
     case EDIT_REPLY:
@@ -22,7 +22,7 @@ export const replies = (state = [], action) => {
 
     case REMOVE_REPLY:
       return state.filter(reply => reply.id !== action.id);
-      
+
     default:
       return state;
   }

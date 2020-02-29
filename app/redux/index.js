@@ -14,7 +14,7 @@ const appReducer = combineReducers({
   allConversations,
   repositories,
   statusMessage,
-  tags
+  tags,
 });
 
 export default appReducer;

@@ -9,9 +9,7 @@ router.get('/', (req, res, next) => {
   Conversation.findAll({
     limit: RESULTS_PER_PAGE,
     offset: (req.query.page || 0) * RESULTS_PER_PAGE,
-    order: [
-        ['createdAt', 'DESC']
-    ],
+    order: [['createdAt', 'DESC']],
   })
     .then(results => {
       res.status(200).send(results);
@@ -24,14 +22,12 @@ router.get('/', (req, res, next) => {
 
 //return all conversations with answer
 router.get('/answered', (req, res, next) => {
-    Conversation.findAll({
-        where: {
-          hasAnswer: true,
-        },
-        order: [
-          ['createdAt', 'DESC']
-        ],
-    })
+  Conversation.findAll({
+    where: {
+      hasAnswer: true,
+    },
+    order: [['createdAt', 'DESC']],
+  })
     .then(results => {
       res.status(200).send(results);
     })
@@ -39,7 +35,7 @@ router.get('/answered', (req, res, next) => {
       res.status(500).send();
       next(e);
     });
-})
+});
 
 //return conversation by Id, includes replies
 router.get('/:id', (req, res, next) => {
@@ -61,16 +57,12 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-  console.log(req.body)
-  const { userId, title } = req.body
-  if (!userId || !title ) {
-    return res
-      .status(400)
-      .send('Missing information');
+  const { userId, title } = req.body;
+  if (!userId || !title) {
+    return res.status(400).send('Missing information');
   }
   Conversation.create({
-    userId,
-    title,
+    ...req.body,
   })
     .then(created => {
       res.status(200).send(created);

@@ -2,22 +2,10 @@ const Sequelize = require('sequelize');
 const db = require('../database');
 const moment = require('moment');
 
-const { UUID, UUIDV4 } = Sequelize;
-
 const Reply = db.define('reply', {
-  
   body: {
     type: Sequelize.TEXT,
     allowNull: false,
-  },
-
-  codeSnippet: {
-    type: Sequelize.TEXT,
-  },
-
-  codeType: {
-    type: Sequelize.TEXT,
-    defaultValue: 'javascript'
   },
 
   postNumber: {

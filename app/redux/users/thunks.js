@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { setUsers, setUser, addUser } from './actions';
+import { setUsers, setUser, addUser, editUser } from './actions';
 import { checkError, checkSuccess } from '../statusMessage/utils';
 
 export const fetchUsers = () => {
@@ -47,9 +47,10 @@ export const updateUser = (userId, user) => {
     return axios
       .put(`/api/users/${userId}`, user)
       .then(res => {
-        checkSuccess(dispatch, res.status);
-        dispatch(fetchUsers(response.data));
+        console.log('edieteduser', res.data);
+        // checkSuccess(dispatch, res.status);
+        return dispatch(editUser(res.data));
       })
-      .catch(e => checkError(dispatch, e.response.status));
+      .catch(e => checkError(dispatch, e.res.status));
   };
 };
