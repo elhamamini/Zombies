@@ -1,14 +1,14 @@
 import {
-  CREATE_REPLY,
+  ADD_REPLY,
   SET_REPLY,
   SET_ALL_REPLIES,
   EDIT_REPLY,
   REMOVE_REPLY,
 } from './constants';
 
-export const createReply = reply => {
+export const addReply = reply => {
   return {
-    type: CREATE_REPLY,
+    type: ADD_REPLY,
     reply,
   };
 };

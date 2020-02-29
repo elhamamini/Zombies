@@ -68,8 +68,7 @@ router.post('/', (req, res, next) => {
       .send('Missing information');
   }
   Conversation.create({
-    userId,
-    title,
+    ...req.body
   })
     .then(created => {
       res.status(200).send(created);

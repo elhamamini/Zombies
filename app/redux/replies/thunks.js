@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import {
-  createReply,
+  addReply,
   editReply,
   setAllReplies,
   setReply,
@@ -9,11 +9,11 @@ import {
 } from './actions';
 import { checkError, checkSuccess } from '../statusMessage/utils';
 
-export const newReply = reply => {
+export const createReply = content => {
   return dispatch => {
     return axios
-      .post('/api/reply', reply)
-      .then(res => dispatch(createReply(res.data)))
+      .post('/api/reply', content)
+      .then(res => dispatch(addReply(res.data)))
       .catch(e => checkError(dispatch, e.response.status));
   };
 };

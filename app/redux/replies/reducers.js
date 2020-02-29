@@ -11,7 +11,7 @@ export const replies = (state = [], action) => {
     case SET_ALL_REPLIES:
       return action.replies;
 
-    case CREATE_REPLY:
+    case ADD_REPLY:
       return [...state, action.reply];
 
     case EDIT_REPLY:
