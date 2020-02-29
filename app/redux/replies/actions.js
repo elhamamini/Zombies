@@ -22,7 +22,7 @@ export const editReply = reply => {
 
 export const setAllReplies = replies => {
   return {
-    type: SET_ALLREPLIES,
+    type: SET_ALL_REPLIES,
     replies,
   };
 };

@@ -5,7 +5,7 @@ import {
   editReply,
   setAllReplies,
   setReply,
-  deleteReply,
+  removeReply,
 } from './actions';
 import { checkError, checkSuccess } from '../statusMessage/utils';
 
@@ -18,7 +18,7 @@ export const newReply = reply => {
   };
 };
 
-export const editReply = (reply, id) => {
+export const updateReply = (reply, id) => {
   return dispatch => {
     return axios
       .put(`/api/reply/${id}`, reply)
@@ -30,7 +30,7 @@ export const editReply = (reply, id) => {
   };
 };
 
-export const getReply = id => {
+export const fetchReply = id => {
   return dispatch => {
     return axios
       .get(`/api/reply/${id}`)
@@ -39,7 +39,7 @@ export const getReply = id => {
   };
 };
 
-export const getAllReplies = () => {
+export const fetchAllReplies = () => {
   return dispatch => {
     return axios
       .get('/api/reply')

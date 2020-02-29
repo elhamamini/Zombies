@@ -61,7 +61,6 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-  console.log(req.body)
   const { userId, title } = req.body
   if (!userId || !title ) {
     return res
