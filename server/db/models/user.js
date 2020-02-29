@@ -58,21 +58,6 @@ const User = db.define('users', {
   sessionId: {
     type: STRING,
     allowNull: true,
-  },
-
-  githubUsername: {
-    type: STRING,
-    allowNull: true,
-  },
-
-  reposUrl: {
-    type: STRING,
-    allowNull: true,
-  },
-
-  sessionId: {
-    type: STRING,
-    allowNull: true,
-  },
+  }
 });
 module.exports = User;

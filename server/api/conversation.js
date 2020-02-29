@@ -94,10 +94,14 @@ router.post('/', (req, res, next) => {
       .send('Missing information');
   }
   Conversation.create({
-    ...req.body
+    userId,
+    title
   })
     .then(created => {
-      res.status(200).send(created);
+      created.addTags(req.body.tags)
+    })
+    .then(modified => {
+      res.status(200).send(modified);
     })
     .catch(e => {
       res.status(500).send();

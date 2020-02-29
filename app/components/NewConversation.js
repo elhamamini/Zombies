@@ -14,10 +14,11 @@ import { fetchRepos } from '../redux/repository/thunks';
 import { createConversation, fetchCurrentConversation } from '../redux/conversations/thunks';
 import { createReply } from '../redux/replies/thunks';
 
+import { extractTokens, pruneHTML } from '../utils';
 import nlp from 'compromise';
-import whitelist from '../../whitelist';
-
 import CustomQuill from './Quill';
+
+let whitelist = {};
 
 //TODO: Handle Successful Post by Redirecting to the Post
 class NewConversation extends Component {
@@ -37,7 +38,11 @@ class NewConversation extends Component {
 
   componentDidMount() {
     //We should probably set these repos when we get the user as well
-    this.props.user.githubUsername ? this.props.getRepos() : null;
+    this.props.user.githubUsername && this.props.getRepos();
+    whiteList = this.props.tags.reduce((accum, curr) => {
+      accum[curr.name] = curr.id;
+      return accum;
+    }, {});
   }
 
   handleOnChange = ({ target: { name, value } }) => {
@@ -50,9 +55,14 @@ class NewConversation extends Component {
 
   handleOnClick = e => {
     e.preventDefault();
+    const cleanText = pruneHTML(this.state.body);
+    let results = extractTokens(cleanText, whiteList);
+    const searchTags = this.props.tags.reduce(t => results[t.name]);
+
     this.props.createConversation({
       userId: this.props.user.id,
-      title: this.state.topic
+      title: this.state.topic,
+      tags: searchTags,
     })
     .then(() => this.props.createReply({
       conversationId: this.props.conversation.id,
@@ -206,11 +216,12 @@ class NewConversation extends Component {
   }
 }
 
-const mapState = ({ authentication, user, repositories, conversation }) => ({
+const mapState = ({ authentication, user, repositories, conversation, tags }) => ({
   authentication,
   user,
   repositories,
-  conversation
+  conversation,
+  tags
 });
 
 const mapDispatch = dispatch => ({
