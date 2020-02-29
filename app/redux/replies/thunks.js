@@ -56,6 +56,6 @@ export const deleteReply = id => {
         dispatch(removeReply(id))
         checkSuccess(dispatch, res.status)
       })
-      .catch(e => ccheckError(dispatch, e.response.status));
+      .catch(e => checkError(dispatch, e.response.status));
   };
 };

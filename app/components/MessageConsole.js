@@ -14,9 +14,11 @@ const MessageConsole = ({ statusMessage, resetStatusMessage }) => {
     }
 
     useEffect(() => {
-        setTimeout(() => {
-            resetStatusMessage();
-        }, 10000)
+        if(status) {
+            setTimeout(() => {
+                resetStatusMessage();
+            }, 10000)
+        }
     })
 
     return (
