@@ -7,7 +7,7 @@ import * as Font from '../styled/Font';
 import * as Card from './Card';
 import * as InputField from '../styled/Input';
 import { Pill } from '../styled/Pill';
-import extractTokens from '../../utils';
+import { extractTokens } from '../../utils';
 
 function AllConvos(props) {
   const [page, setPage] = useState(0);
@@ -25,46 +25,43 @@ function AllConvos(props) {
     props.history.push(`/discussion/${id}`);
   };
 
-  const handleFilter = (tag) => {
-
-    if (!tag.length) {
-      return;
+  const handleChange = (body) => {
+    //if search is clear, clear all the tags
+    if (!body.length) {
+      setTags([]);
+    } else {
+      const searchTags = extractTokens(body, whiteList);
+      //if we pulled at least one tag out of the current input string
+      if (searchTags.length) {
+        //create a set of the selectedTags and the searchTag
+        const uniqueTags = new Set([...searchTags, ...selectedTags]);
+        const combinedTags = [...uniqueTags];
+        setTags(combinedTags);
+      }
     }
+    setSearch(body);
+  };
 
-    let updatedTags = selectedTags;
-
+  const handleFilter = (tag) => {
+    let updatedTags = [...selectedTags];
     if (selectedTags.includes(tag)) {
       updatedTags = selectedTags.filter(t => t !== tag);
     } else {
       updatedTags.push(tag);
     }
-
-    updatedTags.length ?
-    dispatch(filterConversations(updatedTags))
-    : dispatch(fetchAllConversations())
-
     setTags(updatedTags);
   };
 
-  const handleChange = (body) => {
-    setSearch(body);
-    const searchTags = extractTokens(body, whiteList);
-    //if we pulled at least one tag out of the current input string
-    if (searchTags.length) {
-      //create a set of the selectedTags and the searchTag
-      const combinedTags = new Set([...searchTags, ...selectedTags]);
-
-    }
-
-    console.log(searchTags);
-  }
-
   useEffect(() => {
-    dispatch(fetchAllConversations());
     if (!activeTags.length) {
       dispatch(fetchTags());
     }
-  }, []);
+    if (!selectedTags.length) {
+      dispatch(fetchAllConversations());
+    } else {
+      dispatch(filterConversations(selectedTags))
+    }
+  }, [selectedTags]);
 
 
   return (
@@ -73,14 +70,7 @@ function AllConvos(props) {
       <Font.Paragraph>
         LearnDot forums are a great way to get help from your peers.
       </Font.Paragraph>
-      <InputField.SearchInput
-        type="text"
-        name="search"
-        placeholder="Search for your question"
-        value={searchStr}
-        onChange={e => handleChange(e.target.value)}
-      />
-      <Font.Title>Browse Popular Topics</Font.Title>
+      <Font.Title>Popular Topics</Font.Title>
       <Card.CardContainer>
         {
             activeTags.map(tag => (
@@ -93,6 +83,13 @@ function AllConvos(props) {
             </Pill>))
         }
       </Card.CardContainer>
+      <InputField.SearchInput
+        type="text"
+        name="search"
+        placeholder="Search for your question"
+        value={searchStr}
+        onChange={e => handleChange(e.target.value)}
+      />
       <Card.CardContainer>
         {convosList.map(convo => (
           <Card.Card key={convo.id} onClick={() => handleClick(convo.id)}>

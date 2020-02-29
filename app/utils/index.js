@@ -17,4 +17,26 @@ const extractTokens = (body, whitelist) => {
     return tokens;
 };
 
-export default extractTokens;
+const pruneHTML = (str) => {
+    let trimmed = '';
+    let htmlTag = true;
+    for (let i = 0; i < str.length; i++) {
+      if (str[i] === '<') {
+        htmlTag = true;
+      }
+      else if (str[i] == '>') {
+        htmlTag = false;
+      }
+      else if (!htmlTag) {
+        trimmed += str[i];
+      }
+    }
+
+    const returnedStr = trimmed.split(`\n`).join(' ').trim();
+    return returnedStr;
+};
+
+export {
+    pruneHTML,
+    extractTokens
+};
