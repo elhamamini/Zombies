@@ -28,22 +28,22 @@ router.get('/tags', (req, res, next) => {
     include: {
       model: Tag,
       through: {
-        attributes: []
+        attributes: [],
       },
       where: {
         name: {
-          [Sequelize.Op.in]: tag 
-        }
-      }
-    }
+          [Sequelize.Op.in]: tag,
+        },
+      },
+    },
   })
-  .then(results => {
-    res.status(200).send(results);
-  })
-  .catch(e => {
-    res.status(500).send();
-    next(e);
-  });
+    .then(results => {
+      res.status(200).send(results);
+    })
+    .catch(e => {
+      res.status(500).send();
+      next(e);
+    });
 });
 
 //return all conversations with answer
@@ -88,10 +88,14 @@ router.post('/', (req, res, next) => {
     return res.status(400).send('Missing information');
   }
   Conversation.create({
-    ...req.body,
+    userId,
+    title,
   })
     .then(created => {
-      res.status(200).send(created);
+      created.addTags(req.body.tags);
+    })
+    .then(modified => {
+      res.status(200).send(modified);
     })
     .catch(e => {
       res.status(500).send();
