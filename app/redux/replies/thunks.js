@@ -1,24 +1,24 @@
 import axios from 'axios';
 
 import {
-  createReply,
+  addReply,
   editReply,
   setAllReplies,
   setReply,
-  deleteReply,
+  removeReply,
 } from './actions';
 import { checkError, checkSuccess } from '../statusMessage/utils';
 
-export const newReply = reply => {
+export const createReply = content => {
   return dispatch => {
     return axios
-      .post('/api/reply', reply)
-      .then(res => dispatch(createReply(res.data)))
+      .post('/api/reply', content)
+      .then(res => dispatch(addReply(res.data)))
       .catch(e => checkError(dispatch, e.response.status));
   };
 };
 
-export const editReply = (reply, id) => {
+export const updateReply = (reply, id) => {
   return dispatch => {
     return axios
       .put(`/api/reply/${id}`, reply)
@@ -30,7 +30,7 @@ export const editReply = (reply, id) => {
   };
 };
 
-export const getReply = id => {
+export const fetchReply = id => {
   return dispatch => {
     return axios
       .get(`/api/reply/${id}`)
@@ -39,7 +39,7 @@ export const getReply = id => {
   };
 };
 
-export const getAllReplies = () => {
+export const fetchAllReplies = () => {
   return dispatch => {
     return axios
       .get('/api/reply')

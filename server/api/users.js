@@ -41,6 +41,7 @@ router.put('/:id', (req, res, next) => {
   User.findByPk(req.params.id)
     .then(userOrNull => {
       if (userOrNull) {
+        console.log('userrrrr', userOrNull);
         userOrNull.update(req.body);
         return res.status(202).send(userOrNull);
       }

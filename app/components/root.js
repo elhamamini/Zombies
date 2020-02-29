@@ -13,6 +13,7 @@ import UserProfile from './UserProfile';
 import PostPage from './PostPage';
 import SignUp from './SignUp';
 import MessageConsole from './MessageConsole';
+import EditUser from './EditUser';
 
 import { getUserFromGitHub } from '../redux/users/thunks';
 import { fetchTags } from '../redux/tags/thunks';
@@ -36,6 +37,7 @@ class Root extends Component {
             <Route path="/new" component={NewConversation} />
             <Route path="/postpage" component={PostPage} />
             <Route path="/signup" component={SignUp} exact />
+            <Route path="/edituser" component={EditUser} />
           </Switch>
         </main>
       </Router>
@@ -43,12 +45,9 @@ class Root extends Component {
   }
 }
 
-
-const mapDispatch = dispatch => (
-  { 
-    getUserFromGitHub: () => dispatch(getUserFromGitHub()),
-    fetchTags: () => dispatch(fetchTags())
-  }
-)
+const mapDispatch = dispatch => ({
+  getUserFromGitHub: () => dispatch(getUserFromGitHub()),
+  fetchTags: () => dispatch(fetchTags()),
+});
 
 export default connect(null, mapDispatch)(Root);

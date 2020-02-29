@@ -1,6 +1,8 @@
 const Sequelize = require('sequelize');
 const db = require('../database');
+
 const { STRING, UUID, UUIDV4, INTEGER, ENUM, TEXT } = Sequelize;
+
 const User = db.define('users', {
 
   name: {

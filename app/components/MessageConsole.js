@@ -5,7 +5,6 @@ import { MessageContainer, Message, Close } from './styled/Message';
 
 import statusMessage from '../redux/statusMessage/actions';
 
-
 const MessageConsole = ({ statusMessage, resetStatusMessage }) => {
     const { status, message } = statusMessage
     
@@ -32,9 +31,10 @@ const MessageConsole = ({ statusMessage, resetStatusMessage }) => {
 const mapState = ({ statusMessage }) => ({ statusMessage });
 
 const mapDispatch = dispatch => {
-    return {
-        resetStatusMessage: () => dispatch(statusMessage({ status: null, message: '' }))
-    }
-}
+  return {
+    resetStatusMessage: () =>
+      dispatch(statusMessage({ status: null, message: '' })),
+  };
+};
 
 export default connect(mapState, mapDispatch)(MessageConsole);
