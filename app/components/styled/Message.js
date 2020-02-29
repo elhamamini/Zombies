@@ -12,8 +12,7 @@ export const Message = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    
+    justify-content: flex-start; 
 `
 
 export const Close = styled.div`
@@ -21,4 +20,5 @@ export const Close = styled.div`
     float: right;
     margin: 0.8rem 0.8rem 0 0;
     font-size: 1.2rem;
+    cursor: pointer;
 `
