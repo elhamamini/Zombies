@@ -8,6 +8,7 @@ import * as Card from './Card';
 import * as InputField from '../styled/Input';
 import { Pill } from '../styled/Pill';
 import { extractTokens } from '../../utils';
+import CollapsePanel from './CollapsePanel';
 
 function AllConvos(props) {
   const [page, setPage] = useState(0);
@@ -57,7 +58,7 @@ function AllConvos(props) {
       dispatch(fetchTags());
     }
     if (!selectedTags.length) {
-      dispatch(fetchAllConversations());
+      dispatch(fetchAllConversations(page));
     } else {
       dispatch(filterConversations(selectedTags))
     }
@@ -70,19 +71,6 @@ function AllConvos(props) {
       <Font.Paragraph>
         LearnDot forums are a great way to get help from your peers.
       </Font.Paragraph>
-      <Font.Title>Popular Topics</Font.Title>
-      <Card.CardContainer>
-        {
-            activeTags.map(tag => (
-            <Pill
-                key={tag.id}
-                selected={selectedTags.includes(tag.name)}
-                onClick={() => handleFilter(tag.name)}
-            >
-                {tag.name}
-            </Pill>))
-        }
-      </Card.CardContainer>
       <InputField.SearchInput
         type="text"
         name="search"
@@ -90,6 +78,20 @@ function AllConvos(props) {
         value={searchStr}
         onChange={e => handleChange(e.target.value)}
       />
+      <CollapsePanel title={'Popular Topics'} >
+        <Card.CardContainer>
+          {
+              activeTags.map(tag => (
+              <Pill
+                  key={tag.id}
+                  selected={selectedTags.includes(tag.name)}
+                  onClick={() => handleFilter(tag.name)}
+              >
+                  {tag.name}
+              </Pill>))
+          }
+        </Card.CardContainer>
+      </CollapsePanel>
       <Card.CardContainer>
         {convosList.map(convo => (
           <Card.Card key={convo.id} onClick={() => handleClick(convo.id)}>
