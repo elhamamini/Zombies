@@ -3,7 +3,7 @@ import axios from 'axios';
 import { setAllrepos } from './actions';
 import { checkError } from '../statusMessage/utils';
 
-export const getRepos = () => {
+export const fetchRepos = () => {
   return (dispatch, getState) => {
     return axios
       .post('/api/github/user/repos', {
