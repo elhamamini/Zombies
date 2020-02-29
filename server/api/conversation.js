@@ -1,5 +1,6 @@
 const router = require('express').Router();
-const { Conversation, Reply } = require('../db');
+const Sequelize = require('sequelize');
+const { Conversation, Reply, Tag } = require('../db');
 
 const RESULTS_PER_PAGE = 10;
 
@@ -18,6 +19,31 @@ router.get('/', (req, res, next) => {
       res.status(500).send();
       next(e);
     });
+});
+
+//?tag[]=hoisting&tag[]=reduce
+router.get('/tags', (req, res, next) => {
+  const { tag } = req.query;
+  Conversation.findAll({
+    include: {
+      model: Tag,
+      through: {
+        attributes: []
+      },
+      where: {
+        name: {
+          [Sequelize.Op.in]: tag 
+        }
+      }
+    }
+  })
+  .then(results => {
+    res.status(200).send(results);
+  })
+  .catch(e => {
+    res.status(500).send();
+    next(e);
+  });
 });
 
 //return all conversations with answer

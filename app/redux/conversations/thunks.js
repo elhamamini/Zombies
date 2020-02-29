@@ -69,11 +69,13 @@ export const fetchAllConversations = (page = 0) => {
 };
 
 //sets the conversations list to a filtered subset
-export const filterConversations = tag => {
+export const filterConversations = tags => {
+  let tagStr = '';
+  tags.forEach(tag => (tagStr += `tag[]=${tag}&`));
   return dispatch => {
     return axios
-      .get(`/api/tag/${tag}`)
-      .then(res => dispatch(setAllConversations(res.data.conversations)))
+      .get(`/api/conversation/tags?${tagStr}`)
+      .then(res => dispatch(setAllConversations(res.data)))
       .catch(e => checkError(dispatch, e.response.status));
   };
 };
