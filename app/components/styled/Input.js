@@ -15,6 +15,21 @@ export const Input = styled.input`
   }
 `;
 
+export const SearchInput = styled.input`
+  display: block;
+  width: 95%;
+  border: 2px solid lightgray;
+  border-radius: 32px;
+  font-size: 1.25rem;
+  padding: 0.5rem;
+  margin: 2rem 1rem 2rem 1rem;
+  text-align: center;
+  &:focus {
+      border: 2px solid #007bff;
+      outline: none;
+  }
+`;
+
 export const InputFeedback = styled.div`
   display: block;
   width: 95%;
