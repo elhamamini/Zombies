@@ -1,6 +1,14 @@
 import styled from 'styled-components';
 
 //Will likely change
+export const Hero = styled.h1`
+  display: block;
+  margin: 1rem;
+  font-size: 3rem;
+  font-weight: 600;
+  letter-spacing: -1px;
+`;
+
 export const Header = styled.h3`
   display: block;
   margin: 1rem;
@@ -23,12 +31,12 @@ export const Label = styled.h6`
 `;
 
 export const Paragraph = styled.p`
-  margin: 1rem;
+  margin: 0.5rem 1rem;
   font-size: 1rem;
 `;
 
 export const Anchor = styled.a`
-  margin: 1rem;
+  margin: 0.5rem;
   font-size: 1rem;
   color: #007bff;
 `;
