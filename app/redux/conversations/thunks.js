@@ -26,7 +26,10 @@ export const createConversation = content => {
     return dispatch => {
         return axios
             .post(`/api/conversation`, content )
-            .then(res => dispatch(setCurrentConversation(res.data)))
+            .then(res => {
+                console.log(res)
+                dispatch(setCurrentConversation(res.data))
+            })
             .catch(e => checkError(dispatch, e.response.status));
     };
 };
@@ -73,13 +76,11 @@ export const fetchAllConversations = (page=0) => {
 };
 
 //sets the conversations list to a filtered subset
-export const filterConversations = (tags) => {
-    let tagStr = '';
-    tags.forEach(tag => tagStr += `tag[]=${tag}&`);
+export const filterConversations = (tag) => {
     return dispatch => {
         return axios
-            .get(`/api/conversation/tags?${tagStr}`)
-            .then(res => dispatch(setAllConversations(res.data)))
+            .get(`/api/tag/${tag}`)
+            .then(res => dispatch(setAllConversations(res.data.conversations)))
             .catch(e => checkError(dispatch, e.response.status));
     }
 }

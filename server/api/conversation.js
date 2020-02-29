@@ -88,6 +88,7 @@ router.get('/:id', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
   const { userId, title } = req.body
+  console.log(req.body)
   if (!userId || !title ) {
     return res
       .status(400)
@@ -98,7 +99,7 @@ router.post('/', (req, res, next) => {
     title
   })
     .then(created => {
-      created.addTags(req.body.tags)
+        created.addTags(req.body.tags)
     })
     .then(modified => {
       res.status(200).send(modified);
