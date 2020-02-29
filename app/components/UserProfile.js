@@ -12,14 +12,16 @@ class UserProfile extends Component {
     return (
       <MainContainer>
         <Form>
-          {
-            user.image
-            ? <Image src={user.image} />
-            : <Image src="https://cdn3.iconfinder.com/data/icons/iconset-1-1/24/icon_set_outlinder-05-512.png" />
-          }
+          {user.image ? (
+            <Image src={user.image} />
+          ) : (
+            <Image src="https://cdn3.iconfinder.com/data/icons/iconset-1-1/24/icon_set_outlinder-05-512.png" />
+          )}
           <Header>{user.name}</Header>
           <Title>{user.email}</Title>
-          <SmallButton>Edit Profile</SmallButton>
+          <SmallButton onClick={() => this.props.history.push('/edituser')}>
+            Edit Profile
+          </SmallButton>
           {user.bio ? <Paragraph>{user.bio}</Paragraph> : null}
         </Form>
       </MainContainer>
