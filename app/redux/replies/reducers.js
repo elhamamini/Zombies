@@ -1,28 +1,14 @@
 import {
-  CREATE_REPLY,
-  SET_REPLY,
   SET_ALL_REPLIES,
-  EDIT_REPLY,
-  REMOVE_REPLY,
+  SET_REPLY
 } from './constants';
 
 export const replies = (state = [], action) => {
   switch (action.type) {
     case SET_ALL_REPLIES:
       return action.replies;
-
-    case ADD_REPLY:
-      return [...state, action.reply];
-
-    case EDIT_REPLY:
-      return state.map(reply => {
-        if (reply.id === action.reply.id) return action.reply;
-        return reply;
-      });
-
-    case REMOVE_REPLY:
-      return state.filter(reply => reply.id !== action.id);
-      
+    case SET_REPLY:
+      return action.reply;
     default:
       return state;
   }

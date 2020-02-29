@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-<<<<<<< HEAD
 import { fetchAllConversations, filterConversations } from '../../redux/conversations/thunks';
 import { fetchTags } from '../../redux/tags/thunks';
-=======
-import {
-  fetchAllConversations,
-  filterConversations,
-} from '../../redux/conversations/thunks';
->>>>>>> dev
 import * as Container from '../styled/Div';
 import * as Font from '../styled/Font';
 import * as Card from './Card';
@@ -16,7 +9,6 @@ import * as InputField from '../styled/Input';
 import { Pill } from '../styled/Pill';
 import { extractTokens } from '../../utils';
 
-<<<<<<< HEAD
 function AllConvos(props) {
   const [page, setPage] = useState(0);
   const [selectedTags, setTags] = useState([]);
@@ -27,20 +19,12 @@ function AllConvos(props) {
     accum[curr.name] = curr.id;
     return accum;
   }, {});
-=======
-const AllConvos = props => {
-  const [page, setPage] = useState(0);
-  const [selectedTag, setSelected] = useState('');
-  const convosList = useSelector(state => state.allConversations);
-  const activeTags = useSelector(state => state.tags);
->>>>>>> dev
   const dispatch = useDispatch();
 
   const handleClick = id => {
     props.history.push(`/discussion/${id}`);
   };
 
-<<<<<<< HEAD
   const handleChange = (body) => {
     //if search is clear, clear all the tags
     if (!body.length) {
@@ -79,21 +63,6 @@ const AllConvos = props => {
     }
   }, [selectedTags]);
 
-=======
-  const handleFilter = tag => {
-    if (selectedTag == tag) {
-      setSelected('');
-      dispatch(fetchAllConversations(0));
-    } else {
-      setSelected(tag);
-      dispatch(filterConversations([tag]));
-    }
-  };
-
-  useEffect(() => {
-    dispatch(fetchAllConversations(0));
-  }, []);
->>>>>>> dev
 
   return (
     <Container.Paper id="conversations-index">
@@ -103,7 +72,6 @@ const AllConvos = props => {
       </Font.Paragraph>
       <Font.Title>Popular Topics</Font.Title>
       <Card.CardContainer>
-<<<<<<< HEAD
         {
             activeTags.map(tag => (
             <Pill
@@ -114,17 +82,6 @@ const AllConvos = props => {
                 {tag.name}
             </Pill>))
         }
-=======
-        {activeTags.map(tag => (
-          <Pill
-            key={tag.id}
-            selected={tag.name === selectedTag}
-            onClick={() => handleFilter(tag.name)}
-          >
-            {tag.name}
-          </Pill>
-        ))}
->>>>>>> dev
       </Card.CardContainer>
       <InputField.SearchInput
         type="text"
