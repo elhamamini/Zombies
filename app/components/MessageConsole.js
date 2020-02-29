@@ -5,34 +5,34 @@ import { MessageContainer, Message, Close } from './styled/Message';
 
 import statusMessage from '../redux/statusMessage/actions';
 
-
 const MessageConsole = ({ statusMessage, resetStatusMessage }) => {
-    const { status, message } = statusMessage
-    
-    const handleOnClick = () => {
-        resetStatusMessage();
-    }
+  const { status, message } = statusMessage;
 
-    useEffect(() => {
-        setTimeout(() => {
-            resetStatusMessage();
-        }, 10000)
-    })
+  const handleOnClick = () => {
+    resetStatusMessage();
+  };
 
-    return (
-        <MessageContainer status={status} onClick={handleOnClick}>
-            <Close onClick={handleOnClick}>X</Close>
-            <Message>{ message }</Message>
-        </MessageContainer>
-    )
-}
+  useEffect(() => {
+    setTimeout(() => {
+      resetStatusMessage();
+    }, 10000);
+  });
+
+  return (
+    <MessageContainer status={status} onClick={handleOnClick}>
+      <Close onClick={handleOnClick}>X</Close>
+      <Message>{message}</Message>
+    </MessageContainer>
+  );
+};
 
 const mapState = ({ statusMessage }) => ({ statusMessage });
 
 const mapDispatch = dispatch => {
-    return {
-        resetStatusMessage: () => dispatch(statusMessage({ status: null, message: '' }))
-    }
-}
+  return {
+    resetStatusMessage: () =>
+      dispatch(statusMessage({ status: null, message: '' })),
+  };
+};
 
 export default connect(mapState, mapDispatch)(MessageConsole);

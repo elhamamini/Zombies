@@ -1,4 +1,5 @@
-import { SET_ALL_USERS, SET_USER, ADD_USER } from './constants';
+import { SET_ALL_USERS, SET_USER, ADD_USER, EDIT_USER } from './constants';
+import { LOGOUT } from '../authentication/constants';
 
 export const users = (state = [], action) => {
   switch (action.type) {
@@ -19,6 +20,10 @@ export const user = (state = {}, action) => {
       return action.user;
     case ADD_USER:
       return action.user;
+    case EDIT_USER:
+      return action.user;
+    case LOGOUT:
+      return {};
 
     default:
       return state;
