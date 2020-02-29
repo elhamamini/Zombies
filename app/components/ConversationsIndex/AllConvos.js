@@ -49,7 +49,13 @@ function AllConvos(props) {
   const handleChange = (body) => {
     setSearch(body);
     const searchTags = extractTokens(body, whiteList);
-    //todo: update these in teh list of tags and filter
+    //if we pulled at least one tag out of the current input string
+    if (searchTags.length) {
+      //create a set of the selectedTags and the searchTag
+      const combinedTags = new Set([...searchTags, ...selectedTags]);
+
+    }
+
     console.log(searchTags);
   }
 
