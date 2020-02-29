@@ -73,9 +73,14 @@ router.get('/:id', (req, res, next) => {
     where: {
       id: req.params.id,
     },
-    include: {
-      model: Reply,
-    },
+    include: [
+      { model: Reply },
+      { model: Tag,
+        through: {
+          attributes: []
+        }
+      }
+    ],
   })
     .then(result => {
       result ? res.status(200).send(result) : res.status(404).send(null);
@@ -88,7 +93,6 @@ router.get('/:id', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
   const { userId, title } = req.body
-  console.log(req.body)
   if (!userId || !title ) {
     return res
       .status(400)
@@ -99,10 +103,11 @@ router.post('/', (req, res, next) => {
     title
   })
     .then(created => {
+      if(req.body.tags.length) {
         created.addTags(req.body.tags)
-    })
-    .then(modified => {
-      res.status(200).send(modified);
+        .then(() => res.status(200).send(created))
+      }
+      res.status(200).send(created);
     })
     .catch(e => {
       res.status(500).send();

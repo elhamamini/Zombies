@@ -27,7 +27,6 @@ export const createConversation = content => {
         return axios
             .post(`/api/conversation`, content )
             .then(res => {
-                console.log(res)
                 dispatch(setCurrentConversation(res.data))
             })
             .catch(e => checkError(dispatch, e.response.status));
