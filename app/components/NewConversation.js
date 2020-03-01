@@ -21,7 +21,7 @@ import { extractTokens, pruneHTML } from '../utils';
 import nlp from 'compromise';
 import CustomQuill from './Quill';
 
-let whitelist = {};
+let whiteList = {};
 
 //TODO: Handle Successful Post by Redirecting to the Post
 class NewConversation extends Component {
@@ -60,7 +60,7 @@ class NewConversation extends Component {
     e.preventDefault();
     const cleanText = pruneHTML(this.state.body);
     let results = extractTokens(cleanText, whiteList);
-    const searchTags = this.props.tags.reduce(t => results[t.name]);
+    const searchTags = this.props.tags.filter(t => results[t.name]);
 
     this.props
       .createConversation({
@@ -68,15 +68,15 @@ class NewConversation extends Component {
         title: this.state.topic,
         tags: searchTags,
       })
-      .then(() =>
+      .then(() => {
         this.props.createReply({
           conversationId: this.props.conversation.id,
           userId: this.props.user.id,
           body: this.state.body,
           repo: this.state.repo,
           tags: this.state.tags,
-        })
-      )
+        });
+      })
       .then(() =>
         this.props.fetchCurrentConversation(this.props.conversation.id)
       );
@@ -107,7 +107,7 @@ class NewConversation extends Component {
     //loop through returned terms
     postTopics.out('freq').forEach(term => {
       //if term is NOT already in the tags list and IS in the whitelist, add it
-      if (!newTags.includes(term.reduced) && whitelist[term.reduced]) {
+      if (!newTags.includes(term.reduced) && whiteList[term.reduced]) {
         newTags.push(term.reduced);
       }
     });
