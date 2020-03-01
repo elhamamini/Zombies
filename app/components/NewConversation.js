@@ -230,12 +230,8 @@ const mapState = ({
   user,
   repositories,
   conversation,
-<<<<<<< HEAD
-  tags,
-=======
   tags: tags.all,
   whitelist: tags.whitelist,
->>>>>>> dev
 });
 
 const mapDispatch = dispatch => ({
