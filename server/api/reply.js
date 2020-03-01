@@ -1,14 +1,29 @@
 const router = require('express').Router();
+const Sequelize = require('sequelize');
 const { Conversation, Reply, Activity } = require('../db');
 
 const RESULTS_PER_PAGE = 25;
 
-//return a single reply
+//return all replies
 router.get('/', (req, res, next) => {
   Reply.findAll()
     .then(replies => res.send(replies))
     .catch(e => console.error(e));
 });
+
+router.get('/search', (req, res, next) => {
+  const { term } = req.query;
+  Reply.findAll({
+    where: {
+      body: { [Sequelize.Op.iLike]: `%${term}%` }
+    },
+    include: { model: Conversation }
+  })
+  .then(replies => res.send(replies))
+  .catch(e => console.error(e));
+});
+
+//return a single reply
 router.get('/:id', (req, res, next) => {
   Reply.findOne({
     where: {

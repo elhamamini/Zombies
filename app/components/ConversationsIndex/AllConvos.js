@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchAllConversations, filterConversations } from '../../redux/conversations/thunks';
+import { fetchAllConversations, filterConversations, searchReplies } from '../../redux/conversations/thunks';
 import { fetchTags } from '../../redux/tags/thunks';
 import * as Container from '../styled/Div';
 import * as Font from '../styled/Font';
 import * as Card from './Card';
+import * as Button from '../styled/Button';
 import * as InputField from '../styled/Input';
+import SearchCollapse from '../styled/SearchCollapse';
 import { Pill } from '../styled/Pill';
 import { extractTokens } from '../../utils';
 
@@ -23,18 +25,12 @@ function AllConvos(props) {
   };
 
   const handleChange = (body) => {
-    //if search is clear, clear all the tags
-    if (!body.length) {
-      setTags([]);
+    if (body) {
+      dispatch(searchReplies(body));
     } else {
-      const searchTags = extractTokens(body, whitelist);
-      //if we pulled at least one tag out of the current input string
-      if (searchTags.length) {
-        //create a set of the selectedTags and the searchTag
-        const uniqueTags = new Set([...searchTags, ...selectedTags]);
-        const combinedTags = [...uniqueTags];
-        setTags(combinedTags);
-      }
+      selectedTags.length ? 
+      dispatch(filterConversations(selectedTags))
+      : dispatch(fetchAllConversations())
     }
     setSearch(body);
   };
@@ -67,7 +63,6 @@ function AllConvos(props) {
       <Font.Paragraph>
         LearnDot forums are a great way to get help from your peers.
       </Font.Paragraph>
-      <Font.Title>Popular Topics</Font.Title>
       <Card.CardContainer>
         {
             activeTags.map(tag => (
@@ -80,10 +75,10 @@ function AllConvos(props) {
             </Pill>))
         }
       </Card.CardContainer>
-      <InputField.SearchInput
+      <SearchCollapse
         type="text"
         name="search"
-        placeholder="Search for your question"
+        placeholder="Search All"
         value={searchStr}
         onChange={e => handleChange(e.target.value)}
       />
