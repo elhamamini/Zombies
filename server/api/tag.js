@@ -3,7 +3,14 @@ const { Tag, Conversation } = require('../db');
 
 //return all tags
 router.get('/', (req, res, next) => {
-    Tag.findAll()
+    Tag.findAll({
+        include: {
+            model: Conversation,
+            through: {
+                attributes: []
+            }
+        }
+    })
         .then(results => {
             res.status(200).send(results);
         })
