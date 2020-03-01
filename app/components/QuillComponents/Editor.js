@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-import { FormColumn } from './styled/Form';
-import { FormattableTextArea } from './styled/Input';
+import { FormColumn } from '../styled/Form';
+import { TextEditor } from '../styled/Input';
 
-import FormatToolbar from './FormatToolbar';
+import Toolbar from './Toolbar';
 
 const Font = Quill.import('formats/font')
 Font.whitelist = [
@@ -168,17 +168,12 @@ const formats = [
   'js'
 ];
 
-class CustomQuill extends Component {
+class Editor extends Component {
   constructor({ getBodyText }) {
     super({ getBodyText });
     this.state = {
       editor: '',
-      language: null,
     }
-  }
-
-  getLanguage = language => {
-    this.setState({ language })
   }
 
   handleOnChange = (value) => {
@@ -186,14 +181,11 @@ class CustomQuill extends Component {
     this.props.getBodyText(this.state.editor)
   }
 
-  componentDidUpdate() {
-  }
-
   render() {
     return (
         <FormColumn>
-          <FormatToolbar language={this.state.language} sendLanguage={this.getLanguage}/>
-            <FormattableTextArea
+          <Toolbar/>
+            <TextEditor
               modules={modules}
               formats={formats}
               onChange={this.handleOnChange}
@@ -204,4 +196,4 @@ class CustomQuill extends Component {
   }
 }
 
-export default CustomQuill
+export default Editor

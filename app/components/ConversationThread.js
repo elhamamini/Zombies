@@ -1,14 +1,22 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
-class ConversationThread extends Component {
-    render() {
-        const { conversation } = this.props;
+import { Paper } from './styled/Div';
+import QuillReadOnly from './QuillComponents/EditorReadOnly';
+
+import { fetchCurrentConversation } from '../redux/conversations/thunks';
+
+const ConversationThread = ({ match, conversation, fetchCurrentConversation }) => {
+
+    useEffect(() => {
+        fetchCurrentConversation(match.params.id);
+    }, [])
+
         return ( 
-            <div>
+            <Paper>
                 {
                     conversation.title
-                    ? <h1>{conversation.title}</h1>
+                    ? <h2>{conversation.title}</h2>
                     : null
                 }
                 {
@@ -16,19 +24,18 @@ class ConversationThread extends Component {
                     ? conversation.replies.length
                     ? conversation.replies.map(reply => {
                         return (
-                            <p key={reply.id}>
-                                {reply.body}
-                            </p>
+                            <QuillReadOnly key={reply.id} reply={reply.body}/>
                         )
                     })
                     : null
                     : null
                 }
-            </div>
+            </Paper>
         )
-    }
 }
 
 const mapState = ({ conversation }) => ({ conversation });
 
-export default connect(mapState)(ConversationThread);
+const mapDispatch = dispatch => ({ fetchCurrentConversation: conversationId => dispatch(fetchCurrentConversation(conversationId)) })
+
+export default connect(mapState, mapDispatch)(ConversationThread);

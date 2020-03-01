@@ -14,6 +14,7 @@ import PostPage from './PostPage';
 import SignUp from './SignUp';
 import MessageConsole from './MessageConsole';
 import EditUser from './EditUser';
+import ConversationThread from './ConversationThread';
 
 import { getUserFromGitHub } from '../redux/users/thunks';
 import { fetchTags } from '../redux/tags/thunks';
@@ -38,6 +39,8 @@ class Root extends Component {
             <Route path="/postpage" component={PostPage} />
             <Route path="/signup" component={SignUp} exact />
             <Route path="/edituser" component={EditUser} />
+            {/* <Route path='/conversations' /> */}
+            <Route path="/conversations/:id" component={ConversationThread} />
           </Switch>
         </main>
       </Router>

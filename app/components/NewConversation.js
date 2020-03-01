@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import nlp from 'compromise';
 
 import { MainContainer } from './styled/Div';
 import { Header } from './styled/Font';
@@ -14,9 +14,9 @@ import { fetchRepos } from '../redux/repository/thunks';
 import { createConversation, fetchCurrentConversation } from '../redux/conversations/thunks';
 import { createReply } from '../redux/replies/thunks';
 
+import Editor from './QuillComponents/Editor';
+
 import { extractTokens, pruneHTML } from '../utils';
-import nlp from 'compromise';
-import CustomQuill from './Quill';
 
 let whiteList = {};
 
@@ -38,7 +38,7 @@ class NewConversation extends Component {
 
   componentDidMount() {
     //We should probably set these repos when we get the user as well
-    this.props.user.githubUsername && this.props.getRepos();
+    this.props.user.githubUsername && this.props.fetchRepos();
     whiteList = this.props.tags.reduce((accum, curr) => {
       accum[curr.name] = curr.id;
       return accum;
@@ -73,7 +73,7 @@ class NewConversation extends Component {
       tags: this.state.tags
     })
   })
-    .then(() => this.props.fetchCurrentConversation(this.props.conversation.id))
+    .then(() => this.props.history.push(`/conversations/${this.props.conversation.id}`))
   };
 
   handleCodeType = (e, codeType) => {
@@ -197,7 +197,7 @@ class NewConversation extends Component {
             </div>
           ) : null}
           <Label>Body</Label>
-          <CustomQuill getBodyText={this.getBodyText} />
+          <Editor getBodyText={this.getBodyText} />
           <InputFeedback>{bodyError}</InputFeedback>
           <PillContainer>
             {tags.length ? tags.map(tag => <Pill key={tag}>{tag}</Pill>) : ''}

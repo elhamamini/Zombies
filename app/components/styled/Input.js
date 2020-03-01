@@ -87,7 +87,7 @@ export const Option = styled.option`
 }
 `
 
-export const FormattableTextArea = styled(ReactQuill)`
+export const TextEditor = styled(ReactQuill)`
   min-height: 300px;
   display: block;
   width: 95%;
