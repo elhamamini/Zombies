@@ -9,8 +9,8 @@ import {
 } from './actions';
 import { checkError, checkSuccess } from '../statusMessage/utils';
 
-export const createReply = (content) => {
-  console.log(content)
+export const createReply = content => {
+  console.log(content);
   return dispatch => {
     return axios
       .post('/api/reply', content)
@@ -24,8 +24,8 @@ export const updateReply = (reply, id) => {
     return axios
       .put(`/api/reply/${id}`, reply)
       .then(res => {
-        dispatch(setReply(res.data))
-        checkSuccess(dispatch, res.status)
+        dispatch(setReply(res.data));
+        checkSuccess(dispatch, res.status);
       })
       .catch(e => checkError(dispatch, e.response.status));
   };
@@ -45,8 +45,8 @@ export const deleteReply = id => {
     return axios
       .delete(`/api/reply/${id}`)
       .then(res => {
-        dispatch(setReply(id))
-        checkSuccess(dispatch, res.status)
+        dispatch(setReply(id));
+        checkSuccess(dispatch, res.status);
       })
       .catch(e => checkError(dispatch, e.response.status));
   };

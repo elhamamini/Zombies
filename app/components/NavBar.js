@@ -19,7 +19,7 @@ const NavBar = props => {
           {props.user.name ? (
             <NavLink to="/userprofile"> Your Profile</NavLink>
           ) : null}
-          <NavLink to='/new'>New Conversation</NavLink>
+          <NavLink to="/new">New Conversation</NavLink>
         </Row>
       </Row>
 

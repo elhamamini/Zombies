@@ -11,7 +11,10 @@ import { Select, Option } from './styled/Select';
 import { Pill, PillContainer } from './styled/Pill';
 
 import { fetchRepos } from '../redux/repository/thunks';
-import { createConversation, fetchCurrentConversation } from '../redux/conversations/thunks';
+import {
+  createConversation,
+  fetchCurrentConversation,
+} from '../redux/conversations/thunks';
 import { createReply } from '../redux/replies/thunks';
 
 import { extractTokens, pruneHTML } from '../utils';
@@ -55,21 +58,24 @@ class NewConversation extends Component {
     let results = extractTokens(cleanText, this.props.whitelist);
     const searchTags = this.props.tags.filter(t => results[t.name]);
 
-    this.props.createConversation({
-      userId: this.props.user.id,
-      title: this.state.topic,
-      tags: searchTags,
-    })
-    .then(() => {
-      this.props.createReply({
-      conversationId: this.props.conversation.id,
-      userId: this.props.user.id,
-      body: this.state.body,
-      repo: this.state.repo,
-      tags: this.state.tags
-    })
-  })
-    .then(() => this.props.fetchCurrentConversation(this.props.conversation.id))
+    this.props
+      .createConversation({
+        userId: this.props.user.id,
+        title: this.state.topic,
+        tags: searchTags,
+      })
+      .then(() => {
+        this.props.createReply({
+          conversationId: this.props.conversation.id,
+          userId: this.props.user.id,
+          body: this.state.body,
+          repo: this.state.repo,
+          tags: this.state.tags,
+        });
+      })
+      .then(() =>
+        this.props.fetchCurrentConversation(this.props.conversation.id)
+      );
   };
 
   handleCodeType = (e, codeType) => {
@@ -152,7 +158,6 @@ class NewConversation extends Component {
   };
 
   render() {
-
     const {
       topic,
       body,
@@ -214,19 +219,30 @@ class NewConversation extends Component {
   }
 }
 
-const mapState = ({ authentication, user, repositories, conversation, tags }) => ({
+const mapState = ({
   authentication,
   user,
   repositories,
   conversation,
+  tags,
+}) => ({
+  authentication,
+  user,
+  repositories,
+  conversation,
+<<<<<<< HEAD
+  tags,
+=======
   tags: tags.all,
   whitelist: tags.whitelist,
+>>>>>>> dev
 });
 
 const mapDispatch = dispatch => ({
   createConversation: content => dispatch(createConversation(content)),
   createReply: content => dispatch(createReply(content)),
-  fetchCurrentConversation: conversationId => dispatch(fetchCurrentConversation(conversationId)),
+  fetchCurrentConversation: conversationId =>
+    dispatch(fetchCurrentConversation(conversationId)),
   fetchRepos: () => dispatch(fetchRepos()),
 });
 

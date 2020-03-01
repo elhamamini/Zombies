@@ -1,7 +1,7 @@
 const chalk = require('chalk');
 const { db } = require('./server/db/index');
 const seed = require('./seed');
-db.sync()
+db.sync({ force: true })
   .then(seed)
   .then(() => {
     console.log(chalk.green('Seed script ran successfully.'));

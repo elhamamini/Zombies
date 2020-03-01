@@ -3,7 +3,6 @@ const db = require('../database');
 const moment = require('moment');
 
 const Reply = db.define('reply', {
-  
   body: {
     type: Sequelize.TEXT,
     allowNull: false,
