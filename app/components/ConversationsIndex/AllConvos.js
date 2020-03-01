@@ -14,11 +14,8 @@ function AllConvos(props) {
   const [selectedTags, setTags] = useState([]);
   const [searchStr, setSearch] = useState('');
   const convosList = useSelector(state => state.allConversations);
-  const activeTags = useSelector(state => state.tags);
-  const whiteList = activeTags.reduce((accum, curr) => {
-    accum[curr.name] = curr.id;
-    return accum;
-  }, {});
+  const activeTags = useSelector(state => state.tags.active);
+  const whitelist = useSelector(state => state.tags.whitelist);
   const dispatch = useDispatch();
 
   const handleClick = id => {
@@ -30,7 +27,7 @@ function AllConvos(props) {
     if (!body.length) {
       setTags([]);
     } else {
-      const searchTags = extractTokens(body, whiteList);
+      const searchTags = extractTokens(body, whitelist);
       //if we pulled at least one tag out of the current input string
       if (searchTags.length) {
         //create a set of the selectedTags and the searchTag
@@ -53,7 +50,7 @@ function AllConvos(props) {
   };
 
   useEffect(() => {
-    if (!activeTags.length) {
+    if (!Object.keys(whitelist).length) {
       dispatch(fetchTags());
     }
     if (!selectedTags.length) {

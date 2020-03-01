@@ -11,7 +11,10 @@ import { Select, Option } from './styled/Select';
 import { Pill, PillContainer } from './styled/Pill';
 
 import { fetchRepos } from '../redux/repository/thunks';
-import { createConversation, fetchCurrentConversation } from '../redux/conversations/thunks';
+import {
+  createConversation,
+  fetchCurrentConversation,
+} from '../redux/conversations/thunks';
 import { createReply } from '../redux/replies/thunks';
 
 import Editor from './QuillComponents/Editor';
@@ -38,11 +41,7 @@ class NewConversation extends Component {
 
   componentDidMount() {
     //We should probably set these repos when we get the user as well
-    this.props.user.githubUsername && this.props.fetchRepos();
-    whiteList = this.props.tags.reduce((accum, curr) => {
-      accum[curr.name] = curr.id;
-      return accum;
-    }, {});
+    this.props.user.githubUsername && this.props.getRepos();
   }
 
   handleOnChange = ({ target: { name, value } }) => {
@@ -56,7 +55,7 @@ class NewConversation extends Component {
   handleOnClick = e => {
     e.preventDefault();
     const cleanText = pruneHTML(this.state.body);
-    let results = extractTokens(cleanText, whiteList);
+    let results = extractTokens(cleanText, this.props.whitelist);
     const searchTags = this.props.tags.filter(t => results[t.name]);
 
     this.props.createConversation({
@@ -66,11 +65,11 @@ class NewConversation extends Component {
     })
     .then(() => {
       this.props.createReply({
-      conversationId: this.props.conversation.id,
-      userId: this.props.user.id,
-      body: this.state.body,
-      repo: this.state.repo,
-      tags: this.state.tags
+        conversationId: this.props.conversation.id,
+        userId: this.props.user.id,
+        body: this.state.body,
+        repo: this.state.repo,
+        tags: this.state.tags
     })
   })
     .then(() => this.props.history.push(`/conversations/${this.props.conversation.id}`))
@@ -156,7 +155,6 @@ class NewConversation extends Component {
   };
 
   render() {
-
     const {
       topic,
       body,
@@ -176,7 +174,7 @@ class NewConversation extends Component {
             name="topic"
             placeholder="Help running NPM Testem"
             value={topic}
-            onChange={this.handleOnChange}
+            onChange={ev => this.setState({ topic: ev.target.value })}
           />
           <InputFeedback>{topicError}</InputFeedback>
           {this.props.repositories.length && this.props.user.githubUsername ? (
@@ -218,18 +216,26 @@ class NewConversation extends Component {
   }
 }
 
-const mapState = ({ authentication, user, repositories, conversation, tags }) => ({
+const mapState = ({
   authentication,
   user,
   repositories,
   conversation,
-  tags
+  tags,
+}) => ({
+  authentication,
+  user,
+  repositories,
+  conversation,
+  tags: tags.all,
+  whitelist: tags.whitelist,
 });
 
 const mapDispatch = dispatch => ({
   createConversation: content => dispatch(createConversation(content)),
   createReply: content => dispatch(createReply(content)),
-  fetchCurrentConversation: conversationId => dispatch(fetchCurrentConversation(conversationId)),
+  fetchCurrentConversation: conversationId =>
+    dispatch(fetchCurrentConversation(conversationId)),
   fetchRepos: () => dispatch(fetchRepos()),
 });
 

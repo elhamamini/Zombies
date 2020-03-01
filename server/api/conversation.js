@@ -10,9 +10,7 @@ router.get('/', (req, res, next) => {
   Conversation.findAll({
     limit: RESULTS_PER_PAGE,
     offset: (req.query.page || 0) * RESULTS_PER_PAGE,
-    order: [
-        ['createdAt', 'DESC']
-    ],
+    order: [['createdAt', 'DESC']],
   })
     .then(results => {
       res.status(200).send(results);
@@ -30,34 +28,15 @@ router.get('/tags', (req, res, next) => {
     include: {
       model: Tag,
       through: {
-        attributes: []
+        attributes: [],
       },
       where: {
         name: {
-          [Sequelize.Op.in]: tag 
-        }
-      }
-    }
-  })
-  .then(results => {
-    res.status(200).send(results);
-  })
-  .catch(e => {
-    res.status(500).send();
-    next(e);
-  });
-});
-
-//return all conversations with answer
-router.get('/answered', (req, res, next) => {
-    Conversation.findAll({
-        where: {
-          hasAnswer: true,
+          [Sequelize.Op.in]: tag,
         },
-        order: [
-          ['createdAt', 'DESC']
-        ],
-    })
+      },
+    },
+  })
     .then(results => {
       res.status(200).send(results);
     })
@@ -65,7 +44,24 @@ router.get('/answered', (req, res, next) => {
       res.status(500).send();
       next(e);
     });
-})
+});
+
+//return all conversations with answer
+router.get('/answered', (req, res, next) => {
+  Conversation.findAll({
+    where: {
+      hasAnswer: true,
+    },
+    order: [['createdAt', 'DESC']],
+  })
+    .then(results => {
+      res.status(200).send(results);
+    })
+    .catch(e => {
+      res.status(500).send();
+      next(e);
+    });
+});
 
 //return conversation by Id, includes replies
 router.get('/:id', (req, res, next) => {
@@ -75,11 +71,12 @@ router.get('/:id', (req, res, next) => {
     },
     include: [
       { model: Reply },
-      { model: Tag,
+      {
+        model: Tag,
         through: {
-          attributes: []
-        }
-      }
+          attributes: [],
+        },
+      },
     ],
   })
     .then(result => {
@@ -92,20 +89,19 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-  const { userId, title } = req.body
-  if (!userId || !title ) {
-    return res
-      .status(400)
-      .send('Missing information');
+  const { userId, title } = req.body;
+  if (!userId || !title) {
+    return res.status(400).send('Missing information');
   }
   Conversation.create({
     userId,
-    title
+    title,
   })
     .then(created => {
-      if(req.body.tags.length) {
-        created.addTags(req.body.tags)
-        .then(() => res.status(200).send(created))
+      if (req.body.tags.length) {
+        created
+          .addTags(req.body.tags)
+          .then(() => res.status(200).send(created));
       }
       res.status(200).send(created);
     })

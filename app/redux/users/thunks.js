@@ -43,7 +43,6 @@ export const removeUser = id => {
 };
 
 export const updateUser = (userId, user) => {
-  console.log('thunk user ', user);
   return dispatch => {
     return axios
       .put(`/api/users/${userId}`, user)
