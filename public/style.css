@@ -55,11 +55,15 @@ main {
   content: 'html'
 }
 
-.ql-html,
+/* .ql-html,
 .ql-css,
 .ql-js {
   background-color: rgb(236, 236, 236);
   color: #f43b43;
   font-family: 'Courier New';
   padding: 0.2rem;
+} */
+
+.ql-editor {
+  white-space: normal!important;
 }

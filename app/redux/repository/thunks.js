@@ -1,15 +1,14 @@
 import axios from 'axios';
 
-import { setAllrepos } from './actions';
 import { checkError } from '../statusMessage/utils';
 
-export const fetchRepos = () => {
-  return (dispatch, getState) => {
+export const fetchRepos = username => {
+  return dispatch => {
     return axios
-      .post('/api/github/user/repos', {
-        githubUsername: getState().user.githubUsername,
-      })
-      .then(res => dispatch(setAllrepos(res.data)))
-      .catch(e => checkError(dispatch, e.response.status));
+      .post('/api/github/user/repos', { githubUsername: username })
+      .catch(e => { 
+        console.log(e)
+        checkError(dispatch, e.response.status)
+      });
   };
 };

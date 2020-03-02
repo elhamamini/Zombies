@@ -106,11 +106,9 @@ router.post('/user/repos', (req, res, next) => {
       res.send(repos.data);
     })
     .catch(e => {
-      console.log(
-        chalk.red('Error while getting response from github user/repo route.')
-      );
-      //   console.error(e);
-      res.redirect('/error');
+      res.status(500).send()
+      next(e);
     });
 });
+
 module.exports = router;
