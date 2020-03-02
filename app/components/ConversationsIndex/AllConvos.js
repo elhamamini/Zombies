@@ -19,7 +19,7 @@ function AllConvos(props) {
   const dispatch = useDispatch();
 
   const handleClick = id => {
-    props.history.push(`/discussion/${id}`);
+    props.history.push(`/conversations/${id}`);
   };
 
   const handleChange = (body) => {

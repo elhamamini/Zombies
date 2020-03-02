@@ -2,28 +2,28 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import nlp from 'compromise';
 
-import { MainContainer } from './styled/Div';
-import { Header } from './styled/Font';
-import { Form } from './styled/Form';
-import { Input, InputFeedback, Label } from './styled/Input';
-import { Button } from './styled/Button';
-import { Select, Option } from './styled/Select';
-import { Pill, PillContainer } from './styled/Pill';
+import { MainContainer } from '../styled/Div';
+import { Header } from '../styled/Font';
+import { Form } from '../styled/Form';
+import { Input, InputFeedback, Label } from '../styled/Input';
+import { Button } from '../styled/Button';
+import { Select, Option } from '../styled/Select';
+import { Pill, PillContainer } from '../styled/Pill';
+import { NavSpan } from '../styled/Nav';
 
-import { fetchRepos } from '../redux/repository/thunks';
+import { fetchRepos } from '../../redux/repository/thunks';
 import {
   createConversation,
   fetchCurrentConversation,
-} from '../redux/conversations/thunks';
-import { createReply } from '../redux/replies/thunks';
+} from '../../redux/conversations/thunks';
+import { createReply } from '../../redux/replies/thunks';
 
-import Editor from './QuillComponents/Editor';
+import Editor from './Editor';
 
-import { extractTokens, pruneHTML } from '../utils';
+import { extractTokens, pruneHTML } from '../../utils';
 
 let whiteList = {};
 
-//TODO: Handle Successful Post by Redirecting to the Post
 class NewConversation extends Component {
   constructor() {
     super();
@@ -39,15 +39,9 @@ class NewConversation extends Component {
     };
   }
 
-  componentDidMount() {
-    //We should probably set these repos when we get the user as well
-    this.props.user.githubUsername && this.props.getRepos();
-  }
-
   handleOnChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value }, () => {
       this.validate(name, value);
-      //todo: call generateTags from here
       this.generateTags(value);
     });
   };
@@ -200,6 +194,9 @@ class NewConversation extends Component {
           <PillContainer>
             {tags.length ? tags.map(tag => <Pill key={tag}>{tag}</Pill>) : ''}
           </PillContainer>
+          {
+            this.props.user.id
+            ? (
           <Button
             disabled={
               !topic || !body || Object.values(errors).some(val => !!val)
@@ -210,6 +207,13 @@ class NewConversation extends Component {
           >
             Post New Conversation
           </Button>
+            )
+            : (
+            <div>
+              <NavSpan secondary to='/login'>Login</NavSpan> or <NavSpan secondary to='/signup'>Create an account</NavSpan> to join the conversation.
+            </div>
+            )
+          }
         </Form>
       </MainContainer>
     );
