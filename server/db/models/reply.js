@@ -18,6 +18,21 @@ const Reply = db.define('reply', {
     defaultValue: false,
   },
 
+  javascriptCode: {
+    type: Sequelize.TEXT,
+    defaultValue: ''
+  },
+
+  cssCode: {
+    type: Sequelize.TEXT,
+    defaultValue: ''
+  },
+
+  htmlCode: {
+    type: Sequelize.TEXT,
+    defaultValue: ''
+  },
+
   timeSincePosted: {
     type: Sequelize.VIRTUAL,
     get() {
