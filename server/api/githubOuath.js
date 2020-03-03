@@ -21,17 +21,17 @@ router.get('/callback', (req, res) => {
         },
       }
     )
-    .then(async res => {
-      const response = await axios.get('https://api.github.com/user', {
+    .then(async authRes => {
+      const userRes = await axios.get('https://api.github.com/user', {
         headers: {
-          Authorization: `token ${res.data.access_token}`,
+          Authorization: `token ${authRes.data.access_token}`,
         },
       });
-      const userData = response.data;
+      const userData = userRes.data;
       return User.findOrCreate({
-        where: { sessionId: req.session.id },
+        where: { email: userData.email },
         defaults: {
-          github_access_token: res.data.access_token,
+          github_access_token: authRes.data.access_token,
           userType: 'user',
           sessionId: req.session.id,
           githubUsername: userData.login,
@@ -42,12 +42,16 @@ router.get('/callback', (req, res) => {
           bio: userData.bio,
         },
       }).then(([user, created]) => {
-        return [user, created, res];
+        return [user, created, authRes];
       });
     })
-    .then(([user, created, res]) => {
+    .then(([user, created, authRes]) => {
+      console.log('user gh at updated');
       if (!created) {
-        user.update({ github_access_token: res.data.access_token });
+        user.update({
+          github_access_token: authRes.data.access_token,
+          sessionId: req.session.id,
+        });
       }
     })
     .then(() => {

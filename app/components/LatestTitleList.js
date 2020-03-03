@@ -1,19 +1,62 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchAllConversations } from '../redux/conversations/thunks';
+import * as Container from './styled/Div';
+import * as Font from './styled/Font';
+import * as Card from './styled/card';
+import * as Button from './styled/Button';
 class LatestTitleList extends React.Component {
   componentDidMount() {
     this.props.getConversations(0);
   }
-  render() {
-    var day = new Date();
-    // var nextDay = new Date(day);
-    // const today = nextDay.setDate(day.getDate() + 1).toString('dd-mm-yyyy');
-    if (this.props.allConversations.length) {
-      console.log(this.props.allConversations[0]);
-    }
+  checkDate = date => {
+    let count = 0;
+    let datesArr = [];
+    while (count <= 7) {
+      let current_datetime = new Date();
+      let current_nextDatetime = new Date(current_datetime);
+      current_nextDatetime.setDate(current_nextDatetime.getDate() - count);
+      let dd = current_nextDatetime.getDate();
+      let mm = current_nextDatetime.getMonth() + 1;
+      let yy = current_nextDatetime.getFullYear();
+      if (dd < 10) {
+        dd = '0' + dd;
+      }
 
-    return <div>hii</div>;
+      if (mm < 10) {
+        mm = '0' + mm;
+      }
+      let formatted_date = yy + '-' + mm + '-' + dd;
+
+      datesArr.push(formatted_date);
+      count++;
+    }
+    if (datesArr.includes(date)) {
+      console.log(datesArr, 'arrrrr');
+      return true;
+    }
+    return false;
+  };
+  render() {
+    let currentConversationsList = this.props.allConversations.filter(conve => {
+      return this.checkDate(conve.createdAt.split('T')[0]);
+    });
+    // }
+
+    return (
+      <Container.Paper id="conversations-index">
+        <Font.Hero>New Conversations</Font.Hero>
+        <Card.CardContainer>
+          {currentConversationsList.map(convo => (
+            <Card.Card key={convo.id}>
+              <Font.Paragraph>{convo.title}</Font.Paragraph>
+
+              {/* {convo.hasAnswer && <Font.Label>Answered</Font.Label>} */}
+            </Card.Card>
+          ))}
+        </Card.CardContainer>
+      </Container.Paper>
+    );
   }
 }
 const mapStateToProps = ({ allConversations }) => ({ allConversations });
