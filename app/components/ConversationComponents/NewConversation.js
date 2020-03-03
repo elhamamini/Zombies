@@ -17,6 +17,7 @@ import {
   fetchCurrentConversation,
 } from '../../redux/conversations/thunks';
 import { createReply } from '../../redux/replies/thunks';
+import { draftBody } from '../../redux/replies/actions';
 
 import Editor from './Editor';
 
@@ -30,7 +31,6 @@ class NewConversation extends Component {
     this.state = {
       repo: '',
       topic: '',
-      body: '',
       errors: {
         topicError: '',
         bodyError: '',
@@ -48,7 +48,7 @@ class NewConversation extends Component {
 
   handleOnClick = e => {
     e.preventDefault();
-    const cleanText = pruneHTML(this.props.body);
+    const cleanText = pruneHTML(this.props.body.bodyText);
     let results = extractTokens(cleanText, this.props.whitelist);
     const searchTags = this.props.tags.filter(t => results[t.name]);
 
@@ -62,27 +62,16 @@ class NewConversation extends Component {
       this.props.createReply({
         conversationId: this.props.conversation.id,
         userId: this.props.user.id,
-        body: this.props.body,
+        body: this.props.body.bodyText,
+        htmlCode: this.props.body.codeBlocks['.language-html'],
+        cssCode: this.props.body.codeBlocks['.language-css'],
+        javascriptCode: this.props.body.codeBlocks['.language-js'],
         repo: this.state.repo,
         tags: this.state.tags,
     })
   })
+    .then(() => this.props.draftBody())
     .then(() => this.props.history.push(`/conversations/${this.props.conversation.id}`))
-  };
-
-  handleCodeType = (e, codeType) => {
-    e.preventDefault();
-    this.setState({ codeType });
-  };
-
-  getCodeBlock = codeblock => {
-    this.setState({
-      codeblocks: [
-        ...this.state.codeblocks,
-        { type: this.state.codeType, codeblock },
-      ],
-    });
-    this.setState({ codeType: null });
   };
 
   generateTags = value => {
@@ -196,7 +185,7 @@ class NewConversation extends Component {
             ? (
           <Button
             disabled={
-              !topic || !this.props.body || Object.values(errors).some(val => !!val)
+              !topic || !this.props.body.bodyText || Object.values(errors).some(val => !!val)
                 ? true
                 : false
             }
@@ -240,6 +229,7 @@ const mapDispatch = dispatch => ({
   fetchCurrentConversation: conversationId =>
     dispatch(fetchCurrentConversation(conversationId)),
   fetchRepos: () => dispatch(fetchRepos()),
+  draftBody: () => dispatch(draftBody())
 });
 
 export default connect(mapState, mapDispatch)(NewConversation);

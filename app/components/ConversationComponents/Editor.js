@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Quill } from 'react-quill';
 import hljs from 'highlight.js';
@@ -12,9 +12,9 @@ import { TextEditor } from '../styled/Input';
 
 import Toolbar from './Toolbar';
 
-hljs.configure({
-  languages: ['html', 'css', 'javascript'],
-})
+// hljs.configure({
+//   languages: ['html', 'css', 'javascript'],
+// })
 
 const Font = Quill.import('formats/font')
 Font.whitelist = [
@@ -35,12 +35,12 @@ Size.whitelist = [
 ];
 Quill.register(Size, true);
 
-const CodeBlock = Quill.import('blots/block');
+const CodeBlock = Quill.import('blots/inline');
 
 class HTMLCodeBlock extends CodeBlock {
   static create() {
     let node = super.create();
-    node.setAttribute('class', 'format-language language-html ql-syntax')
+    node.setAttribute('class', 'format-language language-html')
     return node;
   }
 }
@@ -54,7 +54,7 @@ Quill.register(HTMLCodeBlock);
 class CSSCodeBlock extends CodeBlock {
   static create() {
     let node = super.create();
-    node.setAttribute('class', 'format-language language-css ql-syntax')
+    node.setAttribute('class', 'format-language language-css')
     return node;
   }
 }
@@ -68,7 +68,7 @@ Quill.register(CSSCodeBlock);
 class JSCodeBlock extends CodeBlock {
   static create() {
     let node = super.create();
-    node.setAttribute('class', 'language-js format-language ql-syntax')
+    node.setAttribute('class', 'language-js format-language')
     return node;
   }
 }
@@ -184,38 +184,27 @@ const formats = [
 
 const Editor = () => {
 
-  const [quillRef, setQuillRef] = useState(null);
-  const [reactQuillRef, setReactQuillRef] = useState(null);
-
   const body = useSelector(state => state.body);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    attachQuillRefs()
-  })
-
-  const attachQuillRefs = () => {
-    if(!!reactQuillRef) {
-      if(typeof reactQuillRef.getEditor !== 'function') return;
-      setQuillRef(reactQuillRef.getEditor());
-    }
-  }
-
   const handleOnChange = value => {
-    console.log(reactQuillRef.getEditor().root.outerHTML)
-    console.log(reactQuillRef.getEditor().root.innerHTML.split('<pre'))
-    dispatch(draftBody(value))
-  }
+    const codeBlocks = {}
+    const codeTypes = ['.language-html', '.language-css', '.language-js']
+    codeTypes.map(type => {
+      codeBlocks[type] = document.querySelector(type) ? document.querySelector(type).innerHTML : ''
+      return codeBlocks[type]
+    })
 
+    dispatch(draftBody(value, codeBlocks))
+  }
   return (
       <FormColumn>
         <Toolbar />
         <TextEditor
-          ref={e => { setReactQuillRef(e) }}
           modules={modules}
           formats={formats}
           onChange={value => handleOnChange(value)}
-          value={body}
+          value={body.bodyText || ''}
         />
       </FormColumn>
   )

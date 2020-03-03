@@ -18,9 +18,9 @@ export const setReply = reply => {
   };
 };
 
-export const draftBody = (body = '') => {
+export const draftBody = (bodyText = '', codeBlocks = {}) => {
   return {
     type: DRAFT_BODY,
-    body,
+    body: { bodyText, codeBlocks },
   }
 }
