@@ -12,12 +12,9 @@ import PostPage from './PostPage';
 import SignUp from './SignUp';
 import MessageConsole from './MessageConsole';
 import EditUser from './EditUser';
-<<<<<<< HEAD
 import NewConversation from './ConversationComponents/NewConversation';
 import ConversationThread from './ConversationComponents/ConversationThread';
-=======
 import LastTitleList from './LatestTitleList';
->>>>>>> 43c3e6aa4ba733ff5662bc1a3cac9827b073758f
 
 import { getUserFromGitHub } from '../redux/users/thunks';
 import { fetchTags } from '../redux/tags/thunks';
@@ -44,13 +41,10 @@ class Root extends Component {
             <Route path="/postpage" component={PostPage} />
             <Route path="/signup" component={SignUp} exact />
             <Route path="/edituser" component={EditUser} />
-<<<<<<< HEAD
             <Route path="/new" component={NewConversation} />
             {/* <Route path='/conversations' /> */}
             <Route path="/conversations/:id" component={ConversationThread} />
-=======
             <Route path="/last" component={LastTitleList} exact />
->>>>>>> 43c3e6aa4ba733ff5662bc1a3cac9827b073758f
           </Switch>
         </main>
       </Router>

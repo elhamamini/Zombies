@@ -48,7 +48,7 @@ class NewConversation extends Component {
 
   handleOnClick = e => {
     e.preventDefault();
-    const cleanText = pruneHTML(this.state.body);
+    const cleanText = pruneHTML(this.props.body);
     let results = extractTokens(cleanText, this.props.whitelist);
     const searchTags = this.props.tags.filter(t => results[t.name]);
 
@@ -62,7 +62,7 @@ class NewConversation extends Component {
       this.props.createReply({
         conversationId: this.props.conversation.id,
         userId: this.props.user.id,
-        body: this.state.body,
+        body: this.props.body,
         repo: this.state.repo,
         tags: this.state.tags,
     })
@@ -102,10 +102,6 @@ class NewConversation extends Component {
     if (newTags.length > tags.length) {
       this.setState({ tags: newTags });
     }
-  };
-
-  getBodyText = text => {
-    this.setState({ body: text });
   };
 
   validate = (name, value) => {
@@ -152,7 +148,6 @@ class NewConversation extends Component {
   render() {
     const {
       topic,
-      body,
       tags,
       errors,
       errors: { topicError, bodyError },
@@ -177,6 +172,7 @@ class NewConversation extends Component {
               <label>Add repository link to your Conversation:</label>
               <Select
                 id="repository"
+                //since body is deprecated in the state we need to change this.
                 onChange={ev => this.setState({ body: ev.target.value })}
               >
                 {this.props.repositories.map(repo => {
@@ -190,7 +186,7 @@ class NewConversation extends Component {
             </div>
           ) : null}
           <Label>Body</Label>
-          <Editor getBodyText={this.getBodyText} />
+          <Editor />
           <InputFeedback>{bodyError}</InputFeedback>
           <PillContainer>
             {tags.length ? tags.map(tag => <Pill key={tag}>{tag}</Pill>) : ''}

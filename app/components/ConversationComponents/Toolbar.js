@@ -35,10 +35,9 @@ export default () => {
           <SmallDropdown className="ql-background" />
         </Row>
         <Row flexEnd>
-          <Button className='ql-code-block' />
           <Button className="ql-clean" />
         </Row>
-        <Button secondary className='ql-markup' value='markup'>{'</>'}</Button>
+        <Button secondary className='ql-html' value='html'>{'</>'}</Button>
         <Button secondary className='ql-css' value='css'>{'CSS'}</Button>
         <Button secondary className='ql-js' value='js'>{'{JS}'}</Button>
       </Toolbar>

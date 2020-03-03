@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Quill } from 'react-quill';
 import hljs from 'highlight.js';
@@ -35,18 +35,18 @@ Size.whitelist = [
 ];
 Quill.register(Size, true);
 
-const CodeBlock = Quill.import('blots/inline');
+const CodeBlock = Quill.import('blots/block');
 
 class HTMLCodeBlock extends CodeBlock {
   static create() {
     let node = super.create();
-    node.setAttribute('class', 'language-markup ql-syntax')
+    node.setAttribute('class', 'format-language language-html ql-syntax')
     return node;
   }
 }
 
-HTMLCodeBlock.blotName = 'markup';
-HTMLCodeBlock.className = 'markup';
+HTMLCodeBlock.blotName = 'html';
+HTMLCodeBlock.className = 'html';
 HTMLCodeBlock.tagName = 'pre';
 
 Quill.register(HTMLCodeBlock);
@@ -54,7 +54,7 @@ Quill.register(HTMLCodeBlock);
 class CSSCodeBlock extends CodeBlock {
   static create() {
     let node = super.create();
-    node.setAttribute('class', 'language-css ql-syntax')
+    node.setAttribute('class', 'format-language language-css ql-syntax')
     return node;
   }
 }
@@ -68,7 +68,7 @@ Quill.register(CSSCodeBlock);
 class JSCodeBlock extends CodeBlock {
   static create() {
     let node = super.create();
-    node.setAttribute('class', 'language-js ql-syntax')
+    node.setAttribute('class', 'language-js format-language ql-syntax')
     return node;
   }
 }
@@ -81,12 +81,12 @@ Quill.register(JSCodeBlock);
 
 const modules = {
   syntax: {
-    highlight: text => hljs.highlightAuto(text).value,
+    highlight: text => hljs.highlight(text).value,
   },
   toolbar: {
     container: '#toolbar',
     handlers: {
-        'markup': function(val) {
+        'html': function(val) {
             const current = this.quill.getSelection()
             if(current) {
               if(Object.keys(this.quill.getFormat()).length && !this.quill.getFormat()[`${val}`]) {
@@ -156,7 +156,7 @@ const modules = {
               if(current.index !== 0) {
                 this.quill.insertText(current, '\n');
               }
-              this.quill.format(`${val}`, true);
+              this.quill.format(`${val}`, true)
             }
           }
         },
@@ -177,18 +177,33 @@ const formats = [
   'color',
   'background',
   'clean',
-  'markup',
+  'html',
   'css',
   'js',
-  'code-block',
 ];
 
 const Editor = () => {
 
+  const [quillRef, setQuillRef] = useState(null);
+  const [reactQuillRef, setReactQuillRef] = useState(null);
+
   const body = useSelector(state => state.body);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    attachQuillRefs()
+  })
+
+  const attachQuillRefs = () => {
+    if(!!reactQuillRef) {
+      if(typeof reactQuillRef.getEditor !== 'function') return;
+      setQuillRef(reactQuillRef.getEditor());
+    }
+  }
+
   const handleOnChange = value => {
+    console.log(reactQuillRef.getEditor().root.outerHTML)
+    console.log(reactQuillRef.getEditor().root.innerHTML.split('<pre'))
     dispatch(draftBody(value))
   }
 
@@ -196,6 +211,7 @@ const Editor = () => {
       <FormColumn>
         <Toolbar />
         <TextEditor
+          ref={e => { setReactQuillRef(e) }}
           modules={modules}
           formats={formats}
           onChange={value => handleOnChange(value)}
