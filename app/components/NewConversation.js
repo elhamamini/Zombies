@@ -41,7 +41,7 @@ class NewConversation extends Component {
 
   componentDidMount() {
     //We should probably set these repos when we get the user as well
-    this.props.user.githubUsername && this.props.getRepos();
+    this.props.user.githubUsername && this.props.fetchRepos();
   }
 
   handleOnChange = ({ target: { name, value } }) => {
