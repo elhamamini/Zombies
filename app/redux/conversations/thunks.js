@@ -80,4 +80,20 @@ export const filterConversations = tag => {
   };
 };
 
+export const searchReplies = str => {
+  const filtered = [];
+  return (dispatch, getState) => {
+    return axios
+      .get(`/api/reply/search?search=${str}`)
+      .then(res => res.data)
+      .then(replies => {
+        console.log(replies);
+        replies.forEach(reply => filtered.push(reply.conversation));
+        const tmpSet = new Set(filtered);
+        const noDupes = [...tmpSet];
+        dispatch(setAllConversations(noDupes));
+      });
+  };
+};
+
 //-------------
