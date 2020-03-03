@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { MainContainer } from '../styled/Div';
 import { Button } from '../styled/Button';
 import { NavSpan } from '../styled/Nav';
 import SmallButton from '../styled/SmallButton';

@@ -14,6 +14,7 @@ import MessageConsole from './MessageConsole';
 import EditUser from './EditUser';
 import NewConversation from './ConversationComponents/NewConversation';
 import ConversationThread from './ConversationComponents/ConversationThread';
+import LastTitleList from './LatestTitleList';
 
 import { getUserFromGitHub } from '../redux/users/thunks';
 import { fetchTags } from '../redux/tags/thunks';
@@ -43,6 +44,7 @@ class Root extends Component {
             <Route path="/new" component={NewConversation} />
             {/* <Route path='/conversations' /> */}
             <Route path="/conversations/:id" component={ConversationThread} />
+            <Route path="/last" component={LastTitleList} exact />
           </Switch>
         </main>
       </Router>
