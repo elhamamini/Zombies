@@ -66,6 +66,7 @@ export const deleteConversation = conversationId => {
 //sets all the conversations
 export const fetchAllConversations = (page = 0) => {
   return dispatch => {
+    console.log('psge', page);
     return axios
       .get(`/api/conversation?page=${page}`)
       .then(res => dispatch(setAllConversations(res.data)))
@@ -83,4 +84,28 @@ export const filterConversations = tag => {
   };
 };
 
+export const searchReplies = str => {
+  const filtered = [];
+  return (dispatch, getState) => {
+    return axios
+      .get(`/api/reply/search?search=${str}`)
+      .then(res => res.data)
+      .then(replies => {
+        console.log(replies);
+        replies.forEach(reply => filtered.push(reply.conversation));
+        const tmpSet = new Set(filtered);
+        const noDupes = [...tmpSet];
+        dispatch(setAllConversations(noDupes));
+      });
+  };
+};
+
 //-------------
+// export const getAllConversations = () => {
+//   return dispatch => {
+//     return axios
+//       .get('/api/conversation')
+//       .then(res => dispatch(setAllConversations(res.data)))
+//       .catch(e => checkError(dispatch, e.response.status));
+//   };
+// };

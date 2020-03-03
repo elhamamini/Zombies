@@ -1,12 +1,12 @@
-import { SET_ALL_REPLIES, SET_REPLY } from './constants';
+import { SET_ALL_REPLIES, SET_REPLY, DRAFT_BODY } from './constants';
 
-export const replies = (state = [], action) => {
+export default (state = '', action) => {
   switch (action.type) {
-    case SET_ALL_REPLIES:
-      return action.replies;
-    case SET_REPLY:
-      return action.reply;
+    case DRAFT_BODY:
+      return action.body
+
     default:
       return state;
   }
+
 };

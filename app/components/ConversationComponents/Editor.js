@@ -1,17 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Quill } from 'react-quill';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/vs2015.css';
 import 'react-quill/dist/quill.snow.css';
 
+import { draftBody } from '../../redux/replies/actions';
+
 import { FormColumn } from '../styled/Form';
 import { TextEditor } from '../styled/Input';
 
 import Toolbar from './Toolbar';
-console.log('TOOLBARL', Toolbar)
 
 hljs.configure({
-  languages: ['html', 'css', 'javascript']
+  languages: ['html', 'css', 'javascript'],
 })
 
 const Font = Quill.import('formats/font')
@@ -33,49 +35,49 @@ Size.whitelist = [
 ];
 Quill.register(Size, true);
 
-// const CodeBlock = Quill.import('blots/inline');
+const CodeBlock = Quill.import('blots/inline');
 
-// class HTMLCodeBlock extends CodeBlock {
-//   static create() {
-//     let node = super.create();
-//     node.setAttribute('class', 'ql-html language-markup')
-//     return node;
-//   }
-// }
+class HTMLCodeBlock extends CodeBlock {
+  static create() {
+    let node = super.create();
+    node.setAttribute('class', 'language-markup ql-syntax')
+    return node;
+  }
+}
 
-// HTMLCodeBlock.blotName = 'markup';
-// HTMLCodeBlock.className = 'markup';
-// HTMLCodeBlock.tagName = 'pre';
+HTMLCodeBlock.blotName = 'markup';
+HTMLCodeBlock.className = 'markup';
+HTMLCodeBlock.tagName = 'pre';
 
-// Quill.register(HTMLCodeBlock);
+Quill.register(HTMLCodeBlock);
 
-// class CSSCodeBlock extends CodeBlock {
-//   static create() {
-//     let node = super.create();
-//     node.setAttribute('class', 'ql-css language-css')
-//     return node;
-//   }
-// }
+class CSSCodeBlock extends CodeBlock {
+  static create() {
+    let node = super.create();
+    node.setAttribute('class', 'language-css ql-syntax')
+    return node;
+  }
+}
 
-// CSSCodeBlock.blotName = 'css';
-// CSSCodeBlock.className = `css`;
-// CSSCodeBlock.tagName = 'pre';
+CSSCodeBlock.blotName = 'css';
+CSSCodeBlock.className = `css`;
+CSSCodeBlock.tagName = 'pre';
 
-// Quill.register(CSSCodeBlock);
+Quill.register(CSSCodeBlock);
 
-// class JSCodeBlock extends CodeBlock {
-//   static create() {
-//     let node = super.create();
-//     node.setAttribute('class', 'ql-js language-js')
-//     return node;
-//   }
-// }
+class JSCodeBlock extends CodeBlock {
+  static create() {
+    let node = super.create();
+    node.setAttribute('class', 'language-js ql-syntax')
+    return node;
+  }
+}
 
-// JSCodeBlock.blotName = 'js';
-// JSCodeBlock.className = 'js';
-// JSCodeBlock.tagName = 'pre';
+JSCodeBlock.blotName = 'js';
+JSCodeBlock.className = 'js';
+JSCodeBlock.tagName = 'pre';
 
-// Quill.register(JSCodeBlock);
+Quill.register(JSCodeBlock);
 
 const modules = {
   syntax: {
@@ -83,82 +85,84 @@ const modules = {
   },
   toolbar: {
     container: '#toolbar',
-  //   handlers: {
-  //     'markup': function(val) {
-  //         const current = this.quill.getSelection()
-  //         if(current) {
-  //           if(Object.keys(this.quill.getFormat()).length && !this.quill.getFormat()[`${val}`]) {
-  //             this.quill.removeFormat(current);
-  //             if(current.index !== 0) {
-  //               this.quill.insertText(current, '\n');
-  //             }
-  //             this.quill.format(`${val}`, true);
-  //             return;
-  //           } else if(this.quill.getFormat()[`${val}`]) {
-  //             if(current.index !== 0) {
-  //               this.quill.insertText(current, '\n');
-  //             }
-  //             this.quill.format(`${val}`, false);
-  //             return;
-  //           } else {
-  //             if(current.index !== 0) {
-  //               this.quill.insertText(current, '\n');
-  //             }
-  //             this.quill.format(`${val}`, true);
-  //           }
-  //       }
-  //     },
+    handlers: {
+        'markup': function(val) {
+            const current = this.quill.getSelection()
+            if(current) {
+              if(Object.keys(this.quill.getFormat()).length && !this.quill.getFormat()[`${val}`]) {
+                this.quill.removeFormat(current);
+                if(current.index !== 0) {
+                  this.quill.insertText(current, '\n');
+                }
+                this.quill.format(`${val}`, true);
+                return;
+              } else if(this.quill.getFormat()[`${val}`]) {
+                if(current.index !== 0) {
+                  this.quill.insertText(current, '\n');
+                }
+                this.quill.format(`${val}`, false);
+                return;
+              } else {
+                if(current.index !== 0) {
+                  this.quill.insertText(current, '\n');
+                }
+                this.quill.format(`${val}`, true);
+              }
+            }
+          },
 
-  //     'css': function(val) {
-  //       const current = this.quill.getSelection()
-  //       if(current) {
-  //         if(Object.keys(this.quill.getFormat()).length && !this.quill.getFormat()[`${val}`]) {
-  //           this.quill.removeFormat(current);
-  //           if(current.index !== 0) {
-  //             this.quill.insertText(current, '\n');
-  //           }
-  //           this.quill.format(`${val}`, true);
-  //           return;
-  //         } else if(this.quill.getFormat()[`${val}`]) {
-  //           if(current.index !== 0) {
-  //             this.quill.insertText(current, '\n');
-  //           }
-  //           this.quill.format(`${val}`, false);
-  //           return;
-  //         } else {
-  //           if(current.index !== 0) {
-  //             this.quill.insertText(current, '\n');
-  //           }
-  //           this.quill.format(`${val}`, true);
-  //         }
-  //     }
-  //   },
+        'css': function(val) {
+          const current = this.quill.getSelection()
+          if(current) {
+            if(Object.keys(this.quill.getFormat()).length && !this.quill.getFormat()[`${val}`]) {
+              this.quill.removeFormat(current);
+              if(current.index !== 0) {
+                this.quill.insertText(current, '\n');
+              }
+              this.quill.format(`${val}`, true);
+              return;
+            } else if(this.quill.getFormat()[`${val}`]) {
+              if(current.index !== 0) {
+                this.quill.insertText(current, '\n');
+              }
+              this.quill.format(`${val}`, false);
+              return;
+            } else {
+              if(current.index !== 0) {
+                this.quill.insertText(current, '\n');
+              }
+              this.quill.format(`${val}`, true);
+            }
+          }
+        },
 
-  //   'js': function(val) {
-  //     const current = this.quill.getSelection()
-  //     if(current) {
-  //       if(Object.keys(this.quill.getFormat()).length && !this.quill.getFormat()[`${val}`]) {
-  //         this.quill.removeFormat(current);
-  //         if(current.index !== 0) {
-  //           this.quill.insertText(current, '\n');
-  //         }
-  //         this.quill.format(`${val}`, true);
-  //         return;
-  //       } else if(this.quill.getFormat()[`${val}`]) {
-  //         if(current.index !== 0) {
-  //           this.quill.insertText(current, '\n');
-  //         }
-  //         this.quill.format(`${val}`, false);
-  //         return;
-  //       } else {
-  //         if(current.index !== 0) {
-  //           this.quill.insertText(current, '\n');
-  //         }
-  //         this.quill.format(`${val}`, true);
-  //       }
-  //   }
-  // }
-    // }
+        'js': function(val) {
+          const current = this.quill.getSelection()
+          if(current) {
+            if(Object.keys(this.quill.getFormat()).length && !this.quill.getFormat()[`${val}`]) {
+              this.quill.removeFormat(current);
+              if(current.index !== 0) {
+                this.quill.insertText(current, '\n');
+              }
+              this.quill.format(`${val}`, true);
+              return;
+            } else if(this.quill.getFormat()[`${val}`]) {
+              if(current.index !== 0) {
+                this.quill.insertText(current, '\n');
+              }
+              this.quill.format(`${val}`, false);
+              return;
+            } else {
+              if(current.index !== 0) {
+                this.quill.insertText(current, '\n');
+              }
+              this.quill.format(`${val}`, true);
+            }
+          }
+        },
+
+
+    }
   }
 }
 
@@ -173,38 +177,32 @@ const formats = [
   'color',
   'background',
   'clean',
-  // 'markup',
-  // 'css',
-  // 'js',
+  'markup',
+  'css',
+  'js',
   'code-block',
 ];
 
-class Editor extends Component {
-  constructor({ getBodyText }) {
-    super({ getBodyText });
-    this.state = {
-      editor: '',
-    }
+const Editor = () => {
+
+  const body = useSelector(state => state.body);
+  const dispatch = useDispatch();
+
+  const handleOnChange = value => {
+    dispatch(draftBody(value))
   }
 
-  handleOnChange = (value) => {
-    this.setState({ editor: value })
-    this.props.getBodyText(this.state.editor)
-  }
-
-  render() {
-    return (
-        <FormColumn>
-          <Toolbar />
-          <TextEditor
-            modules={modules}
-            formats={formats}
-            onChange={this.handleOnChange}
-            value={this.state.editor}
-          />
-        </FormColumn>
-    )
-  }
+  return (
+      <FormColumn>
+        <Toolbar />
+        <TextEditor
+          modules={modules}
+          formats={formats}
+          onChange={value => handleOnChange(value)}
+          value={body}
+        />
+      </FormColumn>
+  )
 }
 
 export default Editor

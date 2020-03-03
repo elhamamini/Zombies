@@ -39,6 +39,14 @@ class NewConversation extends Component {
     };
   }
 
+<<<<<<< HEAD:app/components/ConversationComponents/NewConversation.js
+=======
+  componentDidMount() {
+    //We should probably set these repos when we get the user as well
+    this.props.user.githubUsername && this.props.fetchRepos();
+  }
+
+>>>>>>> 43c3e6aa4ba733ff5662bc1a3cac9827b073758f:app/components/NewConversation.js
   handleOnChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value }, () => {
       this.validate(name, value);
@@ -57,14 +65,13 @@ class NewConversation extends Component {
       title: this.state.topic,
       tags: searchTags,
     })
-    
     .then(() => {
       this.props.createReply({
         conversationId: this.props.conversation.id,
         userId: this.props.user.id,
         body: this.state.body,
         repo: this.state.repo,
-        tags: this.state.tags,
+        tags: this.state.tags
     })
   })
     .then(() => this.props.history.push(`/conversations/${this.props.conversation.id}`))
@@ -200,7 +207,7 @@ class NewConversation extends Component {
             ? (
           <Button
             disabled={
-              !topic || !this.props.body || Object.values(errors).some(val => !!val)
+              !topic || !body || Object.values(errors).some(val => !!val)
                 ? true
                 : false
             }
@@ -227,7 +234,6 @@ const mapState = ({
   repositories,
   conversation,
   tags,
-  body
 }) => ({
   authentication,
   user,
@@ -235,7 +241,6 @@ const mapState = ({
   conversation,
   tags: tags.all,
   whitelist: tags.whitelist,
-  body,
 });
 
 const mapDispatch = dispatch => ({

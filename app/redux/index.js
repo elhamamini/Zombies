@@ -5,6 +5,7 @@ import { conversation, allConversations } from './conversations/reducers';
 import { repositories } from './repository/reducers';
 import statusMessage from './statusMessage/reducers';
 import { tags } from './tags/reducers';
+import body from './replies/reducers';
 
 const appReducer = combineReducers({
   users,
@@ -15,6 +16,7 @@ const appReducer = combineReducers({
   repositories,
   statusMessage,
   tags,
+  body,
 });
 
 export default appReducer;

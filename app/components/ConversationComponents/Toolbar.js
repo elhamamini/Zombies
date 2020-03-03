@@ -38,9 +38,9 @@ export default () => {
           <Button className='ql-code-block' />
           <Button className="ql-clean" />
         </Row>
-        {/* <Button secondary onClick={e => handleOnClick(e)} className='ql-markup' value='markup'>{'</>'}</Button>
-        <Button secondary onClick={e => handleOnClick(e)} className='ql-css' value='css'>{'CSS'}</Button>
-        <Button secondary onClick={e => handleOnClick(e)} className='ql-js' value='js'>{'{JS}'}</Button> */}
+        <Button secondary className='ql-markup' value='markup'>{'</>'}</Button>
+        <Button secondary className='ql-css' value='css'>{'CSS'}</Button>
+        <Button secondary className='ql-js' value='js'>{'{JS}'}</Button>
       </Toolbar>
     )
 };
