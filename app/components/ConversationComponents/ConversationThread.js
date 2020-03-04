@@ -9,6 +9,7 @@ import SmallButton from '../styled/SmallButton';
 
 import EditorReadOnly from './EditorReadOnly';
 import Editor from './Editor';
+import RunCode from './RunCode';
 
 import { fetchCurrentConversation } from '../../redux/conversations/thunks';
 import { createReply, deleteReply } from '../../redux/replies/thunks';
@@ -68,6 +69,7 @@ const ConversationThread = ({ match }) => {
                       { user.id === conversation.userId && idx !== 0 ? <SmallButton disabled={isLoading} onClick={() => handleDeleteReply(reply)}>Delete</SmallButton> : null }
                     </FormRow>
                     <EditorReadOnly key={reply.id} reply={reply.body} readOnly={isReadOnly}/>
+                    { reply.htmlCode || reply.cssCode || reply.javascriptCode ? <RunCode reply={reply.body}/> : null }
                     {/* { user.id === conversation.userId ? <SmallButton onClick={() => setIsReadOnly(false)}>Edit</SmallButton> : null } */}
                   </FormColumn>
                 )
