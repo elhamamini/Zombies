@@ -7,10 +7,11 @@ node_modules
 public/bundle.js
 public/bundle.js.map
 
-#Ignoring the web scraping outputs, since they're huge
+#Ignoring the web scraping and ML outputs, since they're huge
 postsByTitle.json
 cleaned.json
 whitelist.txt
+classifiedSet.json
 
 #Secrets
 .env

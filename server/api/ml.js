@@ -14,4 +14,18 @@ router.get('/', (req, res, next) => {
     }
 });
 
+router.post('/', (req, res, next) => {
+    try {
+        const { classified } = req.body;
+        const classifiedJSON = JSON.stringify(classified);
+        fs.writeFileSync('classifiedSet.json', classifiedJSON, (e) => {
+            if (e) console.log(e)
+        });
+        res.status(200).send('success');
+    }
+    catch (e) {
+        console.log(e);
+    }
+})
+
 module.exports = router;

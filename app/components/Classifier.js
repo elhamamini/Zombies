@@ -22,20 +22,22 @@ const Classifier = (props) => {
         setOutput(updated);
     }
 
-    const handleSubmit = () => {
-        //TODO: post to /api/ml with trainingSet
+    const handleSubmit = async() => {
+        //post to /api/ml with trainingSet
+        await axios.post('/api/ml', { classified: trainingSet });
     }
 
     const handleNext = (value) => {
         //put input and output values into object
-        let pushed = trainingSet;
-        pushed.push({
-            input: value,
-            output: output,
-        });
-        //update training set
-        setTraining(pushed);
-        //reset output values
+        if (Object.keys(output).length) {
+            let pushed = trainingSet;
+            pushed.push({
+                input: value,
+                output: output,
+            });
+            //update training set
+            setTraining(pushed);
+        }
         
         if (replyIdx === data[Object.keys(data)[keyIdx]].length - 1) {
             setKeyIdx(keyIdx + 1);
@@ -43,13 +45,15 @@ const Classifier = (props) => {
         } else {
             setReplyIdx(replyIdx + 1);
         }
+        //reset output values
         setOutput({});
     }
 
     useEffect(() => {
-        console.log(output);
+        console.log('current output', output);
+        console.log('trainingSet', trainingSet);
 
-        if (keyIdx > 0 && keyIdx === Object.keys(data).length) {
+        if (keyIdx > 0 && keyIdx >= Object.keys(data).length) {
             setDone(true);
         }
 
@@ -81,14 +85,22 @@ const Classifier = (props) => {
                 }
             </div>
             <button
-                onClick={handleNext}
+                onClick={() => handleNext(data[Object.keys(data)[keyIdx]][replyIdx])}
                 style={{padding: '2rem'}}
+                disabled={done}
             >
                 {
                     done ? 'ALL FINISHED' : 'Next'
                 }
             </button>
-            <div id="training-values">
+            <div
+                id="training-values"
+                style={{
+                    fontSize: '1.5rem',
+                    display: 'flex',
+                    flexFlow: 'row wrap',
+                }}
+            >
                 {
                     Object.keys(whitelist).map(key => 
                         <div key={key}>
@@ -96,6 +108,7 @@ const Classifier = (props) => {
                                 type="checkbox"
                                 id={key}
                                 name={key}
+                                style={{ margin: '1rem '}}
                                 checked={output[key] ? true : false}
                                 onChange={(e) => handleChange(e, key)}
                             />
