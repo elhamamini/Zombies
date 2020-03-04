@@ -62,7 +62,7 @@ export const Dropdown = styled.select`
 `
 
 export const SmallDropdown = styled.select`
-  mix-width: auto;
+  min-width: 2rem;
 `
 
 export const Option = styled.option`
@@ -72,16 +72,14 @@ export const Option = styled.option`
 }
 `
 
-export const FormattableTextArea = styled(ReactQuill)`
-  min-height: 300px;
+export const TextEditor = styled(ReactQuill)`
   display: block;
+  min-height: 200px;
   width: 95%;
-  border: 1px solid lightgray;
-  border-radius: 3px;
   font-size: 1rem;
   padding: 0.5rem;
   margin: 0.5rem;
-  overflow: scroll;
+  overflow-y: scroll;
   resize: none;
   &:focus {
     border: 1px solid #007bff;

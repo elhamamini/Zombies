@@ -7,21 +7,24 @@ import Login from './Login';
 import NavBar from './NavBar';
 import MLForm from './MLForm';
 import AllConvos from './ConversationsIndex/AllConvos';
-import NewConversation from './NewConversation';
-import Test from './test';
 import UserProfile from './UserProfile';
 import PostPage from './PostPage';
 import SignUp from './SignUp';
 import MessageConsole from './MessageConsole';
 import EditUser from './EditUser';
+import NewConversation from './ConversationComponents/NewConversation';
+import ConversationThread from './ConversationComponents/ConversationThread';
 import LastTitleList from './LatestTitleList';
 
 import { getUserFromGitHub } from '../redux/users/thunks';
 import { fetchTags } from '../redux/tags/thunks';
+import { fetchRepos } from '../redux/repository/thunks';
 
 class Root extends Component {
   componentDidMount() {
-    this.props.getUserFromGitHub();
+    this.props.getUserFromGitHub()
+    .then(() => this.props.fetchRepos(this.props.user.githubUsername));
+
     this.props.fetchTags();
   }
 
@@ -35,10 +38,12 @@ class Root extends Component {
             <Route path="/userprofile" component={UserProfile} exact />
             <Route path="/login" component={Login} />
             <Route exact path="/" component={AllConvos} />
-            <Route path="/new" component={NewConversation} />
             <Route path="/postpage" component={PostPage} />
             <Route path="/signup" component={SignUp} exact />
             <Route path="/edituser" component={EditUser} />
+            <Route path="/new" component={NewConversation} />
+            {/* <Route path='/conversations' /> */}
+            <Route path="/conversations/:id" component={ConversationThread} />
             <Route path="/last" component={LastTitleList} exact />
           </Switch>
         </main>
@@ -47,9 +52,12 @@ class Root extends Component {
   }
 }
 
+const mapState = ({ user }) => ({ user })
+
 const mapDispatch = dispatch => ({
   getUserFromGitHub: () => dispatch(getUserFromGitHub()),
   fetchTags: () => dispatch(fetchTags()),
+  fetchRepos: () => dispatch(fetchRepos())
 });
 
-export default connect(null, mapDispatch)(Root);
+export default connect(mapState, mapDispatch)(Root);
