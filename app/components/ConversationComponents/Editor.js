@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Quill } from 'react-quill';
 import hljs from 'highlight.js';
@@ -40,7 +40,7 @@ const CodeBlock = Quill.import('blots/inline');
 class HTMLCodeBlock extends CodeBlock {
   static create() {
     let node = super.create();
-    node.setAttribute('class', 'format-language language-html')
+    node.setAttribute('class', 'language-html')
     return node;
   }
 }
@@ -54,7 +54,7 @@ Quill.register(HTMLCodeBlock);
 class CSSCodeBlock extends CodeBlock {
   static create() {
     let node = super.create();
-    node.setAttribute('class', 'format-language language-css')
+    node.setAttribute('class', 'language-css')
     return node;
   }
 }
@@ -68,7 +68,7 @@ Quill.register(CSSCodeBlock);
 class JSCodeBlock extends CodeBlock {
   static create() {
     let node = super.create();
-    node.setAttribute('class', 'language-js format-language')
+    node.setAttribute('class', 'language-js')
     return node;
   }
 }
@@ -83,6 +83,24 @@ const modules = {
   syntax: {
     highlight: text => hljs.highlight(text).value,
   },
+  // keyboard: {
+  //   bindings: {
+  //     enter: {
+  //       key: 13,
+  //       handler: function(val1, val2) {
+  //         let previous = this.quill.getSelection();
+  //         if(this.quill.getFormat().html || this.quill.getFormat().css || this.quill.getFormat().js) {
+  //           let format = Object.keys(this.quill.getFormat())[0]
+  //           this.quill.insertText(previous, '\n');
+  //           this.quill.format(format, true);
+  //         } else {
+  //           this.quill.insertText(previous, '\n');
+  //         }
+
+  //       }
+  //     }
+  //   }
+  // },
   toolbar: {
     container: '#toolbar',
     handlers: {
@@ -95,13 +113,11 @@ const modules = {
                   this.quill.insertText(current, '\n');
                 }
                 this.quill.format(`${val}`, true);
-                return;
               } else if(this.quill.getFormat()[`${val}`]) {
                 if(current.index !== 0) {
-                  this.quill.insertText(current, '\n');
+                  this.quill.insertText(current, '\n')
                 }
                 this.quill.format(`${val}`, false);
-                return;
               } else {
                 if(current.index !== 0) {
                   this.quill.insertText(current, '\n');
@@ -122,9 +138,7 @@ const modules = {
               this.quill.format(`${val}`, true);
               return;
             } else if(this.quill.getFormat()[`${val}`]) {
-              if(current.index !== 0) {
-                this.quill.insertText(current, '\n');
-              }
+              this.quill.insertText(current, '\n')
               this.quill.format(`${val}`, false);
               return;
             } else {
@@ -184,6 +198,7 @@ const formats = [
 
 const Editor = () => {
 
+  const [readOnly, setReadOnly] = useState(false);
   const body = useSelector(state => state.body);
   const dispatch = useDispatch();
 
@@ -191,12 +206,12 @@ const Editor = () => {
     const codeBlocks = {}
     const codeTypes = ['.language-html', '.language-css', '.language-js']
     codeTypes.map(type => {
-      codeBlocks[type] = document.querySelector(type) ? document.querySelector(type).innerHTML : ''
+      codeBlocks[type] = Array.from(document.querySelectorAll(type)).length ? Array.from(document.querySelectorAll(type)).map(el => el.innerHTML).join('\n') : ''
       return codeBlocks[type]
     })
-
     dispatch(draftBody(value, codeBlocks))
   }
+
   return (
       <FormColumn>
         <Toolbar />
@@ -205,6 +220,7 @@ const Editor = () => {
           formats={formats}
           onChange={value => handleOnChange(value)}
           value={body.bodyText || ''}
+          readOnly={readOnly}
         />
       </FormColumn>
   )

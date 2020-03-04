@@ -10,11 +10,9 @@ import {
 import { checkError, checkSuccess } from '../statusMessage/utils';
 
 export const createReply = content => {
-  console.log(content);
   return dispatch => {
     return axios
       .post('/api/reply', content)
-      .then(res => dispatch(setReply(res.data)))
       .catch(e => checkError(dispatch, e.response.status));
   };
 };
