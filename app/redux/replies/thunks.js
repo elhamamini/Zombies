@@ -42,10 +42,7 @@ export const deleteReply = id => {
   return dispatch => {
     return axios
       .delete(`/api/reply/${id}`)
-      .then(res => {
-        dispatch(setReply(id));
-        checkSuccess(dispatch, res.status);
-      })
+      .then(res => checkSuccess(dispatch, res.status))
       .catch(e => checkError(dispatch, e.response.status));
   };
 };

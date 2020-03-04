@@ -2,23 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { Button } from '../styled/Button';
-import { FormColumn } from '../styled/Form';
+import { FormColumn, FormRow } from '../styled/Form';
 import { NavSpan } from '../styled/Nav';
-import SmallButton from '../styled/SmallButton';
 import { Label } from '../styled/Font';
+import SmallButton from '../styled/SmallButton';
 
 import EditorReadOnly from './EditorReadOnly';
 import Editor from './Editor';
 
 import { fetchCurrentConversation } from '../../redux/conversations/thunks';
-import { createReply } from '../../redux/replies/thunks';
+import { createReply, deleteReply } from '../../redux/replies/thunks';
+import { draftBody } from '../../redux/replies/actions';
 
 const ConversationThread = ({ match }) => {
 
   const [isReplying, setIsReplying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isReadOnly, setIsReadOnly] = useState(true);
-  const [replyCount, setReplyCount] = useState(0);
+  const [replyCount, setReplyCount] = useState();
   const conversation = useSelector(state => state.conversation);
   const user = useSelector(state => state.user);
   const body = useSelector(state => state.body)
@@ -39,9 +40,17 @@ const ConversationThread = ({ match }) => {
       cssCode: body.codeBlocks ? body.codeBlocks['.language-css'] : null,
       javascriptCode: body.codeBlocks ? body.codeBlocks['.language-js'] : null,
     }))
+    .then(() => setReplyCount(conversation.replies.length))
+    dispatch(draftBody('', {}))
     setIsLoading(false);
     setIsReplying(false);
-    setReplyCount(conversation.replies.length)
+  }
+
+  const handleDeleteReply = reply => {
+    setIsLoading(true);
+    dispatch(deleteReply(reply.id))
+    .then(() => setReplyCount(conversation.replies.length))
+    setIsLoading(false);
   }
 
   return ( 
@@ -50,11 +59,14 @@ const ConversationThread = ({ match }) => {
         conversation.replies
         ? (
           <div>
-            <h2>{conversation.title}</h2>
-            { conversation.replies.map(reply => {
+              <h2>{conversation.title}</h2>
+            { conversation.replies.map((reply, idx) => {
                 return (
                   <FormColumn>
-                    <Label>{ reply.user.name } said:</Label>
+                    <FormRow>
+                      <Label>{ reply.user.name } { idx === 0 ? 'asked:' : 'said:' }</Label>
+                      { user.id === conversation.userId && idx !== 0 ? <SmallButton disabled={isLoading} onClick={() => handleDeleteReply(reply)}>Delete</SmallButton> : null }
+                    </FormRow>
                     <EditorReadOnly key={reply.id} reply={reply.body} readOnly={isReadOnly}/>
                     {/* { user.id === conversation.userId ? <SmallButton onClick={() => setIsReadOnly(false)}>Edit</SmallButton> : null } */}
                   </FormColumn>
