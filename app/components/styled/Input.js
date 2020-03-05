@@ -92,17 +92,10 @@ export const SmallDropdown = styled.select`
 `;
 
 export const Option = styled.option`
-<<<<<<< HEAD
 &:focus {
   border: 1px solid #007bff;
   outline: none;
 }
-=======
-  &:focus {
-    border: 1px solid #007bff;
-    outline: none;
-  }
->>>>>>> dev
 `;
 
 export const TextEditor = styled(ReactQuill)`
@@ -112,14 +105,12 @@ export const TextEditor = styled(ReactQuill)`
   font-size: 1rem;
   padding: 0.5rem;
   margin: 0.5rem 0;
-  overflow-y: scroll;
+  border: 1px solid lightgray;
+  border-radius: 3px;
+  overflow-y: auto;
   resize: none;
   &:focus {
     border: 1px solid #007bff;
     outline: none;
   }
-<<<<<<< HEAD
 `;
-=======
-`;
->>>>>>> dev
