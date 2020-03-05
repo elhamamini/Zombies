@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 export default styled.button`
   display: block;
   width: 30%;

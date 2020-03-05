@@ -15,13 +15,14 @@ router.get('/', (req, res, next) => {
 router.get('/:id', (req, res, next) => {
   User.findByPk(req.params.id)
     .then(userOrNull => {
-      if (userOrNull) res.status(200).send(userOrNull);
-      else {
+      if (userOrNull) {
+        res.status(200).send(userOrNull)
+      } else {
         res.status(404).send('there is no user with that id');
       }
     })
     .catch(e => {
-      console.error(e);
+      res.status(500);
       next(e);
     });
 });
@@ -32,7 +33,7 @@ router.post('/', (req, res, next) => {
       res.status(201).send(createdUser);
     })
     .catch(e => {
-      console.error(e);
+      res.status(500);
       next(e);
     });
 });
@@ -41,14 +42,14 @@ router.put('/:id', (req, res, next) => {
   User.findByPk(req.params.id)
     .then(userOrNull => {
       if (userOrNull) {
-        console.log('userrrrr', userOrNull);
         userOrNull.update(req.body);
-        return res.status(202).send(userOrNull);
+        res.status(202).send(userOrNull);
+      } else {
+        res.status(404).send();
       }
-      res.status(404);
     })
     .catch(e => {
-      console.error(e);
+      res.status(500).send();
       next(e);
     });
 });
@@ -61,10 +62,10 @@ router.delete('/:id', (req, res, next) => {
   })
     .then(data => {
       if (data) return res.sendStatus(204);
-      res.sendStatus(404);
+      res.sendStatus(404).send();
     })
     .catch(e => {
-      console.error(e);
+      res.status(500).send();
       next(e);
     });
 });

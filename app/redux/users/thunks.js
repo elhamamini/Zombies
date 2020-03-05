@@ -17,7 +17,7 @@ export const getUserFromGitHub = () => {
     return axios
       .get('/api/github/user')
       .then(res => dispatch(setUser(res.data)))
-      .catch(e => checkError(dispatch, e.response.status));
+      .catch(e => console.log(e));
   };
 };
 

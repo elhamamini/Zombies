@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Sequelize = require('sequelize');
-const { Conversation, Reply, Tag } = require('../db');
+const { Conversation, Reply, Tag, User } = require('../db');
 
 const RESULTS_PER_PAGE = 10;
 
@@ -70,7 +70,12 @@ router.get('/:id', (req, res, next) => {
       id: req.params.id,
     },
     include: [
-      { model: Reply },
+      {
+        model: Reply,
+        include: [
+          { model: User, }
+        ]
+      },
       {
         model: Tag,
         through: {
