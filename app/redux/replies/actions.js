@@ -10,9 +10,9 @@ export const setAllReplies = replies => {
   };
 };
 
-export const setReply = reply => {
+export const removeReply = id => {
   return {
-    type: SET_REPLY,
-    reply,
+    type: REMOVE_REPLY,
+    id,
   };
 };
