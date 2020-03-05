@@ -13,6 +13,7 @@ import { SmallButton } from './styled/Button';
 import { HrBlue } from './styled/Div';
 import { Checkbox, NewLabel, Span } from './styled/Input';
 import { FormCheckbox } from './styled/Form';
+// import NotFound from './404Page';
 
 class FlaggedReplies extends React.Component {
   constructor() {
@@ -33,12 +34,11 @@ class FlaggedReplies extends React.Component {
   // };
 
   updateReplyHandler = reply => {
-    console.log('component reply', reply);
     this.props.updateReply(reply, reply.id);
   };
   render() {
-    // const flaggedReplies = this.props.replies.filter(reply => reply.isFlagged);
-    console.log('replies', this.props.replies);
+    console.log('user', this.props.user.userType);
+    // return this.props.user.userType === 'admin' ? (
     return (
       <Container.Paper id="conversations-index">
         <Font.Hero>Flagged Replies</Font.Hero>
@@ -56,27 +56,7 @@ class FlaggedReplies extends React.Component {
               <HrBlue />
               <Font.Header>Flagged Reply:</Font.Header>
               <Font.Paragraph>{reply.body}</Font.Paragraph>
-              {/* <FormCheckbox>
-                <NewLabel>unflagged</NewLabel>
-                <Checkbox
-                  type="checkbox"
-                  onChange={() => {
-                    this.props.updateReply(
-                      { ...reply, isFlagged: reply.isFlagged },
-                      reply.id
-                    );
-                  }}
-                />
-              </FormCheckbox> */}
-              {/* <FormCheckbox>
-                 <NewLabel style={{ color: 'red' }}>remove</NewLabel>
-                <Checkbox
-                  type="checkbox"
-                  onChange={() => {
-                    this.props.deleteReply(reply.id);
-                  }}
-                /> 
-              </FormCheckbox> */}
+
               <SmallButton
                 onClick={() => {
                   this.props.updateReply(
@@ -102,9 +82,16 @@ class FlaggedReplies extends React.Component {
         </Card.CardContainer>
       </Container.Paper>
     );
+    // ) : (
+    //   <NotFound />
+    //   );
   }
 }
-const mapStateToProps = ({ replies, users }) => ({ replies, users });
+const mapStateToProps = ({ replies, users, user }) => ({
+  replies,
+  users,
+  user,
+});
 const mapDispatchToProps = dispatch => {
   return {
     getReplies: () => dispatch(fetchAllReplies()),

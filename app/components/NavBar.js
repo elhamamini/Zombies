@@ -20,6 +20,9 @@ const NavBar = props => {
             <NavLink to="/userprofile"> Your Profile</NavLink>
           ) : null}
           <NavLink to="/new">New Conversation</NavLink>
+          {props.user.userType === 'admin' ? (
+            <NavLink to="/flagged">Flagged Replies</NavLink>
+          ) : null}
         </Row>
       </Row>
 
