@@ -4,16 +4,16 @@ import 'react-quill/dist/quill.snow.css';
 import Toolbar from '../styled/Toolbar';
 import { Row } from '../styled/Div';
 import { Option, Dropdown, SmallDropdown } from '../styled/Input';
-import { Button } from '../styled/Button';
+import * as Button from '../styled/Button';
 
 export default () => {
 
     return (
       <Toolbar flexStart flexWrap id="toolbar">
-        <Button className='ql-bold' />
-        <Button className='ql-italic' />
-        <Button className='ql-underline' />
-        <Button className='ql-strike' />
+        <Button.ToolbarButton className='ql-bold' />
+        <Button.ToolbarButton className='ql-italic' />
+        <Button.ToolbarButton className='ql-underline' />
+        <Button.ToolbarButton className='ql-strike' />
         <Dropdown className="ql-font">
           <Option value="arial" defaultValue>Arial</Option>
           <Option value="comic-sans">Comic Sans</Option>
@@ -28,10 +28,10 @@ export default () => {
         </Dropdown>
         <SmallDropdown className="ql-color" />
         <SmallDropdown className="ql-background" />
-        <Button className="ql-clean" />
-        <Button secondary className='ql-html' value='html'>{'HTML'}</Button>
-        <Button secondary className='ql-css' value='css'>{'CSS'}</Button>
-        <Button secondary className='ql-js' value='js'>{'JS'}</Button>
+        <Button.ToolbarButton className="ql-clean" />
+        <Button.ToolbarButton className='ql-html' value='html'>{'HTML'}</Button.ToolbarButton>
+        <Button.ToolbarButton className='ql-css' value='css'>{'CSS'}</Button.ToolbarButton>
+        <Button.ToolbarButton className='ql-js' value='js'>{'JS'}</Button.ToolbarButton>
       </Toolbar>
     )
 };

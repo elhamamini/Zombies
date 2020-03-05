@@ -5,6 +5,7 @@ import { fetchTags } from '../../redux/tags/thunks';
 import * as Container from '../styled/Div';
 import * as Font from '../styled/Font';
 import * as Card from './Card';
+import * as Div from '../styled/Div';
 import * as Button from '../styled/Button';
 import * as InputField from '../styled/Input';
 import SearchCollapse from '../styled/SearchCollapse';
@@ -58,7 +59,7 @@ function AllConvos(props) {
 
 
   return (
-    <Container.Paper id="conversations-index">
+    <Div.Container id="conversations-index">
       <Font.h1>Discuss. Develop. Learn.</Font.h1>
       <Font.Paragraph>
         LearnDot forums are a great way to get help from your peers.
@@ -97,7 +98,7 @@ function AllConvos(props) {
           </Card.Card>
         ))}
       </Card.CardContainer>
-    </Container.Paper>
+    </Div.Container>
   );
 };
 

@@ -9,7 +9,7 @@ export const Container = styled.form`
   text-align: left;
   background-color: white;
   padding: 2rem;
-  margin: 3rem;
+  margin: 1rem 3rem;
 `;
 
 export const FormRow = styled.div`

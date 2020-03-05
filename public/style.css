@@ -24,6 +24,24 @@ main {
   flex-wrap: wrap;
 }
 
+.language-css {
+  background-color: #07032B!important;
+  font-family: 'Roboto Mono', monospace;
+  color: #FFC6F4;
+}
+
+.language-html {
+  background-color: #07032B!important;
+  font-family: 'Roboto Mono', monospace;
+  color: #FFE2C6;
+}
+
+.language-js {
+  background-color: #07032B!important;
+  font-family: 'Roboto Mono', monospace;
+  color: #C6FFF7;
+}
+
 .ql-font-arial {
   font-family: 'Arial'
 }

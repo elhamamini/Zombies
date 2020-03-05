@@ -6,6 +6,18 @@ export const MainContainer = styled.div`
   width: 100%;
 `;
 
+export const Container = styled.div`
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+  background-color: white;
+  padding: 2rem;
+  margin: 1rem 3rem;
+`;
+
 export const Paper = styled.div`
   width: 100%;
   display: flex;
