@@ -10,36 +10,28 @@ export default () => {
 
     return (
       <Toolbar flexStart flexWrap id="toolbar">
-        <Row flexStart>
-          <Button className='ql-bold' />
-          <Button className='ql-italic' />
-          <Button className='ql-underline' />
-          <Button className='ql-strike' />
-        </Row>
-        <Row flexStart>
-          <Dropdown className="ql-font">
-            <Option value="arial" defaultValue>Arial</Option>
-            <Option value="comic-sans">Comic Sans</Option>
-            <Option value="courier-new">Courier New</Option>
-            <Option value="georgia">Georgia</Option>
-            <Option value="lucida">Lucida</Option>
-          </Dropdown>
-          <Dropdown className="ql-size">
-            <Option value="small">Size 1</Option>
-            <Option value="medium" defaultValue>Size 2</Option>
-            <Option value="large">Size 3</Option>
-          </Dropdown>
-        </Row>
-        <Row flexStart>
-          <SmallDropdown className="ql-color" />
-          <SmallDropdown className="ql-background" />
-        </Row>
-        <Row flexEnd>
-          <Button className="ql-clean" />
-        </Row>
-        <Button secondary className='ql-html' value='html'>{'</>'}</Button>
+        <Button className='ql-bold' />
+        <Button className='ql-italic' />
+        <Button className='ql-underline' />
+        <Button className='ql-strike' />
+        <Dropdown className="ql-font">
+          <Option value="arial" defaultValue>Arial</Option>
+          <Option value="comic-sans">Comic Sans</Option>
+          <Option value="courier-new">Courier New</Option>
+          <Option value="georgia">Georgia</Option>
+          <Option value="lucida">Lucida</Option>
+        </Dropdown>
+        <Dropdown className="ql-size">
+          <Option value="small">Size 1</Option>
+          <Option value="medium" defaultValue>Size 2</Option>
+          <Option value="large">Size 3</Option>
+        </Dropdown>
+        <SmallDropdown className="ql-color" />
+        <SmallDropdown className="ql-background" />
+        <Button className="ql-clean" />
+        <Button secondary className='ql-html' value='html'>{'HTML'}</Button>
         <Button secondary className='ql-css' value='css'>{'CSS'}</Button>
-        <Button secondary className='ql-js' value='js'>{'{JS}'}</Button>
+        <Button secondary className='ql-js' value='js'>{'JS'}</Button>
       </Toolbar>
     )
 };

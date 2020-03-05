@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import { Anchor } from './Font';
 
 export const Button = styled.button`
-    display: block;
-    width: 95%;
+    display: inline-block;
     border: ${props => props.secondary ? '1px solid #007bff' : '0'};
     border-radius: 3px;
     color: ${props => props.secondary ? '#007bff' : 'white'};

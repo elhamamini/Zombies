@@ -59,7 +59,7 @@ function AllConvos(props) {
 
   return (
     <Container.Paper id="conversations-index">
-      <Font.Hero>Discuss. Develop. Learn.</Font.Hero>
+      <Font.h1>Discuss. Develop. Learn.</Font.h1>
       <Font.Paragraph>
         LearnDot forums are a great way to get help from your peers.
       </Font.Paragraph>

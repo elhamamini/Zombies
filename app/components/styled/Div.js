@@ -33,5 +33,6 @@ export const Row = styled.div`
       : 'space-between'};
   flex-wrap: ${props => props.flexWrap ? 'wrap' : 'nowrap' }
   align-items: center;
+  align-content: center;
   margin: 0.5rem;
 `;
