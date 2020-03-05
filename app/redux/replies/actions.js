@@ -1,7 +1,4 @@
-import {
-  SET_REPLY,
-  SET_ALL_REPLIES,
-} from './constants';
+import { UPDATE_REPLY, SET_ALL_REPLIES, REMOVE_REPLY } from './constants';
 
 export const setAllReplies = replies => {
   return {
@@ -10,9 +7,15 @@ export const setAllReplies = replies => {
   };
 };
 
-export const setReply = reply => {
+// export const editReply = reply => {
+//   return {
+//     type: UPDATE_REPLY,
+//     reply,
+//   };
+// };
+export const removeReply = id => {
   return {
-    type: SET_REPLY,
-    reply,
+    type: REMOVE_REPLY,
+    id,
   };
 };

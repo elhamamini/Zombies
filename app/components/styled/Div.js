@@ -19,7 +19,12 @@ export const Hr = styled.hr`
   width: 95%;
   margin: 1rem;
 `;
-
+export const HrBlue = styled.hr`
+  display: block;
+  width: 95%;
+  margin: 1rem;
+  background-color: tomato;
+`;
 export const Row = styled.div`
   display: block;
   width: 100%;

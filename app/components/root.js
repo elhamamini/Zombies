@@ -15,6 +15,7 @@ import SignUp from './SignUp';
 import MessageConsole from './MessageConsole';
 import EditUser from './EditUser';
 import LastTitleList from './LatestTitleList';
+import FlagedReplies from './FlagedRepliesView';
 
 import { getUserFromGitHub } from '../redux/users/thunks';
 import { fetchTags } from '../redux/tags/thunks';
@@ -40,6 +41,7 @@ class Root extends Component {
             <Route path="/signup" component={SignUp} exact />
             <Route path="/edituser" component={EditUser} />
             <Route path="/last" component={LastTitleList} exact />
+            <Route path="/flaged" component={FlagedReplies} exact />
           </Switch>
         </main>
       </Router>
