@@ -10,9 +10,34 @@ export const Input = styled.input`
   padding: 0.5rem;
   margin: 0.5rem;
   &:focus {
-      border: 1px solid #007bff;
-      outline: none;
+    border: 1px solid #007bff;
+    outline: none;
   }
+`;
+export const Checkbox = styled.input`
+  margin-top: 3px;
+  margin-left: 5px;
+  border-radius: 5px;
+`;
+export const NewLabel = styled.label`
+  color: blue;
+
+  padding-left: 15px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+`;
+export const Span = styled.span`
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
 `;
 
 export const InputFeedback = styled.div`
@@ -21,7 +46,7 @@ export const InputFeedback = styled.div`
   color: #f43b43;
   padding: 0.5rem;
   font-size: 0.75rem;
-`
+`;
 
 export const TextField = styled.textarea`
   display: block;
@@ -37,7 +62,7 @@ export const TextField = styled.textarea`
     border: 1px solid #007bff;
     outline: none;
   }
-`
+`;
 
 export const Label = styled.label`
   display: block;
@@ -45,7 +70,7 @@ export const Label = styled.label`
   font-size: 1rem;
   padding: 0 0.5rem;
   margin-top: 1rem;
-`
+`;
 
 export const Dropdown = styled.select`
   min-width: 100px;
@@ -59,18 +84,18 @@ export const Dropdown = styled.select`
     border: 1px solid #007bff;
     outline: none;
   }
-`
+`;
 
 export const SmallDropdown = styled.select`
   min-width: 2rem;
-`
+`;
 
 export const Option = styled.option`
-&:focus {
-  border: 1px solid #007bff;
-  outline: none;
-}
-`
+  &:focus {
+    border: 1px solid #007bff;
+    outline: none;
+  }
+`;
 
 export const TextEditor = styled(ReactQuill)`
   display: block;
@@ -85,4 +110,4 @@ export const TextEditor = styled(ReactQuill)`
     border: 1px solid #007bff;
     outline: none;
   }
-`
+`;

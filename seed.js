@@ -50,6 +50,7 @@ const seed = async () => {
               userId: convObj.userId,
               conversationId: convObj.id,
               postNumber: i + 1,
+              isFlagged: Math.random() < 0.5,
             });
           } else {
             Reply.create({
@@ -57,6 +58,7 @@ const seed = async () => {
               userId: Math.ceil(Math.random() * 7),
               conversationId: convObj.id,
               postNumber: i + 1,
+              isFlagged: Math.random() < 0.5,
             });
           }
         })
