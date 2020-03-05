@@ -36,6 +36,7 @@ class NewConversation extends Component {
         bodyError: '',
       },
       tags: [],
+      isLoading: false,
     };
   }
 
@@ -48,6 +49,8 @@ class NewConversation extends Component {
 
   handleOnClick = e => {
     e.preventDefault();
+    this.setState({ isLoading: true })
+
     const cleanText = pruneHTML(this.props.body.bodyText);
     let results = extractTokens(cleanText, this.props.whitelist);
     const searchTags = this.props.tags.filter(t => results[t.name]);
@@ -56,8 +59,7 @@ class NewConversation extends Component {
       userId: this.props.user.id,
       title: this.state.topic,
       tags: searchTags,
-    })
-    
+    })  
     .then(() => {
       this.props.createReply({
         conversationId: this.props.conversation.id,
@@ -70,7 +72,10 @@ class NewConversation extends Component {
         tags: this.state.tags,
     })
   })
-    .then(() => this.props.draftBody())
+    .then(() => {
+      this.setState({ isLoading: false })
+      this.props.draftBody('', {})
+    })
     .then(() => this.props.history.push(`/conversations/${this.props.conversation.id}`))
   };
 
@@ -185,7 +190,7 @@ class NewConversation extends Component {
             ? (
           <Button
             disabled={
-              !topic || !this.props.body.bodyText || Object.values(errors).some(val => !!val)
+              this.state.isLoading || !topic || !this.props.body.bodyText || Object.values(errors).some(val => !!val)
                 ? true
                 : false
             }
