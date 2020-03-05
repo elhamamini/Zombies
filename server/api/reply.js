@@ -1,12 +1,19 @@
 const router = require('express').Router();
 const Sequelize = require('sequelize');
-const { Conversation, Reply, Activity } = require('../db');
+const { Conversation, Reply, Activity, User } = require('../db');
 
 const RESULTS_PER_PAGE = 25;
 
 //return all replies
 router.get('/', (req, res, next) => {
-  Reply.findAll()
+  Reply.findAll({
+    where: {
+      isFlagged: true,
+    },
+    include: {
+      model: Conversation,
+    },
+  })
     .then(replies => res.send(replies))
     .catch(e => console.error(e));
 });
@@ -15,12 +22,12 @@ router.get('/search', (req, res, next) => {
   const { term } = req.query;
   Reply.findAll({
     where: {
-      body: { [Sequelize.Op.iLike]: `%${term}%` }
+      body: { [Sequelize.Op.iLike]: `%${term}%` },
     },
-    include: { model: Conversation }
+    include: { model: Conversation },
   })
-  .then(replies => res.send(replies))
-  .catch(e => console.error(e));
+    .then(replies => res.send(replies))
+    .catch(e => console.error(e));
 });
 
 //return a single reply
@@ -64,7 +71,7 @@ router.put('/:id', (req, res, next) => {
       ...req.body,
     },
     {
-      where: { id: req.params.id },
+      where: { id: req.params.id, isFlagged: true },
       returning: true,
     }
   )

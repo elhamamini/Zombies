@@ -19,7 +19,6 @@ export const FormRow = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-
 `;
 
 export const FormColumn = styled.div`
@@ -29,4 +28,9 @@ export const FormColumn = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: stretch;
+`;
+export const FormCheckbox = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
 `;

@@ -5,7 +5,7 @@ import hljs from 'highlight.js';
 import 'highlight.js/styles/vs2015.css';
 import 'react-quill/dist/quill.snow.css';
 
-import { draftBody } from '../../redux/replies/actions';
+import draftBody from '../../redux/body/actions';
 
 import * as Form from '../styled/Form';
 import { TextEditor } from '../styled/Input';

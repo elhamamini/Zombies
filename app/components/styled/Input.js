@@ -14,6 +14,31 @@ export const TextInput = styled.input`
       outline: none;
   }
 `;
+export const Checkbox = styled.input`
+  margin-top: 3px;
+  margin-left: 5px;
+  border-radius: 5px;
+`;
+export const NewLabel = styled.label`
+  color: blue;
+
+  padding-left: 15px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+`;
+export const Span = styled.span`
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+`;
 
 export const InputFeedback = styled.div`
   display: block;
@@ -67,10 +92,17 @@ export const SmallDropdown = styled.select`
 `;
 
 export const Option = styled.option`
+<<<<<<< HEAD
 &:focus {
   border: 1px solid #007bff;
   outline: none;
 }
+=======
+  &:focus {
+    border: 1px solid #007bff;
+    outline: none;
+  }
+>>>>>>> dev
 `;
 
 export const TextEditor = styled(ReactQuill)`
@@ -86,4 +118,8 @@ export const TextEditor = styled(ReactQuill)`
     border: 1px solid #007bff;
     outline: none;
   }
+<<<<<<< HEAD
 `;
+=======
+`;
+>>>>>>> dev

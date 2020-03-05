@@ -1,7 +1,6 @@
 import {
   SET_REPLY,
   SET_ALL_REPLIES,
-  DRAFT_BODY
 } from './constants';
 
 export const setAllReplies = replies => {
@@ -11,16 +10,9 @@ export const setAllReplies = replies => {
   };
 };
 
-export const setReply = reply => {
+export const removeReply = id => {
   return {
-    type: SET_REPLY,
-    reply,
+    type: REMOVE_REPLY,
+    id,
   };
 };
-
-export const draftBody = (bodyText = '', codeBlocks = {}) => {
-  return {
-    type: DRAFT_BODY,
-    body: { bodyText, codeBlocks },
-  }
-}

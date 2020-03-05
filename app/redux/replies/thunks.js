@@ -1,13 +1,15 @@
 import axios from 'axios';
 
-import {
-  addReply,
-  editReply,
-  setAllReplies,
-  setReply,
-  removeReply,
-} from './actions';
+import { addReply, editReply, setAllReplies, removeReply } from './actions';
 import { checkError, checkSuccess } from '../statusMessage/utils';
+export const fetchAllReplies = () => {
+  return dispatch => {
+    return axios
+      .get('/api/reply')
+      .then(res => dispatch(setAllReplies(res.data)))
+      .catch(e => checkError(dispatch, e.response.status));
+  };
+};
 
 export const createReply = content => {
   return dispatch => {
@@ -18,12 +20,12 @@ export const createReply = content => {
 };
 
 export const updateReply = (reply, id) => {
+  console.log('replyyyy', reply);
   return dispatch => {
     return axios
       .put(`/api/reply/${id}`, reply)
       .then(res => {
-        dispatch(setReply(res.data));
-        checkSuccess(dispatch, res.status);
+        dispatch(fetchAllReplies());
       })
       .catch(e => checkError(dispatch, e.response.status));
   };
@@ -42,7 +44,10 @@ export const deleteReply = id => {
   return dispatch => {
     return axios
       .delete(`/api/reply/${id}`)
-      .then(res => checkSuccess(dispatch, res.status))
+      .then(res => {
+        dispatch(fetchAllReplies());
+        checkSuccess(dispatch, res.status);
+      })
       .catch(e => checkError(dispatch, e.response.status));
   };
 };

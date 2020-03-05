@@ -5,13 +5,15 @@ import { conversation, allConversations } from './conversations/reducers';
 import { repositories } from './repository/reducers';
 import statusMessage from './statusMessage/reducers';
 import { tags } from './tags/reducers';
-import body from './replies/reducers';
+import replies from './replies/reducers';
+import body from './body/reducers';
 
 const appReducer = combineReducers({
   users,
   user,
   authentication,
   conversation,
+  replies,
   allConversations,
   repositories,
   statusMessage,
