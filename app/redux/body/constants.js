@@ -1,1 +1,1 @@
-export const DRAFT_BODY = Symbol('DRAFT_BODY');
+export default Symbol('DRAFT_BODY');

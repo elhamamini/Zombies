@@ -13,7 +13,7 @@ import RunCode from './RunCode';
 
 import { fetchCurrentConversation } from '../../redux/conversations/thunks';
 import { createReply, deleteReply } from '../../redux/replies/thunks';
-import { draftBody } from '../../redux/body/actions';
+import draftBody from '../../redux/body/actions';
 
 const ConversationThread = ({ match }) => {
 

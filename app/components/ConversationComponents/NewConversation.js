@@ -17,7 +17,7 @@ import {
   fetchCurrentConversation,
 } from '../../redux/conversations/thunks';
 import { createReply } from '../../redux/replies/thunks';
-import { draftBody } from '../../redux/body/actions';
+import draftBody from '../../redux/body/actions';
 
 import Editor from './Editor';
 
