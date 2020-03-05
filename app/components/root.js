@@ -22,8 +22,9 @@ import { fetchRepos } from '../redux/repository/thunks';
 
 class Root extends Component {
   componentDidMount() {
-    this.props.getUserFromGitHub()
-    .then(() => this.props.fetchRepos(this.props.user.githubUsername));
+    this.props
+      .getUserFromGitHub()
+      .then(() => this.props.fetchRepos(this.props.user.githubUsername));
 
     this.props.fetchTags();
   }
@@ -52,12 +53,12 @@ class Root extends Component {
   }
 }
 
-const mapState = ({ user }) => ({ user })
+const mapState = ({ user }) => ({ user });
 
 const mapDispatch = dispatch => ({
   getUserFromGitHub: () => dispatch(getUserFromGitHub()),
   fetchTags: () => dispatch(fetchTags()),
-  fetchRepos: () => dispatch(fetchRepos())
+  fetchRepos: () => dispatch(fetchRepos()),
 });
 
 export default connect(mapState, mapDispatch)(Root);
