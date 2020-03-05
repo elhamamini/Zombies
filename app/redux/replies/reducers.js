@@ -1,4 +1,4 @@
-import { SET_ALL_REPLIES, REMOVE_REPLY } from './constants';
+import { SET_ALL_REPLIES, SET_REPLY } from './constants';
 
 export default (state = [], action) => {
   switch (action.type) {

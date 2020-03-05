@@ -1,4 +1,7 @@
-import { UPDATE_REPLY, SET_ALL_REPLIES, REMOVE_REPLY } from './constants';
+import {
+  SET_REPLY,
+  SET_ALL_REPLIES,
+} from './constants';
 
 export const setAllReplies = replies => {
   return {
