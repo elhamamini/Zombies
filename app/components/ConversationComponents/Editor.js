@@ -7,7 +7,7 @@ import 'react-quill/dist/quill.snow.css';
 
 import draftBody from '../../redux/body/actions';
 
-import { FormColumn } from '../styled/Form';
+import * as Form from '../styled/Form';
 import { TextEditor } from '../styled/Input';
 
 import Toolbar from './Toolbar';
@@ -213,7 +213,7 @@ const Editor = () => {
   }
 
   return (
-      <FormColumn>
+      <Form.FormColumn>
         <Toolbar />
         <TextEditor
           modules={modules}
@@ -222,7 +222,7 @@ const Editor = () => {
           value={body.bodyText || ''}
           readOnly={readOnly}
         />
-      </FormColumn>
+      </Form.FormColumn>
   )
 }
 
