@@ -36,6 +36,11 @@ const pruneHTML = (str) => {
     return returnedStr;
 };
 
+const convertToTag = str => {
+  const openingTag = /&lt;/;
+  const closingTag = /&gt;/;
+}
+
 export {
     pruneHTML,
     extractTokens
