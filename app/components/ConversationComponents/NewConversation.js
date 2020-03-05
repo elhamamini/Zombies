@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import nlp from 'compromise';
 
 import { MainContainer } from '../styled/Div';
-import { Header } from '../styled/Font';
-import { Form } from '../styled/Form';
-import { Input, InputFeedback, Label } from '../styled/Input';
+import * as Font from '../styled/Font';
+import * as Form from '../styled/Form';
+import * as Input from '../styled/Input';
 import { Button } from '../styled/Button';
 import { Select, Option } from '../styled/Select';
 import { Pill, PillContainer } from '../styled/Pill';
@@ -150,17 +150,17 @@ class NewConversation extends Component {
     return (
       <MainContainer>
         {/* <Link to="postpage">Post Page</Link> */}
-        <Form>
-          <Header>Create a New Conversation</Header>
-          <Label>Topic</Label>
-          <Input
+        <Form.Container>
+          <Font.h1>New Conversation</Font.h1>
+          <Font.h4>Topic</Font.h4>
+          <Input.TextInput
             type="text"
             name="topic"
-            placeholder="Help running NPM Testem"
+            placeholder="Help installing Testem"
             value={topic}
             onChange={ev => this.setState({ topic: ev.target.value })}
           />
-          <InputFeedback>{topicError}</InputFeedback>
+          <Input.InputFeedback>{topicError}</Input.InputFeedback>
           {this.props.repositories.length && this.props.user.githubUsername ? (
             <div>
               <label>Add repository link to your Conversation:</label>
@@ -179,9 +179,9 @@ class NewConversation extends Component {
               </Select>
             </div>
           ) : null}
-          <Label>Body</Label>
+          <Font.h4>Body</Font.h4>
           <Editor />
-          <InputFeedback>{bodyError}</InputFeedback>
+          <Input.InputFeedback>{bodyError}</Input.InputFeedback>
           <PillContainer>
             {tags.length ? tags.map(tag => <Pill key={tag}>{tag}</Pill>) : ''}
           </PillContainer>
@@ -205,7 +205,7 @@ class NewConversation extends Component {
             </div>
             )
           }
-        </Form>
+        </Form.Container>
       </MainContainer>
     );
   }
