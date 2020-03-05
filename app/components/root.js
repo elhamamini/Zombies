@@ -15,6 +15,7 @@ import EditUser from './EditUser';
 import NewConversation from './ConversationComponents/NewConversation';
 import ConversationThread from './ConversationComponents/ConversationThread';
 import LastTitleList from './LatestTitleList';
+import FlaggedReplies from './FlaggedRepliesView';
 
 import { getUserFromGitHub } from '../redux/users/thunks';
 import { fetchTags } from '../redux/tags/thunks';
@@ -46,6 +47,7 @@ class Root extends Component {
             {/* <Route path='/conversations' /> */}
             <Route path="/conversations/:id" component={ConversationThread} />
             <Route path="/last" component={LastTitleList} exact />
+            <Route path="/flagged" component={FlaggedReplies} exact />
           </Switch>
         </main>
       </Router>

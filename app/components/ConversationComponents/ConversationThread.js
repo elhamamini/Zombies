@@ -9,10 +9,11 @@ import SmallButton from '../styled/SmallButton';
 
 import EditorReadOnly from './EditorReadOnly';
 import Editor from './Editor';
+import RunCode from './RunCode';
 
 import { fetchCurrentConversation } from '../../redux/conversations/thunks';
 import { createReply, deleteReply } from '../../redux/replies/thunks';
-import { draftBody } from '../../redux/replies/actions';
+import draftBody from '../../redux/body/actions';
 
 const ConversationThread = ({ match }) => {
 
@@ -27,7 +28,7 @@ const ConversationThread = ({ match }) => {
 
   useEffect(() => {
     dispatch(fetchCurrentConversation(match.params.id));
-  }, [replyCount])
+  }, [])
 
   const handleOnClick = e => {
     e.preventDefault()
@@ -62,12 +63,13 @@ const ConversationThread = ({ match }) => {
               <h2>{conversation.title}</h2>
             { conversation.replies.map((reply, idx) => {
                 return (
-                  <FormColumn>
+                  <FormColumn key={reply.id}>
                     <FormRow>
                       <Label>{ reply.user.name } { idx === 0 ? 'asked:' : 'said:' }</Label>
                       { user.id === conversation.userId && idx !== 0 ? <SmallButton disabled={isLoading} onClick={() => handleDeleteReply(reply)}>Delete</SmallButton> : null }
                     </FormRow>
-                    <EditorReadOnly key={reply.id} reply={reply.body} readOnly={isReadOnly}/>
+                    <EditorReadOnly reply={reply.body} readOnly={isReadOnly}/>
+                    { reply.htmlCode || reply.cssCode || reply.javascriptCode ? <RunCode reply={reply}/> : null }
                     {/* { user.id === conversation.userId ? <SmallButton onClick={() => setIsReadOnly(false)}>Edit</SmallButton> : null } */}
                   </FormColumn>
                 )
