@@ -1,6 +1,6 @@
-import { DRAFT_BODY } from './constants'
+import DRAFT_BODY from './constants'
 
-export const draftBody = (bodyText = '', codeBlocks = {}) => {
+export default (bodyText = '', codeBlocks = {}) => {
   return {
     type: DRAFT_BODY,
     body: { bodyText, codeBlocks },
