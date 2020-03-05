@@ -12,11 +12,9 @@ export const fetchAllReplies = () => {
 };
 
 export const createReply = content => {
-  console.log(content);
   return dispatch => {
     return axios
       .post('/api/reply', content)
-      .then(res => dispatch(setReply(res.data)))
       .catch(e => checkError(dispatch, e.response.status));
   };
 };
@@ -47,7 +45,7 @@ export const deleteReply = id => {
     return axios
       .delete(`/api/reply/${id}`)
       .then(res => {
-        dispatch(removeReply(id));
+        dispatch(fetchAllReplies());
         checkSuccess(dispatch, res.status);
       })
       .catch(e => checkError(dispatch, e.response.status));

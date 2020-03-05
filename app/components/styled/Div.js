@@ -36,6 +36,7 @@ export const Row = styled.div`
       : props.flexEnd
       ? 'flex-end'
       : 'space-between'};
+  flex-wrap: ${props => props.flexWrap ? 'wrap' : 'nowrap' }
   align-items: center;
   margin: 0.5rem;
 `;

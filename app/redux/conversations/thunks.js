@@ -25,7 +25,10 @@ export const createConversation = content => {
       .then(res => {
         dispatch(setCurrentConversation(res.data));
       })
-      .catch(e => checkError(dispatch, e.response.status));
+      .catch(e => {
+        console.log(e)
+        checkError(dispatch, e.response.status)
+      });
   };
 };
 

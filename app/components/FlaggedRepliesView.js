@@ -14,7 +14,7 @@ import { HrBlue } from './styled/Div';
 import { Checkbox, NewLabel, Span } from './styled/Input';
 import { FormCheckbox } from './styled/Form';
 
-class FlagedReplies extends React.Component {
+class FlaggedReplies extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -113,4 +113,4 @@ const mapDispatchToProps = dispatch => {
     deleteReply: id => dispatch(deleteReply(id)),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(FlagedReplies);
+export default connect(mapStateToProps, mapDispatchToProps)(FlaggedReplies);

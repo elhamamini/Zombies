@@ -7,12 +7,6 @@ export const setAllReplies = replies => {
   };
 };
 
-// export const editReply = reply => {
-//   return {
-//     type: UPDATE_REPLY,
-//     reply,
-//   };
-// };
 export const removeReply = id => {
   return {
     type: REMOVE_REPLY,
