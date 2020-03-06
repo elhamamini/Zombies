@@ -49,8 +49,8 @@ const overrideConsoleLog = () => {
     console = {};
   };
   const originalConsoleLog = console.log;
+  let result = '';
   console.log = str => {
-    const result = '';
     if(typeof str === undefined) {
       result += 'undefined';
     } else if(typeof str === 'object' &&
@@ -62,6 +62,7 @@ const overrideConsoleLog = () => {
       }
       result += '<br />'
   }
+  
   console.log = originalConsoleLog;
 }
 
