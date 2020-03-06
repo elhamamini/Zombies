@@ -7,6 +7,10 @@
   border: none!important;
 }
 
+.quill {
+  box-shadow: none!important;
+}
+
 body {
   background: linear-gradient(#c0c0c0);
   height: 100vh;
@@ -22,6 +26,11 @@ main {
   flex-direction: column;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+hr {
+  margin: 2rem 0rem;
+  border: 1px solid lightgrey;
 }
 
 .language-css {
