@@ -69,7 +69,7 @@ const ConversationThread = ({ match }) => {
                       { user.id === conversation.userId && idx !== 0 ? <SmallButton disabled={isLoading} onClick={() => handleDeleteReply(reply)}>Delete</SmallButton> : null }
                     </FormRow>
                     <EditorReadOnly reply={reply.body} readOnly={isReadOnly}/>
-                    { reply.htmlCode || reply.cssCode || reply.javascriptCode ? <RunCode reply={reply}/> : null }
+                    { reply.htmlCode || reply.cssCode || reply.javascriptCode ? <RunCode reply={reply} idx={idx}/> : null }
                     {/* { user.id === conversation.userId ? <SmallButton onClick={() => setIsReadOnly(false)}>Edit</SmallButton> : null } */}
                   </FormColumn>
                 )
