@@ -9,10 +9,10 @@ import { fetchUsers } from '../redux/users/thunks';
 import * as Container from './styled/Div';
 import * as Font from './styled/Font';
 import * as Card from './styled/card';
-import { SmallButton } from './styled/Button';
-import { HrBlue } from './styled/Div';
-import { Checkbox, NewLabel, Span } from './styled/Input';
+import SmallButton from './styled/SmallButton';
+import { Hr } from './styled/Div';
 import { FormCheckbox } from './styled/Form';
+import NotFound from './404Page';
 
 class FlaggedReplies extends React.Component {
   constructor() {
@@ -26,57 +26,30 @@ class FlaggedReplies extends React.Component {
     this.props.getReplies();
     this.props.getUsers();
   }
-  // componentDidUpdate = (prevProps, prevState) => {
-  //   if (prevProps.replies.length !== this.props.replies.length) {
-  //     this.props.getReplies();
-  //   }
-  // };
 
   updateReplyHandler = reply => {
-    console.log('component reply', reply);
     this.props.updateReply(reply, reply.id);
   };
   render() {
-    // const flaggedReplies = this.props.replies.filter(reply => reply.isFlagged);
-    console.log('replies', this.props.replies);
-    return (
+    console.log('user', this.props.user.userType);
+    return this.props.user.userType === 'admin' ? (
       <Container.Paper id="conversations-index">
-        <Font.Hero>Flagged Replies</Font.Hero>
+        <Font.hero>Flagged Replies</Font.hero>
         <Card.CardContainer>
           {this.props.replies.map((reply, id) => (
             <Card.Card key={reply.id}>
               <Font.Header>Conversation Title:</Font.Header>
               <Font.Paragraph>{reply.conversation.title}</Font.Paragraph>
-              <HrBlue />
+              <Hr />
               <Font.Header>User name:</Font.Header>
               <Font.Paragraph>
                 {this.props.users.length &&
                   this.props.users.find(user => user.id === reply.userId).name}
               </Font.Paragraph>
-              <HrBlue />
+              <Hr />
               <Font.Header>Flagged Reply:</Font.Header>
               <Font.Paragraph>{reply.body}</Font.Paragraph>
-              {/* <FormCheckbox>
-                <NewLabel>unflagged</NewLabel>
-                <Checkbox
-                  type="checkbox"
-                  onChange={() => {
-                    this.props.updateReply(
-                      { ...reply, isFlagged: reply.isFlagged },
-                      reply.id
-                    );
-                  }}
-                />
-              </FormCheckbox> */}
-              {/* <FormCheckbox>
-                 <NewLabel style={{ color: 'red' }}>remove</NewLabel>
-                <Checkbox
-                  type="checkbox"
-                  onChange={() => {
-                    this.props.deleteReply(reply.id);
-                  }}
-                /> 
-              </FormCheckbox> */}
+
               <SmallButton
                 onClick={() => {
                   this.props.updateReply(
@@ -101,10 +74,16 @@ class FlaggedReplies extends React.Component {
           ))}
         </Card.CardContainer>
       </Container.Paper>
+    ) : (
+      <NotFound />
     );
   }
 }
-const mapStateToProps = ({ replies, users }) => ({ replies, users });
+const mapStateToProps = ({ replies, users, user }) => ({
+  replies,
+  users,
+  user,
+});
 const mapDispatchToProps = dispatch => {
   return {
     getReplies: () => dispatch(fetchAllReplies()),

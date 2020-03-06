@@ -33,7 +33,7 @@ export const Hr = styled.hr`
 `;
 export const HrBlue = styled.hr`
   display: block;
-  width: 95%;
+  width: 50%;
   margin: 1rem;
   background-color: tomato;
 `;
@@ -48,7 +48,7 @@ export const Row = styled.div`
       : props.flexEnd
       ? 'flex-end'
       : 'space-between'};
-  flex-wrap: ${props => props.flexWrap ? 'wrap' : 'nowrap' }
+  flex-wrap: ${props => (props.flexWrap ? 'wrap' : 'nowrap')}
   align-items: center;
   align-content: center;
   margin: 0.5rem;

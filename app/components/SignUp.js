@@ -4,8 +4,8 @@ import { removeLoginError } from '../redux/authentication/actions';
 import { attemptSignUp } from '../redux/authentication/thunks';
 import { Header, Anchor } from './styled/Font';
 import { createUser } from '../redux/users/thunks';
-import { Form, FormColumn } from './styled/Form';
-import { Input, InputFeedback } from './styled/Input';
+import { Container, FormColumn } from './styled/Form';
+import { TextInput, InputFeedback } from './styled/Input';
 import { Button } from './styled/Button';
 class SignUP extends Component {
   constructor() {
@@ -117,10 +117,10 @@ class SignUP extends Component {
     } = this.state;
 
     return (
-      <Form>
+      <Container>
         <Header>Join Zombies</Header>
         <FormColumn>
-          <Input
+          <TextInput
             type="text"
             placeholder="Username"
             onChange={this.handleOnChange}
@@ -130,7 +130,7 @@ class SignUP extends Component {
           <InputFeedback>{nameError}</InputFeedback>
         </FormColumn>
         <FormColumn>
-          <Input
+          <TextInput
             type="text"
             placeholder="email"
             onChange={this.handleOnChange}
@@ -141,7 +141,7 @@ class SignUP extends Component {
         </FormColumn>
 
         <FormColumn>
-          <Input
+          <TextInput
             type="password"
             placeholder="password"
             onChange={this.handleOnChange}
@@ -165,7 +165,7 @@ class SignUP extends Component {
           Signup
         </Button>
         <Anchor href="/login">Do you have an account? Log in</Anchor>
-      </Form>
+      </Container>
     );
   }
 }

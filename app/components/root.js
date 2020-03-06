@@ -20,6 +20,7 @@ import FlaggedReplies from './FlaggedRepliesView';
 import { getUserFromGitHub } from '../redux/users/thunks';
 import { fetchTags } from '../redux/tags/thunks';
 import { fetchRepos } from '../redux/repository/thunks';
+import NotFound from './404Page';
 
 class Root extends Component {
   componentDidMount() {
@@ -48,6 +49,7 @@ class Root extends Component {
             <Route path="/conversations/:id" component={ConversationThread} />
             <Route path="/last" component={LastTitleList} exact />
             <Route path="/flagged" component={FlaggedReplies} exact />
+            <Route component={NotFound} />
           </Switch>
         </main>
       </Router>
