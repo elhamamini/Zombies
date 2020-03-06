@@ -7,7 +7,7 @@ import { attemptLogout } from '../redux/authentication/thunks';
 
 //TODO: Remove NavLinks On SignUp and Login
 const NavBar = props => {
-  console.log(props);
+  console.log('user', props.user.userType);
   return (
     <Nav>
       <Row>
@@ -22,6 +22,9 @@ const NavBar = props => {
           <NavLink to="/new">New Conversation</NavLink>
           {props.user.userType === 'admin' ? (
             <NavLink to="/flagged">Flagged Replies</NavLink>
+          ) : null}
+          {props.user.userType === 'admin' ? (
+            <NavLink to="/last">List of new conversations</NavLink>
           ) : null}
         </Row>
       </Row>
