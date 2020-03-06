@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { attemptLogin } from '../redux/authentication/thunks';
 import { removeLoginError } from '../redux/authentication/actions';
 
-import { Header, Anchor } from './styled/Font';
+import * as Font from './styled/Font';
 import { Hr } from './styled/Div';
-import { Form, FormRow, FormColumn } from './styled/Form';
-import { Input, InputFeedback } from './styled/Input';
+import { Container, FormRow, FormColumn } from './styled/Form';
+import { TextInput, InputFeedback } from './styled/Input';
 import { Button, AnchorButton } from './styled/Button';
 
 class Login extends Component {
@@ -101,8 +101,8 @@ class Login extends Component {
     } = this.state;
 
     return (
-      <Form>
-        <Header>Sign in with Social Media</Header>
+      <Container>
+        <Font.h2>Sign in with Social Media</Font.h2>
         <FormRow>
           <AnchorButton secondary href="/api/github/login">
             Continue with Github
@@ -113,9 +113,9 @@ class Login extends Component {
           </AnchorButton>
         </FormRow>
         <Hr />
-        <Header>Or sign in with your email and password</Header>
+        <Font.h2>Sign in with Email</Font.h2>
         <FormColumn>
-          <Input
+          <TextInput
             type="text"
             placeholder="email"
             onChange={this.handleOnChange}
@@ -126,7 +126,7 @@ class Login extends Component {
         </FormColumn>
 
         <FormColumn>
-          <Input
+          <TextInput
             type="password"
             placeholder="password"
             onChange={this.handleOnChange}
@@ -146,8 +146,8 @@ class Login extends Component {
         >
           Login
         </Button>
-        <Anchor href="#">Forgot Password?</Anchor>
-      </Form>
+        <Font.Anchor href="#">Forgot Password?</Font.Anchor>
+      </Container>
     );
   }
 }

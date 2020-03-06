@@ -5,6 +5,7 @@ import * as Container from './styled/Div';
 import * as Font from './styled/Font';
 import * as Card from './styled/card';
 import * as Button from './styled/Button';
+import NotFound from './404Page';
 class LatestTitleList extends React.Component {
   componentDidMount() {
     this.props.getConversations(0);
@@ -41,11 +42,10 @@ class LatestTitleList extends React.Component {
     let currentConversationsList = this.props.allConversations.filter(conve => {
       return this.checkDate(conve.createdAt.split('T')[0]);
     });
-    // }
 
-    return (
+    return this.props.user.userType === 'admin' ? (
       <Container.Paper id="conversations-index">
-        <Font.Hero>New Conversations</Font.Hero>
+        <Font.hero>New Conversations</Font.hero>
         <Card.CardContainer>
           {currentConversationsList.map(convo => (
             <Card.Card key={convo.id}>
@@ -56,10 +56,15 @@ class LatestTitleList extends React.Component {
           ))}
         </Card.CardContainer>
       </Container.Paper>
+    ) : (
+      <NotFound />
     );
   }
 }
-const mapStateToProps = ({ allConversations }) => ({ allConversations });
+const mapStateToProps = ({ allConversations, user }) => ({
+  allConversations,
+  user,
+});
 const mapDispatchToProps = dispatch => {
   return {
     getConversations: p => dispatch(fetchAllConversations(p)),

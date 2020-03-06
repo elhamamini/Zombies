@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { updateUser } from '../redux/users/thunks';
-import { Form, FormColumn, FormRow } from './styled/Form';
-import { Input, InputFeedback } from './styled/Input';
+import { Container, FormColumn, FormRow } from './styled/Form';
+import { TextInput, InputFeedback } from './styled/Input';
 import { Image } from './styled/Image';
 import { Button } from './styled/Button';
 import { Header, Anchor, NewLabel } from './styled/Font';
@@ -129,11 +129,11 @@ class EditUser extends React.Component {
       errors: { emailError, passwordError, nameError },
     } = this.state;
     return (
-      <Form>
+      <Container>
         <Header>Public Profile</Header>
         <FormRow>
           <Image src={image} />
-          <Input
+          <TextInput
             type="text"
             placeholder="Image"
             onChange={this.handleOnChange}
@@ -144,7 +144,7 @@ class EditUser extends React.Component {
 
         <FormColumn>
           <NewLabel>Username</NewLabel>
-          <Input
+          <TextInput
             type="text"
             placeholder="Username"
             onChange={this.handleOnChange}
@@ -155,7 +155,7 @@ class EditUser extends React.Component {
         </FormColumn>
         <FormColumn>
           <NewLabel>Email</NewLabel>
-          <Input
+          <TextInput
             type="text"
             placeholder="email"
             onChange={this.handleOnChange}
@@ -167,7 +167,7 @@ class EditUser extends React.Component {
 
         <FormColumn>
           <NewLabel>Password</NewLabel>
-          <Input
+          <TextInput
             type="password"
             placeholder="password"
             onChange={this.handleOnChange}
@@ -178,7 +178,7 @@ class EditUser extends React.Component {
         </FormColumn>
         <FormColumn>
           <NewLabel>Bio</NewLabel>
-          <Input
+          <TextInput
             type="text"
             placeholder="bio"
             onChange={this.handleOnChange}
@@ -199,7 +199,7 @@ class EditUser extends React.Component {
         >
           Update profile
         </Button>
-      </Form>
+      </Container>
     );
   }
 }

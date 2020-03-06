@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '../styled/Button';
 import { FormColumn, FormRow } from '../styled/Form';
 import { NavSpan } from '../styled/Nav';
-import { Label } from '../styled/Font';
+import * as Font from '../styled/Font';
 import SmallButton from '../styled/SmallButton';
 
 import EditorReadOnly from './EditorReadOnly';
@@ -60,12 +60,12 @@ const ConversationThread = ({ match }) => {
         conversation.replies
         ? (
           <div>
-              <h2>{conversation.title}</h2>
+              <Font.h1>{conversation.title}</Font.h1>
             { conversation.replies.map((reply, idx) => {
                 return (
                   <FormColumn key={reply.id}>
                     <FormRow>
-                      <Label>{ reply.user.name } { idx === 0 ? 'asked:' : 'said:' }</Label>
+                      <Font.Label>{ reply.user.name } { idx === 0 ? 'asked:' : 'said:' }</Font.Label>
                       { user.id === conversation.userId && idx !== 0 ? <SmallButton disabled={isLoading} onClick={() => handleDeleteReply(reply)}>Delete</SmallButton> : null }
                     </FormRow>
                     <EditorReadOnly reply={reply.body} readOnly={isReadOnly}/>

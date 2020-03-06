@@ -6,6 +6,18 @@ export const MainContainer = styled.div`
   width: 100%;
 `;
 
+export const Container = styled.div`
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+  background-color: white;
+  padding: 2rem;
+  margin: 1rem 3rem;
+`;
+
 export const Paper = styled.div`
   width: 100%;
   display: flex;
@@ -21,7 +33,7 @@ export const Hr = styled.hr`
 `;
 export const HrBlue = styled.hr`
   display: block;
-  width: 95%;
+  width: 50%;
   margin: 1rem;
   background-color: tomato;
 `;
@@ -36,7 +48,8 @@ export const Row = styled.div`
       : props.flexEnd
       ? 'flex-end'
       : 'space-between'};
-  flex-wrap: ${props => props.flexWrap ? 'wrap' : 'nowrap' }
+  flex-wrap: ${props => (props.flexWrap ? 'wrap' : 'nowrap')}
   align-items: center;
+  align-content: center;
   margin: 0.5rem;
 `;
