@@ -114,3 +114,15 @@ export const TextEditor = styled(ReactQuill)`
     outline: none;
   }
 `;
+
+export const TextEditorRead = styled(ReactQuill)`
+  display: block;
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  border: 1px solid whitesmoke;
+  border-radius: 3px;
+  overflow-y: auto;
+  resize: none;
+`;

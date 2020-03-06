@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { Button } from '../styled/Button';
-import { FormColumn, FormRow } from '../styled/Form';
+import * as Div from '../styled/Div';
+import * as Form from '../styled/Form';
 import { NavSpan } from '../styled/Nav';
 import * as Font from '../styled/Font';
 import SmallButton from '../styled/SmallButton';
@@ -55,50 +56,50 @@ const ConversationThread = ({ match }) => {
   }
 
   return ( 
-    <div>
+    <Div.MainContainer>
+      <Form.Container>
       {
-        conversation.replies
-        ? (
-          <div>
-              <Font.h1>{conversation.title}</Font.h1>
-            { conversation.replies.map((reply, idx) => {
-                return (
-                  <FormColumn key={reply.id}>
-                    <FormRow>
-                      <Font.Label>{ reply.user.name } { idx === 0 ? 'asked:' : 'said:' }</Font.Label>
-                      { user.id === conversation.userId && idx !== 0 ? <SmallButton disabled={isLoading} onClick={() => handleDeleteReply(reply)}>Delete</SmallButton> : null }
-                    </FormRow>
-                    <EditorReadOnly reply={reply.body} readOnly={isReadOnly}/>
-                    { reply.htmlCode || reply.cssCode || reply.javascriptCode ? <RunCode reply={reply}/> : null }
-                    {/* { user.id === conversation.userId ? <SmallButton onClick={() => setIsReadOnly(false)}>Edit</SmallButton> : null } */}
-                  </FormColumn>
-                )
-              })
-            }
-          </div>
-        )
-        : null
+        <div>
+          <Font.h2>{conversation.title}</Font.h2>
+          { 
+            conversation.replies && conversation.replies.map((reply, idx) => {
+              return (
+                <div key={reply.id}>
+                  <Font.h5>{ reply.user.name } { idx === 0 ? 'asked:' : 'replied:' }</Font.h5>
+                  { user.id === conversation.userId && idx !== 0 ? <SmallButton disabled={isLoading} onClick={() => handleDeleteReply(reply)}>Delete</SmallButton> : null }
+                  <EditorReadOnly reply={reply.body} readOnly={isReadOnly}/>
+                  { reply.htmlCode || reply.cssCode || reply.javascriptCode ? <RunCode reply={reply}/> : null }
+                  { idx === 0 && <hr/> }
+                </div>
+              )
+            })
+          }
+          <hr/>
+        </div>
       }
-
       {
-        isReplying
-        ? (
-          <FormColumn>
+        user.id ?
+        (
+          <Form.FormColumn>
+            <Font.h5>Write a reply</Font.h5>
             <Editor />
             <Button 
               disabled = {isLoading}
-              onClick={e => handleOnClick(e)}>Reply</Button>
-          </FormColumn>
+              onClick={e => handleOnClick(e)}
+            >
+              Submit
+            </Button>
+          </Form.FormColumn>
         )
-        : user.id
-        ? <Button onClick={() => setIsReplying(true)}>Reply to this Conversation</Button>
-        : (
-            <div>
-              <NavSpan secondary to='/login'>Login</NavSpan> or <NavSpan secondary to='/signup'>Create an account</NavSpan> to join the conversation.
-            </div>
-          )
+        : 
+        (
+          <div>
+            <NavSpan to='/login' secondary>Login</NavSpan> or <NavSpan to='/signup' secondary>Create an account</NavSpan> to join the conversation.
+          </div>
+        )
       }
-    </div>
+      </Form.Container>
+    </Div.MainContainer>
     )
 }
 
