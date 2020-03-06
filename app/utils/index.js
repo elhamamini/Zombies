@@ -36,12 +36,37 @@ const pruneHTML = (str) => {
     return returnedStr;
 };
 
-const convertToTag = str => {
-  const openingTag = /&lt;/;
-  const closingTag = /&gt;/;
+const convertSymbols = str => {
+  return str
+    .replace(/&gt;/g, '>')
+    .replace(/&lt;/g, '<')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '\"')
+}
+
+const overrideConsoleLog = () => {
+  if(!console) {
+    console = {};
+  };
+  const originalConsoleLog = console.log;
+  console.log = str => {
+    const result = '';
+    if(typeof str === undefined) {
+      result += 'undefined';
+    } else if(typeof str === 'object' &&
+      typeof JSON === 'object &&' &&
+      typeof JSON.stringify === 'function') {
+        result += JSON.stringify(str);
+      } else {
+        result += arg;
+      }
+      result += '<br />'
+  }
+  console.log = originalConsoleLog;
 }
 
 export {
     pruneHTML,
-    extractTokens
+    extractTokens,
+    convertSymbols,
 };
