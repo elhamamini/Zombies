@@ -1,13 +1,14 @@
-const brain = require('brain.js')
+const BrainJSClassifier = require('natural-brain');
+const classifier = new BrainJSClassifier();
 const moment = require('moment');
 const chalk = require('chalk');
-
 const fs = require('fs');
 
+let rawdata = fs.readFileSync('classifiedSet.json');
+let cleanResults = JSON.parse(rawdata);
 
-//TODO: load net in from json, test some inputs
-const rawNet = fs.readFileSync('trainedNet.json');
-let net = JSON.parse(rawNet);
-// const net = new brain.LSTMTimeStep()
-// net.fromJSON(json)
-// net.run(input)
+Object.values(cleanResults).forEach(val => classifier.addDocument(val[0], val[1]));
+
+classifier.train();
+
+classifier.save('trained_classifier.json', function () {});

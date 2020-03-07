@@ -28,4 +28,14 @@ router.post('/', (req, res, next) => {
     }
 })
 
+router.post('/classify', (req, res, next) => {
+    try {
+        const { doc } = req.body;
+
+    }
+    catch (e) {
+        
+    }
+});
+
 module.exports = router;

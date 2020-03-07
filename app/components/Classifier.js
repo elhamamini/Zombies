@@ -5,53 +5,44 @@ import axios from 'axios';
 
 const Classifier = (props) => {
     const [keyIdx, setKeyIdx] = useState(0);
-    const [replyIdx, setReplyIdx] = useState(0);
     const [done, setDone] = useState(false);
     const [data, setData] = useState({});
-    const [output, setOutput] = useState({});
-    const [trainingSet, setTraining] = useState([]);
+    const [outputArr, setOutput] = useState([]);
+    const [allData, setAll] = useState({});
     const dispatch = useDispatch();
     const whitelist = useSelector(state => state.tags.whitelist);
 
 
-    const handleChange = (e, value) => {
-        const updated = {...output};
-        //if the value is already in the output, toggle it. if not, add it with value 1
-        updated[value] = e.target.checked ? 1 : 0;
-        //set output to include the updated values
-        setOutput(updated);
+    const handleChange = (value) => {
+        let nextState = Array.from(outputArr);
+        nextState.push(value);
+        setOutput(nextState);
     }
 
     const handleSubmit = async() => {
         //post to /api/ml with trainingSet
-        await axios.post('/api/ml', { classified: trainingSet });
+        await axios.post('/api/ml', { classified: allData });
     }
 
-    const handleNext = (value) => {
-        //put input and output values into object
-        if (Object.keys(output).length) {
-            let pushed = trainingSet;
-            pushed.push({
-                input: value,
-                output: output,
-            });
-            //update training set
-            setTraining(pushed);
-        }
-        
-        if (replyIdx === data[Object.keys(data)[keyIdx]].length - 1) {
-            setKeyIdx(keyIdx + 1);
-            setReplyIdx(0);
-        } else {
-            setReplyIdx(replyIdx + 1);
-        }
-        //reset output values
-        setOutput({});
+    const handleNext = () => {
+
+        // {
+        //     1: ['big str', ['val1', 'val2']],
+        //     2: ...
+        // }
+
+        const docArr = [data[Object.keys(data)[keyIdx]][0]];
+        docArr.push(outputArr);
+        const updatedData = {...allData};
+        updatedData[`${keyIdx}`] = docArr;
+        setAll(updatedData);
+        setKeyIdx(keyIdx + 1);
+        setOutput([]);
     }
 
     useEffect(() => {
-        console.log('current output', output);
-        console.log('trainingSet', trainingSet);
+        console.log('current output values', outputArr);
+        console.log('trainingSet', allData);
 
         if (keyIdx > 0 && keyIdx >= Object.keys(data).length) {
             setDone(true);
@@ -81,11 +72,11 @@ const Classifier = (props) => {
         <div id="ml">
             <div id="training-string">
                 {
-                    data[Object.keys(data)[keyIdx]][replyIdx]
+                    data[Object.keys(data)[keyIdx]][0]
                 }
             </div>
             <button
-                onClick={() => handleNext(data[Object.keys(data)[keyIdx]][replyIdx])}
+                onClick={handleNext}
                 style={{padding: '2rem'}}
                 disabled={done}
             >
@@ -109,8 +100,8 @@ const Classifier = (props) => {
                                 id={key}
                                 name={key}
                                 style={{ margin: '1rem '}}
-                                checked={output[key] ? true : false}
-                                onChange={(e) => handleChange(e, key)}
+                                checked={outputArr.includes(key)}
+                                onChange={() => handleChange(key)}
                             />
                             <label htmlFor={key}>{key}</label>
                         </div>
