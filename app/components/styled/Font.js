@@ -21,7 +21,7 @@ export const h2 = styled.h2`
   display: block;
   margin: 1rem 0;
   font-size: 2rem;
-  font-weight: 400;
+  font-weight: 600;
   letter-spacing: 0.25px;
 `;
 
@@ -39,6 +39,14 @@ export const h4 = styled.h4`
   font-size: 1.25rem;
   font-weight: 600;
   letter-spacing: 0.15px;
+`;
+
+export const h5 = styled.h5`
+  display: block;
+  margin: 1rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0px;
 `;
 
 export const Header = styled.h3`
@@ -60,7 +68,7 @@ export const Title = styled.h6`
 `;
 
 export const Label = styled.h6`
-  margin: 1rem;
+  margin: 1rem 0;
   color: ${props => (props.secondary ? '#808080' : '#141414')};
 `;
 
