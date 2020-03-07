@@ -78,14 +78,14 @@ export const NewLabel = styled.h5`
 `;
 
 export const Paragraph = styled.p`
-  margin: 0.5rem 1rem;
+  margin: 0.5rem;
   font-size: 1rem;
 `;
 
 export const Anchor = styled.a`
   margin: 0.5rem;
   font-size: 1rem;
-  color: #007bff;
+  color: #7992FF;
 `;
 
 export const PillLabel = styled.p`

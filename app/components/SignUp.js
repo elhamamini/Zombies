@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { removeLoginError } from '../redux/authentication/actions';
 import { attemptSignUp } from '../redux/authentication/thunks';
-import { Header, Anchor } from './styled/Font';
+import * as Font from './styled/Font';
 import { createUser } from '../redux/users/thunks';
 import { Container, FormColumn } from './styled/Form';
 import { TextInput, InputFeedback } from './styled/Input';
@@ -117,8 +117,16 @@ class SignUP extends Component {
     } = this.state;
 
     return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+        }}
+      >
+      <img src="https://zombieforums.nyc3.cdn.digitaloceanspaces.com/header-2.png" width="350" height="205" />
       <Container>
-        <Header>Join Zombies</Header>
+        <Font.Header>Join Zombies</Font.Header>
         <FormColumn>
           <TextInput
             type="text"
@@ -164,8 +172,9 @@ class SignUP extends Component {
         >
           Signup
         </Button>
-        <Anchor href="/login">Do you have an account? Log in</Anchor>
+        <Font.Anchor href="/login">Do you have an account? Log in</Font.Anchor>
       </Container>
+      </div>
     );
   }
 }

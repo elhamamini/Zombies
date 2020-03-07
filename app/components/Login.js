@@ -101,19 +101,27 @@ class Login extends Component {
     } = this.state;
 
     return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+        }}
+      >
+      <img src="https://zombieforums.nyc3.cdn.digitaloceanspaces.com/header-1.png" width="350" height="205" />
       <Container>
-        <Font.h2>Sign in with Social Media</Font.h2>
+        <Font.h3>Sign in with Social Media</Font.h3>
         <FormRow>
           <AnchorButton secondary href="/api/github/login">
-            Continue with Github
+            Github
           </AnchorButton>
 
           <AnchorButton secondary onClick={this.handleOnClick}>
-            Continue with Google
+            Google
           </AnchorButton>
         </FormRow>
-        <Hr />
-        <Font.h2>Sign in with Email</Font.h2>
+        <Hr/>
+        <Font.h3>Sign in with Email</Font.h3>
         <FormColumn>
           <TextInput
             type="text"
@@ -148,6 +156,7 @@ class Login extends Component {
         </Button>
         <Font.Anchor href="#">Forgot Password?</Font.Anchor>
       </Container>
+      </div>
     );
   }
 }
