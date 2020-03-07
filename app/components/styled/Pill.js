@@ -18,15 +18,15 @@ export const Pill = styled.div`
   line-height: 2rem;
   background-color: ${(props) => {
     if (props.selected) {
-      return '#2F9893';
+      return '#CC3756';
     }
-    return '#3FC6C0';
+    return '#FF456C';
   }};
   border-radius: 1rem;
   color: ${props => (props.secondary ? '#686868' : '#FFFFFF')};;
   margin: 0.25rem 0.25rem;
   padding: 0 1rem;
   &:hover {
-    background-color: #2F9893;
+    background-color: #CC3756;
   }
 `;

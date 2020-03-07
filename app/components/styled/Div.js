@@ -28,8 +28,9 @@ export const Paper = styled.div`
 
 export const Hr = styled.hr`
   display: block;
-  width: 95%;
-  margin: 1rem;
+  width: 100%;
+  border: 1px solid lightgrey;
+  margin: 1rem 0;
 `;
 export const HrBlue = styled.hr`
   display: block;

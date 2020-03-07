@@ -7,14 +7,14 @@ export const Button = styled.button`
     border: ${props => props.secondary ? '1px solid #007bff' : '0'};
     border-radius: 3px;
     color: ${props => props.secondary ? '#007bff' : 'white'};
-    background-color: ${props => props.secondary ? 'white' : '#3FC6C0'};
+    background-color: ${props => props.secondary ? 'white' : '#7992FF'};
     font-size: 1rem;
     font-weight: bold;
     padding: 0.5rem 1rem;
     margin: 0.5rem;
     cursor: pointer;
     &:hover {
-        background-color: ${props => props.secondary ? '#ededed' : '#2F9893'}
+        background-color: ${props => props.secondary ? '#ededed' : '#6175CC'}
     }
     &:focus {
         outline: none;
@@ -48,10 +48,10 @@ export const ToolbarButton = styled.button`
 export const AnchorButton = styled(Anchor)`
     display: block;
     width: 95%;
-    border: ${props => props.secondary ? '1px solid #007bff' : '0'};
+    border: ${props => props.secondary ? '1px solid #7992FF' : '0'};
     border-radius: 3px;
-    color: ${props => props.secondary ? '#007bff' : 'white'};
-    background-color: ${props => props.secondary ? 'white' : '#007bff'};
+    color: ${props => props.secondary ? '#7992FF' : 'white'};
+    background-color: ${props => props.secondary ? 'white' : '#7992FF'};
     font-size: 1rem;
     font-weight: bold;
     text-align:center;
@@ -60,7 +60,7 @@ export const AnchorButton = styled(Anchor)`
     margin: 0.5rem;
     cursor: pointer;
     &:hover {
-        background-color: ${props => props.secondary ? '#ededed' : '#006bf1'}
+        background-color: ${props => props.secondary ? '#ededed' : '#6175CC'}
     }
     &:focus {
         outline: none;
