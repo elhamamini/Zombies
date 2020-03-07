@@ -87,16 +87,17 @@ router.get('/callback', (req, res) => {
 // });
 
 router.get('/user', (req, res) => {
-  User.findOne({
+  return User.findOne({
     where: {
-      github_access_token: req.user.github_access_token,
+      // github_access_token: req.user.github_access_token || null,
+      sessionId: req.session.id,
     },
   })
     .then(user => res.send(user))
     .catch(e => {
       res.status(500).send();
       console.error(e);
-      res.redirect('/error');
+      next(e);
     });
 });
 

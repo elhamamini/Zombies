@@ -8,6 +8,7 @@ router.post('/login', (req, res, next) => {
     where: {
       email: req.body.email,
       password: req.body.password,
+      github_access_token: null,
     },
   })
     .then(userOrNull => {
@@ -18,6 +19,12 @@ router.post('/login', (req, res, next) => {
       } else {
         req.session.admin = false;
       }
+      return userOrNull.update(
+        { sessionId: req.session.id },
+        { returning: true }
+      );
+    })
+    .then(userOrNull => {
       res.status(200).send(userOrNull);
     })
     .catch(e => {
@@ -52,8 +59,9 @@ router.post('/signup', (req, res, next) => {
 });
 
 router.get('/logout', (req, res, next) => {
-  delete req.session.userId;
-  delete req.session.admin;
+  req.session.destroy();
+  // delete req.session.userId;
+  // delete req.session.admin;
   res.sendStatus(204);
   next();
 });
