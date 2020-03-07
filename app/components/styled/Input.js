@@ -10,8 +10,8 @@ export const TextInput = styled.input`
   padding: 0.5rem;
   margin: 0.5rem 0rem;
   &:focus {
-      border: 1px solid #3FC6C0;
-      outline: none;
+    border: 1px solid #3fc6c0;
+    outline: none;
   }
 `;
 export const Checkbox = styled.input`
@@ -43,7 +43,7 @@ export const Span = styled.span`
 export const InputFeedback = styled.div`
   display: block;
   width: 95%;
-  color: #CC4DB4;
+  color: #cc4db4;
   padding: 0.5rem;
   font-size: 0.75rem;
 `;
@@ -92,10 +92,10 @@ export const SmallDropdown = styled.select`
 `;
 
 export const Option = styled.option`
-&:focus {
-  border: 1px solid #007bff;
-  outline: none;
-}
+  &:focus {
+    border: 1px solid #007bff;
+    outline: none;
+  }
 `;
 
 export const TextEditor = styled(ReactQuill)`

@@ -20,17 +20,17 @@ const Reply = db.define('reply', {
 
   javascriptCode: {
     type: Sequelize.TEXT,
-    defaultValue: ''
+    defaultValue: '',
   },
 
   cssCode: {
     type: Sequelize.TEXT,
-    defaultValue: ''
+    defaultValue: '',
   },
 
   htmlCode: {
     type: Sequelize.TEXT,
-    defaultValue: ''
+    defaultValue: '',
   },
 
   timeSincePosted: {
