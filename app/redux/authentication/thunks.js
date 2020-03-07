@@ -13,9 +13,10 @@ export const attemptLogin = credentials => {
         dispatch(setUser(res.data));
       })
       .catch(e => {
+        console.log('login error thunk', e);
         dispatch(logout());
         checkError(dispatch, e.response.status);
-      })
+      });
   };
 };
 
@@ -38,7 +39,7 @@ export const attemptLogout = () => {
       .then(() => dispatch(logout()))
       .catch(e => {
         dispatch(logout());
-        checkError(dispatch, e.response.status)
+        checkError(dispatch, e.response.status);
       });
   };
 };

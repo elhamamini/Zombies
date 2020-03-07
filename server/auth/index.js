@@ -3,30 +3,37 @@ const { User } = require('../db/index');
 
 router.post('/login', (req, res, next) => {
   console.log(req.body);
-  User.findOne({
+  return User.findOne({
     where: {
       email: req.body.email,
       password: req.body.password,
-      github_access_token: null,
     },
   })
     .then(userOrNull => {
-      if (!userOrNull) return res.sendStatus(401);
+      if (!userOrNull) {
+        console.log('no user');
+        return res.sendStatus(401);
+      }
       // req.session.userId = userOrNull.id;
       if (userOrNull.userType === 'admin') {
         req.session.admin = true;
       } else {
         req.session.admin = false;
       }
+
       return userOrNull.update(
         { sessionId: req.session.id },
         { returning: true }
       );
     })
     .then(userOrNull => {
+      // console.log('user or null', userOrNull);
       res.status(200).send(userOrNull);
     })
-    .catch(next);
+    .catch(err => {
+      console.log('login error');
+      next(err);
+    });
 });
 
 router.post('/signup', (req, res, next) => {
@@ -48,8 +55,6 @@ router.post('/signup', (req, res, next) => {
 
 router.get('/logout', (req, res, next) => {
   req.session.destroy();
-  // delete req.session.userId;
-  // delete req.session.admin;
   res.sendStatus(204);
   next();
 });
