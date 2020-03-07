@@ -104,9 +104,8 @@ router.post('/', (req, res, next) => {
   })
     .then(created => {
       if (req.body.tags.length) {
-        created
-          .addTags(req.body.tags)
-          .then(() => res.status(200).send(created));
+        created.addTag(req.body.tags[0].id)
+        .then(() => res.status(200).send(created));
       }
       res.status(200).send(created);
     })

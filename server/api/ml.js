@@ -5,15 +5,6 @@ const util = require('util');
 
 const loadNeuralNet = util.promisify(BrainJSClassifier.load);
 
-BrainJSClassifier.load('trained_classifier.json', null, null,
-  function (err, loadedNet) {
-    if (err) {
-      return done(err);
-    }
-    console.log(loadedNet.classify('did the tests pass?'));
-  }
-);
-
 // const fs = require('fs');
 
 // router.get('/', (req, res, next) => {
