@@ -4,7 +4,7 @@ import SmallButton from '../styled/SmallButton';
 
 import CodeConsole from './CodeConsole';
 
-export default ({ reply }) => {
+export default ({ reply, idx }) => {
   const [isRunning, setIsRunning] = useState(false);
 
   const handleOnClick = () => {
@@ -15,7 +15,7 @@ export default ({ reply }) => {
     <div>
       { isRunning ? (
         <div>
-          <CodeConsole reply={reply}/>
+          <CodeConsole reply={reply} idx={idx}/>
           <SmallButton secondary onClick={handleOnClick}>Hide Code</SmallButton>
         </div>
       ) : <SmallButton onClick={handleOnClick}>Run Code</SmallButton>}

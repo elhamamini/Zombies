@@ -1,44 +1,30 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
 
-export default ({ reply }) => {
+import { convertToGlyphs, createURL } from '../../utils';
+
+export default ({ reply, idx }) => {
 
   const [isMounted, setIsMounted] = useState(false);
-  const refFrame = useRef(null);
+  const [urlSource, setUrlSource] = useState('');
 
   useEffect(() => {
     if(isMounted) {
-      const frame = refFrame.current.contentDocument;
-      frame.open();
-      frame.write(`
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Document</title>
-        <style>
-          ${reply.cssCode}
-        </style>
-      </head>
-      <body>
-        ${!reply.htmlCode ? '<div id="result"></div>' : reply.htmlCode}
-        <script>
-            function log(str) {
-              console.log(str);
-              const div = document.getElementById('result')
-              div.innerText = str
-            }
-        </script>
-        <script type="text/javascript">
-         ${reply.javascriptCode}
-        </script>
-        ${!reply.htmlCode ? '</div>' : ''}
-      </body>
-      </html>
-      `)
-      frame.close();
+      let appendedHTML = `${convertToGlyphs(reply.htmlCode)}<div id='replyConsole'></div>`
+      let appendedJs = `
+        console.original = console.log;
+        let output = ''
+        let itemsToRender = [];
+        console.log = arg => {
+        itemsToRender.push(arg)}; ${convertToGlyphs(reply.javascriptCode)};
+        itemsToRender.forEach(item => output += item + '<br />')
+        document.getElementById('replyConsole').innerHTML = output;
+        `
+      setUrlSource(createURL({
+        html: appendedHTML,
+        css: convertToGlyphs(reply.cssCode),
+        js: appendedJs,
+      }))
+
     } else {
       setIsMounted(true)
     }
@@ -46,7 +32,10 @@ export default ({ reply }) => {
 
   return (
     <div>
-      <iframe ref={refFrame}/>
+      <iframe id='iframe' sandbox='allow-scripts allow-same-origin' name='replyOutput' src={urlSource}>
+        Oops. Your browser doesn't support iframes.
+      </iframe>
+      <div id='replyConsole'></div>
     </div>
   )
 }
