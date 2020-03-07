@@ -72,11 +72,4 @@ const createURL = ({ html, css, js }) => {
   return getBlobURL(source, 'text/html');
 };
 
-export {
-  pruneHTML,
-  extractTokens,
-  convertToGlyphs,
-  createURL,
-  // extractConsoleLogs,
-  // overrideConsoleLog,
-};
+export { pruneHTML, extractTokens, convertToGlyphs, createURL };

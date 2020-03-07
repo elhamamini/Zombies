@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
 import { Row } from './styled/Div';
-import { Nav, NavLink, NavButton } from './styled/Nav';
+import { Nav, NavLink, NavButton, NavRow } from './styled/Nav';
 import { attemptLogout } from '../redux/authentication/thunks';
 
 //TODO: Remove NavLinks On SignUp and Login
@@ -10,40 +9,30 @@ const NavBar = props => {
   console.log('user', props.user.userType);
   return (
     <Nav>
-      <Row>
-        <Row>
-          <div>LOGO</div>
-        </Row>
-        <Row flexEnd>
-          <NavLink to="/">Home</NavLink>
-          {props.user.name ? (
-            <NavLink to="/userprofile"> Your Profile</NavLink>
-          ) : null}
-          <NavLink to="/new">New Conversation</NavLink>
+          <NavLink to="/">
+            <img src="https://zombieforums.nyc3.cdn.digitaloceanspaces.com/logo.png" height="40" width="40" alt="circle" />
+          </NavLink>
+          {props.user.name && <NavLink to="/new">New Post</NavLink>}
           {props.user.userType === 'admin' ? (
             <NavLink to="/flagged">Flagged Replies</NavLink>
           ) : null}
           {props.user.userType === 'admin' ? (
             <NavLink to="/last">List of new conversations</NavLink>
           ) : null}
-        </Row>
-      </Row>
 
-      <Row flexEnd>
         {props.user.name ? (
-          <Row flexEnd>
-            <p>Hey, {props.user.name}</p>
+          <NavRow flexEnd>
+            <NavLink to="/userprofile">{props.user.name}</NavLink>
             <NavButton to="/" onClick={() => props.logout()}>
               Logout
             </NavButton>
-          </Row>
+          </NavRow>
         ) : (
-          <Row flexEnd>
+          <NavRow flexEnd>
             <NavButton to="/login">Login</NavButton>
             <NavButton to="/signup">Signup</NavButton>
-          </Row>
+          </NavRow>
         )}
-      </Row>
     </Nav>
   );
 };
