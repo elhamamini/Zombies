@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Sequelize = require('sequelize');
-const { Conversation, Reply, Tag, User } = require('../db');
+const { Conversation, Reply, Tag, User, Cohort } = require('../db');
 
 const RESULTS_PER_PAGE = 10;
 
@@ -8,6 +8,9 @@ const RESULTS_PER_PAGE = 10;
 //use query parameter to specify page of results
 router.get('/', (req, res, next) => {
   Conversation.findAll({
+    include: {
+      model: Cohort,
+    },
     limit: RESULTS_PER_PAGE,
     offset: (req.query.page || 0) * RESULTS_PER_PAGE,
     order: [['createdAt', 'DESC']],
@@ -72,9 +75,7 @@ router.get('/:id', (req, res, next) => {
     include: [
       {
         model: Reply,
-        include: [
-          { model: User, }
-        ]
+        include: [{ model: User }],
       },
       {
         model: Tag,
@@ -104,9 +105,8 @@ router.post('/', (req, res, next) => {
   })
     .then(created => {
       if (req.body.tags.length) {
-        created
-          .addTags(req.body.tags)
-          .then(() => res.status(200).send(created));
+        created.addTag(req.body.tags[0].id)
+        .then(() => res.status(200).send(created));
       }
       res.status(200).send(created);
     })

@@ -7,7 +7,7 @@ const fs = require('fs');
 let rawdata = fs.readFileSync('classifiedSet.json');
 let cleanResults = JSON.parse(rawdata);
 
-Object.values(cleanResults).forEach(val => classifier.addDocument(val[0], val[1]));
+Object.values(cleanResults).forEach(val => classifier.addDocument(val[0], val[1][0]));
 
 classifier.train();
 
