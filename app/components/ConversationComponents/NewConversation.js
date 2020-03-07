@@ -22,6 +22,7 @@ import draftBody from '../../redux/body/actions';
 import Editor from './Editor';
 
 import { extractTokens, pruneHTML } from '../../utils';
+import Axios from 'axios';
 
 let whiteList = {};
 
@@ -43,23 +44,23 @@ class NewConversation extends Component {
   handleOnChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value }, () => {
       this.validate(name, value);
-      this.generateTags(value);
     });
   };
 
-  handleOnClick = e => {
+  handleOnClick = async(e) => {
     e.preventDefault();
     this.setState({ isLoading: true })
 
     const cleanText = pruneHTML(this.props.body.bodyText);
-    let results = extractTokens(cleanText, this.props.whitelist);
-    const searchTags = this.props.tags.filter(t => results[t.name]);
-
+    const mlTag = (await Axios.post('/api/ml/classify', { doc: cleanText })).data;
+    const tagList = this.props.tags.filter(t => t.name === mlTag);
+    console.log('mlTag', mlTag);
+    console.log('tagList', tagList);
     this.props.createConversation({
       userId: this.props.user.id,
       title: this.state.topic,
-      tags: searchTags,
-    })  
+      tags: tagList,
+    })
     .then(() => {
       this.props.createReply({
         conversationId: this.props.conversation.id,
@@ -69,7 +70,7 @@ class NewConversation extends Component {
         cssCode: this.props.body.codeBlocks['.language-css'],
         javascriptCode: this.props.body.codeBlocks['.language-js'],
         repo: this.state.repo,
-        tags: this.state.tags,
+        tags: tagList,
     })
   })
     .then(() => {
