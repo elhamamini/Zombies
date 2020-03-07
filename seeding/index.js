@@ -1,4 +1,5 @@
 const conversationsList = require('./conversations');
 const replyList = require('./replay');
 const usersList = require('./users');
-module.exports = { conversationsList, replyList, usersList };
+const cohortList = require('./cohort');
+module.exports = { conversationsList, replyList, usersList, cohortList };
