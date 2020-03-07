@@ -20,6 +20,7 @@ export const attemptLogin = credentials => {
 };
 
 export const attemptSignUp = credentials => {
+  console.log(credentials)
   return dispatch => {
     axios
       .post('/auth/signup', credentials)

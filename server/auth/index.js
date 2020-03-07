@@ -1,8 +1,9 @@
 const router = require('express').Router();
 const { User } = require('../db/index');
+const bcrypt = require('bcrypt');
+const saltRounds = 20;
 
 router.post('/login', (req, res, next) => {
-  console.log(req.body);
   User.findOne({
     where: {
       email: req.body.email,
@@ -19,10 +20,17 @@ router.post('/login', (req, res, next) => {
       }
       res.status(200).send(userOrNull);
     })
-    .catch(next);
+    .catch(e => {
+      res.status(500).send();
+      next(e);
+    });
 });
 
 router.post('/signup', (req, res, next) => {
+  bcrypt.hash(req.body.password, saltRounds)
+  .then(hash => {
+  console.log(hash)
+  req.body.password = hash;
   User.findOrCreate({
     where: req.body,
   })
@@ -36,7 +44,11 @@ router.post('/signup', (req, res, next) => {
       }
       res.send(user);
     })
-    .catch(next);
+  })
+    .catch(e => {
+      res.status(500).send();
+      next(e);
+    });
 });
 
 router.get('/logout', (req, res, next) => {

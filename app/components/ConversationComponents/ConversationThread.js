@@ -29,7 +29,7 @@ const ConversationThread = ({ match }) => {
 
   useEffect(() => {
     dispatch(fetchCurrentConversation(match.params.id));
-  }, [])
+  }, [conversation.replies.length])
 
   const handleOnClick = e => {
     e.preventDefault()

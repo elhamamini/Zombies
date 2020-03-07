@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { removeLoginError } from '../redux/authentication/actions';
-import { attemptSignUp } from '../redux/authentication/thunks';
+
 import { Header, Anchor } from './styled/Font';
-import { createUser } from '../redux/users/thunks';
 import { Container, FormColumn } from './styled/Form';
 import { TextInput, InputFeedback } from './styled/Input';
 import { Button } from './styled/Button';
+
+import { removeLoginError } from '../redux/authentication/actions';
+import { attemptSignUp } from '../redux/authentication/thunks';
+import { createUser } from '../redux/users/thunks';
+
 class SignUP extends Component {
   constructor() {
     super();
@@ -25,7 +28,6 @@ class SignUP extends Component {
     const {
       authentication: { isLoggedIn },
     } = this.props;
-    //for now i just send it to the home page after login
     if (isLoggedIn) this.props.history.push('/');
   }
   handleOnChange = ({ target: { name, value } }) => {
@@ -35,7 +37,7 @@ class SignUP extends Component {
   handleOnClick = e => {
     const { name, email, password } = this.state;
     e.preventDefault();
-    this.props.signUp();
+    // this.props.signUp();
     this.props.createUser({ name, email, password, userType: 'user' });
     // this.props.history.push('/');
   };

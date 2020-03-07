@@ -22,6 +22,7 @@ export const getUserFromGitHub = () => {
 };
 
 export const createUser = user => {
+  console.log(user)
   return dispatch => {
     return axios
       .post('/api/users', user)

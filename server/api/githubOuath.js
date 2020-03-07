@@ -94,12 +94,13 @@ router.get('/user', (req, res) => {
   })
     .then(user => res.send(user))
     .catch(e => {
+      res.status(500).send();
       console.error(e);
+      res.redirect('/error');
     });
 });
 
 router.post('/user/repos', (req, res, next) => {
-  // console.log('req.body', req.body);
   axios
     .get(`https://api.github.com/users/${req.body.githubUsername}/repos`, {
       //   headers: {
@@ -110,7 +111,7 @@ router.post('/user/repos', (req, res, next) => {
       res.send(repos.data);
     })
     .catch(e => {
-      res.status(500).send()
+      res.status(500).send();
       next(e);
     });
 });
