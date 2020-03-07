@@ -1,8 +1,12 @@
 const router = require('express').Router();
-const { User } = require('../db/index');
+const { User, Cohort } = require('../db/index');
 
 router.get('/', (req, res, next) => {
-  User.findAll()
+  User.findAll({
+    include: {
+      model: Cohort,
+    },
+  })
     .then(users => {
       res.status(200).send(users);
     })
@@ -13,10 +17,14 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/:id', (req, res, next) => {
-  User.findByPk(req.params.id)
+  User.findByPk(req.params.id, {
+    include: {
+      model: Cohort,
+    },
+  })
     .then(userOrNull => {
       if (userOrNull) {
-        res.status(200).send(userOrNull)
+        res.status(200).send(userOrNull);
       } else {
         res.status(404).send('there is no user with that id');
       }

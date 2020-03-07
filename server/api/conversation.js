@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Sequelize = require('sequelize');
-const { Conversation, Reply, Tag, User } = require('../db');
+const { Conversation, Reply, Tag, User, Cohort } = require('../db');
 
 const RESULTS_PER_PAGE = 10;
 
@@ -8,6 +8,9 @@ const RESULTS_PER_PAGE = 10;
 //use query parameter to specify page of results
 router.get('/', (req, res, next) => {
   Conversation.findAll({
+    include: {
+      model: Cohort,
+    },
     limit: RESULTS_PER_PAGE,
     offset: (req.query.page || 0) * RESULTS_PER_PAGE,
     order: [['createdAt', 'DESC']],
@@ -72,9 +75,7 @@ router.get('/:id', (req, res, next) => {
     include: [
       {
         model: Reply,
-        include: [
-          { model: User, }
-        ]
+        include: [{ model: User }],
       },
       {
         model: Tag,
