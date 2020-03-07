@@ -4,7 +4,6 @@ const db = require('../database');
 const { STRING, UUID, UUIDV4, INTEGER, ENUM, TEXT } = Sequelize;
 
 const User = db.define('users', {
-
   name: {
     type: STRING,
   },
@@ -38,6 +37,8 @@ const User = db.define('users', {
 
   github_access_token: {
     type: STRING,
+    required: false,
+    allowNull: true,
   },
 
   githubUsername: {
@@ -58,6 +59,6 @@ const User = db.define('users', {
   sessionId: {
     type: STRING,
     allowNull: true,
-  }
+  },
 });
 module.exports = User;
