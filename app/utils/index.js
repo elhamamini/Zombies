@@ -76,6 +76,6 @@ export {
     extractTokens,
     convertToGlyphs,
     createURL,
-    extractConsoleLogs,
-    overrideConsoleLog,
+    // extractConsoleLogs,
+    // overrideConsoleLog,
 };

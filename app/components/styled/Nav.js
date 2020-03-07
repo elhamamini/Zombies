@@ -2,11 +2,16 @@ import styled from 'styled-components';
 import { Row } from './Div';
 import { Link } from 'react-router-dom';
 
-export const Nav = styled(Row)`
+export const Nav = styled.div`
   width: 100%;
-  padding: 0.5rem 0;
+  height: 48px;
+  padding: 0.5rem 1rem;
   border-bottom: 1px solid lightgrey;
-  margin-bottom: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: baseline;
 `;
 
 export const NavLink = styled(Link)`
