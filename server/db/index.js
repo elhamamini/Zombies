@@ -13,6 +13,7 @@ Tag.belongsToMany(Conversation, { through: 'convotags' });
 Conversation.belongsToMany(Tag, { through: 'convotags' });
 
 User.hasMany(Reply);
+Reply.belongsTo(User);
 User.hasMany(Conversation);
 Conversation.belongsTo(User);
 

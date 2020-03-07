@@ -1,21 +1,25 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { MessageContainer, Message, Close } from './styled/Message';
-
 import statusMessage from '../redux/statusMessage/actions';
 
-const MessageConsole = ({ statusMessage, resetStatusMessage }) => {
-  const { status, message } = statusMessage;
+export default () => {
+
+  const status = useSelector(state => state.statusMessage.status);
+  const message = useSelector(state => state.statusMessage.message);
+  const dispatch = useDispatch();
 
   const handleOnClick = () => {
-    resetStatusMessage();
+    dispatch(statusMessage({ status: null, message: '' }));
   };
 
   useEffect(() => {
     if (status) {
       setTimeout(() => {
-        resetStatusMessage();
+        if(status) {
+          dispatch(statusMessage({ status: null, message: '' }));
+        }
       }, 10000);
     }
   });
@@ -27,14 +31,3 @@ const MessageConsole = ({ statusMessage, resetStatusMessage }) => {
     </MessageContainer>
   );
 };
-
-const mapState = ({ statusMessage }) => ({ statusMessage });
-
-const mapDispatch = dispatch => {
-  return {
-    resetStatusMessage: () =>
-      dispatch(statusMessage({ status: null, message: '' })),
-  };
-};
-
-export default connect(mapState, mapDispatch)(MessageConsole);

@@ -17,16 +17,16 @@ export const Pill = styled.div`
   white-space: nowrap;
   line-height: 2rem;
   background-color: ${(props) => {
-    if (props.secondary) {
-      return '#FFFFFF';
-    }
     if (props.selected) {
-      return '#0C7864';
+      return '#2F9893';
     }
-    return '#13C4A3';
+    return '#3FC6C0';
   }};
   border-radius: 1rem;
   color: ${props => (props.secondary ? '#686868' : '#FFFFFF')};;
   margin: 0.25rem 0.25rem;
   padding: 0 1rem;
+  &:hover {
+    background-color: #2F9893;
+  }
 `;

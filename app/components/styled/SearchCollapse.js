@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export default styled.input`
   display: inline-block;
   width: 148px;
-  border: 2px solid lightgray;
+  border: 1px solid lightgray;
   border-radius: 32px;
   font-size: 1rem;
   padding: 0.25rem;
@@ -12,7 +12,7 @@ export default styled.input`
   text-align: left;
   transition: width 0.25s ease-in;
   &:focus {
-      border: 2px solid #007bff;
+      border: 1px solid #3FC6C0;
       outline: none;
       width: 80%;
   }

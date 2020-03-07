@@ -1,96 +1,82 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import nlp from 'compromise';
 
-import { MainContainer } from './styled/Div';
-import { Header } from './styled/Font';
-import { Form } from './styled/Form';
-import { Input, InputFeedback, Label } from './styled/Input';
-import { Button } from './styled/Button';
-import { Select, Option } from './styled/Select';
-import { Pill, PillContainer } from './styled/Pill';
+import { MainContainer } from '../styled/Div';
+import * as Font from '../styled/Font';
+import * as Form from '../styled/Form';
+import * as Input from '../styled/Input';
+import { Button } from '../styled/Button';
+import { Select, Option } from '../styled/Select';
+import { Pill, PillContainer } from '../styled/Pill';
+import { NavSpan } from '../styled/Nav';
 
-import { fetchRepos } from '../redux/repository/thunks';
+import { fetchRepos } from '../../redux/repository/thunks';
 import {
   createConversation,
   fetchCurrentConversation,
-} from '../redux/conversations/thunks';
-import { createReply } from '../redux/replies/thunks';
+} from '../../redux/conversations/thunks';
+import { createReply } from '../../redux/replies/thunks';
+import draftBody from '../../redux/body/actions';
 
-import { extractTokens, pruneHTML } from '../utils';
-import nlp from 'compromise';
-import CustomQuill from './Quill';
+import Editor from './Editor';
+
+import { extractTokens, pruneHTML } from '../../utils';
 
 let whiteList = {};
 
-//TODO: Handle Successful Post by Redirecting to the Post
 class NewConversation extends Component {
   constructor() {
     super();
     this.state = {
       repo: '',
       topic: '',
-      body: '',
       errors: {
         topicError: '',
         bodyError: '',
       },
       tags: [],
+      isLoading: false,
     };
-  }
-
-  componentDidMount() {
-    //We should probably set these repos when we get the user as well
-    this.props.user.githubUsername && this.props.getRepos();
   }
 
   handleOnChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value }, () => {
       this.validate(name, value);
-      //todo: call generateTags from here
       this.generateTags(value);
     });
   };
 
   handleOnClick = e => {
     e.preventDefault();
-    const cleanText = pruneHTML(this.state.body);
+    this.setState({ isLoading: true })
+
+    const cleanText = pruneHTML(this.props.body.bodyText);
     let results = extractTokens(cleanText, this.props.whitelist);
     const searchTags = this.props.tags.filter(t => results[t.name]);
 
-    this.props
-      .createConversation({
+    this.props.createConversation({
+      userId: this.props.user.id,
+      title: this.state.topic,
+      tags: searchTags,
+    })  
+    .then(() => {
+      this.props.createReply({
+        conversationId: this.props.conversation.id,
         userId: this.props.user.id,
-        title: this.state.topic,
-        tags: searchTags,
-      })
-      .then(() => {
-        this.props.createReply({
-          conversationId: this.props.conversation.id,
-          userId: this.props.user.id,
-          body: this.state.body,
-          repo: this.state.repo,
-          tags: this.state.tags,
-        });
-      })
-      .then(() =>
-        this.props.fetchCurrentConversation(this.props.conversation.id)
-      );
-  };
-
-  handleCodeType = (e, codeType) => {
-    e.preventDefault();
-    this.setState({ codeType });
-  };
-
-  getCodeBlock = codeblock => {
-    this.setState({
-      codeblocks: [
-        ...this.state.codeblocks,
-        { type: this.state.codeType, codeblock },
-      ],
-    });
-    this.setState({ codeType: null });
+        body: this.props.body.bodyText,
+        htmlCode: this.props.body.codeBlocks['.language-html'],
+        cssCode: this.props.body.codeBlocks['.language-css'],
+        javascriptCode: this.props.body.codeBlocks['.language-js'],
+        repo: this.state.repo,
+        tags: this.state.tags,
+    })
+  })
+    .then(() => {
+      this.setState({ isLoading: false })
+      this.props.draftBody('', {})
+    })
+    .then(() => this.props.history.push(`/conversations/${this.props.conversation.id}`))
   };
 
   generateTags = value => {
@@ -110,10 +96,6 @@ class NewConversation extends Component {
     if (newTags.length > tags.length) {
       this.setState({ tags: newTags });
     }
-  };
-
-  getBodyText = text => {
-    this.setState({ body: text });
   };
 
   validate = (name, value) => {
@@ -160,7 +142,6 @@ class NewConversation extends Component {
   render() {
     const {
       topic,
-      body,
       tags,
       errors,
       errors: { topicError, bodyError },
@@ -169,22 +150,23 @@ class NewConversation extends Component {
     return (
       <MainContainer>
         {/* <Link to="postpage">Post Page</Link> */}
-        <Form>
-          <Header>Create a New Conversation</Header>
-          <Label>Topic</Label>
-          <Input
+        <Form.Container>
+          <Font.h1>New Conversation</Font.h1>
+          <Font.h4>Topic</Font.h4>
+          <Input.TextInput
             type="text"
             name="topic"
-            placeholder="Help running NPM Testem"
+            placeholder="Help installing Testem"
             value={topic}
             onChange={ev => this.setState({ topic: ev.target.value })}
           />
-          <InputFeedback>{topicError}</InputFeedback>
+          <Input.InputFeedback>{topicError}</Input.InputFeedback>
           {this.props.repositories.length && this.props.user.githubUsername ? (
             <div>
               <label>Add repository link to your Conversation:</label>
               <Select
                 id="repository"
+                //since body is deprecated in the state we need to change this.
                 onChange={ev => this.setState({ body: ev.target.value })}
               >
                 {this.props.repositories.map(repo => {
@@ -197,15 +179,18 @@ class NewConversation extends Component {
               </Select>
             </div>
           ) : null}
-          <Label>Body</Label>
-          <CustomQuill getBodyText={this.getBodyText} />
-          <InputFeedback>{bodyError}</InputFeedback>
+          <Font.h4>Body</Font.h4>
+          <Editor />
+          <Input.InputFeedback>{bodyError}</Input.InputFeedback>
           <PillContainer>
             {tags.length ? tags.map(tag => <Pill key={tag}>{tag}</Pill>) : ''}
           </PillContainer>
+          {
+            this.props.user.id
+            ? (
           <Button
             disabled={
-              !topic || !body || Object.values(errors).some(val => !!val)
+              this.state.isLoading || !topic || !this.props.body.bodyText || Object.values(errors).some(val => !!val)
                 ? true
                 : false
             }
@@ -213,7 +198,14 @@ class NewConversation extends Component {
           >
             Post New Conversation
           </Button>
-        </Form>
+            )
+            : (
+            <div>
+              <NavSpan secondary to='/login'>Login</NavSpan> or <NavSpan secondary to='/signup'>Create an account</NavSpan> to join the conversation.
+            </div>
+            )
+          }
+        </Form.Container>
       </MainContainer>
     );
   }
@@ -225,6 +217,7 @@ const mapState = ({
   repositories,
   conversation,
   tags,
+  body
 }) => ({
   authentication,
   user,
@@ -232,6 +225,7 @@ const mapState = ({
   conversation,
   tags: tags.all,
   whitelist: tags.whitelist,
+  body,
 });
 
 const mapDispatch = dispatch => ({
@@ -240,6 +234,7 @@ const mapDispatch = dispatch => ({
   fetchCurrentConversation: conversationId =>
     dispatch(fetchCurrentConversation(conversationId)),
   fetchRepos: () => dispatch(fetchRepos()),
+  draftBody: () => dispatch(draftBody())
 });
 
 export default connect(mapState, mapDispatch)(NewConversation);

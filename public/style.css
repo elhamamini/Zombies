@@ -1,6 +1,14 @@
 * {
   box-sizing: border-box;
-  font-family: arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
+}
+
+.ql-container {
+  border: none!important;
+}
+
+.quill {
+  box-shadow: none!important;
 }
 
 body {
@@ -9,6 +17,7 @@ body {
   padding: 0;
   margin: 0;
   width: 100vw;
+  color: #2D2D2D;
 }
 
 main {
@@ -17,6 +26,29 @@ main {
   flex-direction: column;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+hr {
+  margin: 2rem 0rem;
+  border: 1px solid lightgrey;
+}
+
+.language-css {
+  background-color: #07032B!important;
+  font-family: 'Roboto Mono', monospace;
+  color: #FFC6F4;
+}
+
+.language-html {
+  background-color: #07032B!important;
+  font-family: 'Roboto Mono', monospace;
+  color: #FFE2C6;
+}
+
+.language-js {
+  background-color: #07032B!important;
+  font-family: 'Roboto Mono', monospace;
+  color: #C6FFF7;
 }
 
 .ql-font-arial {
@@ -55,11 +87,6 @@ main {
   content: 'html'
 }
 
-.ql-html,
-.ql-css,
-.ql-js {
-  background-color: rgb(236, 236, 236);
-  color: #f43b43;
-  font-family: 'Courier New';
-  padding: 0.2rem;
+.ql-editor {
+  white-space: normal!important;
 }
