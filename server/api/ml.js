@@ -1,6 +1,12 @@
 const router = require('express').Router();
 const Sequelize = require('sequelize');
 const fs = require('fs');
+const Classifier = require('../../ml/loadNet');
+
+const classifyString = async (string) => {
+    const net = await Classifier;
+    return net.classify(string);
+}
 
 router.get('/', (req, res, next) => {
     try {
@@ -28,13 +34,14 @@ router.post('/', (req, res, next) => {
     }
 })
 
-router.post('/classify', (req, res, next) => {
+router.post('/classify', async(req, res, next) => {
     try {
         const { doc } = req.body;
-
+        const tag = await classifyString(doc);
+        res.status(200).send(tag);
     }
     catch (e) {
-        
+        console.log(e);
     }
 });
 
