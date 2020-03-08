@@ -95,13 +95,13 @@ router.get('/user', (req, res) => {
   })
     .then(user => res.send(user))
     .catch(e => {
-      console.log('error finding user');
+      res.status(500).send();
+      console.error(e);
       next(e);
     });
 });
 
 router.post('/user/repos', (req, res, next) => {
-  // console.log('req.body', req.body);
   axios
     .get(`https://api.github.com/users/${req.body.githubUsername}/repos`, {
       //   headers: {

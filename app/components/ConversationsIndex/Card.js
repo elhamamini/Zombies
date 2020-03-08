@@ -5,6 +5,7 @@ export const Card = styled.div`
     padding: 1rem;
     border-radius: 3px;
     box-shadow: 2px 1px 6px rgba(3, 27, 78, 0.06);
+    cursor: pointer;
     &:hover {
         box-shadow: 0px 12px 15px rgba(3, 27, 78, 0.1);
     }

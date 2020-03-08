@@ -29,7 +29,7 @@ const ConversationThread = ({ match }) => {
 
   useEffect(() => {
     dispatch(fetchCurrentConversation(match.params.id));
-  }, [])
+  }, [replyCount])
 
   const handleOnClick = e => {
     e.preventDefault()
@@ -48,7 +48,8 @@ const ConversationThread = ({ match }) => {
     setIsReplying(false);
   }
 
-  const handleDeleteReply = reply => {
+  const handleDeleteReply = (e, reply) => {
+    e.preventDefault();
     setIsLoading(true);
     dispatch(deleteReply(reply.id))
     .then(() => setReplyCount(conversation.replies.length))
@@ -66,7 +67,7 @@ const ConversationThread = ({ match }) => {
               return (
                 <div key={reply.id}>
                   <Font.h5>{ reply.user.name } { idx === 0 ? 'asked:' : 'replied:' }</Font.h5>
-                  { user.id === conversation.userId && idx !== 0 ? <SmallButton disabled={isLoading} onClick={() => handleDeleteReply(reply)}>Delete</SmallButton> : null }
+                  { user.id === reply.userId && idx !== 0 ? <SmallButton disabled={isLoading} onClick={(e) => handleDeleteReply(e, reply)}>Delete</SmallButton> : null }
                   <EditorReadOnly reply={reply.body} readOnly={isReadOnly}/>
                   { reply.htmlCode || reply.cssCode || reply.javascriptCode ? <RunCode reply={reply}/> : null }
                   { idx === 0 && <hr/> }

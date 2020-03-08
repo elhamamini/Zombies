@@ -1,5 +1,9 @@
 const router = require('express').Router();
+const bcrypt = require('bcrypt');
+
 const { User, Cohort } = require('../db/index');
+
+const saltRounds = 12;
 
 router.get('/', (req, res, next) => {
   User.findAll({
@@ -11,7 +15,7 @@ router.get('/', (req, res, next) => {
       res.status(200).send(users);
     })
     .catch(e => {
-      console.error(e);
+      res.status(500).send(e);
       next(e);
     });
 });
@@ -36,14 +40,18 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-  User.create(req.body)
-    .then(createdUser => {
-      res.status(201).send(createdUser);
+  bcrypt.hash(req.body.password, saltRounds)
+  .then(hash => {
+    User.create({
+      ...req.body,
+      password: hash
     })
+    .then(createdUser => res.status(201).send(createdUser))
     .catch(e => {
       res.status(500);
       next(e);
-    });
+    })
+  })
 });
 
 router.put('/:id', (req, res, next) => {
@@ -69,8 +77,11 @@ router.delete('/:id', (req, res, next) => {
     },
   })
     .then(data => {
-      if (data) return res.sendStatus(204);
-      res.sendStatus(404).send();
+      if (data) {
+       res.sendStatus(204);
+      } else {
+        res.sendStatus(404).send();
+      }
     })
     .catch(e => {
       res.status(500).send();

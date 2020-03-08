@@ -8,9 +8,11 @@ const {
   Tag,
   Cohort,
 } = require('./server/db/index');
-const whitelist = require('./whitelist');
-const { usersList, cohortList } = require('./seeding/index');
 const fullstackDB = require('./fullstackDB');
+const whitelist = require('./whitelist');
+
+const { usersList, cohortList } = require('./seeding/index');
+
 const seed = async () => {
   try {
     await db.sync({ force: true });
@@ -72,10 +74,6 @@ const seed = async () => {
         })
       );
     });
-
-    // const createdConversation = await Conversation.bulkCreate(
-    //   conversationsList
-    // );
 
     for (let i = 0; i < createdConversation.length; i++) {
       randomTag =

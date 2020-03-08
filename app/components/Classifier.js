@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchTags } from '../redux/tags/thunks';
 import axios from 'axios';
+
+import { fetchTags } from '../redux/tags/thunks';
 
 const Classifier = (props) => {
     const [keyIdx, setKeyIdx] = useState(0);
