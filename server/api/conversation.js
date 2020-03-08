@@ -131,7 +131,7 @@ router.post('/', (req, res, next) => {
 
 router.put('/:id', (req, res, next) => {
 
-  if(req.headers.authorization !== `Bearer admin`) {
+  if(req.headers.authorization !== `Bearer admin` && req.headers.authorization !== `Bearer user`) {
     res.status(403).send('You do not have permission to perform this request. Contact administrator.')
   }
 

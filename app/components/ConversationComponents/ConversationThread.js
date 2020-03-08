@@ -53,7 +53,7 @@ const ConversationThread = ({ match }) => {
   }
 
   const setAnswered = () => {
-    dispatch(updateConversation(conversation.id, { hasAnswer: true }));
+    dispatch(updateConversation(conversation.id, { hasAnswer: true }, user.userType));
   }
 
   const handleDeleteReply = (e, reply) => {

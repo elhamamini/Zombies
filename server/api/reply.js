@@ -7,7 +7,7 @@ const RESULTS_PER_PAGE = 25;
 //return all replies
 router.get('/', (req, res, next) => {
 
-  if(req.headers.authorization !== `Bearer admin`) {
+  if(req.headers.authorization !== `Bearer admin` && req.headers.authorization !== `Bearer user`) {
     return res.status(403).send('You do not have permission to perform this action. Contact administrator')
   }
 
@@ -83,7 +83,7 @@ router.post('/', (req, res, next) => {
 
 router.put('/:id', (req, res, next) => {
 
-  if(req.headers.authorization !== `Bearer user` && req.headers.authorization !== `Bearer admin`) {
+  if(req.headers.authorization !== `Bearer admin` && req.headers.authorization !== `Bearer user`) {
     return res.status(403).send('You do not have permission to perform this action. Contact administrator.')
   }
 

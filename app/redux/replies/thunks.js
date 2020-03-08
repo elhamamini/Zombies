@@ -40,7 +40,6 @@ export const createReply = (content, token) => {
 };
 
 export const updateReply = (id, reply, token) => {
-  console.log(token)
   return dispatch => {
     return axios
       .put(`/api/reply/${id}`, reply, {
@@ -48,7 +47,7 @@ export const updateReply = (id, reply, token) => {
           'Authorization': `Bearer ${token}`
         }
       })
-      .then(() => dispatch(fetchAllReplies()))
+      .then(() => dispatch(fetchAllReplies(token)))
       .catch(e => checkError(dispatch, e.response.status));
   };
 };
@@ -62,7 +61,7 @@ export const deleteReply = (id, token) => {
         }
       })
       .then(res => {
-        dispatch(fetchAllReplies());
+        dispatch(fetchAllReplies(token));
         checkSuccess(dispatch, res.status);
       })
       .catch(e => checkError(dispatch, e.response.status));
