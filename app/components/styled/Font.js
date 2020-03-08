@@ -85,7 +85,7 @@ export const Paragraph = styled.p`
 export const Anchor = styled.a`
   margin: 0.5rem;
   font-size: 1rem;
-  color: #7992FF;
+  color: #7992ff;
 `;
 
 export const PillLabel = styled.p`

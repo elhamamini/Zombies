@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { SmallButton } from '../styled/SmallButton';
 import { Button } from '../styled/Button';
 import * as Div from '../styled/Div';
 import * as Form from '../styled/Form';
@@ -21,6 +22,7 @@ const ConversationThread = ({ match }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isReadOnly, setIsReadOnly] = useState(true);
   const [replyCount, setReplyCount] = useState();
+  const replies = useSelector(state => state.replies);
   const conversation = useSelector(state => state.conversation);
   const user = useSelector(state => state.user);
   const body = useSelector(state => state.body)
@@ -69,10 +71,10 @@ const ConversationThread = ({ match }) => {
               return (
                 <div key={reply.id}>
                   <Font.h5>{ reply.user.name } { idx === 0 ? 'asked:' : 'replied:' }</Font.h5>
-                  { user.id === reply.userId && idx !== 0 ? <Button disabled={isLoading} onClick={(e) => handleDeleteReply(e, reply)}>Delete</Button> : null }
-                  <EditorReadOnly reply={reply.body} readOnly={isReadOnly}/>
+                  { user.id === reply.userId && idx !== 0 ? <SmallButton disabled={isLoading} onClick={(e) => handleDeleteReply(e, reply)}>Delete</SmallButton> : null }
+                  <EditorReadOnly reply={reply.body} readOnly={isReadOnly} flagged={reply.isFlagged} id={reply.id} />
                   { reply.htmlCode || reply.cssCode || reply.javascriptCode ? <RunCode reply={reply}/> : null }
-                  { idx === 0 && <hr/> }
+                  { idx === 0 && <Div.Hr/> }
                 </div>
               )
             })

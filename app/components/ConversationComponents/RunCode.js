@@ -16,7 +16,7 @@ export default ({ reply, idx }) => {
       { isRunning ? (
         <div>
           <CodeConsole reply={reply} idx={idx}/>
-          <Button secondary onClick={handleOnClick}>Hide Code</Button>
+          <Button onClick={handleOnClick}>Hide Code</Button>
         </div>
       ) : <Button onClick={handleOnClick}>Run Code</Button>}
     </div>

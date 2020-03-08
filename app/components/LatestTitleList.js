@@ -1,16 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
-import { fetchAllConversations } from '../redux/conversations/thunks';
+import {
+  fetchAllConversations,
+  updateConversation,
+} from '../redux/conversations/thunks';
 import * as Container from './styled/Div';
 import * as Font from './styled/Font';
 import * as Card from './styled/card';
-import * as Button from './styled/Button';
-
+import SmallButton from './styled/SmallButton';
+import { Checkbox, NewLabel } from './styled/Input';
+import { FormRow } from './styled/Form';
 import NotFound from './404Page';
 
 class LatestTitleList extends React.Component {
-
   componentDidMount() {
     this.props.getConversations(0);
   }
@@ -45,7 +47,7 @@ class LatestTitleList extends React.Component {
 
   render() {
     let currentConversationsList = this.props.allConversations.filter(conve => {
-      return this.checkDate(conve.createdAt.split('T')[0]);
+      return this.checkDate(conve.createdAt.split('T')[0]) && !conve.seen;
     });
 
     return this.props.user.userType === 'admin' ? (
@@ -54,12 +56,32 @@ class LatestTitleList extends React.Component {
         <Card.CardContainer>
           {currentConversationsList.map(convo => (
             <Card.Card key={convo.id}>
-              <Font.Paragraph>{convo.title}</Font.Paragraph>
-
-              {/* {convo.hasAnswer && <Font.Label>Answered</Font.Label>} */}
+              <FormRow>
+                <Font.Paragraph
+                  onClick={() =>
+                    this.props.history.push(`/conversations/${convo.id}`)
+                  }
+                >
+                  {convo.title}
+                </Font.Paragraph>
+                <Font.Paragraph>{convo.createdAt.split('T')[0]}</Font.Paragraph>
+              </FormRow>
+              <NewLabel>Mark as read:</NewLabel>
+              <Checkbox
+                type="checkbox"
+                onClick={() => {
+                  this.props.updateConversation(convo.id, {
+                    ...convo,
+                    seen: true,
+                  });
+                }}
+              />
             </Card.Card>
           ))}
         </Card.CardContainer>
+        <SmallButton onClick={() => this.props.history.push('/')}>
+          Done
+        </SmallButton>
       </Container.Paper>
     ) : (
       <NotFound />
@@ -75,6 +97,7 @@ const mapStateToProps = ({ allConversations, user }) => ({
 const mapDispatchToProps = dispatch => {
   return {
     getConversations: p => dispatch(fetchAllConversations(p)),
+    updateConversation: (id, conv) => dispatch(updateConversation(id, conv)),
   };
 };
 

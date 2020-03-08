@@ -14,6 +14,7 @@ import ConversationThread from './ConversationComponents/ConversationThread';
 import LastTitleList from './LatestTitleList';
 import FlaggedReplies from './FlaggedRepliesView';
 import NotFound from './404Page';
+import Classifier from './Classifier';
 
 import { getUserFromGitHub } from '../redux/users/thunks';
 import { fetchTags } from '../redux/tags/thunks';
@@ -47,6 +48,7 @@ class Root extends Component {
             <Route path="/conversations/:id" component={ConversationThread} />
             <Route path="/last" component={LastTitleList} />
             <Route path="/flagged" component={FlaggedReplies} />
+            <Route path ='/ml' component={Classifier} />
             <Route component={NotFound} />
           </Switch>
         </main>
