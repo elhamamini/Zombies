@@ -12,7 +12,7 @@ import EditorReadOnly from './EditorReadOnly';
 import Editor from './Editor';
 import RunCode from './RunCode';
 
-import { fetchCurrentConversation } from '../../redux/conversations/thunks';
+import { fetchCurrentConversation, updateConversation } from '../../redux/conversations/thunks';
 import { createReply, deleteReply } from '../../redux/replies/thunks';
 import draftBody from '../../redux/body/actions';
 
@@ -52,6 +52,10 @@ const ConversationThread = ({ match }) => {
     setIsReplying(false);
   }
 
+  const setAnswered = () => {
+    dispatch(updateConversation(conversation.id, { hasAnswer: true }));
+  }
+
   const handleDeleteReply = (e, reply) => {
     e.preventDefault();
     setIsLoading(true);
@@ -73,6 +77,15 @@ const ConversationThread = ({ match }) => {
                   <Font.h5>{ reply.user.name } { idx === 0 ? 'asked:' : 'replied:' }</Font.h5>
                   { user.id === reply.userId && idx !== 0 ? <SmallButton disabled={isLoading} onClick={(e) => handleDeleteReply(e, reply)}>Delete</SmallButton> : null }
                   <EditorReadOnly reply={reply.body} readOnly={isReadOnly} flagged={reply.isFlagged} id={reply.id} />
+                  { 
+                    idx === 0 ?
+                    conversation.hasAnswer ?
+                    <Font.Label>This has been marked as answered</Font.Label>
+                    :
+                    <Font.Paragraph style={{ color: '#7992FF', fontSize: '0.75rem' }} onClick={setAnswered}>Mark as answered</Font.Paragraph>
+                    :
+                    null
+                  }
                   { reply.htmlCode || reply.cssCode || reply.javascriptCode ? <RunCode reply={reply}/> : null }
                   { idx === 0 && <Div.Hr/> }
                 </div>
