@@ -2,7 +2,6 @@ const Sequelize = require('sequelize');
 const db = require('../database');
 
 const Conversation = db.define('conversation', {
-
   title: {
     type: Sequelize.TEXT,
     allowNull: true,
@@ -21,6 +20,10 @@ const Conversation = db.define('conversation', {
   views: {
     type: Sequelize.INTEGER,
     defaultValue: 0,
+  },
+  seen: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
   },
 
   replyCount: {
