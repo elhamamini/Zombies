@@ -18,20 +18,28 @@ export const fetchCurrentConversation = conversationId => {
 };
 
 //create a new conversation, and set it as the current view
-export const createConversation = content => {
+export const createConversation = (content, token) => {
   return dispatch => {
     return axios
-      .post(`/api/conversation`, content)
+      .post(`/api/conversation`, content, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
       .then(res => dispatch(setCurrentConversation(res.data)))
       .catch(e => checkError(dispatch, e.response.status));
   };
 };
 
 //push updates to a conversation, and update the current view with the results
-export const updateConversation = (conversationId, content) => {
+export const updateConversation = (conversationId, content, token) => {
   return dispatch => {
     return axios
-      .put(`/api/conversation/${conversationId}`, content)
+      .put(`/api/conversation/${conversationId}`, content, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
       .then(res => {
         dispatch(setCurrentConversation(res.data));
         checkSuccess(dispatch, res.status);
@@ -42,10 +50,15 @@ export const updateConversation = (conversationId, content) => {
 
 //delete a conversation. Sets the current conversation to null(?)
 //also triggers a fetch of All Conversations, to prevent the user from getting to deleted content
-export const deleteConversation = conversationId => {
+export const deleteConversation = (conversationId, token) => {
   return dispatch => {
     return axios
-      .delete(`/api/conversation/${conversationId}`)
+      .delete(`/api/conversation/${conversationId}`,
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
       .then(res => {
         dispatch(setCurrentConversation());
         checkError(dispatch, res.status);
@@ -80,7 +93,7 @@ export const filterConversations = tag => {
 
 export const searchReplies = str => {
   const filtered = [];
-  return (dispatch, getState) => {
+  return dispatch => {
     return axios
       .get(`/api/reply/search?search=${str}`)
       .then(res => res.data)
