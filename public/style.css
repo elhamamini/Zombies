@@ -1,6 +1,14 @@
 * {
   box-sizing: border-box;
-  font-family: arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
+}
+
+.ql-container {
+  border: none!important;
+}
+
+.quill {
+  box-shadow: none!important;
 }
 
 body {
@@ -9,6 +17,7 @@ body {
   padding: 0;
   margin: 0;
   width: 100vw;
+  color: #2D2D2D;
 }
 
 main {
@@ -17,4 +26,67 @@ main {
   flex-direction: column;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+hr {
+  margin: 2rem 0rem;
+  border: 1px solid lightgrey;
+}
+
+.language-css {
+  background-color: #07032B!important;
+  font-family: 'Roboto Mono', monospace;
+  color: #FFC6F4;
+}
+
+.language-html {
+  background-color: #07032B!important;
+  font-family: 'Roboto Mono', monospace;
+  color: #FFE2C6;
+}
+
+.language-js {
+  background-color: #07032B!important;
+  font-family: 'Roboto Mono', monospace;
+  color: #C6FFF7;
+}
+
+.ql-font-arial {
+  font-family: 'Arial'
+}
+
+.ql-font-comic-sans {
+  font-family: 'Comic Sans MS'
+}
+
+.ql-font-courier-new {
+  font-family: 'Courier New'
+}
+
+.ql-font-georgia {
+  font-family: 'Georgia'
+}
+
+.ql-font-helvetica {
+  font-family: 'Helvetica'
+}
+
+.ql-font-lucida {
+  font-family: 'Lucida Sans Unicode', 'Lucida Grande'
+}
+
+.ql-picker.ql-language [data-value='css']::before {
+  content: 'css';
+}
+
+.ql-picker.ql-language [data-value='js']::before {
+  content: 'js';
+}
+
+.ql-picker.ql-language [data-value='html']::before {
+  content: 'html'
+}
+
+.ql-editor {
+  white-space: normal!important;
 }

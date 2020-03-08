@@ -1,0 +1,55 @@
+import axios from 'axios';
+
+import { setUsers, setUser } from './actions';
+import { checkError, checkSuccess } from '../statusMessage/utils';
+
+export const fetchUsers = () => {
+  return dispatch => {
+    return axios
+      .get('/api/users')
+      .then(res => dispatch(setUsers(res.data)))
+      .catch(e => checkError(dispatch, e.response.status));
+  };
+};
+
+export const getUserFromGitHub = () => {
+  return dispatch => {
+    return axios
+      .get('/api/github/user')
+      .then(res => dispatch(setUser(res.data)))
+      .catch(e => checkError(dispatch, e.response.status));
+  };
+};
+
+export const createUser = user => {
+  return dispatch => {
+    return axios
+      .post('/api/users', user)
+      .then(res => dispatch(setUser(res.data)))
+      .catch(e => checkError(dispatch, e.response.status));
+  };
+};
+
+export const removeUser = id => {
+  return dispatch => {
+    return axios
+      .delete(`/api/users${id}`)
+      .then(res => {
+        checkSuccess(dispatch, res.status);
+        dispatch(fetchUsers(res.data));
+      })
+      .catch(e => checkError(dispatch, e.response.status));
+  };
+};
+
+export const updateUser = (userId, user) => {
+  return dispatch => {
+    return axios
+      .put(`/api/users/${userId}`, user)
+      .then(res => {
+        checkSuccess(dispatch, res.status);
+        dispatch(setUser(res.data));
+      })
+      .catch(e => checkError(dispatch, e.res.status));
+  };
+};

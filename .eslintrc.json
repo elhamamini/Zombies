@@ -1,0 +1,71 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true,
+        "node": true
+    },
+    "extends": "plugin:react/recommended",
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "plugins": [
+        "react"
+    ],
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "rules": {
+        "semi": [
+            "off",
+            "always"
+        ],
+        "quotes": [
+            "error",
+            "single",
+            {
+                "allowTemplateLiterals": true
+            }
+        ],
+        "no-unused-vars": [
+            "off",
+            "always"
+        ],
+        "object-curly-spacing": [
+            "off",
+            "never",
+            {
+                "arraysInObjects": true,
+                "objectsInObjects": true
+            }
+        ],
+        "indent": [
+            "off",
+            2
+        ],
+        "react/jsx-no-bind": [
+            "off",
+            "always",
+            {
+                "allowArrowFunctions": true
+            }
+        ],
+        "react/display-name": [
+            "off"
+        ],
+        "react/prop-types": [
+            "off"
+        ],
+        "react/no-children-prop": [
+            "off"
+        ],
+        "react-internal/warning-and-invariant-args": [
+            "off"
+        ]
+    }
+}
