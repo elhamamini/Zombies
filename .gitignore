@@ -9,7 +9,6 @@ public/bundle.js.map
 
 #Ignoring the web scraping and ML outputs, since they're huge
 postsByTitle.json
-cleaned.json
 whitelist.txt
 
 #Secrets
