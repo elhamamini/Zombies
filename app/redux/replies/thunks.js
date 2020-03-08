@@ -1,7 +1,9 @@
 import axios from 'axios';
 
-import { addReply, editReply, setAllReplies, removeReply } from './actions';
+import { setAllReplies } from './actions';
+import { fetchCurrentConversation } from '../conversations/thunks';
 import { checkError, checkSuccess } from '../statusMessage/utils';
+
 export const fetchAllReplies = () => {
   return dispatch => {
     return axios
@@ -15,18 +17,16 @@ export const createReply = content => {
   return dispatch => {
     return axios
       .post('/api/reply', content)
+      .then(() => dispatch(fetchCurrentConversation(content.conversationId)))
       .catch(e => checkError(dispatch, e.response.status));
   };
 };
 
 export const updateReply = (reply, id) => {
-  console.log('replyyyy', reply);
   return dispatch => {
     return axios
       .put(`/api/reply/${id}`, reply)
-      .then(res => {
-        dispatch(fetchAllReplies());
-      })
+      .then(() => dispatch(fetchAllReplies()))
       .catch(e => checkError(dispatch, e.response.status));
   };
 };

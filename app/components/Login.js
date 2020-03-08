@@ -25,17 +25,21 @@ class Login extends Component {
   handleOnClick = e => {
     const { email, password } = this.state;
     e.preventDefault();
-    this.props.attemptLogin({ email, password });
-    this.props.history.push('/');
+    this.props.attemptLogin({ email, password })
   };
 
   handleOnChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value }, () => this.validate(name, value));
   };
 
+  componentDidUpdate() {
+    if(this.props.user.id) {
+      this.props.history.push('/')
+    }
+  }
+
   validate = (name, value) => {
     const { errors } = this.state;
-    //TODO: Validate on submit for values not in our database NOT onchange
     switch (name) {
       case 'email':
         const regex = /\S+@\S+\.\S+/;

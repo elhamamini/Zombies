@@ -1,15 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
 import { fetchAllConversations } from '../redux/conversations/thunks';
 import * as Container from './styled/Div';
 import * as Font from './styled/Font';
 import * as Card from './styled/card';
 import * as Button from './styled/Button';
+
 import NotFound from './404Page';
+
 class LatestTitleList extends React.Component {
+
   componentDidMount() {
     this.props.getConversations(0);
   }
+
   checkDate = date => {
     let count = 0;
     let datesArr = [];
@@ -33,11 +38,11 @@ class LatestTitleList extends React.Component {
       count++;
     }
     if (datesArr.includes(date)) {
-      console.log(datesArr, 'arrrrr');
       return true;
     }
     return false;
   };
+
   render() {
     let currentConversationsList = this.props.allConversations.filter(conve => {
       return this.checkDate(conve.createdAt.split('T')[0]);
@@ -61,13 +66,16 @@ class LatestTitleList extends React.Component {
     );
   }
 }
+
 const mapStateToProps = ({ allConversations, user }) => ({
   allConversations,
   user,
 });
+
 const mapDispatchToProps = dispatch => {
   return {
     getConversations: p => dispatch(fetchAllConversations(p)),
   };
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(LatestTitleList);

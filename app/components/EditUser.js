@@ -23,6 +23,7 @@ class EditUser extends React.Component {
       },
     };
   }
+
   componentDidMount() {
     const { user } = this.props;
     this.setState({
@@ -33,9 +34,11 @@ class EditUser extends React.Component {
       image: user.image,
     });
   }
+
   handleOnChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value }, () => this.validate(name, value));
   };
+
   handleOnClick = e => {
     e.preventDefault();
     const { name, email, password, bio, image } = this.state;
@@ -51,6 +54,7 @@ class EditUser extends React.Component {
     this.props.updateUser(this.props.user.id, editedUser);
     this.props.history.push('/userprofile');
   };
+
   validate = (name, value) => {
     const { errors } = this.state;
     //TODO: Validate on submit for values not in our database NOT onchange
@@ -118,6 +122,7 @@ class EditUser extends React.Component {
         break;
     }
   };
+
   render() {
     const {
       name,
@@ -128,6 +133,7 @@ class EditUser extends React.Component {
       errors,
       errors: { emailError, passwordError, nameError },
     } = this.state;
+
     return (
       <Container>
         <Header>Public Profile</Header>
@@ -203,10 +209,13 @@ class EditUser extends React.Component {
     );
   }
 }
+
 const mapStateToProps = ({ user }) => ({ user });
+
 const mapDispatchToProps = dispatch => {
   return {
     updateUser: (id, userInfo) => dispatch(updateUser(id, userInfo)),
   };
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(EditUser);

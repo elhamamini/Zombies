@@ -2,8 +2,6 @@ const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const { User } = require('../db/index');
 
-const saltRounds = 12;
-
 router.post('/login', (req, res, next) => {
   User.findOne({
     where: {
@@ -12,22 +10,24 @@ router.post('/login', (req, res, next) => {
   })
     .then(userOrNull => {
       if (!userOrNull) {
-        res.send(401).send();
+        res.status(401).send();
       } else {
         bcrypt.compare(req.body.password, userOrNull.password)
         .then(result => {
           if(result) {
+
             if (userOrNull.userType === 'admin') {
               req.session.admin = true;
             } else {
               req.session.admin = false;
-
-              userOrNull.update(
-                { sessionId: req.session.id },
-                { returning: true }
-              )
-              .then(userOrNull => res.status(200).send(userOrNull))
             }
+
+            userOrNull.update(
+              { sessionId: req.session.id },
+              { returning: true }
+            )
+              .then(updatedUser => res.status(200).send(updatedUser))
+
           } else {
             res.send('Incorrect password')
           }
