@@ -13,24 +13,6 @@ export const fetchAllReplies = () => {
   };
 };
 
-export const createReply = content => {
-  return dispatch => {
-    return axios
-      .post('/api/reply', content)
-      .then(() => dispatch(fetchCurrentConversation(content.conversationId)))
-      .catch(e => checkError(dispatch, e.response.status));
-  };
-};
-
-export const updateReply = (reply, id) => {
-  return dispatch => {
-    return axios
-      .put(`/api/reply/${id}`, reply)
-      .then(() => dispatch(fetchAllReplies()))
-      .catch(e => checkError(dispatch, e.response.status));
-  };
-};
-
 export const fetchReply = id => {
   return dispatch => {
     return axios
@@ -40,10 +22,40 @@ export const fetchReply = id => {
   };
 };
 
-export const deleteReply = id => {
+export const createReply = (content, token) => {
   return dispatch => {
     return axios
-      .delete(`/api/reply/${id}`)
+      .post('/api/reply', content, {
+        headers: {
+          'Authorization': `Bearer: ${token}`
+        }
+      })
+      .then(() => dispatch(fetchCurrentConversation(content.conversationId)))
+      .catch(e => checkError(dispatch, e.response.status));
+  };
+};
+
+export const updateReply = (id, reply, token) => {
+  return dispatch => {
+    return axios
+      .put(`/api/reply/${id}`, reply, {
+        headers: {
+          'Authorization': `Bearer: ${token}`
+        }
+      })
+      .then(() => dispatch(fetchAllReplies()))
+      .catch(e => checkError(dispatch, e.response.status));
+  };
+};
+
+export const deleteReply = (id, token) => {
+  return dispatch => {
+    return axios
+      .delete(`/api/reply/${id}`, {
+        headers: {
+          'Authorization': `Bearer: ${token}`
+        }
+      })
       .then(res => {
         dispatch(fetchAllReplies());
         checkSuccess(dispatch, res.status);

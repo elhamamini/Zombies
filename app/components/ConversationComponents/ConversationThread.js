@@ -6,7 +6,6 @@ import * as Div from '../styled/Div';
 import * as Form from '../styled/Form';
 import { NavSpan } from '../styled/Nav';
 import * as Font from '../styled/Font';
-import SmallButton from '../styled/SmallButton';
 
 import EditorReadOnly from './EditorReadOnly';
 import Editor from './Editor';
@@ -34,14 +33,17 @@ const ConversationThread = ({ match }) => {
   const handleOnClick = e => {
     e.preventDefault()
     setIsLoading(true);
-    dispatch(createReply({
-      conversationId: conversation.id,
-      userId: user.id,
-      body: body.bodyText,
-      htmlCode: body.codeBlocks ? body.codeBlocks['.language-html'] : null,
-      cssCode: body.codeBlocks ? body.codeBlocks['.language-css'] : null,
-      javascriptCode: body.codeBlocks ? body.codeBlocks['.language-js'] : null,
-    }))
+    dispatch(createReply(
+      {
+        conversationId: conversation.id,
+        userId: user.id,
+        body: body.bodyText,
+        htmlCode: body.codeBlocks ? body.codeBlocks['.language-html'] : null,
+        cssCode: body.codeBlocks ? body.codeBlocks['.language-css'] : null,
+        javascriptCode: body.codeBlocks ? body.codeBlocks['.language-js'] : null,
+      },
+      user.id
+    ))
     .then(() => setReplyCount(conversation.replies.length))
     dispatch(draftBody('', {}))
     setIsLoading(false);
@@ -51,7 +53,7 @@ const ConversationThread = ({ match }) => {
   const handleDeleteReply = (e, reply) => {
     e.preventDefault();
     setIsLoading(true);
-    dispatch(deleteReply(reply.id))
+    dispatch(deleteReply(reply.id, user.id))
     .then(() => setReplyCount(conversation.replies.length))
     setIsLoading(false);
   }
@@ -67,7 +69,7 @@ const ConversationThread = ({ match }) => {
               return (
                 <div key={reply.id}>
                   <Font.h5>{ reply.user.name } { idx === 0 ? 'asked:' : 'replied:' }</Font.h5>
-                  { user.id === reply.userId && idx !== 0 ? <SmallButton disabled={isLoading} onClick={(e) => handleDeleteReply(e, reply)}>Delete</SmallButton> : null }
+                  { user.id === reply.userId && idx !== 0 ? <Button disabled={isLoading} onClick={(e) => handleDeleteReply(e, reply)}>Delete</Button> : null }
                   <EditorReadOnly reply={reply.body} readOnly={isReadOnly}/>
                   { reply.htmlCode || reply.cssCode || reply.javascriptCode ? <RunCode reply={reply}/> : null }
                   { idx === 0 && <hr/> }

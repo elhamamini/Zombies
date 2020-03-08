@@ -50,9 +50,19 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-  if (!req.body.conversationId) {
+  const { conversationId, userId } = req.body;
+
+  if(!userId) {
+    return res.status(401).send('Sign in to perform this action')
+  }
+  if(!conversationId) {
     return res.status(400).send('POST reply request missing conversationId');
   }
+
+  if(req.headers.authorization !== `Bearer ${userId}`) {
+    return res.status(403).send('You do not have permission to perform this action. Contact administrator.')
+  }
+
   Reply.create({
     ...req.body,
   })

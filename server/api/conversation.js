@@ -96,13 +96,19 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
+
   const { userId, title } = req.body;
+
   if (!userId) {
-    return res.status(401).send('You do not have permission to perform this action. Contact Administrator.');
+    return res.status(401).send('Sign in to perform this action');
   }
   if (!title) {
     return res.status(400).send('Missing information');
   }
+  if(req.headers.authorization !== `Bearer ${userId}`) {
+    return res.status(403).send('You do not have permission to perform this action. Contact administrator.')
+  }
+
   Conversation.create({
     userId,
     title,
@@ -111,8 +117,9 @@ router.post('/', (req, res, next) => {
       if (req.body.tags.length) {
         created.addTag(req.body.tags[0].id)
         .then(() => res.status(200).send(created));
-      }
+      } else {
       res.status(200).send(created);
+      }
     })
     .catch(e => {
       res.status(500).send();

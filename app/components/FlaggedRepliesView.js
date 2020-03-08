@@ -21,6 +21,7 @@ class FlaggedReplies extends React.Component {
     super();
     this.state = {
       isFlagged: true,
+      isLoading: false,
     };
   }
 
@@ -29,56 +30,54 @@ class FlaggedReplies extends React.Component {
     this.props.getUsers();
   }
 
-  updateReplyHandler = reply => {
-    this.props.updateReply(reply, reply.id);
+  handleUpdateReply = (e, reply) => {
+    e.preventDefault();
+    this.setState({ isLoading: true })
+    this.props.updateReply(reply.id, reply, this.props.user.userType)
+    .then(() => this.setState({ isLoading: false }))
   };
+
+  handleDeleteReply = (e, reply) => {
+    e.preventDefault();
+    this.setState({ isLoading: true })
+    this.props.deleteReply()
+    .then(() => this.setState({ isLoading: false }))
+  }
   
   render() {
-    return this.props.user.userType === 'admin' ? (
-      <Container.Paper id="conversations-index">
-        <Font.hero>Flagged Replies</Font.hero>
-        <Card.CardContainer>
-          {this.props.replies.map((reply, id) => (
-            <Card.Card key={reply.id}>
-              <Font.Header>Conversation Title:</Font.Header>
-              <Font.Paragraph>{reply.conversation.title}</Font.Paragraph>
-              <Hr />
-              <Font.Header>User name:</Font.Header>
-              <Font.Paragraph>
-                {this.props.users.length &&
-                  this.props.users.find(user => user.id === reply.userId).name}
-              </Font.Paragraph>
-              <Hr />
-              <Font.Header>Flagged Reply:</Font.Header>
-              <Font.Paragraph>{reply.body}</Font.Paragraph>
+    return (
+      this.props.user.userType === 'admin' ? (
+        <Container.Paper id="conversations-index">
+          <Font.hero>Flagged Replies</Font.hero>
+          <Card.CardContainer>
+            {this.props.replies.map(reply => (
+              <Card.Card key={reply.id}>
+                <Font.Header>Conversation Title:</Font.Header>
+                <Font.Paragraph>{reply.conversation.title}</Font.Paragraph>
+                <Hr />
+                <Font.Header>User name:</Font.Header>
+                <Font.Paragraph>
+                  {this.props.users.length &&
+                    this.props.users.find(user => user.id === reply.userId).name}
+                </Font.Paragraph>
+                <Hr />
+                <Font.Header>Flagged Reply:</Font.Header>
+                <Font.Paragraph>{reply.body}</Font.Paragraph>
 
-              <SmallButton
-                onClick={() => {
-                  this.props.updateReply(
-                    {
-                      ...reply,
-                      isFlagged: false,
-                    },
-                    reply.id
-                  );
-                }}
-              >
-                unflagged
-              </SmallButton>
-              <SmallButton
-                onClick={() => {
-                  this.props.deleteReply(reply.id);
-                }}
-              >
-                Delete
-              </SmallButton>
-            </Card.Card>
-          ))}
-        </Card.CardContainer>
-      </Container.Paper>
-    ) : (
-      <NotFound />
-    );
+                <SmallButton onClick={e => handleUpdateReply(e, reply)}>
+                  unflagged
+                </SmallButton>
+                <SmallButton onClick={e => this.handleDeleteReply(e, reply.id)}>
+                  Delete
+                </SmallButton>
+              </Card.Card>
+            ))}
+          </Card.CardContainer>
+        </Container.Paper>
+      ) : (
+        <NotFound />
+      )
+    )
   }
 }
 
@@ -92,8 +91,8 @@ const mapDispatchToProps = dispatch => {
   return {
     getReplies: () => dispatch(fetchAllReplies()),
     getUsers: () => dispatch(fetchUsers()),
-    updateReply: (reply, id) => dispatch(updateReply(reply, id)),
-    deleteReply: id => dispatch(deleteReply(id)),
+    updateReply: (reply, id, token) => dispatch(updateReply(reply, id, token)),
+    deleteReply: (id, token) => dispatch(deleteReply(id, token)),
   };
 };
 

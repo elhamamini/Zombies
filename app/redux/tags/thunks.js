@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { setTags, setWhitelist, setActive } from './actions';
+import { checkError } from '../statusMessage/utils';
 
 export const fetchTags = () => {
   return dispatch => {
@@ -9,6 +10,6 @@ export const fetchTags = () => {
       .then(response => dispatch(setTags(response.data)))
       .then(() => dispatch(setWhitelist()))
       .then(() => dispatch(setActive()))
-      .catch(e => console.log('Error in thunk:', e));
+      .catch(e => checkError(dispatch, e.response.status));
   };
 };
