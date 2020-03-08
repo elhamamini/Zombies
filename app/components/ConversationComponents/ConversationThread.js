@@ -74,16 +74,16 @@ const ConversationThread = ({ match }) => {
                   <Font.h5>{ reply.user.name } { idx === 0 ? 'asked:' : 'replied:' }</Font.h5>
                   { user.id === reply.userId && idx !== 0 ? <SmallButton disabled={isLoading} onClick={(e) => handleDeleteReply(e, reply)}>Delete</SmallButton> : null }
                   <EditorReadOnly reply={reply.body} readOnly={isReadOnly} flagged={reply.isFlagged} id={reply.id} />
-                  { reply.htmlCode || reply.cssCode || reply.javascriptCode ? <RunCode reply={reply}/> : null }
                   { 
                     idx === 0 ?
                     conversation.hasAnswer ?
                     <Font.Label>This has been marked as answered</Font.Label>
                     :
-                    <Font.Paragraph onClick={setAnswered}>Mark as answered</Font.Paragraph>
+                    <Font.Paragraph style={{ color: '#7992FF', fontSize: '0.75rem' }} onClick={setAnswered}>Mark as answered</Font.Paragraph>
                     :
                     null
                   }
+                  { reply.htmlCode || reply.cssCode || reply.javascriptCode ? <RunCode reply={reply}/> : null }
                   { idx === 0 && <Div.Hr/> }
                 </div>
               )

@@ -37,7 +37,13 @@ export default ({ reply }) => {
       <iframe id='iframe' sandbox='allow-scripts allow-same-origin' name='replyOutput' src={urlSource}>
         Oops. Your browser does not support iframes.
       </iframe>
-      <div id='replyConsole'></div>
+      <div id='replyConsole'
+        style={{
+          backgroundColor: '#07032B',
+          fontFamily: '"Roboto Mono", monospace',
+          color: '#C6FFF7',
+        }}
+      ></div>
     </div>
   )
 }
