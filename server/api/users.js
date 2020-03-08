@@ -6,6 +6,11 @@ const { User, Cohort } = require('../db/index');
 const saltRounds = 12;
 
 router.get('/', (req, res, next) => {
+
+  if(req.headers.authorization !== `Bearer admin`) {
+    res.status(403).send('You do not have permission to perform this action. Contact administrator.')
+  }
+
   User.findAll({
     include: {
       model: Cohort,
@@ -55,6 +60,11 @@ router.post('/', (req, res, next) => {
 });
 
 router.put('/:id', (req, res, next) => {
+
+  if(req.headers.authorization !== `Bearer admin` && req.headers.authorization !== `Bearer user`) {
+    res.status(403).send('You do not have permission to perform this action. Contact administrator.')
+  }
+
   User.findByPk(req.params.id)
     .then(userOrNull => {
       if (userOrNull) {
@@ -71,6 +81,11 @@ router.put('/:id', (req, res, next) => {
 });
 
 router.delete('/:id', (req, res, next) => {
+
+  if(req.headers.authorization !== `Bearer admin`) {
+    res.status(403).send('You do not have permission to perform this action. Contact administrator.')
+  }
+
   User.destroy({
     where: {
       id: req.params.id,

@@ -3,12 +3,13 @@ import styled from 'styled-components';
 export const MainContainer = styled.div`
   display: flex;
   flex: 1 1 auto;
-  width: 100%;
+  width: 100vw;
 `;
 
 export const Container = styled.div`
   flex: 1 1 auto;
   display: flex;
+  width: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;

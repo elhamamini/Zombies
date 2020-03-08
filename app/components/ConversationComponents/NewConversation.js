@@ -54,24 +54,29 @@ class NewConversation extends Component {
     const cleanText = pruneHTML(this.props.body.bodyText);
     const mlTag = (await Axios.post('/api/ml/classify', { doc: cleanText })).data;
     const tagList = this.props.tags.filter(t => t.name === mlTag);
-    console.log('mlTag', mlTag);
-    console.log('tagList', tagList);
-    this.props.createConversation({
-      userId: this.props.user.id,
-      title: this.state.topic,
-      tags: tagList,
-    })
-    .then(() => {
-      this.props.createReply({
-        conversationId: this.props.conversation.id,
+
+    this.props.createConversation(
+      {
         userId: this.props.user.id,
-        body: this.props.body.bodyText,
-        htmlCode: this.props.body.codeBlocks['.language-html'],
-        cssCode: this.props.body.codeBlocks['.language-css'],
-        javascriptCode: this.props.body.codeBlocks['.language-js'],
-        repo: this.state.repo,
+        title: this.state.topic,
         tags: tagList,
-    })
+      },
+      this.props.user.id
+    )
+    .then(() => {
+      this.props.createReply(
+        {
+          conversationId: this.props.conversation.id,
+          userId: this.props.user.id,
+          body: this.props.body.bodyText,
+          htmlCode: this.props.body.codeBlocks['.language-html'],
+          cssCode: this.props.body.codeBlocks['.language-css'],
+          javascriptCode: this.props.body.codeBlocks['.language-js'],
+          repo: this.state.repo,
+          tags: tagList,
+        },
+        this.props.user.id
+      )
   })
     .then(() => {
       this.setState({ isLoading: false })
@@ -230,8 +235,8 @@ const mapState = ({
 });
 
 const mapDispatch = dispatch => ({
-  createConversation: content => dispatch(createConversation(content)),
-  createReply: content => dispatch(createReply(content)),
+  createConversation: (content, token) => dispatch(createConversation(content, token)),
+  createReply: (content, token) => dispatch(createReply(content, token)),
   fetchCurrentConversation: conversationId =>
     dispatch(fetchCurrentConversation(conversationId)),
   fetchRepos: () => dispatch(fetchRepos()),
