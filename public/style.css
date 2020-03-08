@@ -9,6 +9,7 @@
 
 .quill {
   box-shadow: none!important;
+  width: 100%!important;
 }
 
 body {
@@ -89,4 +90,8 @@ hr {
 
 .ql-editor {
   white-space: normal!important;
+}
+
+.ql-clipboard {
+  width: 100%!important;
 }

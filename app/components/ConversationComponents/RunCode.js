@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import SmallButton from '../styled/SmallButton';
+import { Button } from '../styled/Button';
 
 import CodeConsole from './CodeConsole';
 
@@ -16,9 +16,9 @@ export default ({ reply, idx }) => {
       { isRunning ? (
         <div>
           <CodeConsole reply={reply} idx={idx}/>
-          <SmallButton secondary onClick={handleOnClick}>Hide Code</SmallButton>
+          <Button onClick={handleOnClick}>Hide Code</Button>
         </div>
-      ) : <SmallButton onClick={handleOnClick}>Run Code</SmallButton>}
+      ) : <Button onClick={handleOnClick}>Run Code</Button>}
     </div>
   )
 }
