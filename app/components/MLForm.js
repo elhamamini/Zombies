@@ -2,10 +2,10 @@ import nlp from 'compromise';
 import React, { useEffect, useState } from 'react';
 import { MainContainer } from './styled/Div';
 import { Header } from './styled/Font'
-import { Form } from './styled/Form';
+import { Container } from './styled/Form';
 import { Input, TextField, InputFeedback, Label } from './styled/Input';
 import { Button } from './styled/Button';
-import Pill from './styled/Pill';
+import { Pill } from './styled/Pill';
 import Highlighter from 'react-highlight-words';
 import whitelist from '../../whitelist';
 
@@ -36,7 +36,7 @@ const MLForm = () => {
 
     return (
         <MainContainer>
-            <Form>
+            <Container>
                 <Header>ML Demo</Header>
                 <Label>Type Here</Label>
                 <TextField 
@@ -57,7 +57,7 @@ const MLForm = () => {
                     topics.map((topic, idx) => <Pill secondary key={topic} onClick={() => handleClick(topic)}>{topic}</Pill>)
                     : ''
                 }
-            </Form>
+            </Container>
         </MainContainer>
     );
 };
