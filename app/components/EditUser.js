@@ -51,8 +51,9 @@ class EditUser extends React.Component {
       image,
       userType: 'user',
     };
-    this.props.updateUser(this.props.user.id, editedUser);
-    this.props.history.push('/userprofile');
+
+    this.props.updateUser(this.props.user.id, editedUser, this.props.user.id)
+    .then(() => this.props.history.push('/userprofile'));
   };
 
   validate = (name, value) => {
@@ -104,6 +105,7 @@ class EditUser extends React.Component {
         break;
 
       case 'password':
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{8,}$/
         if (!value) {
           this.setState({
             errors: {
@@ -111,6 +113,13 @@ class EditUser extends React.Component {
               passwordError: 'Password cannot be blank',
             },
           });
+        } else if(!passwordRegex.test(value)) {
+          this.setState({
+            errors: {
+              ...errors,
+              passwordError: 'Password  invalid'
+            }
+          })
         } else {
           this.setState({
             errors: {
@@ -214,7 +223,7 @@ const mapStateToProps = ({ user }) => ({ user });
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateUser: (id, userInfo) => dispatch(updateUser(id, userInfo)),
+    updateUser: (id, userInfo, token) => dispatch(updateUser(id, userInfo, token)),
   };
 };
 

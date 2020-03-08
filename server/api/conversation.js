@@ -102,9 +102,11 @@ router.post('/', (req, res, next) => {
   if (!userId) {
     return res.status(401).send('Sign in to perform this action');
   }
+   
   if (!title) {
     return res.status(400).send('Missing information');
   }
+
   if(req.headers.authorization !== `Bearer ${userId}`) {
     return res.status(403).send('You do not have permission to perform this action. Contact administrator.')
   }
@@ -128,6 +130,11 @@ router.post('/', (req, res, next) => {
 });
 
 router.put('/:id', (req, res, next) => {
+
+  if(req.headers.authorization !== `Bearer admin`) {
+    res.status(403).send('You do not have permission to perform this request. Contact administrator.')
+  }
+
   Conversation.update(
     { ...req.body },
     {
@@ -147,6 +154,11 @@ router.put('/:id', (req, res, next) => {
 });
 
 router.delete('/:id', (req, res, next) => {
+
+  if(req.headers.authorization !== `Bearer admin`) {
+    res.status(403).send('You do not have permission to perform this request. Contact administrator.')
+  }
+
   Conversation.destroy({
     where: {
       id: req.params.id,

@@ -3,10 +3,14 @@ import axios from 'axios';
 import { setUsers, setUser } from './actions';
 import { checkError, checkSuccess } from '../statusMessage/utils';
 
-export const fetchUsers = () => {
+export const fetchUsers = token => {
   return dispatch => {
     return axios
-      .get('/api/users')
+      .get('/api/users', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
       .then(res => dispatch(setUsers(res.data)))
       .catch(e => checkError(dispatch, e.response.status));
   };

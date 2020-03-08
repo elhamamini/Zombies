@@ -26,8 +26,8 @@ class FlaggedReplies extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getReplies();
-    this.props.getUsers();
+    this.props.fetchReplies(this.props.user.userType);
+    this.props.fetchUsers(this.props.user.userType);
   }
 
   handleUpdateReply = (e, reply) => {
@@ -40,7 +40,7 @@ class FlaggedReplies extends React.Component {
   handleDeleteReply = (e, reply) => {
     e.preventDefault();
     this.setState({ isLoading: true })
-    this.props.deleteReply()
+    this.props.deleteReply(reply.id, this.props.user.userType)
     .then(() => this.setState({ isLoading: false }))
   }
   
@@ -89,9 +89,9 @@ const mapStateToProps = ({ replies, users, user }) => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    getReplies: () => dispatch(fetchAllReplies()),
-    getUsers: () => dispatch(fetchUsers()),
-    updateReply: (reply, id, token) => dispatch(updateReply(reply, id, token)),
+    fetchReplies: token => dispatch(fetchAllReplies(token)),
+    fetchUsers: token => dispatch(fetchUsers(token)),
+    updateReply: (id, reply, token) => dispatch(updateReply(reply, id, token)),
     deleteReply: (id, token) => dispatch(deleteReply(id, token)),
   };
 };

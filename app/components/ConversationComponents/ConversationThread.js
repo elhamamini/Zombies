@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { SmallButton } from '../styled/SmallButton';
+import SmallButton from '../styled/SmallButton';
 import { Button } from '../styled/Button';
 import * as Div from '../styled/Div';
 import * as Form from '../styled/Form';
@@ -33,7 +33,7 @@ const ConversationThread = ({ match }) => {
   }, [replyCount])
 
   const handleOnClick = e => {
-    e.preventDefault()
+    e.preventDefault();
     setIsLoading(true);
     dispatch(createReply(
       {
@@ -55,7 +55,7 @@ const ConversationThread = ({ match }) => {
   const handleDeleteReply = (e, reply) => {
     e.preventDefault();
     setIsLoading(true);
-    dispatch(deleteReply(reply.id, user.id))
+    dispatch(deleteReply(reply.id, user.userType))
     .then(() => setReplyCount(conversation.replies.length))
     setIsLoading(false);
   }

@@ -6,6 +6,11 @@ const RESULTS_PER_PAGE = 25;
 
 //return all replies
 router.get('/', (req, res, next) => {
+
+  if(req.headers.authorization !== `Bearer admin`) {
+    return res.status(403).send('You do not have permission to perform this action. Contact administrator')
+  }
+
   Reply.findAll({
     where: {
       isFlagged: true,
@@ -50,6 +55,7 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
+
   const { conversationId, userId } = req.body;
 
   if(!userId) {
@@ -58,7 +64,6 @@ router.post('/', (req, res, next) => {
   if(!conversationId) {
     return res.status(400).send('POST reply request missing conversationId');
   }
-
   if(req.headers.authorization !== `Bearer ${userId}`) {
     return res.status(403).send('You do not have permission to perform this action. Contact administrator.')
   }
@@ -76,6 +81,11 @@ router.post('/', (req, res, next) => {
 });
 
 router.put('/:id', (req, res, next) => {
+
+  if(req.headers.authorization !== `Bearer user` && req.headers.authorization !== `Bearer admin`) {
+    return res.status(403).send('You do not have permission to perform this action. Contact administrator.')
+  }
+
   Reply.update(
     {
       ...req.body,
@@ -97,6 +107,11 @@ router.put('/:id', (req, res, next) => {
 });
 
 router.delete('/:id', (req, res, next) => {
+
+  if(req.headers.authorization !== `Bearer admin` && req.headers.authorization !== `Bearer user`) {
+    res.status(403).send('You do not have permission to perform this request. Contact administrator.')
+  }
+
   Reply.destroy({
     where: {
       id: req.params.id,
