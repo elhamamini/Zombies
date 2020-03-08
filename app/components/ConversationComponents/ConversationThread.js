@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import SmallButton from '../styled/SmallButton';
 import { Button } from '../styled/Button';
 import * as Div from '../styled/Div';
 import * as Form from '../styled/Form';
 import { NavSpan } from '../styled/Nav';
 import * as Font from '../styled/Font';
-import SmallButton from '../styled/SmallButton';
 
 import EditorReadOnly from './EditorReadOnly';
 import Editor from './Editor';
@@ -33,16 +33,19 @@ const ConversationThread = ({ match }) => {
   }, [replyCount])
 
   const handleOnClick = e => {
-    e.preventDefault()
+    e.preventDefault();
     setIsLoading(true);
-    dispatch(createReply({
-      conversationId: conversation.id,
-      userId: user.id,
-      body: body.bodyText,
-      htmlCode: body.codeBlocks ? body.codeBlocks['.language-html'] : null,
-      cssCode: body.codeBlocks ? body.codeBlocks['.language-css'] : null,
-      javascriptCode: body.codeBlocks ? body.codeBlocks['.language-js'] : null,
-    }))
+    dispatch(createReply(
+      {
+        conversationId: conversation.id,
+        userId: user.id,
+        body: body.bodyText,
+        htmlCode: body.codeBlocks ? body.codeBlocks['.language-html'] : null,
+        cssCode: body.codeBlocks ? body.codeBlocks['.language-css'] : null,
+        javascriptCode: body.codeBlocks ? body.codeBlocks['.language-js'] : null,
+      },
+      user.id
+    ))
     .then(() => setReplyCount(conversation.replies.length))
     dispatch(draftBody('', {}))
     setIsLoading(false);
@@ -50,13 +53,13 @@ const ConversationThread = ({ match }) => {
   }
 
   const setAnswered = () => {
-    dispatch(updateConversation(conversation.id, { hasAnswer: true }));
+    dispatch(updateConversation(conversation.id, { hasAnswer: true }, user.userType));
   }
 
   const handleDeleteReply = (e, reply) => {
     e.preventDefault();
     setIsLoading(true);
-    dispatch(deleteReply(reply.id))
+    dispatch(deleteReply(reply.id, user.userType))
     .then(() => setReplyCount(conversation.replies.length))
     setIsLoading(false);
   }
