@@ -86,15 +86,8 @@ function AllConvos(props) {
       <Card.CardContainer>
         {convosList.map(convo => (
           <Card.Card key={convo.id} onClick={() => handleClick(convo.id)}>
-            <Font.Paragraph>{convo.title}</Font.Paragraph>
-            {convo.replyCount ? (
-              <Font.Label>{`${convo.replyCount} ${
-                convo.replyCount > 1 ? 'replies' : 'reply'
-              }`}</Font.Label>
-            ) : (
-              <Font.Label secondary>No replies</Font.Label>
-            )}
-            {convo.hasAnswer && <Font.Label>Answered</Font.Label>}
+            <Font.h5>{convo.title}</Font.h5>
+            {convo.hasAnswer && <Font.Label style={{ color: '#7992FF' }}>Answered</Font.Label>}
           </Card.Card>
         ))}
       </Card.CardContainer>

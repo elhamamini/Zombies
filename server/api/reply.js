@@ -71,7 +71,7 @@ router.put('/:id', (req, res, next) => {
       ...req.body,
     },
     {
-      where: { id: req.params.id, isFlagged: true },
+      where: { id: req.params.id },
       returning: true,
     }
   )
