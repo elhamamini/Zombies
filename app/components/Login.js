@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { attemptLogin } from '../redux/authentication/thunks';
-import { removeLoginError } from '../redux/authentication/actions';
 
 import * as Font from './styled/Font';
 import { Hr } from './styled/Div';
@@ -23,28 +22,24 @@ class Login extends Component {
     };
   }
 
-  componentDidUpdate() {
-    const {
-      authentication: { isLoggedIn },
-    } = this.props;
-    //for now i just send it to the home page after login
-    if (isLoggedIn) this.props.history.push('/');
-  }
-
   handleOnClick = e => {
     const { email, password } = this.state;
     e.preventDefault();
-    this.props.attemptLogin({ email, password });
-    this.props.history.push('/');
+    this.props.attemptLogin({ email, password })
   };
 
   handleOnChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value }, () => this.validate(name, value));
   };
 
+  componentDidUpdate() {
+    if(this.props.user.id) {
+      this.props.history.push('/')
+    }
+  }
+
   validate = (name, value) => {
     const { errors } = this.state;
-    //TODO: Validate on submit for values not in our database NOT onchange
     switch (name) {
       case 'email':
         const regex = /\S+@\S+\.\S+/;
@@ -161,16 +156,8 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = ({ authentication, user }) => ({
-  authentication,
-  user,
-});
+const mapStateToProps = ({ user }) => ({ user });
 
-const mapDispatchToProps = dispatch => {
-  return {
-    attemptLogin: info => dispatch(attemptLogin(info)),
-    removeLoginError: () => dispatch(removeLoginError()),
-  };
-};
+const mapDispatchToProps = dispatch => ({ attemptLogin: info => dispatch(attemptLogin(info)) })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

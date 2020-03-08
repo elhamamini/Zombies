@@ -11,10 +11,12 @@ import SmallButton from './styled/SmallButton';
 import { Checkbox, NewLabel } from './styled/Input';
 import { FormRow } from './styled/Form';
 import NotFound from './404Page';
+
 class LatestTitleList extends React.Component {
   componentDidMount() {
     this.props.getConversations(0);
   }
+
   checkDate = date => {
     let count = 0;
     let datesArr = [];
@@ -42,6 +44,7 @@ class LatestTitleList extends React.Component {
     }
     return false;
   };
+
   render() {
     let currentConversationsList = this.props.allConversations.filter(conve => {
       return this.checkDate(conve.createdAt.split('T')[0]) && !conve.seen;
@@ -85,14 +88,17 @@ class LatestTitleList extends React.Component {
     );
   }
 }
+
 const mapStateToProps = ({ allConversations, user }) => ({
   allConversations,
   user,
 });
+
 const mapDispatchToProps = dispatch => {
   return {
     getConversations: p => dispatch(fetchAllConversations(p)),
     updateConversation: (id, conv) => dispatch(updateConversation(id, conv)),
   };
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(LatestTitleList);

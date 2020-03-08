@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { convertToGlyphs, createURL } from '../../utils';
 
-export default ({ reply, idx }) => {
+export default ({ reply }) => {
 
   const [isMounted, setIsMounted] = useState(false);
   const [urlSource, setUrlSource] = useState('');
@@ -15,8 +15,10 @@ export default ({ reply, idx }) => {
         let output = ''
         let itemsToRender = [];
         console.log = arg => {
-        itemsToRender.push(arg)}; ${convertToGlyphs(reply.javascriptCode)};
-        itemsToRender.forEach(item => output += item + '<br />')
+          itemsToRender.push(arg)
+        };
+        ${convertToGlyphs(reply.javascriptCode)};
+        itemsToRender.forEach(item => output += item + '<br />');
         document.getElementById('replyConsole').innerHTML = output;
         `
       setUrlSource(createURL({
@@ -33,7 +35,7 @@ export default ({ reply, idx }) => {
   return (
     <div>
       <iframe id='iframe' sandbox='allow-scripts allow-same-origin' name='replyOutput' src={urlSource}>
-        Oops. Your browser doesn't support iframes.
+        Oops. Your browser does not support iframes.
       </iframe>
       <div id='replyConsole'></div>
     </div>

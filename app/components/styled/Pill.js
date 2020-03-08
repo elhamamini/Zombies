@@ -26,6 +26,7 @@ export const Pill = styled.div`
   color: ${props => (props.secondary ? '#686868' : '#FFFFFF')};;
   margin: 0.25rem 0.25rem;
   padding: 0 1rem;
+  cursor: pointer;
   &:hover {
     background-color: #CC3756;
   }

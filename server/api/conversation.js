@@ -76,6 +76,7 @@ router.get('/:id', (req, res, next) => {
       {
         model: Reply,
         include: [{ model: User }],
+        order: [['createdAt', 'DESC']]
       },
       {
         model: Tag,
@@ -96,7 +97,10 @@ router.get('/:id', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
   const { userId, title } = req.body;
-  if (!userId || !title) {
+  if (!userId) {
+    return res.status(401).send('You do not have permission to perform this action. Contact Administrator.');
+  }
+  if (!title) {
     return res.status(400).send('Missing information');
   }
   Conversation.create({
@@ -118,9 +122,7 @@ router.post('/', (req, res, next) => {
 
 router.put('/:id', (req, res, next) => {
   Conversation.update(
-    {
-      ...req.body,
-    },
+    { ...req.body },
     {
       where: { id: req.params.id },
       returning: true,

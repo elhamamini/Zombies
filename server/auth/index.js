@@ -1,62 +1,74 @@
 const router = require('express').Router();
+const bcrypt = require('bcrypt');
 const { User } = require('../db/index');
 
 router.post('/login', (req, res, next) => {
-  console.log(req.body);
-  return User.findOne({
+  User.findOne({
     where: {
       email: req.body.email,
-      password: req.body.password,
     },
   })
     .then(userOrNull => {
       if (!userOrNull) {
-        console.log('no user');
-        return res.sendStatus(401);
-      }
-      // req.session.userId = userOrNull.id;
-      if (userOrNull.userType === 'admin') {
-        req.session.admin = true;
+        res.status(401).send();
       } else {
-        req.session.admin = false;
-      }
+        bcrypt.compare(req.body.password, userOrNull.password)
+        .then(result => {
+          if(result) {
 
-      return userOrNull.update(
-        { sessionId: req.session.id },
-        { returning: true }
-      );
+            if (userOrNull.userType === 'admin') {
+              req.session.admin = true;
+            } else {
+              req.session.admin = false;
+            }
+
+            userOrNull.update(
+              { sessionId: req.session.id },
+              { returning: true }
+            )
+              .then(updatedUser => res.status(200).send(updatedUser))
+
+          } else {
+            res.send('Incorrect password')
+          }
+        })
+      }
     })
-    .then(userOrNull => {
-      // console.log('user or null', userOrNull);
-      res.status(200).send(userOrNull);
-    })
-    .catch(err => {
-      console.log('login error');
-      next(err);
+    .catch(e => {
+      res.status(500).send();
+      next(e);
     });
 });
 
-router.post('/signup', (req, res, next) => {
-  User.findOrCreate({
-    where: req.body,
-  })
-    .then(user => {
-      if (!user) return res.status(500).send('error creating user');
-      // req.session.userId = user.id;
-      if (user.userType === 'admin') {
-        req.session.admin = true;
-      } else {
-        req.session.admin = false;
-      }
-      res.send(user);
-    })
-    .catch(next);
-});
+// router.post('/signup', (req, res, next) => {
+//   bcrypt.hash(req.body.password, saltRounds)
+//   .then(hash => {
+//   req.body.password = hash;
+//   User.findOrCreate({
+//     where: req.body,
+//   })
+//     .then(user => {
+//       if (!user) return res.status(500).send('error creating user');
+//       res.send(user);
+//     })
+//   })
+//     .catch(e => {
+//       res.status(500).send();
+//       next(e);
+//     });
+// });
 
-router.get('/logout', (req, res, next) => {
-  req.session.destroy();
-  res.sendStatus(204);
-  next();
+router.put('/logout', (req, res, next) => {
+  User.findByPk(req.body.id)
+  .then(user => user.update({ loggedIn: false }))
+  .then(() => {
+    req.session.destroy();
+    res.status(204).send();
+  })
+  .catch(e => {
+    res.status(500).send()
+    next(e)
+  })
 });
 
 router.get('/me', (req, res, next) => {

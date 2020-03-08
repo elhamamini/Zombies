@@ -1,17 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
+import * as Container from './styled/Div';
+import * as Font from './styled/Font';
+import * as Card from './styled/card';
+import SmallButton from './styled/SmallButton';
+import { Hr } from './styled/Div';
+
 import {
   fetchAllReplies,
   updateReply,
   deleteReply,
 } from '../redux/replies/thunks';
 import { fetchUsers } from '../redux/users/thunks';
-import * as Container from './styled/Div';
-import * as Font from './styled/Font';
-import * as Card from './styled/card';
-import SmallButton from './styled/SmallButton';
-import { Hr } from './styled/Div';
-import { FormCheckbox } from './styled/Form';
+
 import NotFound from './404Page';
 
 class FlaggedReplies extends React.Component {
@@ -30,8 +32,8 @@ class FlaggedReplies extends React.Component {
   updateReplyHandler = reply => {
     this.props.updateReply(reply, reply.id);
   };
+  
   render() {
-    console.log('user', this.props.user.userType);
     return this.props.user.userType === 'admin' ? (
       <Container.Paper id="conversations-index">
         <Font.hero>Flagged Replies</Font.hero>
@@ -79,11 +81,13 @@ class FlaggedReplies extends React.Component {
     );
   }
 }
+
 const mapStateToProps = ({ replies, users, user }) => ({
   replies,
   users,
   user,
 });
+
 const mapDispatchToProps = dispatch => {
   return {
     getReplies: () => dispatch(fetchAllReplies()),
@@ -92,4 +96,5 @@ const mapDispatchToProps = dispatch => {
     deleteReply: id => dispatch(deleteReply(id)),
   };
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(FlaggedReplies);
