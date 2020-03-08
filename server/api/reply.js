@@ -10,6 +10,7 @@ router.get('/', (req, res, next) => {
     where: {
       isFlagged: true,
     },
+    order: [['createdAt', 'DESC']],
     include: {
       model: Conversation,
     },
