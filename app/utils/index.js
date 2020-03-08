@@ -43,8 +43,8 @@ const convertToGlyphs = str => {
         .replace(/&lt;/g, '<')
         .replace(/&gt;/g, '>')
         .replace(/&amp;/g, '&')
-        .replace(/&quot;/g, '"')
-        .replace(/&apos;/g, "'")
+        .replace(/&quot;/g, '\"')
+        .replace(/&apos;/g, '\'')
     : '';
 };
 

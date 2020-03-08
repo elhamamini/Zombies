@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { attemptLogin } from '../redux/authentication/thunks';
-import { removeLoginError } from '../redux/authentication/actions';
 
 import * as Font from './styled/Font';
 import { Hr } from './styled/Div';
@@ -21,14 +20,6 @@ class Login extends Component {
         passwordError: '',
       },
     };
-  }
-
-  componentDidUpdate() {
-    const {
-      authentication: { isLoggedIn },
-    } = this.props;
-    //for now i just send it to the home page after login
-    if (isLoggedIn) this.props.history.push('/');
   }
 
   handleOnClick = e => {
@@ -161,16 +152,8 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = ({ authentication, user }) => ({
-  authentication,
-  user,
-});
+const mapStateToProps = ({ user }) => ({ user });
 
-const mapDispatchToProps = dispatch => {
-  return {
-    attemptLogin: info => dispatch(attemptLogin(info)),
-    removeLoginError: () => dispatch(removeLoginError()),
-  };
-};
+const mapDispatchToProps = dispatch => ({ attemptLogin: info => dispatch(attemptLogin(info)) })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

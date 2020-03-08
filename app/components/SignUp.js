@@ -6,14 +6,13 @@ import { Container, FormColumn } from './styled/Form';
 import { TextInput, InputFeedback } from './styled/Input';
 import { Button } from './styled/Button';
 
-import { removeLoginError } from '../redux/authentication/actions';
-import { attemptSignUp } from '../redux/authentication/thunks';
 import { createUser } from '../redux/users/thunks';
 
-class SignUP extends Component {
+class SignUp extends Component {
   constructor() {
     super();
     this.state = {
+      isLoading: false,
       name: '',
       email: '',
       password: '',
@@ -24,12 +23,7 @@ class SignUP extends Component {
       },
     };
   }
-  componentDidUpdate() {
-    const {
-      authentication: { isLoggedIn },
-    } = this.props;
-    if (isLoggedIn) this.props.history.push('/');
-  }
+
   handleOnChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value }, () => this.validate(name, value));
   };
@@ -37,13 +31,19 @@ class SignUP extends Component {
   handleOnClick = e => {
     const { name, email, password } = this.state;
     e.preventDefault();
-    // this.props.signUp();
-    this.props.createUser({ name, email, password, userType: 'user' });
-    // this.props.history.push('/');
+    this.setState({ isLoading: true })
+    this.props.createUser({
+      name,
+      email,
+      password,
+      userType: 'user',
+      loggedIn: true,
+    });
+    this.setState({ isLoading: false })
+    this.props.history.push('/');
   };
   validate = (name, value) => {
     const { errors } = this.state;
-    //TODO: Validate on submit for values not in our database NOT onchange
     switch (name) {
       case 'name':
         if (!value) {
@@ -64,7 +64,7 @@ class SignUP extends Component {
         break;
 
       case 'email':
-        const regex = /\S+@\S+\.\S+/;
+        const emailRegex = /\S+@\S+\.\S+/;
         if (!value) {
           this.setState({
             errors: {
@@ -72,7 +72,7 @@ class SignUP extends Component {
               emailError: 'Email cannot be blank',
             },
           });
-        } else if (!regex.test(value)) {
+        } else if (!emailRegex.test(value)) {
           this.setState({
             errors: {
               ...errors,
@@ -90,6 +90,7 @@ class SignUP extends Component {
         break;
 
       case 'password':
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{8,}$/
         if (!value) {
           this.setState({
             errors: {
@@ -97,6 +98,13 @@ class SignUP extends Component {
               passwordError: 'Password cannot be blank',
             },
           });
+        } else if(!passwordRegex.test(value)) {
+          this.setState({
+            errors: {
+              ...errors,
+              passwordError: 'Password  invalid'
+            }
+          })
         } else {
           this.setState({
             errors: {
@@ -111,6 +119,7 @@ class SignUP extends Component {
 
   render() {
     const {
+      isLoading,
       name,
       email,
       password,
@@ -163,6 +172,7 @@ class SignUP extends Component {
 
         <Button
           disabled={
+            isLoading ||
             !name ||
             !email ||
             !password ||
@@ -180,15 +190,7 @@ class SignUP extends Component {
     );
   }
 }
-const mapStateToProps = ({ authentication }) => ({
-  authentication,
-});
-const mapDispatchToProps = dispatch => {
-  return {
-    removeLoginError: () => dispatch(removeLoginError()),
-    signUp: () => dispatch(attemptSignUp()),
-    createUser: user => dispatch(createUser(user)),
-  };
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUP);
+const mapDispatch = dispatch => ({ createUser: user => dispatch(createUser(user)) });
+
+export default connect(null, mapDispatch)(SignUp);

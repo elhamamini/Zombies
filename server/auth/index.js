@@ -1,35 +1,38 @@
 const router = require('express').Router();
-const { User } = require('../db/index');
 const bcrypt = require('bcrypt');
-const saltRounds = 20;
+const { User } = require('../db/index');
+
+const saltRounds = 12;
 
 router.post('/login', (req, res, next) => {
   User.findOne({
     where: {
       email: req.body.email,
-      password: req.body.password,
     },
   })
     .then(userOrNull => {
       if (!userOrNull) {
-        console.log('no user');
-        return res.sendStatus(401);
-      }
-      // req.session.userId = userOrNull.id;
-      if (userOrNull.userType === 'admin') {
-        req.session.admin = true;
+        res.send(401).send();
       } else {
-        req.session.admin = false;
-      }
+        bcrypt.compare(req.body.password, userOrNull.password)
+        .then(result => {
+          if(result) {
+            if (userOrNull.userType === 'admin') {
+              req.session.admin = true;
+            } else {
+              req.session.admin = false;
 
-      return userOrNull.update(
-        { sessionId: req.session.id },
-        { returning: true }
-      );
-    })
-    .then(userOrNull => {
-      // console.log('user or null', userOrNull);
-      res.status(200).send(userOrNull);
+              userOrNull.update(
+                { sessionId: req.session.id },
+                { returning: true }
+              )
+              .then(userOrNull => res.status(200).send(userOrNull))
+            }
+          } else {
+            res.send('Incorrect password')
+          }
+        })
+      }
     })
     .catch(e => {
       res.status(500).send();
@@ -37,35 +40,35 @@ router.post('/login', (req, res, next) => {
     });
 });
 
-router.post('/signup', (req, res, next) => {
-  bcrypt.hash(req.body.password, saltRounds)
-  .then(hash => {
-  console.log(hash)
-  req.body.password = hash;
-  User.findOrCreate({
-    where: req.body,
-  })
-    .then(user => {
-      if (!user) return res.status(500).send('error creating user');
-      // req.session.userId = user.id;
-      if (user.userType === 'admin') {
-        req.session.admin = true;
-      } else {
-        req.session.admin = false;
-      }
-      res.send(user);
-    })
-  })
-    .catch(e => {
-      res.status(500).send();
-      next(e);
-    });
-});
+// router.post('/signup', (req, res, next) => {
+//   bcrypt.hash(req.body.password, saltRounds)
+//   .then(hash => {
+//   req.body.password = hash;
+//   User.findOrCreate({
+//     where: req.body,
+//   })
+//     .then(user => {
+//       if (!user) return res.status(500).send('error creating user');
+//       res.send(user);
+//     })
+//   })
+//     .catch(e => {
+//       res.status(500).send();
+//       next(e);
+//     });
+// });
 
-router.get('/logout', (req, res, next) => {
-  req.session.destroy();
-  res.sendStatus(204);
-  next();
+router.put('/logout', (req, res, next) => {
+  User.findByPk(req.body.id)
+  .then(user => user.update({ loggedIn: false }))
+  .then(() => {
+    req.session.destroy();
+    res.status(204).send();
+  })
+  .catch(e => {
+    res.status(500).send()
+    next(e)
+  })
 });
 
 router.get('/me', (req, res, next) => {

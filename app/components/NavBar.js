@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Row } from './styled/Div';
+
 import { Nav, NavLink, NavButton, NavRow } from './styled/Nav';
+import { Button } from './styled/Button';
+
 import { attemptLogout } from '../redux/authentication/thunks';
 
-//TODO: Remove NavLinks On SignUp and Login
 const NavBar = props => {
-  console.log('user', props.user.userType);
   return (
     <Nav>
           <NavLink to="/">
@@ -23,9 +23,9 @@ const NavBar = props => {
         {props.user.name ? (
           <NavRow flexEnd>
             <NavLink to="/userprofile">{props.user.name}</NavLink>
-            <NavButton to="/" onClick={() => props.logout()}>
+            <Button onClick={() => props.logout(props.user.id)}>
               Logout
-            </NavButton>
+            </Button>
           </NavRow>
         ) : (
           <NavRow flexEnd>
@@ -39,7 +39,7 @@ const NavBar = props => {
 
 const mapStateToProps = ({ user }) => ({ user });
 const mapDispatchToProps = dispatch => ({
-  logout: () => dispatch(attemptLogout()),
+  logout: id => dispatch(attemptLogout(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
