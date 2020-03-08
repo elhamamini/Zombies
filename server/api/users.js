@@ -1,26 +1,34 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 
-const { User } = require('../db/index');
+const { User, Cohort } = require('../db/index');
 
 const saltRounds = 12;
 
 router.get('/', (req, res, next) => {
-  User.findAll()
+  User.findAll({
+    include: {
+      model: Cohort,
+    },
+  })
     .then(users => {
       res.status(200).send(users);
     })
     .catch(e => {
-      console.error(e);
+      res.status(500).send(e);
       next(e);
     });
 });
 
 router.get('/:id', (req, res, next) => {
-  User.findByPk(req.params.id)
+  User.findByPk(req.params.id, {
+    include: {
+      model: Cohort,
+    },
+  })
     .then(userOrNull => {
       if (userOrNull) {
-        res.status(200).send(userOrNull)
+        res.status(200).send(userOrNull);
       } else {
         res.status(404).send('there is no user with that id');
       }
