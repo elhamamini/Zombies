@@ -63,7 +63,7 @@ const User = db.define('users', {
 
   loggedIn: {
     type: BOOLEAN,
-    defaultValue: false
-  }
+    defaultValue: false,
+  },
 });
 module.exports = User;

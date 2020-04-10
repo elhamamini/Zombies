@@ -9,8 +9,8 @@ export const fetchAllReplies = token => {
     return axios
       .get('/api/reply', {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
       .then(res => dispatch(setAllReplies(res.data)))
       .catch(e => checkError(dispatch, e.response.status));
@@ -31,8 +31,8 @@ export const createReply = (content, token) => {
     return axios
       .post('/api/reply', content, {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
       .then(() => dispatch(fetchCurrentConversation(content.conversationId)))
       .catch(e => checkError(dispatch, e.response.status));
@@ -44,8 +44,8 @@ export const updateReply = (id, reply, token) => {
     return axios
       .put(`/api/reply/${id}`, reply, {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
       .then(() => dispatch(fetchAllReplies(token)))
       .catch(e => checkError(dispatch, e.response.status));
@@ -57,8 +57,8 @@ export const deleteReply = (id, token) => {
     return axios
       .delete(`/api/reply/${id}`, {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
       .then(res => {
         dispatch(fetchAllReplies(token));
